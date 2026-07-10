@@ -23,14 +23,16 @@ export function middleware(request: NextRequest) {
 
   const isLoggedIn = !!sessionToken;
 
+  const basePath = request.nextUrl.basePath;
+
   if (!isLoggedIn && !isPublicPath) {
-    const loginUrl = new URL("/login", request.url);
+    const loginUrl = new URL(`${basePath}/login`, request.url);
     loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
   if (isLoggedIn && (pathname === "/login" || pathname === "/register")) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL(`${basePath}/dashboard`, request.url));
   }
 
   return NextResponse.next();
