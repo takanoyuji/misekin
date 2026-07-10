@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { Suspense, useState, useCallback, useEffect } from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { Delete, ChevronLeft } from "lucide-react";
 
 const PIN_MIN_LENGTH = 4;
 const PIN_MAX_LENGTH = 8;
 
-export default function PinPage() {
+function PinPageContent() {
   const router = useRouter();
   const params = useParams<{ token: string }>();
   const searchParams = useSearchParams();
@@ -169,5 +169,13 @@ export default function PinPage() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function PinPage() {
+  return (
+    <Suspense>
+      <PinPageContent />
+    </Suspense>
   );
 }

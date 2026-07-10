@@ -331,7 +331,9 @@ function ResetPasswordForm({ token }: { token: string }) {
 
 // ----- ページエントリーポイント -----
 
-export default function ResetPasswordPage() {
+import { Suspense } from "react";
+
+function ResetPasswordPageContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -340,4 +342,12 @@ export default function ResetPasswordPage() {
   }
 
   return <RequestResetForm />;
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense>
+      <ResetPasswordPageContent />
+    </Suspense>
+  );
 }
