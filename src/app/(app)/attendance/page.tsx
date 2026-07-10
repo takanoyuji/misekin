@@ -102,12 +102,12 @@ export default async function AttendancePage({
     storeWhere = [storeFilter];
   }
 
-  const whereBase = {
+  const whereBase: any = {
     organizationId: activeOrgId,
     ...(storeWhere !== undefined ? { storeId: { in: storeWhere } } : {}),
     businessDate: { gte: dateFrom, lte: dateTo },
     ...(params.staffId ? { staffId: params.staffId } : {}),
-    ...(statusFilter ? { status: statusFilter as any } : {}),
+    ...(statusFilter ? { status: statusFilter } : {}),
     ...(hasAnomalyFilter !== undefined ? { hasAnomaly: hasAnomalyFilter } : {}),
     ...(hasPendingRequest
       ? { correctionRequests: { some: { status: "PENDING" } } }

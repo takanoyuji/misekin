@@ -57,7 +57,7 @@ export async function createApiKey(
         storeScope:
           parsed.data.storeScope && parsed.data.storeScope.length > 0
             ? parsed.data.storeScope
-            : null,
+            : undefined,
         expiresAt,
         createdByUserId: session.user.id,
       },

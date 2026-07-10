@@ -168,9 +168,8 @@ export default async function DashboardPage() {
       a.status === "MISSING_CLOCK_OUT" || a.status === "ANOMALY"
   );
 
-  type CorrectionRow = Awaited<
-    ReturnType<typeof db.correctionRequest.findMany>
-  >[number];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  type CorrectionRow = any;
 
   // 未処理修正申請 (最新5件)
   const pendingCorrections = await db.correctionRequest.findMany({
