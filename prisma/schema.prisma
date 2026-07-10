@@ -1,0 +1,581 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================
+// 認証 (Auth.js v5 対応)
+// ============================================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts             Account[]
+  sessions             Session[]
+  organizationMembers  OrganizationMember[]
+  staffProfiles        Staff[]
+  auditLogsAsActor     AuditLog[]             @relation("AuditLogActor")
+  wageHistoriesCreated WageHistory[]
+  apiKeysCreated       ApiKey[]
+  correctionReviews    CorrectionRequest[]    @relation("CorrectionReviewer")
+  notifications        Notification[]
+  lockedAttendances    Attendance[]           @relation("AttendanceLockActor")
+
+  @@map("users")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  sessionToken         String   @unique
+  userId               String
+  expires              DateTime
+  activeOrganizationId String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+  type       VerificationTokenType @default(EMAIL_VERIFICATION)
+
+  @@id([identifier, token])
+  @@map("verification_tokens")
+}
+
+enum VerificationTokenType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+// ============================================================
+// 組織・店舗
+// ============================================================
+
+model Organization {
+  id              String   @id @default(cuid())
+  name            String
+  timezone        String   @default("Asia/Tokyo")
+  country         String   @default("JP")
+  dayChangeHour   Int      @default(6)
+  dayChangeMinute Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  members        OrganizationMember[]
+  stores         Store[]
+  staff          Staff[]
+  auditLogs      AuditLog[]
+  apiKeys        ApiKey[]
+  notifications  Notification[]
+  closingPeriods ClosingPeriod[]
+
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id             String           @id @default(cuid())
+  organizationId String
+  userId         String
+  role           OrganizationRole @default(ADMIN)
+  isActive       Boolean          @default(true)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storeScopes  StoreAdmin[]
+
+  @@unique([organizationId, userId])
+  @@map("organization_members")
+}
+
+enum OrganizationRole {
+  OWNER
+  ADMIN
+}
+
+model Store {
+  id              String   @id @default(cuid())
+  organizationId  String
+  name            String
+  code            String?
+  address         String?
+  timezone        String   @default("Asia/Tokyo")
+  dayChangeHour   Int      @default(6)
+  dayChangeMinute Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  organization     Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  clockUrls        StoreClockUrl[]
+  staffStores      StaffStore[]
+  attendanceEvents AttendanceEvent[]
+  attendances      Attendance[]
+  storeAdmins      StoreAdmin[]
+  auditLogs        AuditLog[]
+  closingPeriods   ClosingPeriod[]
+
+  @@unique([organizationId, code])
+  @@map("stores")
+}
+
+model StoreClockUrl {
+  id            String    @id @default(cuid())
+  storeId       String
+  token         String    @unique
+  isActive      Boolean   @default(true)
+  expiresAt     DateTime?
+  invalidatedAt DateTime?
+  createdAt     DateTime  @default(now())
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@index([token, isActive])
+  @@map("store_clock_urls")
+}
+
+model StoreAdmin {
+  id                   String @id @default(cuid())
+  organizationMemberId String
+  storeId              String
+
+  member OrganizationMember @relation(fields: [organizationMemberId], references: [id], onDelete: Cascade)
+  store  Store              @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationMemberId, storeId])
+  @@map("store_admins")
+}
+
+// ============================================================
+// スタッフ
+// ============================================================
+
+model Staff {
+  id             String      @id @default(cuid())
+  organizationId String
+  userId         String?
+  displayName    String
+  fullName       String?
+  email          String
+  phone          String?
+  employeeCode   String?
+  status         StaffStatus @default(INVITED)
+  hireDate       DateTime?
+  resignDate     DateTime?
+  notes          String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  organization       Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user               User?               @relation(fields: [userId], references: [id])
+  staffStores        StaffStore[]
+  attendanceEvents   AttendanceEvent[]
+  attendances        Attendance[]
+  correctionRequests CorrectionRequest[]
+  auditLogs          AuditLog[]
+  notifications      Notification[]
+
+  @@unique([organizationId, email])
+  @@map("staff")
+}
+
+enum StaffStatus {
+  INVITED
+  ACTIVE
+  ON_LEAVE
+  RESIGNED
+  SUSPENDED
+}
+
+model StaffStore {
+  id             String    @id @default(cuid())
+  staffId        String
+  storeId        String
+  startDate      DateTime
+  endDate        DateTime?
+  isPrimary      Boolean   @default(false)
+  pinHash        String?
+  pinFailCount   Int       @default(0)
+  pinLockedUntil DateTime?
+  canClock       Boolean   @default(true)
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  staff                   Staff                   @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  store                   Store                   @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  wageHistories           WageHistory[]
+  transportationHistories TransportationHistory[]
+
+  @@unique([staffId, storeId])
+  @@map("staff_stores")
+}
+
+model WageHistory {
+  id              String    @id @default(cuid())
+  staffStoreId    String
+  amount          Decimal   @db.Decimal(10, 2)
+  effectiveFrom   DateTime
+  effectiveTo     DateTime?
+  createdByUserId String
+  reason          String?
+  createdAt       DateTime  @default(now())
+
+  staffStore    StaffStore @relation(fields: [staffStoreId], references: [id], onDelete: Cascade)
+  createdByUser User       @relation(fields: [createdByUserId], references: [id])
+
+  @@map("wage_histories")
+}
+
+model TransportationHistory {
+  id            String             @id @default(cuid())
+  staffStoreId  String
+  type          TransportationType @default(NONE)
+  amount        Decimal            @db.Decimal(10, 2) @default(0)
+  monthlyLimit  Decimal?           @db.Decimal(10, 2)
+  effectiveFrom DateTime
+  effectiveTo   DateTime?
+  notes         String?
+  createdAt     DateTime           @default(now())
+
+  staffStore StaffStore @relation(fields: [staffStoreId], references: [id], onDelete: Cascade)
+
+  @@map("transportation_histories")
+}
+
+enum TransportationType {
+  PER_SHIFT
+  MONTHLY
+  NONE
+}
+
+// ============================================================
+// 打刻・勤怠
+// ============================================================
+
+model AttendanceEvent {
+  id                String         @id @default(cuid())
+  organizationId    String
+  storeId           String
+  staffId           String
+  eventType         ClockEventType
+  clockedAt         DateTime       // 実打刻日時 (UTC) - 不変
+  businessDate      String         // 営業日 YYYY-MM-DD
+  timezone          String
+  source            ClockSource    @default(STORE_URL)
+  ipAddress         String?
+  userAgent         String?
+  deviceFingerprint String?
+  storeUrlToken     String?
+  attendanceId      String?
+  createdAt         DateTime       @default(now())
+
+  // 将来: 位置情報
+  latitude         Float?
+  longitude        Float?
+  locationAccuracy Float?
+
+  store      Store       @relation(fields: [storeId], references: [id])
+  staff      Staff       @relation(fields: [staffId], references: [id])
+  attendance Attendance? @relation(fields: [attendanceId], references: [id])
+
+  @@index([staffId, businessDate])
+  @@index([storeId, businessDate])
+  @@index([organizationId, clockedAt])
+  @@map("attendance_events")
+}
+
+enum ClockEventType {
+  CLOCK_IN
+  BREAK_START
+  BREAK_END
+  CLOCK_OUT
+}
+
+enum ClockSource {
+  STORE_URL
+  ADMIN
+  SYSTEM
+}
+
+model Attendance {
+  id              String           @id @default(cuid())
+  organizationId  String
+  storeId         String
+  staffId         String
+  businessDate    String           // 営業日 YYYY-MM-DD
+  clockInAt       DateTime?        // 有効な出勤時刻 (UTC)
+  clockOutAt      DateTime?        // 有効な退勤時刻 (UTC)
+  breakMinutes    Int              @default(0)
+  workMinutes     Int?
+  status          AttendanceStatus @default(IN_PROGRESS)
+  hasAnomaly      Boolean          @default(false)
+  anomalyReasons  Json             @default("[]")
+  adminNotes      String?
+  isLocked        Boolean          @default(false)
+  lockedAt        DateTime?
+  lockedByUserId  String?
+  closingPeriodId String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  store         Store            @relation(fields: [storeId], references: [id])
+  staff         Staff            @relation(fields: [staffId], references: [id])
+  lockedBy      User?            @relation("AttendanceLockActor", fields: [lockedByUserId], references: [id])
+  closingPeriod ClosingPeriod?   @relation(fields: [closingPeriodId], references: [id])
+  breaks        Break[]
+  attendanceEvents AttendanceEvent[]
+  corrections   AttendanceCorrection[]
+  correctionRequests CorrectionRequest[]
+
+  @@unique([staffId, storeId, businessDate])
+  @@index([organizationId, businessDate])
+  @@index([storeId, businessDate])
+  @@index([organizationId, hasAnomaly])
+  @@index([organizationId, status])
+  @@map("attendances")
+}
+
+enum AttendanceStatus {
+  IN_PROGRESS
+  COMPLETED
+  MISSING_CLOCK_OUT
+  MISSING_BREAK_END
+  ANOMALY
+}
+
+model Break {
+  id           String    @id @default(cuid())
+  attendanceId String
+  startAt      DateTime  // UTC
+  endAt        DateTime? // UTC
+  isAutoEnded  Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  attendance Attendance @relation(fields: [attendanceId], references: [id], onDelete: Cascade)
+
+  @@map("breaks")
+}
+
+model AttendanceCorrection {
+  id                String   @id @default(cuid())
+  attendanceId      String
+  correctedByUserId String
+  reason            String
+  before            Json
+  after             Json
+  createdAt         DateTime @default(now())
+
+  attendance Attendance @relation(fields: [attendanceId], references: [id], onDelete: Cascade)
+
+  @@map("attendance_corrections")
+}
+
+model CorrectionRequest {
+  id               String                  @id @default(cuid())
+  attendanceId     String
+  staffId          String
+  status           CorrectionRequestStatus @default(PENDING)
+  originalData     Json
+  requestedData    Json
+  reason           String
+  notes            String?
+  reviewedByUserId String?
+  reviewedAt       DateTime?
+  reviewNotes      String?
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+
+  attendance Attendance @relation(fields: [attendanceId], references: [id], onDelete: Cascade)
+  staff      Staff      @relation(fields: [staffId], references: [id])
+  reviewedBy User?      @relation("CorrectionReviewer", fields: [reviewedByUserId], references: [id])
+
+  @@index([status])
+  @@index([attendanceId])
+  @@map("correction_requests")
+}
+
+enum CorrectionRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+// ============================================================
+// 締め処理
+// ============================================================
+
+model ClosingPeriod {
+  id             String    @id @default(cuid())
+  organizationId String
+  storeId        String?
+  name           String
+  periodStart    String    // YYYY-MM-DD
+  periodEnd      String    // YYYY-MM-DD
+  closedAt       DateTime?
+  closedByUserId String?
+  createdAt      DateTime  @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  store        Store?       @relation(fields: [storeId], references: [id])
+  attendances  Attendance[]
+
+  @@map("closing_periods")
+}
+
+// ============================================================
+// 通知
+// ============================================================
+
+model Notification {
+  id             String           @id @default(cuid())
+  organizationId String
+  userId         String
+  staffId        String?
+  type           NotificationType
+  title          String
+  body           String
+  linkUrl        String?
+  isRead         Boolean          @default(false)
+  readAt         DateTime?
+  metadata       Json?
+  createdAt      DateTime         @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  staff        Staff?       @relation(fields: [staffId], references: [id])
+
+  @@index([userId, isRead])
+  @@index([organizationId, createdAt])
+  @@map("notifications")
+}
+
+enum NotificationType {
+  ADMIN_INVITED
+  STAFF_INVITED
+  CORRECTION_REQUEST_CREATED
+  CORRECTION_REQUEST_APPROVED
+  CORRECTION_REQUEST_REJECTED
+  MISSING_CLOCK_OUT_DETECTED
+  LONG_SHIFT_DETECTED
+  API_KEY_ISSUED
+  API_KEY_REVOKED
+}
+
+// ============================================================
+// 監査ログ
+// ============================================================
+
+model AuditLog {
+  id             String   @id @default(cuid())
+  organizationId String
+  actorUserId    String?
+  actorType      String   @default("USER")
+  action         String
+  targetType     String
+  targetId       String?
+  storeId        String?
+  staffId        String?
+  before         Json?
+  after          Json?
+  reason         String?
+  ipAddress      String?
+  userAgent      String?
+  metadata       Json?
+  createdAt      DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  actor        User?        @relation("AuditLogActor", fields: [actorUserId], references: [id])
+  store        Store?       @relation(fields: [storeId], references: [id])
+  staff        Staff?       @relation(fields: [staffId], references: [id])
+
+  @@index([organizationId, createdAt(sort: Desc)])
+  @@index([targetType, targetId])
+  @@index([actorUserId])
+  @@map("audit_logs")
+}
+
+// ============================================================
+// 外部API
+// ============================================================
+
+model ApiKey {
+  id              String    @id @default(cuid())
+  organizationId  String
+  name            String
+  description     String?
+  keyPrefix       String
+  keyHash         String
+  isReadOnly      Boolean   @default(true)
+  storeScope      Json?
+  isActive        Boolean   @default(true)
+  expiresAt       DateTime?
+  lastUsedAt      DateTime?
+  createdByUserId String
+  createdAt       DateTime  @default(now())
+  revokedAt       DateTime?
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdBy    User          @relation(fields: [createdByUserId], references: [id])
+  accessLogs   ApiAccessLog[]
+
+  @@index([keyPrefix])
+  @@index([organizationId, isActive])
+  @@map("api_keys")
+}
+
+model ApiAccessLog {
+  id         String   @id @default(cuid())
+  apiKeyId   String
+  endpoint   String
+  method     String
+  statusCode Int
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  apiKey ApiKey @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+
+  @@index([apiKeyId, createdAt])
+  @@map("api_access_logs")
+}
