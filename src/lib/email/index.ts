@@ -1,8 +1,11 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = process.env.EMAIL_FROM ?? "みせ勤 <noreply@misekin.app>";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 /**
  * メール認証メールを送信する
@@ -15,7 +18,7 @@ export async function sendVerificationEmail(
   const url = `${APP_URL}/verify-email?token=${token}&email=${encodeURIComponent(to)}`;
 
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM,
       to,
       subject: "【みせ勤】メールアドレスの確認",
@@ -52,7 +55,7 @@ export async function sendPasswordResetEmail(
   const url = `${APP_URL}/reset-password?token=${token}&email=${encodeURIComponent(to)}`;
 
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM,
       to,
       subject: "【みせ勤】パスワードの再設定",
@@ -90,7 +93,7 @@ export async function sendStaffInvitationEmail(params: {
   invitationUrl: string;
 }): Promise<void> {
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM,
       to: params.to,
       subject: `【みせ勤】${params.organizationName}からスタッフとして招待されました`,
@@ -125,7 +128,7 @@ export async function sendAdminInvitationEmail(params: {
   invitationUrl: string;
 }): Promise<void> {
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM,
       to: params.to,
       subject: `【みせ勤】${params.organizationName}の管理者として招待されました`,
@@ -160,7 +163,7 @@ export async function sendCorrectionRequestNotification(params: {
   requestUrl: string;
 }): Promise<void> {
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM,
       to: params.to,
       subject: `【みせ勤】勤怠修正申請が提出されました`,
