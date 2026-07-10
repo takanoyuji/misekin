@@ -20,11 +20,7 @@ ENV NODE_OPTIONS=--max-old-space-size=2048
 RUN npx prisma generate
 RUN npm run build
 
-# スキーマSQLを生成（DBへの接続は不要; from-emptyで差分を生成）
-RUN node /app/node_modules/prisma/build/index.js migrate diff \
-    --from-empty \
-    --to-schema-datamodel prisma/schema.prisma \
-    --script 2>/dev/null > /tmp/schema.sql || echo "" > /tmp/schema.sql
+# スキーマSQLはprisma/schema.sqlにコミット済み
 
 # ---- runner ----
 FROM node:20-slim
@@ -43,7 +39,7 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
 # 初回DBスキーマ初期化用SQL
-COPY --from=builder /tmp/schema.sql ./schema.sql
+COPY --from=builder /app/prisma/schema.sql ./schema.sql
 
 EXPOSE 3000
 ENV PORT=3000
