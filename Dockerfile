@@ -20,12 +20,18 @@ ENV NODE_OPTIONS=--max-old-space-size=2048
 RUN npx prisma generate
 RUN npm run build
 
+# スキーマSQLを生成（DBへの接続は不要; from-emptyで差分を生成）
+RUN node /app/node_modules/prisma/build/index.js migrate diff \
+    --from-empty \
+    --to-schema-datamodel prisma/schema.prisma \
+    --script 2>/dev/null > /tmp/schema.sql || echo "" > /tmp/schema.sql
+
 # ---- runner ----
 FROM node:20-slim
 WORKDIR /app
 
 RUN apt-get update && \
-    apt-get install -y openssl --no-install-recommends && \
+    apt-get install -y openssl postgresql-client --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
 ENV NODE_ENV=production
@@ -36,14 +42,12 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-# Prisma CLI (db push に必要)
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
-COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
+# 初回DBスキーマ初期化用SQL
+COPY --from=builder /tmp/schema.sql ./schema.sql
 
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
-CMD ["sh", "-c", "node /app/node_modules/prisma/build/index.js db push --skip-generate && node server.js"]
+# DBが未初期化の場合のみスキーマを適用してからサーバー起動
+CMD ["sh", "-c", "psql \"$DATABASE_URL\" -c \"SELECT 1 FROM \\\"User\\\" LIMIT 1\" > /dev/null 2>&1 || psql \"$DATABASE_URL\" -f /app/schema.sql && node server.js"]
