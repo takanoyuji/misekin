@@ -138,6 +138,21 @@ export type CorrectionRequest = Prisma.CorrectionRequestModel
  */
 export type TransportationChangeRequest = Prisma.TransportationChangeRequestModel
 /**
+ * Model ShiftAvailability
+ * スタッフが提出する勤務希望
+ */
+export type ShiftAvailability = Prisma.ShiftAvailabilityModel
+/**
+ * Model ShiftRequirement
+ * 店舗・営業日ごとの必要人数（充足率の分母）
+ */
+export type ShiftRequirement = Prisma.ShiftRequirementModel
+/**
+ * Model Shift
+ * 確定シフト枠（スタッフを割り当てた1コマ）
+ */
+export type Shift = Prisma.ShiftModel
+/**
  * Model ClosingPeriod
  * 
  */

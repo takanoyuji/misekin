@@ -86,6 +86,24 @@ export const CorrectionRequestStatus = {
 export type CorrectionRequestStatus = (typeof CorrectionRequestStatus)[keyof typeof CorrectionRequestStatus]
 
 
+export const AvailabilityType = {
+  AVAILABLE: 'AVAILABLE',
+  UNAVAILABLE: 'UNAVAILABLE',
+  PREFERRED: 'PREFERRED'
+} as const
+
+export type AvailabilityType = (typeof AvailabilityType)[keyof typeof AvailabilityType]
+
+
+export const ShiftStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type ShiftStatus = (typeof ShiftStatus)[keyof typeof ShiftStatus]
+
+
 export const NotificationType = {
   ADMIN_INVITED: 'ADMIN_INVITED',
   STAFF_INVITED: 'STAFF_INVITED',

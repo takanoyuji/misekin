@@ -487,6 +487,40 @@ export type EnumTransportationTypeNullableWithAggregatesFilter<$PrismaModel = ne
   _max?: Prisma.NestedEnumTransportationTypeNullableFilter<$PrismaModel>
 }
 
+export type EnumAvailabilityTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.AvailabilityType | Prisma.EnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AvailabilityType[] | Prisma.ListEnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AvailabilityType[] | Prisma.ListEnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAvailabilityTypeFilter<$PrismaModel> | $Enums.AvailabilityType
+}
+
+export type EnumAvailabilityTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AvailabilityType | Prisma.EnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AvailabilityType[] | Prisma.ListEnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AvailabilityType[] | Prisma.ListEnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAvailabilityTypeWithAggregatesFilter<$PrismaModel> | $Enums.AvailabilityType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAvailabilityTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAvailabilityTypeFilter<$PrismaModel>
+}
+
+export type EnumShiftStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftStatus | Prisma.EnumShiftStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftStatus[] | Prisma.ListEnumShiftStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftStatus[] | Prisma.ListEnumShiftStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftStatusFilter<$PrismaModel> | $Enums.ShiftStatus
+}
+
+export type EnumShiftStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftStatus | Prisma.EnumShiftStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftStatus[] | Prisma.ListEnumShiftStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftStatus[] | Prisma.ListEnumShiftStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftStatusWithAggregatesFilter<$PrismaModel> | $Enums.ShiftStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumShiftStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumShiftStatusFilter<$PrismaModel>
+}
+
 export type EnumNotificationTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.NotificationType | Prisma.EnumNotificationTypeFieldRefInput<$PrismaModel>
   in?: $Enums.NotificationType[] | Prisma.ListEnumNotificationTypeFieldRefInput<$PrismaModel>
@@ -1001,6 +1035,40 @@ export type NestedEnumTransportationTypeNullableWithAggregatesFilter<$PrismaMode
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTransportationTypeNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTransportationTypeNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumAvailabilityTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.AvailabilityType | Prisma.EnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AvailabilityType[] | Prisma.ListEnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AvailabilityType[] | Prisma.ListEnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAvailabilityTypeFilter<$PrismaModel> | $Enums.AvailabilityType
+}
+
+export type NestedEnumAvailabilityTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AvailabilityType | Prisma.EnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AvailabilityType[] | Prisma.ListEnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.AvailabilityType[] | Prisma.ListEnumAvailabilityTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumAvailabilityTypeWithAggregatesFilter<$PrismaModel> | $Enums.AvailabilityType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAvailabilityTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAvailabilityTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumShiftStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftStatus | Prisma.EnumShiftStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftStatus[] | Prisma.ListEnumShiftStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftStatus[] | Prisma.ListEnumShiftStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftStatusFilter<$PrismaModel> | $Enums.ShiftStatus
+}
+
+export type NestedEnumShiftStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftStatus | Prisma.EnumShiftStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftStatus[] | Prisma.ListEnumShiftStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftStatus[] | Prisma.ListEnumShiftStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftStatusWithAggregatesFilter<$PrismaModel> | $Enums.ShiftStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumShiftStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumShiftStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumNotificationTypeFilter<$PrismaModel = never> = {

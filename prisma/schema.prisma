@@ -35,6 +35,7 @@ model User {
   transportationReviews TransportationChangeRequest[] @relation("TransportationReviewer")
   notifications        Notification[]
   lockedAttendances    Attendance[]           @relation("AttendanceLockActor")
+  shiftsCreated        Shift[]                @relation("ShiftCreator")
 
   @@map("users")
 }
@@ -106,6 +107,9 @@ model Organization {
   apiKeys        ApiKey[]
   notifications  Notification[]
   closingPeriods ClosingPeriod[]
+  shiftAvailabilities ShiftAvailability[]
+  shiftRequirements   ShiftRequirement[]
+  shifts              Shift[]
 
   @@map("organizations")
 }
@@ -156,6 +160,9 @@ model Store {
   auditLogs        AuditLog[]
   closingPeriods   ClosingPeriod[]
   correctionRequests CorrectionRequest[]
+  shiftAvailabilities ShiftAvailability[]
+  shiftRequirements   ShiftRequirement[]
+  shifts              Shift[]
 
   @@unique([organizationId, code])
   @@map("stores")
@@ -217,6 +224,8 @@ model Staff {
   transportationChangeRequests TransportationChangeRequest[]
   auditLogs          AuditLog[]
   notifications      Notification[]
+  shiftAvailabilities ShiftAvailability[]
+  shifts             Shift[]
 
   @@unique([organizationId, email])
   @@map("staff")
@@ -481,6 +490,99 @@ model TransportationChangeRequest {
   @@index([status])
   @@index([staffStoreId])
   @@map("transportation_change_requests")
+}
+
+// ============================================================
+// シフト管理
+// ============================================================
+// 戦略レポート(saas-survival-ai-era-research)の設計に沿う。
+// 第1段階はAIソルバーを持たず、希望収集・手動作成・公開・法令警告(楔)と、
+// 「希望提出率 / 充足率 / 確定後変更回数」を計測できる土台に絞る。
+// AI自動生成(CP-SAT + Claude翻訳)は後続段階で ShiftRule 等を足して実装する。
+
+/// スタッフが提出する勤務希望
+model ShiftAvailability {
+  id             String           @id @default(cuid())
+  organizationId String
+  storeId        String
+  staffId        String
+  businessDate   String // 営業日 YYYY-MM-DD
+  type           AvailabilityType @default(AVAILABLE)
+  // 時間帯の希望。null なら終日
+  startAt        DateTime?
+  endAt          DateTime?
+  note           String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  store        Store        @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  staff        Staff        @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  // 1スタッフ・1店舗・1営業日につき1件（提出率の分母を明確にする）
+  @@unique([staffId, storeId, businessDate])
+  @@index([storeId, businessDate])
+  @@map("shift_availabilities")
+}
+
+enum AvailabilityType {
+  AVAILABLE // 勤務可能
+  UNAVAILABLE // 勤務不可
+  PREFERRED // 特に希望
+}
+
+/// 店舗・営業日ごとの必要人数（充足率の分母）
+model ShiftRequirement {
+  id             String   @id @default(cuid())
+  organizationId String
+  storeId        String
+  businessDate   String // 営業日 YYYY-MM-DD
+  requiredCount  Int      @default(0)
+  note           String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  store        Store        @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@unique([storeId, businessDate])
+  @@index([storeId, businessDate])
+  @@map("shift_requirements")
+}
+
+/// 確定シフト枠（スタッフを割り当てた1コマ）
+model Shift {
+  id             String      @id @default(cuid())
+  organizationId String
+  storeId        String
+  staffId        String
+  businessDate   String // 営業日 YYYY-MM-DD
+  startAt        DateTime // 予定出勤 (UTC)
+  endAt          DateTime // 予定退勤 (UTC)
+  status         ShiftStatus @default(DRAFT)
+  note           String?
+  publishedAt    DateTime?
+  // 公開後に変更された回数（確定後変更回数の計測用）
+  revisionCount  Int         @default(0)
+  createdByUserId String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  store        Store        @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  staff        Staff        @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  createdBy    User?        @relation("ShiftCreator", fields: [createdByUserId], references: [id])
+
+  @@index([storeId, businessDate])
+  @@index([staffId, businessDate])
+  @@index([organizationId, status])
+  @@map("shifts")
+}
+
+enum ShiftStatus {
+  DRAFT // 下書き（スタッフには非公開）
+  PUBLISHED // 公開済み
+  CANCELLED // 取消
 }
 
 // ============================================================

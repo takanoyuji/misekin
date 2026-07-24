@@ -62,3 +62,94 @@ ALTER TABLE "correction_requests" ADD COLUMN IF NOT EXISTS "businessDate" TEXT;
 DO $$ BEGIN
     ALTER TABLE "correction_requests" ADD CONSTRAINT "correction_requests_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- ShiftManagement: シフト管理（第1段階: 希望収集・必要人数・確定シフト）
+DO $$ BEGIN
+    CREATE TYPE "AvailabilityType" AS ENUM ('AVAILABLE', 'UNAVAILABLE', 'PREFERRED');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+DO $$ BEGIN
+    CREATE TYPE "ShiftStatus" AS ENUM ('DRAFT', 'PUBLISHED', 'CANCELLED');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+CREATE TABLE IF NOT EXISTS "shift_availabilities" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "staffId" TEXT NOT NULL,
+    "businessDate" TEXT NOT NULL,
+    "type" "AvailabilityType" NOT NULL DEFAULT 'AVAILABLE',
+    "startAt" TIMESTAMP(3),
+    "endAt" TIMESTAMP(3),
+    "note" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "shift_availabilities_pkey" PRIMARY KEY ("id")
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "shift_availabilities_staffId_storeId_businessDate_key" ON "shift_availabilities"("staffId", "storeId", "businessDate");
+CREATE INDEX IF NOT EXISTS "shift_availabilities_storeId_businessDate_idx" ON "shift_availabilities"("storeId", "businessDate");
+
+CREATE TABLE IF NOT EXISTS "shift_requirements" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "businessDate" TEXT NOT NULL,
+    "requiredCount" INTEGER NOT NULL DEFAULT 0,
+    "note" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "shift_requirements_pkey" PRIMARY KEY ("id")
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "shift_requirements_storeId_businessDate_key" ON "shift_requirements"("storeId", "businessDate");
+CREATE INDEX IF NOT EXISTS "shift_requirements_storeId_businessDate_idx" ON "shift_requirements"("storeId", "businessDate");
+
+CREATE TABLE IF NOT EXISTS "shifts" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "staffId" TEXT NOT NULL,
+    "businessDate" TEXT NOT NULL,
+    "startAt" TIMESTAMP(3) NOT NULL,
+    "endAt" TIMESTAMP(3) NOT NULL,
+    "status" "ShiftStatus" NOT NULL DEFAULT 'DRAFT',
+    "note" TEXT,
+    "publishedAt" TIMESTAMP(3),
+    "revisionCount" INTEGER NOT NULL DEFAULT 0,
+    "createdByUserId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "shifts_pkey" PRIMARY KEY ("id")
+);
+CREATE INDEX IF NOT EXISTS "shifts_storeId_businessDate_idx" ON "shifts"("storeId", "businessDate");
+CREATE INDEX IF NOT EXISTS "shifts_staffId_businessDate_idx" ON "shifts"("staffId", "businessDate");
+CREATE INDEX IF NOT EXISTS "shifts_organizationId_status_idx" ON "shifts"("organizationId", "status");
+
+DO $$ BEGIN
+    ALTER TABLE "shift_availabilities" ADD CONSTRAINT "shift_availabilities_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "shift_availabilities" ADD CONSTRAINT "shift_availabilities_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "shift_availabilities" ADD CONSTRAINT "shift_availabilities_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+DO $$ BEGIN
+    ALTER TABLE "shift_requirements" ADD CONSTRAINT "shift_requirements_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "shift_requirements" ADD CONSTRAINT "shift_requirements_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+DO $$ BEGIN
+    ALTER TABLE "shifts" ADD CONSTRAINT "shifts_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "shifts" ADD CONSTRAINT "shifts_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "shifts" ADD CONSTRAINT "shifts_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "shifts" ADD CONSTRAINT "shifts_createdByUserId_fkey" FOREIGN KEY ("createdByUserId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;

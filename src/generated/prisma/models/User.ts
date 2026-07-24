@@ -217,6 +217,7 @@ export type UserWhereInput = {
   transportationReviews?: Prisma.TransportationChangeRequestListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   lockedAttendances?: Prisma.AttendanceListRelationFilter
+  shiftsCreated?: Prisma.ShiftListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -239,6 +240,7 @@ export type UserOrderByWithRelationInput = {
   transportationReviews?: Prisma.TransportationChangeRequestOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   lockedAttendances?: Prisma.AttendanceOrderByRelationAggregateInput
+  shiftsCreated?: Prisma.ShiftOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -264,6 +266,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   transportationReviews?: Prisma.TransportationChangeRequestListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   lockedAttendances?: Prisma.AttendanceListRelationFilter
+  shiftsCreated?: Prisma.ShiftListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -314,6 +317,7 @@ export type UserCreateInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -336,6 +340,7 @@ export type UserUncheckedCreateInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUpdateInput = {
@@ -358,6 +363,7 @@ export type UserUpdateInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -380,6 +386,7 @@ export type UserUncheckedUpdateInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -594,6 +601,22 @@ export type UserUpdateOneWithoutTransportationReviewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTransportationReviewsInput, Prisma.UserUpdateWithoutTransportationReviewsInput>, Prisma.UserUncheckedUpdateWithoutTransportationReviewsInput>
 }
 
+export type UserCreateNestedOneWithoutShiftsCreatedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutShiftsCreatedInput, Prisma.UserUncheckedCreateWithoutShiftsCreatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutShiftsCreatedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutShiftsCreatedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutShiftsCreatedInput, Prisma.UserUncheckedCreateWithoutShiftsCreatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutShiftsCreatedInput
+  upsert?: Prisma.UserUpsertWithoutShiftsCreatedInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutShiftsCreatedInput, Prisma.UserUpdateWithoutShiftsCreatedInput>, Prisma.UserUncheckedUpdateWithoutShiftsCreatedInput>
+}
+
 export type UserCreateNestedOneWithoutNotificationsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
@@ -657,6 +680,7 @@ export type UserCreateWithoutAccountsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -678,6 +702,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -715,6 +740,7 @@ export type UserUpdateWithoutAccountsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -736,6 +762,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -757,6 +784,7 @@ export type UserCreateWithoutSessionsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -778,6 +806,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -815,6 +844,7 @@ export type UserUpdateWithoutSessionsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -836,6 +866,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutOrganizationMembersInput = {
@@ -857,6 +888,7 @@ export type UserCreateWithoutOrganizationMembersInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutOrganizationMembersInput = {
@@ -878,6 +910,7 @@ export type UserUncheckedCreateWithoutOrganizationMembersInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutOrganizationMembersInput = {
@@ -915,6 +948,7 @@ export type UserUpdateWithoutOrganizationMembersInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrganizationMembersInput = {
@@ -936,6 +970,7 @@ export type UserUncheckedUpdateWithoutOrganizationMembersInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutStaffProfilesInput = {
@@ -957,6 +992,7 @@ export type UserCreateWithoutStaffProfilesInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutStaffProfilesInput = {
@@ -978,6 +1014,7 @@ export type UserUncheckedCreateWithoutStaffProfilesInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutStaffProfilesInput = {
@@ -1015,6 +1052,7 @@ export type UserUpdateWithoutStaffProfilesInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStaffProfilesInput = {
@@ -1036,6 +1074,7 @@ export type UserUncheckedUpdateWithoutStaffProfilesInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutWageHistoriesCreatedInput = {
@@ -1057,6 +1096,7 @@ export type UserCreateWithoutWageHistoriesCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutWageHistoriesCreatedInput = {
@@ -1078,6 +1118,7 @@ export type UserUncheckedCreateWithoutWageHistoriesCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutWageHistoriesCreatedInput = {
@@ -1115,6 +1156,7 @@ export type UserUpdateWithoutWageHistoriesCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWageHistoriesCreatedInput = {
@@ -1136,6 +1178,7 @@ export type UserUncheckedUpdateWithoutWageHistoriesCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutLockedAttendancesInput = {
@@ -1157,6 +1200,7 @@ export type UserCreateWithoutLockedAttendancesInput = {
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutLockedAttendancesInput = {
@@ -1178,6 +1222,7 @@ export type UserUncheckedCreateWithoutLockedAttendancesInput = {
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutLockedAttendancesInput = {
@@ -1215,6 +1260,7 @@ export type UserUpdateWithoutLockedAttendancesInput = {
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLockedAttendancesInput = {
@@ -1236,6 +1282,7 @@ export type UserUncheckedUpdateWithoutLockedAttendancesInput = {
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutCorrectionReviewsInput = {
@@ -1257,6 +1304,7 @@ export type UserCreateWithoutCorrectionReviewsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutCorrectionReviewsInput = {
@@ -1278,6 +1326,7 @@ export type UserUncheckedCreateWithoutCorrectionReviewsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutCorrectionReviewsInput = {
@@ -1315,6 +1364,7 @@ export type UserUpdateWithoutCorrectionReviewsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCorrectionReviewsInput = {
@@ -1336,6 +1386,7 @@ export type UserUncheckedUpdateWithoutCorrectionReviewsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutTransportationReviewsInput = {
@@ -1357,6 +1408,7 @@ export type UserCreateWithoutTransportationReviewsInput = {
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutTransportationReviewsInput = {
@@ -1378,6 +1430,7 @@ export type UserUncheckedCreateWithoutTransportationReviewsInput = {
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutTransportationReviewsInput = {
@@ -1415,6 +1468,7 @@ export type UserUpdateWithoutTransportationReviewsInput = {
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransportationReviewsInput = {
@@ -1434,6 +1488,111 @@ export type UserUncheckedUpdateWithoutTransportationReviewsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserCreateWithoutShiftsCreatedInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  organizationMembers?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
+  staffProfiles?: Prisma.StaffCreateNestedManyWithoutUserInput
+  auditLogsAsActor?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
+  apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
+  correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+}
+
+export type UserUncheckedCreateWithoutShiftsCreatedInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  organizationMembers?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
+  staffProfiles?: Prisma.StaffUncheckedCreateNestedManyWithoutUserInput
+  auditLogsAsActor?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
+  apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
+  correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+}
+
+export type UserCreateOrConnectWithoutShiftsCreatedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutShiftsCreatedInput, Prisma.UserUncheckedCreateWithoutShiftsCreatedInput>
+}
+
+export type UserUpsertWithoutShiftsCreatedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutShiftsCreatedInput, Prisma.UserUncheckedUpdateWithoutShiftsCreatedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutShiftsCreatedInput, Prisma.UserUncheckedCreateWithoutShiftsCreatedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutShiftsCreatedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutShiftsCreatedInput, Prisma.UserUncheckedUpdateWithoutShiftsCreatedInput>
+}
+
+export type UserUpdateWithoutShiftsCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  organizationMembers?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
+  staffProfiles?: Prisma.StaffUpdateManyWithoutUserNestedInput
+  auditLogsAsActor?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
+  apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
+  correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutShiftsCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  organizationMembers?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
+  staffProfiles?: Prisma.StaffUncheckedUpdateManyWithoutUserNestedInput
+  auditLogsAsActor?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
+  correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
 }
@@ -1457,6 +1616,7 @@ export type UserCreateWithoutNotificationsInput = {
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -1478,6 +1638,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -1515,6 +1676,7 @@ export type UserUpdateWithoutNotificationsInput = {
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -1536,6 +1698,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutAuditLogsAsActorInput = {
@@ -1557,6 +1720,7 @@ export type UserCreateWithoutAuditLogsAsActorInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsAsActorInput = {
@@ -1578,6 +1742,7 @@ export type UserUncheckedCreateWithoutAuditLogsAsActorInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsAsActorInput = {
@@ -1615,6 +1780,7 @@ export type UserUpdateWithoutAuditLogsAsActorInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsAsActorInput = {
@@ -1636,6 +1802,7 @@ export type UserUncheckedUpdateWithoutAuditLogsAsActorInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutApiKeysCreatedInput = {
@@ -1657,6 +1824,7 @@ export type UserCreateWithoutApiKeysCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutApiKeysCreatedInput = {
@@ -1678,6 +1846,7 @@ export type UserUncheckedCreateWithoutApiKeysCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutApiKeysCreatedInput = {
@@ -1715,6 +1884,7 @@ export type UserUpdateWithoutApiKeysCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApiKeysCreatedInput = {
@@ -1736,6 +1906,7 @@ export type UserUncheckedUpdateWithoutApiKeysCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 
@@ -1755,6 +1926,7 @@ export type UserCountOutputType = {
   transportationReviews: number
   notifications: number
   lockedAttendances: number
+  shiftsCreated: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1769,6 +1941,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   transportationReviews?: boolean | UserCountOutputTypeCountTransportationReviewsArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   lockedAttendances?: boolean | UserCountOutputTypeCountLockedAttendancesArgs
+  shiftsCreated?: boolean | UserCountOutputTypeCountShiftsCreatedArgs
 }
 
 /**
@@ -1858,6 +2031,13 @@ export type UserCountOutputTypeCountLockedAttendancesArgs<ExtArgs extends runtim
   where?: Prisma.AttendanceWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountShiftsCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ShiftWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1879,6 +2059,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   transportationReviews?: boolean | Prisma.User$transportationReviewsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   lockedAttendances?: boolean | Prisma.User$lockedAttendancesArgs<ExtArgs>
+  shiftsCreated?: boolean | Prisma.User$shiftsCreatedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1928,6 +2109,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   transportationReviews?: boolean | Prisma.User$transportationReviewsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   lockedAttendances?: boolean | Prisma.User$lockedAttendancesArgs<ExtArgs>
+  shiftsCreated?: boolean | Prisma.User$shiftsCreatedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1947,6 +2129,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     transportationReviews: Prisma.$TransportationChangeRequestPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     lockedAttendances: Prisma.$AttendancePayload<ExtArgs>[]
+    shiftsCreated: Prisma.$ShiftPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2362,6 +2545,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   transportationReviews<T extends Prisma.User$transportationReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transportationReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportationChangeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lockedAttendances<T extends Prisma.User$lockedAttendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$lockedAttendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shiftsCreated<T extends Prisma.User$shiftsCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$shiftsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3053,6 +3237,30 @@ export type User$lockedAttendancesArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.AttendanceScalarFieldEnum | Prisma.AttendanceScalarFieldEnum[]
+}
+
+/**
+ * User.shiftsCreated
+ */
+export type User$shiftsCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Shift
+   */
+  select?: Prisma.ShiftSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Shift
+   */
+  omit?: Prisma.ShiftOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ShiftInclude<ExtArgs> | null
+  where?: Prisma.ShiftWhereInput
+  orderBy?: Prisma.ShiftOrderByWithRelationInput | Prisma.ShiftOrderByWithRelationInput[]
+  cursor?: Prisma.ShiftWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ShiftScalarFieldEnum | Prisma.ShiftScalarFieldEnum[]
 }
 
 /**

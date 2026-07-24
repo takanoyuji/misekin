@@ -277,6 +277,9 @@ export type StoreWhereInput = {
   auditLogs?: Prisma.AuditLogListRelationFilter
   closingPeriods?: Prisma.ClosingPeriodListRelationFilter
   correctionRequests?: Prisma.CorrectionRequestListRelationFilter
+  shiftAvailabilities?: Prisma.ShiftAvailabilityListRelationFilter
+  shiftRequirements?: Prisma.ShiftRequirementListRelationFilter
+  shifts?: Prisma.ShiftListRelationFilter
 }
 
 export type StoreOrderByWithRelationInput = {
@@ -300,6 +303,9 @@ export type StoreOrderByWithRelationInput = {
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   closingPeriods?: Prisma.ClosingPeriodOrderByRelationAggregateInput
   correctionRequests?: Prisma.CorrectionRequestOrderByRelationAggregateInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityOrderByRelationAggregateInput
+  shiftRequirements?: Prisma.ShiftRequirementOrderByRelationAggregateInput
+  shifts?: Prisma.ShiftOrderByRelationAggregateInput
 }
 
 export type StoreWhereUniqueInput = Prisma.AtLeast<{
@@ -327,6 +333,9 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   auditLogs?: Prisma.AuditLogListRelationFilter
   closingPeriods?: Prisma.ClosingPeriodListRelationFilter
   correctionRequests?: Prisma.CorrectionRequestListRelationFilter
+  shiftAvailabilities?: Prisma.ShiftAvailabilityListRelationFilter
+  shiftRequirements?: Prisma.ShiftRequirementListRelationFilter
+  shifts?: Prisma.ShiftListRelationFilter
 }, "id" | "organizationId_code">
 
 export type StoreOrderByWithAggregationInput = {
@@ -385,6 +394,9 @@ export type StoreCreateInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateInput = {
@@ -407,6 +419,9 @@ export type StoreUncheckedCreateInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUpdateInput = {
@@ -429,6 +444,9 @@ export type StoreUpdateInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateInput = {
@@ -451,6 +469,9 @@ export type StoreUncheckedUpdateInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateManyInput = {
@@ -699,6 +720,48 @@ export type StoreUpdateOneWithoutCorrectionRequestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutCorrectionRequestsInput, Prisma.StoreUpdateWithoutCorrectionRequestsInput>, Prisma.StoreUncheckedUpdateWithoutCorrectionRequestsInput>
 }
 
+export type StoreCreateNestedOneWithoutShiftAvailabilitiesInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutShiftAvailabilitiesInput, Prisma.StoreUncheckedCreateWithoutShiftAvailabilitiesInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutShiftAvailabilitiesInput
+  connect?: Prisma.StoreWhereUniqueInput
+}
+
+export type StoreUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutShiftAvailabilitiesInput, Prisma.StoreUncheckedCreateWithoutShiftAvailabilitiesInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutShiftAvailabilitiesInput
+  upsert?: Prisma.StoreUpsertWithoutShiftAvailabilitiesInput
+  connect?: Prisma.StoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutShiftAvailabilitiesInput, Prisma.StoreUpdateWithoutShiftAvailabilitiesInput>, Prisma.StoreUncheckedUpdateWithoutShiftAvailabilitiesInput>
+}
+
+export type StoreCreateNestedOneWithoutShiftRequirementsInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutShiftRequirementsInput, Prisma.StoreUncheckedCreateWithoutShiftRequirementsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutShiftRequirementsInput
+  connect?: Prisma.StoreWhereUniqueInput
+}
+
+export type StoreUpdateOneRequiredWithoutShiftRequirementsNestedInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutShiftRequirementsInput, Prisma.StoreUncheckedCreateWithoutShiftRequirementsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutShiftRequirementsInput
+  upsert?: Prisma.StoreUpsertWithoutShiftRequirementsInput
+  connect?: Prisma.StoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutShiftRequirementsInput, Prisma.StoreUpdateWithoutShiftRequirementsInput>, Prisma.StoreUncheckedUpdateWithoutShiftRequirementsInput>
+}
+
+export type StoreCreateNestedOneWithoutShiftsInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutShiftsInput, Prisma.StoreUncheckedCreateWithoutShiftsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutShiftsInput
+  connect?: Prisma.StoreWhereUniqueInput
+}
+
+export type StoreUpdateOneRequiredWithoutShiftsNestedInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutShiftsInput, Prisma.StoreUncheckedCreateWithoutShiftsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutShiftsInput
+  upsert?: Prisma.StoreUpsertWithoutShiftsInput
+  connect?: Prisma.StoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutShiftsInput, Prisma.StoreUpdateWithoutShiftsInput>, Prisma.StoreUncheckedUpdateWithoutShiftsInput>
+}
+
 export type StoreCreateNestedOneWithoutClosingPeriodsInput = {
   create?: Prisma.XOR<Prisma.StoreCreateWithoutClosingPeriodsInput, Prisma.StoreUncheckedCreateWithoutClosingPeriodsInput>
   connectOrCreate?: Prisma.StoreCreateOrConnectWithoutClosingPeriodsInput
@@ -750,6 +813,9 @@ export type StoreCreateWithoutOrganizationInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutOrganizationInput = {
@@ -771,6 +837,9 @@ export type StoreUncheckedCreateWithoutOrganizationInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutOrganizationInput = {
@@ -835,6 +904,9 @@ export type StoreCreateWithoutClockUrlsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutClockUrlsInput = {
@@ -856,6 +928,9 @@ export type StoreUncheckedCreateWithoutClockUrlsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutClockUrlsInput = {
@@ -893,6 +968,9 @@ export type StoreUpdateWithoutClockUrlsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutClockUrlsInput = {
@@ -914,6 +992,9 @@ export type StoreUncheckedUpdateWithoutClockUrlsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutStoreAdminsInput = {
@@ -935,6 +1016,9 @@ export type StoreCreateWithoutStoreAdminsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutStoreAdminsInput = {
@@ -956,6 +1040,9 @@ export type StoreUncheckedCreateWithoutStoreAdminsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutStoreAdminsInput = {
@@ -993,6 +1080,9 @@ export type StoreUpdateWithoutStoreAdminsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutStoreAdminsInput = {
@@ -1014,6 +1104,9 @@ export type StoreUncheckedUpdateWithoutStoreAdminsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutStaffStoresInput = {
@@ -1035,6 +1128,9 @@ export type StoreCreateWithoutStaffStoresInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutStaffStoresInput = {
@@ -1056,6 +1152,9 @@ export type StoreUncheckedCreateWithoutStaffStoresInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutStaffStoresInput = {
@@ -1093,6 +1192,9 @@ export type StoreUpdateWithoutStaffStoresInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutStaffStoresInput = {
@@ -1114,6 +1216,9 @@ export type StoreUncheckedUpdateWithoutStaffStoresInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutAttendanceEventsInput = {
@@ -1135,6 +1240,9 @@ export type StoreCreateWithoutAttendanceEventsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutAttendanceEventsInput = {
@@ -1156,6 +1264,9 @@ export type StoreUncheckedCreateWithoutAttendanceEventsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutAttendanceEventsInput = {
@@ -1193,6 +1304,9 @@ export type StoreUpdateWithoutAttendanceEventsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutAttendanceEventsInput = {
@@ -1214,6 +1328,9 @@ export type StoreUncheckedUpdateWithoutAttendanceEventsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutAttendancesInput = {
@@ -1235,6 +1352,9 @@ export type StoreCreateWithoutAttendancesInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutAttendancesInput = {
@@ -1256,6 +1376,9 @@ export type StoreUncheckedCreateWithoutAttendancesInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutAttendancesInput = {
@@ -1293,6 +1416,9 @@ export type StoreUpdateWithoutAttendancesInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutAttendancesInput = {
@@ -1314,6 +1440,9 @@ export type StoreUncheckedUpdateWithoutAttendancesInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutCorrectionRequestsInput = {
@@ -1335,6 +1464,9 @@ export type StoreCreateWithoutCorrectionRequestsInput = {
   storeAdmins?: Prisma.StoreAdminCreateNestedManyWithoutStoreInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutCorrectionRequestsInput = {
@@ -1356,6 +1488,9 @@ export type StoreUncheckedCreateWithoutCorrectionRequestsInput = {
   storeAdmins?: Prisma.StoreAdminUncheckedCreateNestedManyWithoutStoreInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutCorrectionRequestsInput = {
@@ -1393,6 +1528,9 @@ export type StoreUpdateWithoutCorrectionRequestsInput = {
   storeAdmins?: Prisma.StoreAdminUpdateManyWithoutStoreNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutCorrectionRequestsInput = {
@@ -1414,6 +1552,345 @@ export type StoreUncheckedUpdateWithoutCorrectionRequestsInput = {
   storeAdmins?: Prisma.StoreAdminUncheckedUpdateManyWithoutStoreNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreCreateWithoutShiftAvailabilitiesInput = {
+  id?: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+}
+
+export type StoreUncheckedCreateWithoutShiftAvailabilitiesInput = {
+  id?: string
+  organizationId: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminUncheckedCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+}
+
+export type StoreCreateOrConnectWithoutShiftAvailabilitiesInput = {
+  where: Prisma.StoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoreCreateWithoutShiftAvailabilitiesInput, Prisma.StoreUncheckedCreateWithoutShiftAvailabilitiesInput>
+}
+
+export type StoreUpsertWithoutShiftAvailabilitiesInput = {
+  update: Prisma.XOR<Prisma.StoreUpdateWithoutShiftAvailabilitiesInput, Prisma.StoreUncheckedUpdateWithoutShiftAvailabilitiesInput>
+  create: Prisma.XOR<Prisma.StoreCreateWithoutShiftAvailabilitiesInput, Prisma.StoreUncheckedCreateWithoutShiftAvailabilitiesInput>
+  where?: Prisma.StoreWhereInput
+}
+
+export type StoreUpdateToOneWithWhereWithoutShiftAvailabilitiesInput = {
+  where?: Prisma.StoreWhereInput
+  data: Prisma.XOR<Prisma.StoreUpdateWithoutShiftAvailabilitiesInput, Prisma.StoreUncheckedUpdateWithoutShiftAvailabilitiesInput>
+}
+
+export type StoreUpdateWithoutShiftAvailabilitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreUncheckedUpdateWithoutShiftAvailabilitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUncheckedUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreCreateWithoutShiftRequirementsInput = {
+  id?: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+}
+
+export type StoreUncheckedCreateWithoutShiftRequirementsInput = {
+  id?: string
+  organizationId: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminUncheckedCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+}
+
+export type StoreCreateOrConnectWithoutShiftRequirementsInput = {
+  where: Prisma.StoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoreCreateWithoutShiftRequirementsInput, Prisma.StoreUncheckedCreateWithoutShiftRequirementsInput>
+}
+
+export type StoreUpsertWithoutShiftRequirementsInput = {
+  update: Prisma.XOR<Prisma.StoreUpdateWithoutShiftRequirementsInput, Prisma.StoreUncheckedUpdateWithoutShiftRequirementsInput>
+  create: Prisma.XOR<Prisma.StoreCreateWithoutShiftRequirementsInput, Prisma.StoreUncheckedCreateWithoutShiftRequirementsInput>
+  where?: Prisma.StoreWhereInput
+}
+
+export type StoreUpdateToOneWithWhereWithoutShiftRequirementsInput = {
+  where?: Prisma.StoreWhereInput
+  data: Prisma.XOR<Prisma.StoreUpdateWithoutShiftRequirementsInput, Prisma.StoreUncheckedUpdateWithoutShiftRequirementsInput>
+}
+
+export type StoreUpdateWithoutShiftRequirementsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreUncheckedUpdateWithoutShiftRequirementsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUncheckedUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreCreateWithoutShiftsInput = {
+  id?: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+}
+
+export type StoreUncheckedCreateWithoutShiftsInput = {
+  id?: string
+  organizationId: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminUncheckedCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+}
+
+export type StoreCreateOrConnectWithoutShiftsInput = {
+  where: Prisma.StoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoreCreateWithoutShiftsInput, Prisma.StoreUncheckedCreateWithoutShiftsInput>
+}
+
+export type StoreUpsertWithoutShiftsInput = {
+  update: Prisma.XOR<Prisma.StoreUpdateWithoutShiftsInput, Prisma.StoreUncheckedUpdateWithoutShiftsInput>
+  create: Prisma.XOR<Prisma.StoreCreateWithoutShiftsInput, Prisma.StoreUncheckedCreateWithoutShiftsInput>
+  where?: Prisma.StoreWhereInput
+}
+
+export type StoreUpdateToOneWithWhereWithoutShiftsInput = {
+  where?: Prisma.StoreWhereInput
+  data: Prisma.XOR<Prisma.StoreUpdateWithoutShiftsInput, Prisma.StoreUncheckedUpdateWithoutShiftsInput>
+}
+
+export type StoreUpdateWithoutShiftsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreUncheckedUpdateWithoutShiftsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUncheckedUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutClosingPeriodsInput = {
@@ -1435,6 +1912,9 @@ export type StoreCreateWithoutClosingPeriodsInput = {
   storeAdmins?: Prisma.StoreAdminCreateNestedManyWithoutStoreInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutClosingPeriodsInput = {
@@ -1456,6 +1936,9 @@ export type StoreUncheckedCreateWithoutClosingPeriodsInput = {
   storeAdmins?: Prisma.StoreAdminUncheckedCreateNestedManyWithoutStoreInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutClosingPeriodsInput = {
@@ -1493,6 +1976,9 @@ export type StoreUpdateWithoutClosingPeriodsInput = {
   storeAdmins?: Prisma.StoreAdminUpdateManyWithoutStoreNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutClosingPeriodsInput = {
@@ -1514,6 +2000,9 @@ export type StoreUncheckedUpdateWithoutClosingPeriodsInput = {
   storeAdmins?: Prisma.StoreAdminUncheckedUpdateManyWithoutStoreNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutAuditLogsInput = {
@@ -1535,6 +2024,9 @@ export type StoreCreateWithoutAuditLogsInput = {
   storeAdmins?: Prisma.StoreAdminCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutAuditLogsInput = {
@@ -1556,6 +2048,9 @@ export type StoreUncheckedCreateWithoutAuditLogsInput = {
   storeAdmins?: Prisma.StoreAdminUncheckedCreateNestedManyWithoutStoreInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutAuditLogsInput = {
@@ -1593,6 +2088,9 @@ export type StoreUpdateWithoutAuditLogsInput = {
   storeAdmins?: Prisma.StoreAdminUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutAuditLogsInput = {
@@ -1614,6 +2112,9 @@ export type StoreUncheckedUpdateWithoutAuditLogsInput = {
   storeAdmins?: Prisma.StoreAdminUncheckedUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateManyOrganizationInput = {
@@ -1648,6 +2149,9 @@ export type StoreUpdateWithoutOrganizationInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutOrganizationInput = {
@@ -1669,6 +2173,9 @@ export type StoreUncheckedUpdateWithoutOrganizationInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateManyWithoutOrganizationInput = {
@@ -1698,6 +2205,9 @@ export type StoreCountOutputType = {
   auditLogs: number
   closingPeriods: number
   correctionRequests: number
+  shiftAvailabilities: number
+  shiftRequirements: number
+  shifts: number
 }
 
 export type StoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1709,6 +2219,9 @@ export type StoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   auditLogs?: boolean | StoreCountOutputTypeCountAuditLogsArgs
   closingPeriods?: boolean | StoreCountOutputTypeCountClosingPeriodsArgs
   correctionRequests?: boolean | StoreCountOutputTypeCountCorrectionRequestsArgs
+  shiftAvailabilities?: boolean | StoreCountOutputTypeCountShiftAvailabilitiesArgs
+  shiftRequirements?: boolean | StoreCountOutputTypeCountShiftRequirementsArgs
+  shifts?: boolean | StoreCountOutputTypeCountShiftsArgs
 }
 
 /**
@@ -1777,6 +2290,27 @@ export type StoreCountOutputTypeCountCorrectionRequestsArgs<ExtArgs extends runt
   where?: Prisma.CorrectionRequestWhereInput
 }
 
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountShiftAvailabilitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ShiftAvailabilityWhereInput
+}
+
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountShiftRequirementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ShiftRequirementWhereInput
+}
+
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountShiftsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ShiftWhereInput
+}
+
 
 export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1799,6 +2333,9 @@ export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   auditLogs?: boolean | Prisma.Store$auditLogsArgs<ExtArgs>
   closingPeriods?: boolean | Prisma.Store$closingPeriodsArgs<ExtArgs>
   correctionRequests?: boolean | Prisma.Store$correctionRequestsArgs<ExtArgs>
+  shiftAvailabilities?: boolean | Prisma.Store$shiftAvailabilitiesArgs<ExtArgs>
+  shiftRequirements?: boolean | Prisma.Store$shiftRequirementsArgs<ExtArgs>
+  shifts?: boolean | Prisma.Store$shiftsArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["store"]>
 
@@ -1857,6 +2394,9 @@ export type StoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   auditLogs?: boolean | Prisma.Store$auditLogsArgs<ExtArgs>
   closingPeriods?: boolean | Prisma.Store$closingPeriodsArgs<ExtArgs>
   correctionRequests?: boolean | Prisma.Store$correctionRequestsArgs<ExtArgs>
+  shiftAvailabilities?: boolean | Prisma.Store$shiftAvailabilitiesArgs<ExtArgs>
+  shiftRequirements?: boolean | Prisma.Store$shiftRequirementsArgs<ExtArgs>
+  shifts?: boolean | Prisma.Store$shiftsArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StoreIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1878,6 +2418,9 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     closingPeriods: Prisma.$ClosingPeriodPayload<ExtArgs>[]
     correctionRequests: Prisma.$CorrectionRequestPayload<ExtArgs>[]
+    shiftAvailabilities: Prisma.$ShiftAvailabilityPayload<ExtArgs>[]
+    shiftRequirements: Prisma.$ShiftRequirementPayload<ExtArgs>[]
+    shifts: Prisma.$ShiftPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2294,6 +2837,9 @@ export interface Prisma__StoreClient<T, Null = never, ExtArgs extends runtime.Ty
   auditLogs<T extends Prisma.Store$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   closingPeriods<T extends Prisma.Store$closingPeriodsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$closingPeriodsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClosingPeriodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   correctionRequests<T extends Prisma.Store$correctionRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$correctionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CorrectionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shiftAvailabilities<T extends Prisma.Store$shiftAvailabilitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$shiftAvailabilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftAvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shiftRequirements<T extends Prisma.Store$shiftRequirementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$shiftRequirementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftRequirementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shifts<T extends Prisma.Store$shiftsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$shiftsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2924,6 +3470,78 @@ export type Store$correctionRequestsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.CorrectionRequestScalarFieldEnum | Prisma.CorrectionRequestScalarFieldEnum[]
+}
+
+/**
+ * Store.shiftAvailabilities
+ */
+export type Store$shiftAvailabilitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ShiftAvailability
+   */
+  select?: Prisma.ShiftAvailabilitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ShiftAvailability
+   */
+  omit?: Prisma.ShiftAvailabilityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ShiftAvailabilityInclude<ExtArgs> | null
+  where?: Prisma.ShiftAvailabilityWhereInput
+  orderBy?: Prisma.ShiftAvailabilityOrderByWithRelationInput | Prisma.ShiftAvailabilityOrderByWithRelationInput[]
+  cursor?: Prisma.ShiftAvailabilityWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ShiftAvailabilityScalarFieldEnum | Prisma.ShiftAvailabilityScalarFieldEnum[]
+}
+
+/**
+ * Store.shiftRequirements
+ */
+export type Store$shiftRequirementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ShiftRequirement
+   */
+  select?: Prisma.ShiftRequirementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ShiftRequirement
+   */
+  omit?: Prisma.ShiftRequirementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ShiftRequirementInclude<ExtArgs> | null
+  where?: Prisma.ShiftRequirementWhereInput
+  orderBy?: Prisma.ShiftRequirementOrderByWithRelationInput | Prisma.ShiftRequirementOrderByWithRelationInput[]
+  cursor?: Prisma.ShiftRequirementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ShiftRequirementScalarFieldEnum | Prisma.ShiftRequirementScalarFieldEnum[]
+}
+
+/**
+ * Store.shifts
+ */
+export type Store$shiftsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Shift
+   */
+  select?: Prisma.ShiftSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Shift
+   */
+  omit?: Prisma.ShiftOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ShiftInclude<ExtArgs> | null
+  where?: Prisma.ShiftWhereInput
+  orderBy?: Prisma.ShiftOrderByWithRelationInput | Prisma.ShiftOrderByWithRelationInput[]
+  cursor?: Prisma.ShiftWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ShiftScalarFieldEnum | Prisma.ShiftScalarFieldEnum[]
 }
 
 /**

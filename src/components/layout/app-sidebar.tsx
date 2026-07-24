@@ -21,6 +21,7 @@ import {
   X,
   Bell,
   Wallet,
+  CalendarDays,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +35,7 @@ interface NavItem {
 const adminNavItems: NavItem[] = [
   { label: "ホーム", href: "/dashboard", icon: LayoutDashboard },
   { label: "勤怠管理", href: "/attendance", icon: Clock },
+  { label: "シフト管理", href: "/shifts", icon: CalendarDays },
   { label: "スタッフ", href: "/staff", icon: Users },
   { label: "店舗", href: "/stores", icon: Store },
   { label: "修正申請", href: "/correction-requests", icon: FileEdit },
@@ -48,6 +50,7 @@ const adminNavItems: NavItem[] = [
 const memberNavItems: NavItem[] = [
   { label: "ホーム", href: "/dashboard", icon: LayoutDashboard },
   { label: "自分の勤怠", href: "/my-attendance", icon: Clock },
+  { label: "シフト希望", href: "/my-shifts", icon: CalendarDays },
   { label: "修正申請", href: "/my-correction-requests", icon: FileEdit },
   { label: "担当店舗", href: "/my-stores", icon: Store },
   { label: "通知", href: "/notifications", icon: Bell },

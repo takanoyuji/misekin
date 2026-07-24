@@ -70,6 +70,9 @@ export const ModelName = {
   AttendanceCorrection: 'AttendanceCorrection',
   CorrectionRequest: 'CorrectionRequest',
   TransportationChangeRequest: 'TransportationChangeRequest',
+  ShiftAvailability: 'ShiftAvailability',
+  ShiftRequirement: 'ShiftRequirement',
+  Shift: 'Shift',
   ClosingPeriod: 'ClosingPeriod',
   Notification: 'Notification',
   AuditLog: 'AuditLog',
@@ -396,6 +399,57 @@ export const TransportationChangeRequestScalarFieldEnum = {
 } as const
 
 export type TransportationChangeRequestScalarFieldEnum = (typeof TransportationChangeRequestScalarFieldEnum)[keyof typeof TransportationChangeRequestScalarFieldEnum]
+
+
+export const ShiftAvailabilityScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  staffId: 'staffId',
+  businessDate: 'businessDate',
+  type: 'type',
+  startAt: 'startAt',
+  endAt: 'endAt',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShiftAvailabilityScalarFieldEnum = (typeof ShiftAvailabilityScalarFieldEnum)[keyof typeof ShiftAvailabilityScalarFieldEnum]
+
+
+export const ShiftRequirementScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  businessDate: 'businessDate',
+  requiredCount: 'requiredCount',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShiftRequirementScalarFieldEnum = (typeof ShiftRequirementScalarFieldEnum)[keyof typeof ShiftRequirementScalarFieldEnum]
+
+
+export const ShiftScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  staffId: 'staffId',
+  businessDate: 'businessDate',
+  startAt: 'startAt',
+  endAt: 'endAt',
+  status: 'status',
+  note: 'note',
+  publishedAt: 'publishedAt',
+  revisionCount: 'revisionCount',
+  createdByUserId: 'createdByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShiftScalarFieldEnum = (typeof ShiftScalarFieldEnum)[keyof typeof ShiftScalarFieldEnum]
 
 
 export const ClosingPeriodScalarFieldEnum = {
