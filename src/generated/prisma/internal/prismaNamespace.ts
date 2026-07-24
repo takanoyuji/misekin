@@ -406,6 +406,7 @@ export const ModelName = {
   ShiftAvailability: 'ShiftAvailability',
   ShiftRequirement: 'ShiftRequirement',
   Shift: 'Shift',
+  ShiftSlot: 'ShiftSlot',
   ShiftRule: 'ShiftRule',
   ClosingPeriod: 'ClosingPeriod',
   Notification: 'Notification',
@@ -427,7 +428,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "store" | "storeClockUrl" | "storeAdmin" | "staff" | "staffStore" | "wageHistory" | "transportationHistory" | "attendanceEvent" | "attendance" | "break" | "attendanceCorrection" | "correctionRequest" | "transportationChangeRequest" | "shiftAvailability" | "shiftRequirement" | "shift" | "shiftRule" | "closingPeriod" | "notification" | "auditLog" | "apiKey" | "apiAccessLog"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "store" | "storeClockUrl" | "storeAdmin" | "staff" | "staffStore" | "wageHistory" | "transportationHistory" | "attendanceEvent" | "attendance" | "break" | "attendanceCorrection" | "correctionRequest" | "transportationChangeRequest" | "shiftAvailability" | "shiftRequirement" | "shift" | "shiftSlot" | "shiftRule" | "closingPeriod" | "notification" | "auditLog" | "apiKey" | "apiAccessLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2059,6 +2060,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ShiftSlot: {
+      payload: Prisma.$ShiftSlotPayload<ExtArgs>
+      fields: Prisma.ShiftSlotFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ShiftSlotFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftSlotPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ShiftSlotFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftSlotPayload>
+        }
+        findFirst: {
+          args: Prisma.ShiftSlotFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftSlotPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ShiftSlotFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftSlotPayload>
+        }
+        findMany: {
+          args: Prisma.ShiftSlotFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftSlotPayload>[]
+        }
+        create: {
+          args: Prisma.ShiftSlotCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftSlotPayload>
+        }
+        createMany: {
+          args: Prisma.ShiftSlotCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ShiftSlotCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftSlotPayload>[]
+        }
+        delete: {
+          args: Prisma.ShiftSlotDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftSlotPayload>
+        }
+        update: {
+          args: Prisma.ShiftSlotUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftSlotPayload>
+        }
+        deleteMany: {
+          args: Prisma.ShiftSlotDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ShiftSlotUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ShiftSlotUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftSlotPayload>[]
+        }
+        upsert: {
+          args: Prisma.ShiftSlotUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftSlotPayload>
+        }
+        aggregate: {
+          args: Prisma.ShiftSlotAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateShiftSlot>
+        }
+        groupBy: {
+          args: Prisma.ShiftSlotGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ShiftSlotGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ShiftSlotCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ShiftSlotCountAggregateOutputType> | number
+        }
+      }
+    }
     ShiftRule: {
       payload: Prisma.$ShiftRulePayload<ExtArgs>
       fields: Prisma.ShiftRuleFieldRefs
@@ -2632,6 +2707,7 @@ export const StoreScalarFieldEnum = {
   dayChangeMinute: 'dayChangeMinute',
   shiftPeriodUnit: 'shiftPeriodUnit',
   shiftPeriodStartDay: 'shiftPeriodStartDay',
+  category: 'category',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2860,7 +2936,8 @@ export const ShiftAvailabilityScalarFieldEnum = {
   endAt: 'endAt',
   note: 'note',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  slotId: 'slotId'
 } as const
 
 export type ShiftAvailabilityScalarFieldEnum = (typeof ShiftAvailabilityScalarFieldEnum)[keyof typeof ShiftAvailabilityScalarFieldEnum]
@@ -2874,7 +2951,8 @@ export const ShiftRequirementScalarFieldEnum = {
   requiredCount: 'requiredCount',
   note: 'note',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  slotId: 'slotId'
 } as const
 
 export type ShiftRequirementScalarFieldEnum = (typeof ShiftRequirementScalarFieldEnum)[keyof typeof ShiftRequirementScalarFieldEnum]
@@ -2894,10 +2972,27 @@ export const ShiftScalarFieldEnum = {
   revisionCount: 'revisionCount',
   createdByUserId: 'createdByUserId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  slotId: 'slotId'
 } as const
 
 export type ShiftScalarFieldEnum = (typeof ShiftScalarFieldEnum)[keyof typeof ShiftScalarFieldEnum]
+
+
+export const ShiftSlotScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  name: 'name',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShiftSlotScalarFieldEnum = (typeof ShiftSlotScalarFieldEnum)[keyof typeof ShiftSlotScalarFieldEnum]
 
 
 export const ShiftRuleScalarFieldEnum = {
@@ -3149,6 +3244,20 @@ export type EnumShiftPeriodUnitFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'ShiftPeriodUnit[]'
  */
 export type ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShiftPeriodUnit[]'>
+    
+
+
+/**
+ * Reference to a field of type 'StoreCategory'
+ */
+export type EnumStoreCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StoreCategory'>
+    
+
+
+/**
+ * Reference to a field of type 'StoreCategory[]'
+ */
+export type ListEnumStoreCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StoreCategory[]'>
     
 
 
@@ -3465,6 +3574,7 @@ export type GlobalOmitConfig = {
   shiftAvailability?: Prisma.ShiftAvailabilityOmit
   shiftRequirement?: Prisma.ShiftRequirementOmit
   shift?: Prisma.ShiftOmit
+  shiftSlot?: Prisma.ShiftSlotOmit
   shiftRule?: Prisma.ShiftRuleOmit
   closingPeriod?: Prisma.ClosingPeriodOmit
   notification?: Prisma.NotificationOmit

@@ -153,6 +153,11 @@ export type ShiftRequirement = Prisma.ShiftRequirementModel
  */
 export type Shift = Prisma.ShiftModel
 /**
+ * Model ShiftSlot
+ * シフトの時間帯（早番・遅番など）。店舗ごとに定義する。
+ */
+export type ShiftSlot = Prisma.ShiftSlotModel
+/**
  * Model ShiftRule
  * シフト作成ルール（戦略レポート §5 の翻訳器が生成する構造化ルール）
  * 店長の日本語を Claude が制約JSONに翻訳して保存する。

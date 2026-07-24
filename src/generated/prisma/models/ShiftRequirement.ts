@@ -43,6 +43,7 @@ export type ShiftRequirementMinAggregateOutputType = {
   note: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  slotId: string | null
 }
 
 export type ShiftRequirementMaxAggregateOutputType = {
@@ -54,6 +55,7 @@ export type ShiftRequirementMaxAggregateOutputType = {
   note: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  slotId: string | null
 }
 
 export type ShiftRequirementCountAggregateOutputType = {
@@ -65,6 +67,7 @@ export type ShiftRequirementCountAggregateOutputType = {
   note: number
   createdAt: number
   updatedAt: number
+  slotId: number
   _all: number
 }
 
@@ -86,6 +89,7 @@ export type ShiftRequirementMinAggregateInputType = {
   note?: true
   createdAt?: true
   updatedAt?: true
+  slotId?: true
 }
 
 export type ShiftRequirementMaxAggregateInputType = {
@@ -97,6 +101,7 @@ export type ShiftRequirementMaxAggregateInputType = {
   note?: true
   createdAt?: true
   updatedAt?: true
+  slotId?: true
 }
 
 export type ShiftRequirementCountAggregateInputType = {
@@ -108,6 +113,7 @@ export type ShiftRequirementCountAggregateInputType = {
   note?: true
   createdAt?: true
   updatedAt?: true
+  slotId?: true
   _all?: true
 }
 
@@ -206,6 +212,7 @@ export type ShiftRequirementGroupByOutputType = {
   note: string | null
   createdAt: Date
   updatedAt: Date
+  slotId: string
   _count: ShiftRequirementCountAggregateOutputType | null
   _avg: ShiftRequirementAvgAggregateOutputType | null
   _sum: ShiftRequirementSumAggregateOutputType | null
@@ -240,8 +247,10 @@ export type ShiftRequirementWhereInput = {
   note?: Prisma.StringNullableFilter<"ShiftRequirement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ShiftRequirement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ShiftRequirement"> | Date | string
+  slotId?: Prisma.StringFilter<"ShiftRequirement"> | string
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   store?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
+  slot?: Prisma.XOR<Prisma.ShiftSlotScalarRelationFilter, Prisma.ShiftSlotWhereInput>
 }
 
 export type ShiftRequirementOrderByWithRelationInput = {
@@ -253,13 +262,15 @@ export type ShiftRequirementOrderByWithRelationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  slotId?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   store?: Prisma.StoreOrderByWithRelationInput
+  slot?: Prisma.ShiftSlotOrderByWithRelationInput
 }
 
 export type ShiftRequirementWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  storeId_businessDate?: Prisma.ShiftRequirementStoreIdBusinessDateCompoundUniqueInput
+  storeId_businessDate_slotId?: Prisma.ShiftRequirementStoreIdBusinessDateSlotIdCompoundUniqueInput
   AND?: Prisma.ShiftRequirementWhereInput | Prisma.ShiftRequirementWhereInput[]
   OR?: Prisma.ShiftRequirementWhereInput[]
   NOT?: Prisma.ShiftRequirementWhereInput | Prisma.ShiftRequirementWhereInput[]
@@ -270,9 +281,11 @@ export type ShiftRequirementWhereUniqueInput = Prisma.AtLeast<{
   note?: Prisma.StringNullableFilter<"ShiftRequirement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ShiftRequirement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ShiftRequirement"> | Date | string
+  slotId?: Prisma.StringFilter<"ShiftRequirement"> | string
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   store?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
-}, "id" | "storeId_businessDate">
+  slot?: Prisma.XOR<Prisma.ShiftSlotScalarRelationFilter, Prisma.ShiftSlotWhereInput>
+}, "id" | "storeId_businessDate_slotId">
 
 export type ShiftRequirementOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -283,6 +296,7 @@ export type ShiftRequirementOrderByWithAggregationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  slotId?: Prisma.SortOrder
   _count?: Prisma.ShiftRequirementCountOrderByAggregateInput
   _avg?: Prisma.ShiftRequirementAvgOrderByAggregateInput
   _max?: Prisma.ShiftRequirementMaxOrderByAggregateInput
@@ -302,6 +316,7 @@ export type ShiftRequirementScalarWhereWithAggregatesInput = {
   note?: Prisma.StringNullableWithAggregatesFilter<"ShiftRequirement"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ShiftRequirement"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ShiftRequirement"> | Date | string
+  slotId?: Prisma.StringWithAggregatesFilter<"ShiftRequirement"> | string
 }
 
 export type ShiftRequirementCreateInput = {
@@ -313,6 +328,7 @@ export type ShiftRequirementCreateInput = {
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutShiftRequirementsInput
   store: Prisma.StoreCreateNestedOneWithoutShiftRequirementsInput
+  slot: Prisma.ShiftSlotCreateNestedOneWithoutRequirementsInput
 }
 
 export type ShiftRequirementUncheckedCreateInput = {
@@ -324,6 +340,7 @@ export type ShiftRequirementUncheckedCreateInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftRequirementUpdateInput = {
@@ -335,6 +352,7 @@ export type ShiftRequirementUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutShiftRequirementsNestedInput
   store?: Prisma.StoreUpdateOneRequiredWithoutShiftRequirementsNestedInput
+  slot?: Prisma.ShiftSlotUpdateOneRequiredWithoutRequirementsNestedInput
 }
 
 export type ShiftRequirementUncheckedUpdateInput = {
@@ -346,6 +364,7 @@ export type ShiftRequirementUncheckedUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftRequirementCreateManyInput = {
@@ -357,6 +376,7 @@ export type ShiftRequirementCreateManyInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftRequirementUpdateManyMutationInput = {
@@ -377,6 +397,7 @@ export type ShiftRequirementUncheckedUpdateManyInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftRequirementListRelationFilter = {
@@ -389,9 +410,10 @@ export type ShiftRequirementOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type ShiftRequirementStoreIdBusinessDateCompoundUniqueInput = {
+export type ShiftRequirementStoreIdBusinessDateSlotIdCompoundUniqueInput = {
   storeId: string
   businessDate: string
+  slotId: string
 }
 
 export type ShiftRequirementCountOrderByAggregateInput = {
@@ -403,6 +425,7 @@ export type ShiftRequirementCountOrderByAggregateInput = {
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  slotId?: Prisma.SortOrder
 }
 
 export type ShiftRequirementAvgOrderByAggregateInput = {
@@ -418,6 +441,7 @@ export type ShiftRequirementMaxOrderByAggregateInput = {
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  slotId?: Prisma.SortOrder
 }
 
 export type ShiftRequirementMinOrderByAggregateInput = {
@@ -429,6 +453,7 @@ export type ShiftRequirementMinOrderByAggregateInput = {
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  slotId?: Prisma.SortOrder
 }
 
 export type ShiftRequirementSumOrderByAggregateInput = {
@@ -519,6 +544,48 @@ export type ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput = {
   deleteMany?: Prisma.ShiftRequirementScalarWhereInput | Prisma.ShiftRequirementScalarWhereInput[]
 }
 
+export type ShiftRequirementCreateNestedManyWithoutSlotInput = {
+  create?: Prisma.XOR<Prisma.ShiftRequirementCreateWithoutSlotInput, Prisma.ShiftRequirementUncheckedCreateWithoutSlotInput> | Prisma.ShiftRequirementCreateWithoutSlotInput[] | Prisma.ShiftRequirementUncheckedCreateWithoutSlotInput[]
+  connectOrCreate?: Prisma.ShiftRequirementCreateOrConnectWithoutSlotInput | Prisma.ShiftRequirementCreateOrConnectWithoutSlotInput[]
+  createMany?: Prisma.ShiftRequirementCreateManySlotInputEnvelope
+  connect?: Prisma.ShiftRequirementWhereUniqueInput | Prisma.ShiftRequirementWhereUniqueInput[]
+}
+
+export type ShiftRequirementUncheckedCreateNestedManyWithoutSlotInput = {
+  create?: Prisma.XOR<Prisma.ShiftRequirementCreateWithoutSlotInput, Prisma.ShiftRequirementUncheckedCreateWithoutSlotInput> | Prisma.ShiftRequirementCreateWithoutSlotInput[] | Prisma.ShiftRequirementUncheckedCreateWithoutSlotInput[]
+  connectOrCreate?: Prisma.ShiftRequirementCreateOrConnectWithoutSlotInput | Prisma.ShiftRequirementCreateOrConnectWithoutSlotInput[]
+  createMany?: Prisma.ShiftRequirementCreateManySlotInputEnvelope
+  connect?: Prisma.ShiftRequirementWhereUniqueInput | Prisma.ShiftRequirementWhereUniqueInput[]
+}
+
+export type ShiftRequirementUpdateManyWithoutSlotNestedInput = {
+  create?: Prisma.XOR<Prisma.ShiftRequirementCreateWithoutSlotInput, Prisma.ShiftRequirementUncheckedCreateWithoutSlotInput> | Prisma.ShiftRequirementCreateWithoutSlotInput[] | Prisma.ShiftRequirementUncheckedCreateWithoutSlotInput[]
+  connectOrCreate?: Prisma.ShiftRequirementCreateOrConnectWithoutSlotInput | Prisma.ShiftRequirementCreateOrConnectWithoutSlotInput[]
+  upsert?: Prisma.ShiftRequirementUpsertWithWhereUniqueWithoutSlotInput | Prisma.ShiftRequirementUpsertWithWhereUniqueWithoutSlotInput[]
+  createMany?: Prisma.ShiftRequirementCreateManySlotInputEnvelope
+  set?: Prisma.ShiftRequirementWhereUniqueInput | Prisma.ShiftRequirementWhereUniqueInput[]
+  disconnect?: Prisma.ShiftRequirementWhereUniqueInput | Prisma.ShiftRequirementWhereUniqueInput[]
+  delete?: Prisma.ShiftRequirementWhereUniqueInput | Prisma.ShiftRequirementWhereUniqueInput[]
+  connect?: Prisma.ShiftRequirementWhereUniqueInput | Prisma.ShiftRequirementWhereUniqueInput[]
+  update?: Prisma.ShiftRequirementUpdateWithWhereUniqueWithoutSlotInput | Prisma.ShiftRequirementUpdateWithWhereUniqueWithoutSlotInput[]
+  updateMany?: Prisma.ShiftRequirementUpdateManyWithWhereWithoutSlotInput | Prisma.ShiftRequirementUpdateManyWithWhereWithoutSlotInput[]
+  deleteMany?: Prisma.ShiftRequirementScalarWhereInput | Prisma.ShiftRequirementScalarWhereInput[]
+}
+
+export type ShiftRequirementUncheckedUpdateManyWithoutSlotNestedInput = {
+  create?: Prisma.XOR<Prisma.ShiftRequirementCreateWithoutSlotInput, Prisma.ShiftRequirementUncheckedCreateWithoutSlotInput> | Prisma.ShiftRequirementCreateWithoutSlotInput[] | Prisma.ShiftRequirementUncheckedCreateWithoutSlotInput[]
+  connectOrCreate?: Prisma.ShiftRequirementCreateOrConnectWithoutSlotInput | Prisma.ShiftRequirementCreateOrConnectWithoutSlotInput[]
+  upsert?: Prisma.ShiftRequirementUpsertWithWhereUniqueWithoutSlotInput | Prisma.ShiftRequirementUpsertWithWhereUniqueWithoutSlotInput[]
+  createMany?: Prisma.ShiftRequirementCreateManySlotInputEnvelope
+  set?: Prisma.ShiftRequirementWhereUniqueInput | Prisma.ShiftRequirementWhereUniqueInput[]
+  disconnect?: Prisma.ShiftRequirementWhereUniqueInput | Prisma.ShiftRequirementWhereUniqueInput[]
+  delete?: Prisma.ShiftRequirementWhereUniqueInput | Prisma.ShiftRequirementWhereUniqueInput[]
+  connect?: Prisma.ShiftRequirementWhereUniqueInput | Prisma.ShiftRequirementWhereUniqueInput[]
+  update?: Prisma.ShiftRequirementUpdateWithWhereUniqueWithoutSlotInput | Prisma.ShiftRequirementUpdateWithWhereUniqueWithoutSlotInput[]
+  updateMany?: Prisma.ShiftRequirementUpdateManyWithWhereWithoutSlotInput | Prisma.ShiftRequirementUpdateManyWithWhereWithoutSlotInput[]
+  deleteMany?: Prisma.ShiftRequirementScalarWhereInput | Prisma.ShiftRequirementScalarWhereInput[]
+}
+
 export type ShiftRequirementCreateWithoutOrganizationInput = {
   id?: string
   businessDate: string
@@ -527,6 +594,7 @@ export type ShiftRequirementCreateWithoutOrganizationInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   store: Prisma.StoreCreateNestedOneWithoutShiftRequirementsInput
+  slot: Prisma.ShiftSlotCreateNestedOneWithoutRequirementsInput
 }
 
 export type ShiftRequirementUncheckedCreateWithoutOrganizationInput = {
@@ -537,6 +605,7 @@ export type ShiftRequirementUncheckedCreateWithoutOrganizationInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftRequirementCreateOrConnectWithoutOrganizationInput = {
@@ -577,6 +646,7 @@ export type ShiftRequirementScalarWhereInput = {
   note?: Prisma.StringNullableFilter<"ShiftRequirement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ShiftRequirement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ShiftRequirement"> | Date | string
+  slotId?: Prisma.StringFilter<"ShiftRequirement"> | string
 }
 
 export type ShiftRequirementCreateWithoutStoreInput = {
@@ -587,6 +657,7 @@ export type ShiftRequirementCreateWithoutStoreInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutShiftRequirementsInput
+  slot: Prisma.ShiftSlotCreateNestedOneWithoutRequirementsInput
 }
 
 export type ShiftRequirementUncheckedCreateWithoutStoreInput = {
@@ -597,6 +668,7 @@ export type ShiftRequirementUncheckedCreateWithoutStoreInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftRequirementCreateOrConnectWithoutStoreInput = {
@@ -625,6 +697,54 @@ export type ShiftRequirementUpdateManyWithWhereWithoutStoreInput = {
   data: Prisma.XOR<Prisma.ShiftRequirementUpdateManyMutationInput, Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreInput>
 }
 
+export type ShiftRequirementCreateWithoutSlotInput = {
+  id?: string
+  businessDate: string
+  requiredCount?: number
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutShiftRequirementsInput
+  store: Prisma.StoreCreateNestedOneWithoutShiftRequirementsInput
+}
+
+export type ShiftRequirementUncheckedCreateWithoutSlotInput = {
+  id?: string
+  organizationId: string
+  storeId: string
+  businessDate: string
+  requiredCount?: number
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ShiftRequirementCreateOrConnectWithoutSlotInput = {
+  where: Prisma.ShiftRequirementWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShiftRequirementCreateWithoutSlotInput, Prisma.ShiftRequirementUncheckedCreateWithoutSlotInput>
+}
+
+export type ShiftRequirementCreateManySlotInputEnvelope = {
+  data: Prisma.ShiftRequirementCreateManySlotInput | Prisma.ShiftRequirementCreateManySlotInput[]
+  skipDuplicates?: boolean
+}
+
+export type ShiftRequirementUpsertWithWhereUniqueWithoutSlotInput = {
+  where: Prisma.ShiftRequirementWhereUniqueInput
+  update: Prisma.XOR<Prisma.ShiftRequirementUpdateWithoutSlotInput, Prisma.ShiftRequirementUncheckedUpdateWithoutSlotInput>
+  create: Prisma.XOR<Prisma.ShiftRequirementCreateWithoutSlotInput, Prisma.ShiftRequirementUncheckedCreateWithoutSlotInput>
+}
+
+export type ShiftRequirementUpdateWithWhereUniqueWithoutSlotInput = {
+  where: Prisma.ShiftRequirementWhereUniqueInput
+  data: Prisma.XOR<Prisma.ShiftRequirementUpdateWithoutSlotInput, Prisma.ShiftRequirementUncheckedUpdateWithoutSlotInput>
+}
+
+export type ShiftRequirementUpdateManyWithWhereWithoutSlotInput = {
+  where: Prisma.ShiftRequirementScalarWhereInput
+  data: Prisma.XOR<Prisma.ShiftRequirementUpdateManyMutationInput, Prisma.ShiftRequirementUncheckedUpdateManyWithoutSlotInput>
+}
+
 export type ShiftRequirementCreateManyOrganizationInput = {
   id?: string
   storeId: string
@@ -633,6 +753,7 @@ export type ShiftRequirementCreateManyOrganizationInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftRequirementUpdateWithoutOrganizationInput = {
@@ -643,6 +764,7 @@ export type ShiftRequirementUpdateWithoutOrganizationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   store?: Prisma.StoreUpdateOneRequiredWithoutShiftRequirementsNestedInput
+  slot?: Prisma.ShiftSlotUpdateOneRequiredWithoutRequirementsNestedInput
 }
 
 export type ShiftRequirementUncheckedUpdateWithoutOrganizationInput = {
@@ -653,6 +775,7 @@ export type ShiftRequirementUncheckedUpdateWithoutOrganizationInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftRequirementUncheckedUpdateManyWithoutOrganizationInput = {
@@ -663,6 +786,7 @@ export type ShiftRequirementUncheckedUpdateManyWithoutOrganizationInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftRequirementCreateManyStoreInput = {
@@ -673,6 +797,7 @@ export type ShiftRequirementCreateManyStoreInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftRequirementUpdateWithoutStoreInput = {
@@ -683,6 +808,7 @@ export type ShiftRequirementUpdateWithoutStoreInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutShiftRequirementsNestedInput
+  slot?: Prisma.ShiftSlotUpdateOneRequiredWithoutRequirementsNestedInput
 }
 
 export type ShiftRequirementUncheckedUpdateWithoutStoreInput = {
@@ -693,11 +819,57 @@ export type ShiftRequirementUncheckedUpdateWithoutStoreInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftRequirementUncheckedUpdateManyWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredCount?: Prisma.IntFieldUpdateOperationsInput | number
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type ShiftRequirementCreateManySlotInput = {
+  id?: string
+  organizationId: string
+  storeId: string
+  businessDate: string
+  requiredCount?: number
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ShiftRequirementUpdateWithoutSlotInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredCount?: Prisma.IntFieldUpdateOperationsInput | number
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutShiftRequirementsNestedInput
+  store?: Prisma.StoreUpdateOneRequiredWithoutShiftRequirementsNestedInput
+}
+
+export type ShiftRequirementUncheckedUpdateWithoutSlotInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.StringFieldUpdateOperationsInput | string
+  requiredCount?: Prisma.IntFieldUpdateOperationsInput | number
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ShiftRequirementUncheckedUpdateManyWithoutSlotInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   requiredCount?: Prisma.IntFieldUpdateOperationsInput | number
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -716,8 +888,10 @@ export type ShiftRequirementSelect<ExtArgs extends runtime.Types.Extensions.Inte
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  slotId?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["shiftRequirement"]>
 
 export type ShiftRequirementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -729,8 +903,10 @@ export type ShiftRequirementSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  slotId?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["shiftRequirement"]>
 
 export type ShiftRequirementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -742,8 +918,10 @@ export type ShiftRequirementSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  slotId?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["shiftRequirement"]>
 
 export type ShiftRequirementSelectScalar = {
@@ -755,20 +933,24 @@ export type ShiftRequirementSelectScalar = {
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  slotId?: boolean
 }
 
-export type ShiftRequirementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "storeId" | "businessDate" | "requiredCount" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["shiftRequirement"]>
+export type ShiftRequirementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "storeId" | "businessDate" | "requiredCount" | "note" | "createdAt" | "updatedAt" | "slotId", ExtArgs["result"]["shiftRequirement"]>
 export type ShiftRequirementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }
 export type ShiftRequirementIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }
 export type ShiftRequirementIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }
 
 export type $ShiftRequirementPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -776,6 +958,7 @@ export type $ShiftRequirementPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     organization: Prisma.$OrganizationPayload<ExtArgs>
     store: Prisma.$StorePayload<ExtArgs>
+    slot: Prisma.$ShiftSlotPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -786,6 +969,7 @@ export type $ShiftRequirementPayload<ExtArgs extends runtime.Types.Extensions.In
     note: string | null
     createdAt: Date
     updatedAt: Date
+    slotId: string
   }, ExtArgs["result"]["shiftRequirement"]>
   composites: {}
 }
@@ -1182,6 +1366,7 @@ export interface Prisma__ShiftRequirementClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   store<T extends Prisma.StoreDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StoreDefaultArgs<ExtArgs>>): Prisma.Prisma__StoreClient<runtime.Types.Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  slot<T extends Prisma.ShiftSlotDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ShiftSlotDefaultArgs<ExtArgs>>): Prisma.Prisma__ShiftSlotClient<runtime.Types.Result.GetResult<Prisma.$ShiftSlotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1219,6 +1404,7 @@ export interface ShiftRequirementFieldRefs {
   readonly note: Prisma.FieldRef<"ShiftRequirement", 'String'>
   readonly createdAt: Prisma.FieldRef<"ShiftRequirement", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ShiftRequirement", 'DateTime'>
+  readonly slotId: Prisma.FieldRef<"ShiftRequirement", 'String'>
 }
     
 

@@ -10,17 +10,6 @@ interface ActionResult {
   error?: string;
 }
 
-/** "HH:mm" を営業日の UTC Date に変換する（店舗TZ基準） */
-function toDateTime(
-  businessDate: string,
-  time: string | null | undefined
-): Date | null {
-  if (!time) return null;
-  // 保存はUTC。ここでは営業日+時刻をそのままISOとして解釈する簡易版。
-  // （店舗TZの厳密変換は表示側で吸収。希望時間は目安のため許容）
-  return new Date(`${businessDate}T${time}:00`);
-}
-
 /**
  * 自分の勤務希望を提出する（1営業日ぶき、提出済みなら上書き）
  */
@@ -34,7 +23,7 @@ export async function submitAvailability(
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "入力値が不正です" };
   }
-  const { storeId, businessDate, type, startTime, endTime, note } = parsed.data;
+  const { storeId, slotId, businessDate, type, note } = parsed.data;
 
   try {
     // 自分が所属している店舗のみ
@@ -49,31 +38,33 @@ export async function submitAvailability(
       return { error: "所属していない店舗には希望を出せません" };
     }
 
-    const start = type === "UNAVAILABLE" ? null : toDateTime(businessDate, startTime);
-    const end = type === "UNAVAILABLE" ? null : toDateTime(businessDate, endTime);
+    // 時間帯が店舗のものか確認
+    const slot = await db.shiftSlot.findFirst({
+      where: { id: slotId, storeId, isActive: true },
+      select: { id: true },
+    });
+    if (!slot) return { error: "時間帯が見つかりません" };
 
     await db.shiftAvailability.upsert({
       where: {
-        staffId_storeId_businessDate: {
+        staffId_storeId_businessDate_slotId: {
           staffId: staffStore.staffId,
           storeId,
           businessDate,
+          slotId,
         },
       },
       create: {
         organizationId: staffStore.staff.organizationId,
         storeId,
+        slotId,
         staffId: staffStore.staffId,
         businessDate,
         type,
-        startAt: start,
-        endAt: end,
         note: note ?? null,
       },
       update: {
         type,
-        startAt: start,
-        endAt: end,
         note: note ?? null,
       },
     });
@@ -85,10 +76,11 @@ export async function submitAvailability(
   }
 }
 
-/** 提出済みの希望を取り消す */
+/** 提出済みの希望を取り消す（1営業日・1時間帯） */
 export async function deleteAvailability(
   storeId: string,
-  businessDate: string
+  businessDate: string,
+  slotId: string
 ): Promise<ActionResult> {
   const session = await auth();
   if (!session?.user?.id) return { error: "ログインが必要です" };
@@ -101,7 +93,7 @@ export async function deleteAvailability(
     if (!staffStore) return { error: "権限がありません" };
 
     await db.shiftAvailability.deleteMany({
-      where: { staffId: staffStore.staffId, storeId, businessDate },
+      where: { staffId: staffStore.staffId, storeId, businessDate, slotId },
     });
 
     revalidatePath("/my-shifts");

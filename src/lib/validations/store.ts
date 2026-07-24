@@ -7,6 +7,19 @@ export const createStoreSchema = z.object({
   timezone: z.string().default("Asia/Tokyo"),
   dayChangeHour: z.number().int().min(0).max(23).default(6),
   dayChangeMinute: z.number().int().min(0).max(59).default(0),
+  category: z
+    .enum([
+      "CONCAFE",
+      "MAID_CAFE",
+      "GIRLS_BAR",
+      "CABARET",
+      "CLUB_LOUNGE",
+      "SNACK",
+      "BAR",
+      "SHISHA",
+      "OTHER",
+    ])
+    .optional(),
 });
 
 export const updateStoreSchema = createStoreSchema.partial();

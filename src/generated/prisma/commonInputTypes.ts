@@ -243,6 +243,13 @@ export type EnumShiftPeriodUnitFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel> | $Enums.ShiftPeriodUnit
 }
 
+export type EnumStoreCategoryFilter<$PrismaModel = never> = {
+  equals?: $Enums.StoreCategory | Prisma.EnumStoreCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.StoreCategory[] | Prisma.ListEnumStoreCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StoreCategory[] | Prisma.ListEnumStoreCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStoreCategoryFilter<$PrismaModel> | $Enums.StoreCategory
+}
+
 export type EnumShiftPeriodUnitWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ShiftPeriodUnit | Prisma.EnumShiftPeriodUnitFieldRefInput<$PrismaModel>
   in?: $Enums.ShiftPeriodUnit[] | Prisma.ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel>
@@ -251,6 +258,16 @@ export type EnumShiftPeriodUnitWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel>
   _max?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel>
+}
+
+export type EnumStoreCategoryWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StoreCategory | Prisma.EnumStoreCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.StoreCategory[] | Prisma.ListEnumStoreCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StoreCategory[] | Prisma.ListEnumStoreCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStoreCategoryWithAggregatesFilter<$PrismaModel> | $Enums.StoreCategory
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStoreCategoryFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStoreCategoryFilter<$PrismaModel>
 }
 
 export type EnumStaffStatusFilter<$PrismaModel = never> = {
@@ -865,6 +882,13 @@ export type NestedEnumShiftPeriodUnitFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel> | $Enums.ShiftPeriodUnit
 }
 
+export type NestedEnumStoreCategoryFilter<$PrismaModel = never> = {
+  equals?: $Enums.StoreCategory | Prisma.EnumStoreCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.StoreCategory[] | Prisma.ListEnumStoreCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StoreCategory[] | Prisma.ListEnumStoreCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStoreCategoryFilter<$PrismaModel> | $Enums.StoreCategory
+}
+
 export type NestedEnumShiftPeriodUnitWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ShiftPeriodUnit | Prisma.EnumShiftPeriodUnitFieldRefInput<$PrismaModel>
   in?: $Enums.ShiftPeriodUnit[] | Prisma.ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel>
@@ -873,6 +897,16 @@ export type NestedEnumShiftPeriodUnitWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel>
   _max?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel>
+}
+
+export type NestedEnumStoreCategoryWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StoreCategory | Prisma.EnumStoreCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.StoreCategory[] | Prisma.ListEnumStoreCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StoreCategory[] | Prisma.ListEnumStoreCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStoreCategoryWithAggregatesFilter<$PrismaModel> | $Enums.StoreCategory
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStoreCategoryFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStoreCategoryFilter<$PrismaModel>
 }
 
 export type NestedEnumStaffStatusFilter<$PrismaModel = never> = {

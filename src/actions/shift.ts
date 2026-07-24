@@ -53,7 +53,7 @@ export async function createShift(
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "入力値が不正です" };
   }
-  const { storeId, staffId, businessDate, startAt, endAt, note } = parsed.data;
+  const { storeId, slotId, staffId, businessDate, note } = parsed.data;
 
   try {
     await assertStoreAccess(session.user.id, organizationId, storeId);
@@ -67,14 +67,23 @@ export async function createShift(
       return { error: "そのスタッフはこの店舗に所属していません" };
     }
 
+    const slot = await db.shiftSlot.findFirst({
+      where: { id: slotId, storeId, isActive: true },
+      select: { startTime: true, endTime: true },
+    });
+    if (!slot) return { error: "時間帯が見つかりません" };
+
+    const { start, end } = slotTimes(businessDate, slot.startTime, slot.endTime);
+
     const shift = await db.shift.create({
       data: {
         organizationId,
         storeId,
+        slotId,
         staffId,
         businessDate,
-        startAt,
-        endAt,
+        startAt: start,
+        endAt: end,
         note: note ?? null,
         status: "DRAFT",
         createdByUserId: session.user.id,
@@ -87,6 +96,18 @@ export async function createShift(
   } catch (error: any) {
     return { error: error.message ?? "シフトの作成に失敗しました" };
   }
+}
+
+/** 時間帯("HH:mm")と営業日から出退勤 Date を作る（end<=startなら翌日） */
+function slotTimes(
+  businessDate: string,
+  startTime: string,
+  endTime: string
+): { start: Date; end: Date } {
+  const start = new Date(`${businessDate}T${startTime}:00`);
+  let end = new Date(`${businessDate}T${endTime}:00`);
+  if (end <= start) end = new Date(end.getTime() + 24 * 60 * 60 * 1000);
+  return { start, end };
 }
 
 /** シフトの時刻・メモを更新する（公開後は変更回数を数える） */
@@ -217,25 +238,16 @@ export async function publishShifts(
  *
  * 必要人数・希望・ルールをソルバーに渡し、割当て結果から下書きシフトを作る。
  * 既存の下書きは置き換える（公開済みは残す）。生成後は管理者が確認・修正してから公開する。
- * 割当ての時刻は希望に無いため、渡された既定時刻で埋める。
+ * 割当ての時刻は、割り当てられた時間帯の定義から埋める。
  */
 export async function generateShifts(
   organizationId: string,
   storeId: string,
   from: string,
-  to: string,
-  defaultStartTime: string, // "HH:mm"
-  defaultEndTime: string
-): Promise<ActionResult & { message?: string; unmetDays?: number }> {
+  to: string
+): Promise<ActionResult & { message?: string; unmetSlots?: number }> {
   const session = await auth();
   if (!session?.user?.id) return { error: "ログインが必要です" };
-
-  if (
-    !/^\d{2}:\d{2}$/.test(defaultStartTime) ||
-    !/^\d{2}:\d{2}$/.test(defaultEndTime)
-  ) {
-    return { error: "時刻の形式が不正です" };
-  }
 
   try {
     await assertStoreAccess(session.user.id, organizationId, storeId);
@@ -252,19 +264,29 @@ export async function generateShifts(
       }
     }
 
-    const [staffStores, availabilities, requirements, rules] =
+    const [staffStores, slots, availabilities, requirements, rules] =
       await Promise.all([
         db.staffStore.findMany({
           where: { storeId, isActive: true, staff: { status: "ACTIVE" } },
           select: { staffId: true },
         }),
+        db.shiftSlot.findMany({
+          where: { storeId, isActive: true },
+          orderBy: { sortOrder: "asc" },
+          select: { id: true, startTime: true, endTime: true },
+        }),
         db.shiftAvailability.findMany({
           where: { storeId, businessDate: { gte: from, lte: to } },
-          select: { staffId: true, businessDate: true, type: true },
+          select: {
+            staffId: true,
+            businessDate: true,
+            slotId: true,
+            type: true,
+          },
         }),
         db.shiftRequirement.findMany({
           where: { storeId, businessDate: { gte: from, lte: to } },
-          select: { businessDate: true, requiredCount: true },
+          select: { businessDate: true, slotId: true, requiredCount: true },
         }),
         db.shiftRule.findMany({
           where: { storeId, enabled: true },
@@ -276,6 +298,10 @@ export async function generateShifts(
     if (staffIds.length === 0) {
       return { error: "この店舗に所属するスタッフがいません" };
     }
+    if (slots.length === 0) {
+      return { error: "この店舗に時間帯が設定されていません" };
+    }
+    const slotById = new Map(slots.map((s) => [s.id, s]));
 
     // ルールを solver 形式に変換（評価可能なタイプのみ）
     const solverRules: SolverRule[] = [];
@@ -311,6 +337,7 @@ export async function generateShifts(
     const result = await solveShifts({
       days,
       staffIds,
+      slotIds: slots.map((s) => s.id),
       availabilities,
       requirements,
       rules: solverRules,
@@ -321,14 +348,6 @@ export async function generateShifts(
     }
     if (result.status === "INFEASIBLE") {
       return { error: result.message };
-    }
-
-    // 時刻を Date に変換（日跨ぎは翌日）
-    function toShiftTimes(dateStr: string): { start: Date; end: Date } {
-      const start = new Date(`${dateStr}T${defaultStartTime}:00`);
-      let end = new Date(`${dateStr}T${defaultEndTime}:00`);
-      if (end <= start) end = new Date(end.getTime() + 24 * 60 * 60 * 1000);
-      return { start, end };
     }
 
     await db.$transaction(async (tx) => {
@@ -342,26 +361,35 @@ export async function generateShifts(
         },
       });
 
-      // 公開済みで既に割当てのある (staff,date) は重複を避けて除外
+      // 公開済みで既に割当てのある (staff,date,slot) は重複を避けて除外
       const published = await tx.shift.findMany({
         where: {
           storeId,
           status: "PUBLISHED",
           businessDate: { gte: from, lte: to },
         },
-        select: { staffId: true, businessDate: true },
+        select: { staffId: true, businessDate: true, slotId: true },
       });
       const publishedKey = new Set(
-        published.map((p) => `${p.staffId}_${p.businessDate}`)
+        published.map((p) => `${p.staffId}_${p.businessDate}_${p.slotId}`)
       );
 
       const toCreate = result.assignments
-        .filter((a) => !publishedKey.has(`${a.staffId}_${a.businessDate}`))
+        .filter(
+          (a) =>
+            !publishedKey.has(`${a.staffId}_${a.businessDate}_${a.slotId}`)
+        )
         .map((a) => {
-          const { start, end } = toShiftTimes(a.businessDate);
+          const slot = slotById.get(a.slotId)!;
+          const { start, end } = slotTimes(
+            a.businessDate,
+            slot.startTime,
+            slot.endTime
+          );
           return {
             organizationId,
             storeId,
+            slotId: a.slotId,
             staffId: a.staffId,
             businessDate: a.businessDate,
             startAt: start,
@@ -390,7 +418,7 @@ export async function generateShifts(
     return {
       success: true,
       message: result.message,
-      unmetDays: result.unmet.length,
+      unmetSlots: result.unmet.length,
     };
   } catch (error: any) {
     return { error: error.message ?? "自動生成に失敗しました" };
@@ -409,14 +437,29 @@ export async function setRequirement(
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "入力値が不正です" };
   }
-  const { storeId, businessDate, requiredCount, note } = parsed.data;
+  const { storeId, slotId, businessDate, requiredCount, note } = parsed.data;
 
   try {
     await assertStoreAccess(session.user.id, organizationId, storeId);
 
+    const slot = await db.shiftSlot.findFirst({
+      where: { id: slotId, storeId, isActive: true },
+      select: { id: true },
+    });
+    if (!slot) return { error: "時間帯が見つかりません" };
+
     await db.shiftRequirement.upsert({
-      where: { storeId_businessDate: { storeId, businessDate } },
-      create: { organizationId, storeId, businessDate, requiredCount, note: note ?? null },
+      where: {
+        storeId_businessDate_slotId: { storeId, businessDate, slotId },
+      },
+      create: {
+        organizationId,
+        storeId,
+        slotId,
+        businessDate,
+        requiredCount,
+        note: note ?? null,
+      },
       update: { requiredCount, note: note ?? null },
     });
 

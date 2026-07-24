@@ -73,6 +73,7 @@ export const ModelName = {
   ShiftAvailability: 'ShiftAvailability',
   ShiftRequirement: 'ShiftRequirement',
   Shift: 'Shift',
+  ShiftSlot: 'ShiftSlot',
   ShiftRule: 'ShiftRule',
   ClosingPeriod: 'ClosingPeriod',
   Notification: 'Notification',
@@ -187,6 +188,7 @@ export const StoreScalarFieldEnum = {
   dayChangeMinute: 'dayChangeMinute',
   shiftPeriodUnit: 'shiftPeriodUnit',
   shiftPeriodStartDay: 'shiftPeriodStartDay',
+  category: 'category',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -415,7 +417,8 @@ export const ShiftAvailabilityScalarFieldEnum = {
   endAt: 'endAt',
   note: 'note',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  slotId: 'slotId'
 } as const
 
 export type ShiftAvailabilityScalarFieldEnum = (typeof ShiftAvailabilityScalarFieldEnum)[keyof typeof ShiftAvailabilityScalarFieldEnum]
@@ -429,7 +432,8 @@ export const ShiftRequirementScalarFieldEnum = {
   requiredCount: 'requiredCount',
   note: 'note',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  slotId: 'slotId'
 } as const
 
 export type ShiftRequirementScalarFieldEnum = (typeof ShiftRequirementScalarFieldEnum)[keyof typeof ShiftRequirementScalarFieldEnum]
@@ -449,10 +453,27 @@ export const ShiftScalarFieldEnum = {
   revisionCount: 'revisionCount',
   createdByUserId: 'createdByUserId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  slotId: 'slotId'
 } as const
 
 export type ShiftScalarFieldEnum = (typeof ShiftScalarFieldEnum)[keyof typeof ShiftScalarFieldEnum]
+
+
+export const ShiftSlotScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  name: 'name',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShiftSlotScalarFieldEnum = (typeof ShiftSlotScalarFieldEnum)[keyof typeof ShiftSlotScalarFieldEnum]
 
 
 export const ShiftRuleScalarFieldEnum = {

@@ -61,6 +61,11 @@ export default async function MyShiftsPage() {
           name: true,
           shiftPeriodUnit: true,
           shiftPeriodStartDay: true,
+          shiftSlots: {
+            where: { isActive: true },
+            orderBy: { sortOrder: "asc" },
+            select: { id: true, name: true, startTime: true, endTime: true },
+          },
         },
       },
     },
@@ -121,10 +126,9 @@ export default async function MyShiftsPage() {
       },
       select: {
         storeId: true,
+        slotId: true,
         businessDate: true,
         type: true,
-        startAt: true,
-        endAt: true,
         note: true,
       },
     }),
@@ -136,6 +140,7 @@ export default async function MyShiftsPage() {
       },
       select: {
         storeId: true,
+        slotId: true,
         businessDate: true,
         startAt: true,
         endAt: true,
@@ -167,19 +172,23 @@ export default async function MyShiftsPage() {
             name: s.name,
             days: storeDays.get(s.id) ?? [],
             periods: storePeriods.get(s.id) ?? [],
+            slots: s.shiftSlots.map((sl) => ({
+              id: sl.id,
+              name: sl.name,
+              startTime: sl.startTime,
+              endTime: sl.endTime,
+            })),
           }))}
           availabilities={availabilities.map((a) => ({
             storeId: a.storeId,
+            slotId: a.slotId,
             businessDate: a.businessDate,
             type: a.type,
-            startTime: a.startAt
-              ? format(toZonedTime(a.startAt, TZ), "HH:mm")
-              : null,
-            endTime: a.endAt ? format(toZonedTime(a.endAt, TZ), "HH:mm") : null,
             note: a.note,
           }))}
           publishedShifts={myShifts.map((s) => ({
             storeId: s.storeId,
+            slotId: s.slotId,
             businessDate: s.businessDate,
             startTime: format(toZonedTime(s.startAt, TZ), "HH:mm"),
             endTime: format(toZonedTime(s.endAt, TZ), "HH:mm"),

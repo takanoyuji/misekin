@@ -10,11 +10,13 @@ const SOLVER_URL = process.env.SHIFT_SOLVER_URL ?? "http://localhost:8000";
 export interface SolverAvailability {
   staffId: string;
   businessDate: string;
+  slotId: string;
   type: "AVAILABLE" | "UNAVAILABLE" | "PREFERRED";
 }
 
 export interface SolverRequirement {
   businessDate: string;
+  slotId: string;
   requiredCount: number;
 }
 
@@ -29,6 +31,7 @@ export interface SolverRule {
 export interface SolveInput {
   days: string[];
   staffIds: string[];
+  slotIds: string[];
   availabilities: SolverAvailability[];
   requirements: SolverRequirement[];
   rules: SolverRule[];
@@ -37,8 +40,13 @@ export interface SolveInput {
 
 export interface SolveResult {
   status: "OPTIMAL" | "FEASIBLE" | "INFEASIBLE" | "NO_REQUIREMENT";
-  assignments: { staffId: string; businessDate: string }[];
-  unmet: { businessDate: string; required: number; assigned: number }[];
+  assignments: { staffId: string; businessDate: string; slotId: string }[];
+  unmet: {
+    businessDate: string;
+    slotId: string;
+    required: number;
+    assigned: number;
+  }[];
   message: string;
 }
 

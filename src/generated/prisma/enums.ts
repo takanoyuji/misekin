@@ -34,6 +34,21 @@ export const ShiftPeriodUnit = {
 export type ShiftPeriodUnit = (typeof ShiftPeriodUnit)[keyof typeof ShiftPeriodUnit]
 
 
+export const StoreCategory = {
+  CONCAFE: 'CONCAFE',
+  MAID_CAFE: 'MAID_CAFE',
+  GIRLS_BAR: 'GIRLS_BAR',
+  CABARET: 'CABARET',
+  CLUB_LOUNGE: 'CLUB_LOUNGE',
+  SNACK: 'SNACK',
+  BAR: 'BAR',
+  SHISHA: 'SHISHA',
+  OTHER: 'OTHER'
+} as const
+
+export type StoreCategory = (typeof StoreCategory)[keyof typeof StoreCategory]
+
+
 export const StaffStatus = {
   INVITED: 'INVITED',
   ACTIVE: 'ACTIVE',

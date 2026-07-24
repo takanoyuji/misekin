@@ -93,21 +93,26 @@ export default async function ShiftsPage({
   const weekEnd = addDaysStr(weekStart, 6);
   const days = Array.from({ length: 7 }, (_, i) => addDaysStr(weekStart, i));
 
-  // その店舗のスタッフ・希望・必要人数・シフト
-  const [staffStores, availabilities, requirements, shifts, activeStaffCount] =
+  // その店舗のスタッフ・時間帯・希望・必要人数・シフト
+  const [staffStores, slots, availabilities, requirements, shifts, activeStaffCount] =
     await Promise.all([
       db.staffStore.findMany({
         where: { storeId, isActive: true, staff: { status: "ACTIVE" } },
         orderBy: [{ isPrimary: "desc" }],
         select: { staff: { select: { id: true, displayName: true } } },
       }),
+      db.shiftSlot.findMany({
+        where: { storeId, isActive: true },
+        orderBy: { sortOrder: "asc" },
+        select: { id: true, name: true, startTime: true, endTime: true },
+      }),
       db.shiftAvailability.findMany({
         where: { storeId, businessDate: { gte: weekStart, lte: weekEnd } },
-        select: { staffId: true, businessDate: true, type: true },
+        select: { staffId: true, slotId: true, businessDate: true, type: true },
       }),
       db.shiftRequirement.findMany({
         where: { storeId, businessDate: { gte: weekStart, lte: weekEnd } },
-        select: { businessDate: true, requiredCount: true },
+        select: { slotId: true, businessDate: true, requiredCount: true },
       }),
       db.shift.findMany({
         where: { storeId, businessDate: { gte: weekStart, lte: weekEnd } },
@@ -115,6 +120,7 @@ export default async function ShiftsPage({
         select: {
           id: true,
           staffId: true,
+          slotId: true,
           businessDate: true,
           startAt: true,
           endAt: true,
@@ -334,29 +340,42 @@ export default async function ShiftsPage({
       )}
 
       {/* シフト編集グリッド */}
-      <ShiftEditor
-        organizationId={activeOrgId}
-        storeId={storeId}
-        days={dayLabels}
-        staff={staffList}
-        requirements={requirements}
-        shifts={shifts.map((s) => ({
-          id: s.id,
-          staffId: s.staffId,
-          businessDate: s.businessDate,
-          startTime: format(toZonedTime(s.startAt, TZ), "HH:mm"),
-          endTime: format(toZonedTime(s.endAt, TZ), "HH:mm"),
-          status: s.status,
-          note: s.note,
-        }))}
-        availabilities={availabilities.map((a) => ({
-          staffId: a.staffId,
-          businessDate: a.businessDate,
-          type: a.type,
-        }))}
-        weekStart={weekStart}
-        weekEnd={weekEnd}
-      />
+      {slots.length === 0 ? (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
+          この店舗には時間帯（早番・遅番など）が未設定です。
+          <Link href={`/stores/${storeId}`} className="ml-1 underline">
+            店舗詳細
+          </Link>
+          で時間帯を追加してください。
+        </div>
+      ) : (
+        <ShiftEditor
+          organizationId={activeOrgId}
+          storeId={storeId}
+          days={dayLabels}
+          staff={staffList}
+          slots={slots}
+          requirements={requirements}
+          shifts={shifts.map((s) => ({
+            id: s.id,
+            staffId: s.staffId,
+            slotId: s.slotId,
+            businessDate: s.businessDate,
+            startTime: format(toZonedTime(s.startAt, TZ), "HH:mm"),
+            endTime: format(toZonedTime(s.endAt, TZ), "HH:mm"),
+            status: s.status,
+            note: s.note,
+          }))}
+          availabilities={availabilities.map((a) => ({
+            staffId: a.staffId,
+            slotId: a.slotId,
+            businessDate: a.businessDate,
+            type: a.type,
+          }))}
+          weekStart={weekStart}
+          weekEnd={weekEnd}
+        />
+      )}
     </div>
   );
 }

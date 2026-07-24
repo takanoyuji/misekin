@@ -36,6 +36,7 @@ export type ShiftAvailabilityMinAggregateOutputType = {
   note: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  slotId: string | null
 }
 
 export type ShiftAvailabilityMaxAggregateOutputType = {
@@ -50,6 +51,7 @@ export type ShiftAvailabilityMaxAggregateOutputType = {
   note: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  slotId: string | null
 }
 
 export type ShiftAvailabilityCountAggregateOutputType = {
@@ -64,6 +66,7 @@ export type ShiftAvailabilityCountAggregateOutputType = {
   note: number
   createdAt: number
   updatedAt: number
+  slotId: number
   _all: number
 }
 
@@ -80,6 +83,7 @@ export type ShiftAvailabilityMinAggregateInputType = {
   note?: true
   createdAt?: true
   updatedAt?: true
+  slotId?: true
 }
 
 export type ShiftAvailabilityMaxAggregateInputType = {
@@ -94,6 +98,7 @@ export type ShiftAvailabilityMaxAggregateInputType = {
   note?: true
   createdAt?: true
   updatedAt?: true
+  slotId?: true
 }
 
 export type ShiftAvailabilityCountAggregateInputType = {
@@ -108,6 +113,7 @@ export type ShiftAvailabilityCountAggregateInputType = {
   note?: true
   createdAt?: true
   updatedAt?: true
+  slotId?: true
   _all?: true
 }
 
@@ -195,6 +201,7 @@ export type ShiftAvailabilityGroupByOutputType = {
   note: string | null
   createdAt: Date
   updatedAt: Date
+  slotId: string
   _count: ShiftAvailabilityCountAggregateOutputType | null
   _min: ShiftAvailabilityMinAggregateOutputType | null
   _max: ShiftAvailabilityMaxAggregateOutputType | null
@@ -230,9 +237,11 @@ export type ShiftAvailabilityWhereInput = {
   note?: Prisma.StringNullableFilter<"ShiftAvailability"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ShiftAvailability"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ShiftAvailability"> | Date | string
+  slotId?: Prisma.StringFilter<"ShiftAvailability"> | string
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   store?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
   staff?: Prisma.XOR<Prisma.StaffScalarRelationFilter, Prisma.StaffWhereInput>
+  slot?: Prisma.XOR<Prisma.ShiftSlotScalarRelationFilter, Prisma.ShiftSlotWhereInput>
 }
 
 export type ShiftAvailabilityOrderByWithRelationInput = {
@@ -247,14 +256,16 @@ export type ShiftAvailabilityOrderByWithRelationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  slotId?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   store?: Prisma.StoreOrderByWithRelationInput
   staff?: Prisma.StaffOrderByWithRelationInput
+  slot?: Prisma.ShiftSlotOrderByWithRelationInput
 }
 
 export type ShiftAvailabilityWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  staffId_storeId_businessDate?: Prisma.ShiftAvailabilityStaffIdStoreIdBusinessDateCompoundUniqueInput
+  staffId_storeId_businessDate_slotId?: Prisma.ShiftAvailabilityStaffIdStoreIdBusinessDateSlotIdCompoundUniqueInput
   AND?: Prisma.ShiftAvailabilityWhereInput | Prisma.ShiftAvailabilityWhereInput[]
   OR?: Prisma.ShiftAvailabilityWhereInput[]
   NOT?: Prisma.ShiftAvailabilityWhereInput | Prisma.ShiftAvailabilityWhereInput[]
@@ -268,10 +279,12 @@ export type ShiftAvailabilityWhereUniqueInput = Prisma.AtLeast<{
   note?: Prisma.StringNullableFilter<"ShiftAvailability"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ShiftAvailability"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ShiftAvailability"> | Date | string
+  slotId?: Prisma.StringFilter<"ShiftAvailability"> | string
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   store?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
   staff?: Prisma.XOR<Prisma.StaffScalarRelationFilter, Prisma.StaffWhereInput>
-}, "id" | "staffId_storeId_businessDate">
+  slot?: Prisma.XOR<Prisma.ShiftSlotScalarRelationFilter, Prisma.ShiftSlotWhereInput>
+}, "id" | "staffId_storeId_businessDate_slotId">
 
 export type ShiftAvailabilityOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -285,6 +298,7 @@ export type ShiftAvailabilityOrderByWithAggregationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  slotId?: Prisma.SortOrder
   _count?: Prisma.ShiftAvailabilityCountOrderByAggregateInput
   _max?: Prisma.ShiftAvailabilityMaxOrderByAggregateInput
   _min?: Prisma.ShiftAvailabilityMinOrderByAggregateInput
@@ -305,6 +319,7 @@ export type ShiftAvailabilityScalarWhereWithAggregatesInput = {
   note?: Prisma.StringNullableWithAggregatesFilter<"ShiftAvailability"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ShiftAvailability"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ShiftAvailability"> | Date | string
+  slotId?: Prisma.StringWithAggregatesFilter<"ShiftAvailability"> | string
 }
 
 export type ShiftAvailabilityCreateInput = {
@@ -319,6 +334,7 @@ export type ShiftAvailabilityCreateInput = {
   organization: Prisma.OrganizationCreateNestedOneWithoutShiftAvailabilitiesInput
   store: Prisma.StoreCreateNestedOneWithoutShiftAvailabilitiesInput
   staff: Prisma.StaffCreateNestedOneWithoutShiftAvailabilitiesInput
+  slot: Prisma.ShiftSlotCreateNestedOneWithoutAvailabilitiesInput
 }
 
 export type ShiftAvailabilityUncheckedCreateInput = {
@@ -333,6 +349,7 @@ export type ShiftAvailabilityUncheckedCreateInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftAvailabilityUpdateInput = {
@@ -347,6 +364,7 @@ export type ShiftAvailabilityUpdateInput = {
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
   store?: Prisma.StoreUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
   staff?: Prisma.StaffUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
+  slot?: Prisma.ShiftSlotUpdateOneRequiredWithoutAvailabilitiesNestedInput
 }
 
 export type ShiftAvailabilityUncheckedUpdateInput = {
@@ -361,6 +379,7 @@ export type ShiftAvailabilityUncheckedUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftAvailabilityCreateManyInput = {
@@ -375,6 +394,7 @@ export type ShiftAvailabilityCreateManyInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftAvailabilityUpdateManyMutationInput = {
@@ -400,6 +420,7 @@ export type ShiftAvailabilityUncheckedUpdateManyInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftAvailabilityListRelationFilter = {
@@ -412,10 +433,11 @@ export type ShiftAvailabilityOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type ShiftAvailabilityStaffIdStoreIdBusinessDateCompoundUniqueInput = {
+export type ShiftAvailabilityStaffIdStoreIdBusinessDateSlotIdCompoundUniqueInput = {
   staffId: string
   storeId: string
   businessDate: string
+  slotId: string
 }
 
 export type ShiftAvailabilityCountOrderByAggregateInput = {
@@ -430,6 +452,7 @@ export type ShiftAvailabilityCountOrderByAggregateInput = {
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  slotId?: Prisma.SortOrder
 }
 
 export type ShiftAvailabilityMaxOrderByAggregateInput = {
@@ -444,6 +467,7 @@ export type ShiftAvailabilityMaxOrderByAggregateInput = {
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  slotId?: Prisma.SortOrder
 }
 
 export type ShiftAvailabilityMinOrderByAggregateInput = {
@@ -458,6 +482,7 @@ export type ShiftAvailabilityMinOrderByAggregateInput = {
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  slotId?: Prisma.SortOrder
 }
 
 export type ShiftAvailabilityCreateNestedManyWithoutOrganizationInput = {
@@ -590,6 +615,48 @@ export type EnumAvailabilityTypeFieldUpdateOperationsInput = {
   set?: $Enums.AvailabilityType
 }
 
+export type ShiftAvailabilityCreateNestedManyWithoutSlotInput = {
+  create?: Prisma.XOR<Prisma.ShiftAvailabilityCreateWithoutSlotInput, Prisma.ShiftAvailabilityUncheckedCreateWithoutSlotInput> | Prisma.ShiftAvailabilityCreateWithoutSlotInput[] | Prisma.ShiftAvailabilityUncheckedCreateWithoutSlotInput[]
+  connectOrCreate?: Prisma.ShiftAvailabilityCreateOrConnectWithoutSlotInput | Prisma.ShiftAvailabilityCreateOrConnectWithoutSlotInput[]
+  createMany?: Prisma.ShiftAvailabilityCreateManySlotInputEnvelope
+  connect?: Prisma.ShiftAvailabilityWhereUniqueInput | Prisma.ShiftAvailabilityWhereUniqueInput[]
+}
+
+export type ShiftAvailabilityUncheckedCreateNestedManyWithoutSlotInput = {
+  create?: Prisma.XOR<Prisma.ShiftAvailabilityCreateWithoutSlotInput, Prisma.ShiftAvailabilityUncheckedCreateWithoutSlotInput> | Prisma.ShiftAvailabilityCreateWithoutSlotInput[] | Prisma.ShiftAvailabilityUncheckedCreateWithoutSlotInput[]
+  connectOrCreate?: Prisma.ShiftAvailabilityCreateOrConnectWithoutSlotInput | Prisma.ShiftAvailabilityCreateOrConnectWithoutSlotInput[]
+  createMany?: Prisma.ShiftAvailabilityCreateManySlotInputEnvelope
+  connect?: Prisma.ShiftAvailabilityWhereUniqueInput | Prisma.ShiftAvailabilityWhereUniqueInput[]
+}
+
+export type ShiftAvailabilityUpdateManyWithoutSlotNestedInput = {
+  create?: Prisma.XOR<Prisma.ShiftAvailabilityCreateWithoutSlotInput, Prisma.ShiftAvailabilityUncheckedCreateWithoutSlotInput> | Prisma.ShiftAvailabilityCreateWithoutSlotInput[] | Prisma.ShiftAvailabilityUncheckedCreateWithoutSlotInput[]
+  connectOrCreate?: Prisma.ShiftAvailabilityCreateOrConnectWithoutSlotInput | Prisma.ShiftAvailabilityCreateOrConnectWithoutSlotInput[]
+  upsert?: Prisma.ShiftAvailabilityUpsertWithWhereUniqueWithoutSlotInput | Prisma.ShiftAvailabilityUpsertWithWhereUniqueWithoutSlotInput[]
+  createMany?: Prisma.ShiftAvailabilityCreateManySlotInputEnvelope
+  set?: Prisma.ShiftAvailabilityWhereUniqueInput | Prisma.ShiftAvailabilityWhereUniqueInput[]
+  disconnect?: Prisma.ShiftAvailabilityWhereUniqueInput | Prisma.ShiftAvailabilityWhereUniqueInput[]
+  delete?: Prisma.ShiftAvailabilityWhereUniqueInput | Prisma.ShiftAvailabilityWhereUniqueInput[]
+  connect?: Prisma.ShiftAvailabilityWhereUniqueInput | Prisma.ShiftAvailabilityWhereUniqueInput[]
+  update?: Prisma.ShiftAvailabilityUpdateWithWhereUniqueWithoutSlotInput | Prisma.ShiftAvailabilityUpdateWithWhereUniqueWithoutSlotInput[]
+  updateMany?: Prisma.ShiftAvailabilityUpdateManyWithWhereWithoutSlotInput | Prisma.ShiftAvailabilityUpdateManyWithWhereWithoutSlotInput[]
+  deleteMany?: Prisma.ShiftAvailabilityScalarWhereInput | Prisma.ShiftAvailabilityScalarWhereInput[]
+}
+
+export type ShiftAvailabilityUncheckedUpdateManyWithoutSlotNestedInput = {
+  create?: Prisma.XOR<Prisma.ShiftAvailabilityCreateWithoutSlotInput, Prisma.ShiftAvailabilityUncheckedCreateWithoutSlotInput> | Prisma.ShiftAvailabilityCreateWithoutSlotInput[] | Prisma.ShiftAvailabilityUncheckedCreateWithoutSlotInput[]
+  connectOrCreate?: Prisma.ShiftAvailabilityCreateOrConnectWithoutSlotInput | Prisma.ShiftAvailabilityCreateOrConnectWithoutSlotInput[]
+  upsert?: Prisma.ShiftAvailabilityUpsertWithWhereUniqueWithoutSlotInput | Prisma.ShiftAvailabilityUpsertWithWhereUniqueWithoutSlotInput[]
+  createMany?: Prisma.ShiftAvailabilityCreateManySlotInputEnvelope
+  set?: Prisma.ShiftAvailabilityWhereUniqueInput | Prisma.ShiftAvailabilityWhereUniqueInput[]
+  disconnect?: Prisma.ShiftAvailabilityWhereUniqueInput | Prisma.ShiftAvailabilityWhereUniqueInput[]
+  delete?: Prisma.ShiftAvailabilityWhereUniqueInput | Prisma.ShiftAvailabilityWhereUniqueInput[]
+  connect?: Prisma.ShiftAvailabilityWhereUniqueInput | Prisma.ShiftAvailabilityWhereUniqueInput[]
+  update?: Prisma.ShiftAvailabilityUpdateWithWhereUniqueWithoutSlotInput | Prisma.ShiftAvailabilityUpdateWithWhereUniqueWithoutSlotInput[]
+  updateMany?: Prisma.ShiftAvailabilityUpdateManyWithWhereWithoutSlotInput | Prisma.ShiftAvailabilityUpdateManyWithWhereWithoutSlotInput[]
+  deleteMany?: Prisma.ShiftAvailabilityScalarWhereInput | Prisma.ShiftAvailabilityScalarWhereInput[]
+}
+
 export type ShiftAvailabilityCreateWithoutOrganizationInput = {
   id?: string
   businessDate: string
@@ -601,6 +668,7 @@ export type ShiftAvailabilityCreateWithoutOrganizationInput = {
   updatedAt?: Date | string
   store: Prisma.StoreCreateNestedOneWithoutShiftAvailabilitiesInput
   staff: Prisma.StaffCreateNestedOneWithoutShiftAvailabilitiesInput
+  slot: Prisma.ShiftSlotCreateNestedOneWithoutAvailabilitiesInput
 }
 
 export type ShiftAvailabilityUncheckedCreateWithoutOrganizationInput = {
@@ -614,6 +682,7 @@ export type ShiftAvailabilityUncheckedCreateWithoutOrganizationInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftAvailabilityCreateOrConnectWithoutOrganizationInput = {
@@ -657,6 +726,7 @@ export type ShiftAvailabilityScalarWhereInput = {
   note?: Prisma.StringNullableFilter<"ShiftAvailability"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ShiftAvailability"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ShiftAvailability"> | Date | string
+  slotId?: Prisma.StringFilter<"ShiftAvailability"> | string
 }
 
 export type ShiftAvailabilityCreateWithoutStoreInput = {
@@ -670,6 +740,7 @@ export type ShiftAvailabilityCreateWithoutStoreInput = {
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutShiftAvailabilitiesInput
   staff: Prisma.StaffCreateNestedOneWithoutShiftAvailabilitiesInput
+  slot: Prisma.ShiftSlotCreateNestedOneWithoutAvailabilitiesInput
 }
 
 export type ShiftAvailabilityUncheckedCreateWithoutStoreInput = {
@@ -683,6 +754,7 @@ export type ShiftAvailabilityUncheckedCreateWithoutStoreInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftAvailabilityCreateOrConnectWithoutStoreInput = {
@@ -722,6 +794,7 @@ export type ShiftAvailabilityCreateWithoutStaffInput = {
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutShiftAvailabilitiesInput
   store: Prisma.StoreCreateNestedOneWithoutShiftAvailabilitiesInput
+  slot: Prisma.ShiftSlotCreateNestedOneWithoutAvailabilitiesInput
 }
 
 export type ShiftAvailabilityUncheckedCreateWithoutStaffInput = {
@@ -735,6 +808,7 @@ export type ShiftAvailabilityUncheckedCreateWithoutStaffInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftAvailabilityCreateOrConnectWithoutStaffInput = {
@@ -763,6 +837,60 @@ export type ShiftAvailabilityUpdateManyWithWhereWithoutStaffInput = {
   data: Prisma.XOR<Prisma.ShiftAvailabilityUpdateManyMutationInput, Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffInput>
 }
 
+export type ShiftAvailabilityCreateWithoutSlotInput = {
+  id?: string
+  businessDate: string
+  type?: $Enums.AvailabilityType
+  startAt?: Date | string | null
+  endAt?: Date | string | null
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutShiftAvailabilitiesInput
+  store: Prisma.StoreCreateNestedOneWithoutShiftAvailabilitiesInput
+  staff: Prisma.StaffCreateNestedOneWithoutShiftAvailabilitiesInput
+}
+
+export type ShiftAvailabilityUncheckedCreateWithoutSlotInput = {
+  id?: string
+  organizationId: string
+  storeId: string
+  staffId: string
+  businessDate: string
+  type?: $Enums.AvailabilityType
+  startAt?: Date | string | null
+  endAt?: Date | string | null
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ShiftAvailabilityCreateOrConnectWithoutSlotInput = {
+  where: Prisma.ShiftAvailabilityWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShiftAvailabilityCreateWithoutSlotInput, Prisma.ShiftAvailabilityUncheckedCreateWithoutSlotInput>
+}
+
+export type ShiftAvailabilityCreateManySlotInputEnvelope = {
+  data: Prisma.ShiftAvailabilityCreateManySlotInput | Prisma.ShiftAvailabilityCreateManySlotInput[]
+  skipDuplicates?: boolean
+}
+
+export type ShiftAvailabilityUpsertWithWhereUniqueWithoutSlotInput = {
+  where: Prisma.ShiftAvailabilityWhereUniqueInput
+  update: Prisma.XOR<Prisma.ShiftAvailabilityUpdateWithoutSlotInput, Prisma.ShiftAvailabilityUncheckedUpdateWithoutSlotInput>
+  create: Prisma.XOR<Prisma.ShiftAvailabilityCreateWithoutSlotInput, Prisma.ShiftAvailabilityUncheckedCreateWithoutSlotInput>
+}
+
+export type ShiftAvailabilityUpdateWithWhereUniqueWithoutSlotInput = {
+  where: Prisma.ShiftAvailabilityWhereUniqueInput
+  data: Prisma.XOR<Prisma.ShiftAvailabilityUpdateWithoutSlotInput, Prisma.ShiftAvailabilityUncheckedUpdateWithoutSlotInput>
+}
+
+export type ShiftAvailabilityUpdateManyWithWhereWithoutSlotInput = {
+  where: Prisma.ShiftAvailabilityScalarWhereInput
+  data: Prisma.XOR<Prisma.ShiftAvailabilityUpdateManyMutationInput, Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutSlotInput>
+}
+
 export type ShiftAvailabilityCreateManyOrganizationInput = {
   id?: string
   storeId: string
@@ -774,6 +902,7 @@ export type ShiftAvailabilityCreateManyOrganizationInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftAvailabilityUpdateWithoutOrganizationInput = {
@@ -787,6 +916,7 @@ export type ShiftAvailabilityUpdateWithoutOrganizationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   store?: Prisma.StoreUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
   staff?: Prisma.StaffUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
+  slot?: Prisma.ShiftSlotUpdateOneRequiredWithoutAvailabilitiesNestedInput
 }
 
 export type ShiftAvailabilityUncheckedUpdateWithoutOrganizationInput = {
@@ -800,6 +930,7 @@ export type ShiftAvailabilityUncheckedUpdateWithoutOrganizationInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftAvailabilityUncheckedUpdateManyWithoutOrganizationInput = {
@@ -813,6 +944,7 @@ export type ShiftAvailabilityUncheckedUpdateManyWithoutOrganizationInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftAvailabilityCreateManyStoreInput = {
@@ -826,6 +958,7 @@ export type ShiftAvailabilityCreateManyStoreInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftAvailabilityUpdateWithoutStoreInput = {
@@ -839,6 +972,7 @@ export type ShiftAvailabilityUpdateWithoutStoreInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
   staff?: Prisma.StaffUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
+  slot?: Prisma.ShiftSlotUpdateOneRequiredWithoutAvailabilitiesNestedInput
 }
 
 export type ShiftAvailabilityUncheckedUpdateWithoutStoreInput = {
@@ -852,6 +986,7 @@ export type ShiftAvailabilityUncheckedUpdateWithoutStoreInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftAvailabilityUncheckedUpdateManyWithoutStoreInput = {
@@ -865,6 +1000,7 @@ export type ShiftAvailabilityUncheckedUpdateManyWithoutStoreInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftAvailabilityCreateManyStaffInput = {
@@ -878,6 +1014,7 @@ export type ShiftAvailabilityCreateManyStaffInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  slotId: string
 }
 
 export type ShiftAvailabilityUpdateWithoutStaffInput = {
@@ -891,6 +1028,7 @@ export type ShiftAvailabilityUpdateWithoutStaffInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
   store?: Prisma.StoreUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
+  slot?: Prisma.ShiftSlotUpdateOneRequiredWithoutAvailabilitiesNestedInput
 }
 
 export type ShiftAvailabilityUncheckedUpdateWithoutStaffInput = {
@@ -904,12 +1042,70 @@ export type ShiftAvailabilityUncheckedUpdateWithoutStaffInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ShiftAvailabilityUncheckedUpdateManyWithoutStaffInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAvailabilityTypeFieldUpdateOperationsInput | $Enums.AvailabilityType
+  startAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slotId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type ShiftAvailabilityCreateManySlotInput = {
+  id?: string
+  organizationId: string
+  storeId: string
+  staffId: string
+  businessDate: string
+  type?: $Enums.AvailabilityType
+  startAt?: Date | string | null
+  endAt?: Date | string | null
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ShiftAvailabilityUpdateWithoutSlotInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAvailabilityTypeFieldUpdateOperationsInput | $Enums.AvailabilityType
+  startAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
+  store?: Prisma.StoreUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
+  staff?: Prisma.StaffUpdateOneRequiredWithoutShiftAvailabilitiesNestedInput
+}
+
+export type ShiftAvailabilityUncheckedUpdateWithoutSlotInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAvailabilityTypeFieldUpdateOperationsInput | $Enums.AvailabilityType
+  startAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  endAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ShiftAvailabilityUncheckedUpdateManyWithoutSlotInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumAvailabilityTypeFieldUpdateOperationsInput | $Enums.AvailabilityType
   startAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -933,9 +1129,11 @@ export type ShiftAvailabilitySelect<ExtArgs extends runtime.Types.Extensions.Int
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  slotId?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["shiftAvailability"]>
 
 export type ShiftAvailabilitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -950,9 +1148,11 @@ export type ShiftAvailabilitySelectCreateManyAndReturn<ExtArgs extends runtime.T
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  slotId?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["shiftAvailability"]>
 
 export type ShiftAvailabilitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -967,9 +1167,11 @@ export type ShiftAvailabilitySelectUpdateManyAndReturn<ExtArgs extends runtime.T
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  slotId?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["shiftAvailability"]>
 
 export type ShiftAvailabilitySelectScalar = {
@@ -984,23 +1186,27 @@ export type ShiftAvailabilitySelectScalar = {
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  slotId?: boolean
 }
 
-export type ShiftAvailabilityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "storeId" | "staffId" | "businessDate" | "type" | "startAt" | "endAt" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["shiftAvailability"]>
+export type ShiftAvailabilityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "storeId" | "staffId" | "businessDate" | "type" | "startAt" | "endAt" | "note" | "createdAt" | "updatedAt" | "slotId", ExtArgs["result"]["shiftAvailability"]>
 export type ShiftAvailabilityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }
 export type ShiftAvailabilityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }
 export type ShiftAvailabilityIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  slot?: boolean | Prisma.ShiftSlotDefaultArgs<ExtArgs>
 }
 
 export type $ShiftAvailabilityPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1009,6 +1215,7 @@ export type $ShiftAvailabilityPayload<ExtArgs extends runtime.Types.Extensions.I
     organization: Prisma.$OrganizationPayload<ExtArgs>
     store: Prisma.$StorePayload<ExtArgs>
     staff: Prisma.$StaffPayload<ExtArgs>
+    slot: Prisma.$ShiftSlotPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1022,6 +1229,7 @@ export type $ShiftAvailabilityPayload<ExtArgs extends runtime.Types.Extensions.I
     note: string | null
     createdAt: Date
     updatedAt: Date
+    slotId: string
   }, ExtArgs["result"]["shiftAvailability"]>
   composites: {}
 }
@@ -1419,6 +1627,7 @@ export interface Prisma__ShiftAvailabilityClient<T, Null = never, ExtArgs extend
   organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   store<T extends Prisma.StoreDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StoreDefaultArgs<ExtArgs>>): Prisma.Prisma__StoreClient<runtime.Types.Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   staff<T extends Prisma.StaffDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StaffDefaultArgs<ExtArgs>>): Prisma.Prisma__StaffClient<runtime.Types.Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  slot<T extends Prisma.ShiftSlotDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ShiftSlotDefaultArgs<ExtArgs>>): Prisma.Prisma__ShiftSlotClient<runtime.Types.Result.GetResult<Prisma.$ShiftSlotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1459,6 +1668,7 @@ export interface ShiftAvailabilityFieldRefs {
   readonly note: Prisma.FieldRef<"ShiftAvailability", 'String'>
   readonly createdAt: Prisma.FieldRef<"ShiftAvailability", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ShiftAvailability", 'DateTime'>
+  readonly slotId: Prisma.FieldRef<"ShiftAvailability", 'String'>
 }
     
 

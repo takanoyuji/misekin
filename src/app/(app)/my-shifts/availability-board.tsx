@@ -19,23 +19,29 @@ interface PeriodLabel {
   start: string;
   end: string;
 }
+interface SlotDef {
+  id: string;
+  name: string;
+  startTime: string;
+  endTime: string;
+}
 interface StoreOption {
   id: string;
   name: string;
-  // 店舗ごとに提出対象の日と期間が異なる
   days: DayLabel[];
   periods: PeriodLabel[];
+  slots: SlotDef[];
 }
 interface AvailabilityRow {
   storeId: string;
+  slotId: string;
   businessDate: string;
   type: AvailabilityType;
-  startTime: string | null;
-  endTime: string | null;
   note: string | null;
 }
 interface PublishedShift {
   storeId: string;
+  slotId: string | null;
   businessDate: string;
   startTime: string;
   endTime: string;
@@ -78,25 +84,29 @@ export function AvailabilityBoard({
 }: Props) {
   const router = useRouter();
   const [storeId, setStoreId] = useState(stores[0]?.id ?? "");
-  const [pendingDate, setPendingDate] = useState<string | null>(null);
+  // 送信中セル: `${date}_${slotId}`
+  const [pending, setPending] = useState<string | null>(null);
   const [, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
   const activeStore = stores.find((s) => s.id === storeId) ?? stores[0];
   const days = activeStore?.days ?? [];
   const periods = activeStore?.periods ?? [];
+  const slots = activeStore?.slots ?? [];
 
-  // 現在の店舗の希望を date -> type で引けるようにする
+  // 希望を (date_slotId) -> type で引く
   const current = new Map<string, AvailabilityType>();
   for (const a of availabilities) {
-    if (a.storeId === storeId) current.set(a.businessDate, a.type);
+    if (a.storeId === storeId)
+      current.set(`${a.businessDate}_${a.slotId}`, a.type);
   }
-  const shiftByDate = new Map<string, PublishedShift>();
+  // 公開シフトを (date_slotId) -> 時刻 で引く
+  const shiftAt = new Map<string, PublishedShift>();
   for (const s of publishedShifts) {
-    if (s.storeId === storeId) shiftByDate.set(s.businessDate, s);
+    if (s.storeId === storeId && s.slotId)
+      shiftAt.set(`${s.businessDate}_${s.slotId}`, s);
   }
 
-  // 日を期間ごとにグループ化（期間ラベルの見出しを挟む）
   const groups = periods
     .map((p) => ({
       period: p,
@@ -104,23 +114,23 @@ export function AvailabilityBoard({
     }))
     .filter((g) => g.days.length > 0);
 
-  function choose(date: string, type: AvailabilityType) {
+  function choose(date: string, slotId: string, type: AvailabilityType) {
     setError(null);
-    setPendingDate(date);
-    const alreadySame = current.get(date) === type;
+    const key = `${date}_${slotId}`;
+    setPending(key);
+    const alreadySame = current.get(key) === type;
 
     startTransition(async () => {
       const result = alreadySame
-        ? await deleteAvailability(storeId, date)
+        ? await deleteAvailability(storeId, date, slotId)
         : await submitAvailability({
             storeId,
+            slotId,
             businessDate: date,
             type,
-            startTime: null,
-            endTime: null,
             note: null,
           });
-      setPendingDate(null);
+      setPending(null);
       if (result.error) {
         setError(result.error);
         return;
@@ -131,7 +141,6 @@ export function AvailabilityBoard({
 
   return (
     <div className="space-y-4">
-      {/* 店舗タブ */}
       {stores.length > 1 && (
         <div
           role="tablist"
@@ -164,11 +173,14 @@ export function AvailabilityBoard({
       )}
 
       <p className="text-xs text-muted-foreground">
-        各日で「希望 / 可 / 不可」を選べます。同じものをもう一度押すと取り消します。
-        公開されたシフトは右側に表示されます。
+        時間帯ごとに「希望 / 可 / 不可」を選べます。同じものをもう一度押すと取り消します。
       </p>
 
-      {groups.length === 0 ? (
+      {slots.length === 0 ? (
+        <div className="rounded-xl border border-border bg-card p-8 text-center text-sm text-muted-foreground">
+          この店舗に時間帯が設定されていません。管理者にお問い合わせください。
+        </div>
+      ) : groups.length === 0 ? (
         <div className="rounded-xl border border-border bg-card p-8 text-center text-sm text-muted-foreground">
           提出できる期間がありません。
         </div>
@@ -178,63 +190,76 @@ export function AvailabilityBoard({
             <section key={g.period.start}>
               <h2 className="mb-2 text-sm font-semibold">{g.period.label}</h2>
               <ul className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-                {g.days.map(({ date, label }) => {
-                  const chosen = current.get(date);
-                  const shift = shiftByDate.get(date);
-                  const isRowPending = pendingDate === date;
-                  return (
-                    <li
-                      key={date}
-                      className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3"
-                    >
-                      <span className="w-24 shrink-0 font-numeric text-sm font-medium">
-                        {label}
-                      </span>
-
-                      <div className="flex gap-2">
-                        {(
-                          [
-                            "PREFERRED",
-                            "AVAILABLE",
-                            "UNAVAILABLE",
-                          ] as AvailabilityType[]
-                        ).map((t) => {
-                          const meta = TYPE_META[t];
-                          const Icon = meta.icon;
-                          const active = chosen === t;
-                          return (
-                            <button
-                              key={t}
-                              type="button"
-                              onClick={() => choose(date, t)}
-                              disabled={isRowPending}
-                              aria-pressed={active}
-                              className={`inline-flex min-h-9 items-center gap-1 rounded-md border px-3 text-xs font-medium transition-colors disabled:opacity-50 ${
-                                active ? meta.activeCls : `bg-background ${meta.cls}`
-                              }`}
-                            >
-                              {isRowPending && active ? (
-                                <Loader2
-                                  className="size-3 animate-spin"
-                                  aria-hidden="true"
-                                />
-                              ) : (
-                                <Icon className="size-3" aria-hidden="true" />
-                              )}
-                              {meta.label}
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      {shift && (
-                        <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 font-numeric text-xs font-medium text-primary">
-                          シフト {shift.startTime}–{shift.endTime}
-                        </span>
-                      )}
-                    </li>
-                  );
-                })}
+                {g.days.map(({ date, label }) => (
+                  <li key={date} className="px-4 py-3">
+                    <div className="mb-2 font-numeric text-sm font-medium">
+                      {label}
+                    </div>
+                    <div className="space-y-2">
+                      {slots.map((slot) => {
+                        const key = `${date}_${slot.id}`;
+                        const chosen = current.get(key);
+                        const shift = shiftAt.get(key);
+                        const isCellPending = pending === key;
+                        return (
+                          <div
+                            key={slot.id}
+                            className="flex flex-wrap items-center gap-x-3 gap-y-1"
+                          >
+                            <span className="w-28 shrink-0 text-xs text-muted-foreground">
+                              {slot.name}（{slot.startTime}–{slot.endTime}）
+                            </span>
+                            <div className="flex gap-1.5">
+                              {(
+                                [
+                                  "PREFERRED",
+                                  "AVAILABLE",
+                                  "UNAVAILABLE",
+                                ] as AvailabilityType[]
+                              ).map((t) => {
+                                const meta = TYPE_META[t];
+                                const Icon = meta.icon;
+                                const active = chosen === t;
+                                return (
+                                  <button
+                                    key={t}
+                                    type="button"
+                                    onClick={() => choose(date, slot.id, t)}
+                                    disabled={isCellPending}
+                                    aria-pressed={active}
+                                    className={`inline-flex min-h-9 items-center gap-1 rounded-md border px-3 text-xs font-medium transition-colors disabled:opacity-50 ${
+                                      active
+                                        ? meta.activeCls
+                                        : `bg-background ${meta.cls}`
+                                    }`}
+                                  >
+                                    {isCellPending && active ? (
+                                      <Loader2
+                                        className="size-3 animate-spin"
+                                        aria-hidden="true"
+                                      />
+                                    ) : (
+                                      <Icon
+                                        className="size-3"
+                                        aria-hidden="true"
+                                      />
+                                    )}
+                                    {meta.label}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                            {shift && (
+                              <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 font-numeric text-xs font-medium text-primary">
+                                シフト {shift.startTime}–{shift.endTime}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </li>
+                ))}
               </ul>
             </section>
           ))}

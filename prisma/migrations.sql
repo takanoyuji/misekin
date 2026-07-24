@@ -193,3 +193,67 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "shiftPeriodUnit" "ShiftPeriodUnit" NOT NULL DEFAULT 'MONTHLY';
 ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "shiftPeriodStartDay" INTEGER NOT NULL DEFAULT 1;
+
+-- StoreCategory: 店舗の業態カテゴリ
+DO $$ BEGIN
+    CREATE TYPE "StoreCategory" AS ENUM ('CONCAFE','MAID_CAFE','GIRLS_BAR','CABARET','CLUB_LOUNGE','SNACK','BAR','SHISHA','OTHER');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "category" "StoreCategory" NOT NULL DEFAULT 'OTHER';
+
+-- ShiftSlot: シフト時間帯（早番・遅番など）
+CREATE TABLE IF NOT EXISTS "shift_slots" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "startTime" TEXT NOT NULL,
+    "endTime" TEXT NOT NULL,
+    "sortOrder" INTEGER NOT NULL DEFAULT 0,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "shift_slots_pkey" PRIMARY KEY ("id")
+);
+CREATE INDEX IF NOT EXISTS "shift_slots_storeId_isActive_idx" ON "shift_slots"("storeId", "isActive");
+DO $$ BEGIN
+    ALTER TABLE "shift_slots" ADD CONSTRAINT "shift_slots_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "shift_slots" ADD CONSTRAINT "shift_slots_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- 既存の各店舗に既定の時間帯を1つ作る（未作成時のみ）
+INSERT INTO "shift_slots" ("id", "organizationId", "storeId", "name", "startTime", "endTime", "sortOrder", "updatedAt")
+SELECT md5(random()::text || s.id), s."organizationId", s.id, '通常', '18:00', '24:00', 0, now()
+FROM "stores" s
+WHERE NOT EXISTS (SELECT 1 FROM "shift_slots" ss WHERE ss."storeId" = s.id);
+
+-- slotId カラムを追加（まず nullable）
+ALTER TABLE "shift_availabilities" ADD COLUMN IF NOT EXISTS "slotId" TEXT;
+ALTER TABLE "shift_requirements" ADD COLUMN IF NOT EXISTS "slotId" TEXT;
+ALTER TABLE "shifts" ADD COLUMN IF NOT EXISTS "slotId" TEXT;
+
+-- 既存行を店舗の既定時間帯にひも付け
+UPDATE "shift_availabilities" a SET "slotId" = (SELECT ss.id FROM "shift_slots" ss WHERE ss."storeId" = a."storeId" ORDER BY ss."sortOrder" LIMIT 1) WHERE a."slotId" IS NULL;
+UPDATE "shift_requirements" r SET "slotId" = (SELECT ss.id FROM "shift_slots" ss WHERE ss."storeId" = r."storeId" ORDER BY ss."sortOrder" LIMIT 1) WHERE r."slotId" IS NULL;
+UPDATE "shifts" sh SET "slotId" = (SELECT ss.id FROM "shift_slots" ss WHERE ss."storeId" = sh."storeId" ORDER BY ss."sortOrder" LIMIT 1) WHERE sh."slotId" IS NULL;
+
+-- availability / requirement は slotId 必須に。unique を張り替え。
+ALTER TABLE "shift_availabilities" ALTER COLUMN "slotId" SET NOT NULL;
+ALTER TABLE "shift_requirements" ALTER COLUMN "slotId" SET NOT NULL;
+
+DROP INDEX IF EXISTS "shift_availabilities_staffId_storeId_businessDate_key";
+CREATE UNIQUE INDEX IF NOT EXISTS "shift_availabilities_staffId_storeId_businessDate_slotId_key" ON "shift_availabilities"("staffId", "storeId", "businessDate", "slotId");
+DROP INDEX IF EXISTS "shift_requirements_storeId_businessDate_key";
+CREATE UNIQUE INDEX IF NOT EXISTS "shift_requirements_storeId_businessDate_slotId_key" ON "shift_requirements"("storeId", "businessDate", "slotId");
+
+-- 外部キー
+DO $$ BEGIN
+    ALTER TABLE "shift_availabilities" ADD CONSTRAINT "shift_availabilities_slotId_fkey" FOREIGN KEY ("slotId") REFERENCES "shift_slots"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "shift_requirements" ADD CONSTRAINT "shift_requirements_slotId_fkey" FOREIGN KEY ("slotId") REFERENCES "shift_slots"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "shifts" ADD CONSTRAINT "shifts_slotId_fkey" FOREIGN KEY ("slotId") REFERENCES "shift_slots"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;

@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/common/page-header";
 import { StoreEditForm } from "./store-edit-form";
 import { ClockUrlSection } from "./clock-url-section";
 import { ShiftPeriodForm } from "./shift-period-form";
+import { ShiftSlotManager } from "./shift-slot-manager";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 import { buildClockUrl } from "@/lib/app-url";
 
@@ -57,6 +58,17 @@ export default async function StoreDetailPage({ params }: PageProps) {
         },
         orderBy: { staff: { displayName: "asc" } },
       },
+      shiftSlots: {
+        where: { isActive: true },
+        orderBy: { sortOrder: "asc" },
+        select: {
+          id: true,
+          name: true,
+          startTime: true,
+          endTime: true,
+          sortOrder: true,
+        },
+      },
     },
   });
 
@@ -96,6 +108,7 @@ export default async function StoreDetailPage({ params }: PageProps) {
                   timezone: store.timezone,
                   dayChangeHour: store.dayChangeHour,
                   dayChangeMinute: store.dayChangeMinute,
+                  category: store.category,
                   isActive: store.isActive,
                 }}
                 organizationId={orgId}
@@ -124,6 +137,19 @@ export default async function StoreDetailPage({ params }: PageProps) {
                 storeId={store.id}
                 initialUnit={store.shiftPeriodUnit}
                 initialStartDay={store.shiftPeriodStartDay}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* シフトの時間帯 */}
+        <section>
+          <div className="rounded-xl border border-border bg-card shadow-sm">
+            <div className="p-6">
+              <ShiftSlotManager
+                organizationId={orgId}
+                storeId={store.id}
+                slots={store.shiftSlots}
               />
             </div>
           </div>

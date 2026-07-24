@@ -22,9 +22,16 @@ interface StaffOption {
   id: string;
   displayName: string;
 }
+interface SlotDef {
+  id: string;
+  name: string;
+  startTime: string;
+  endTime: string;
+}
 interface ShiftCell {
   id: string;
   staffId: string;
+  slotId: string | null;
   businessDate: string;
   startTime: string;
   endTime: string;
@@ -32,11 +39,13 @@ interface ShiftCell {
   note: string | null;
 }
 interface Requirement {
+  slotId: string;
   businessDate: string;
   requiredCount: number;
 }
 interface Availability {
   staffId: string;
+  slotId: string;
   businessDate: string;
   type: AvailabilityType;
 }
@@ -46,6 +55,7 @@ interface Props {
   storeId: string;
   days: DayLabel[];
   staff: StaffOption[];
+  slots: SlotDef[];
   requirements: Requirement[];
   shifts: ShiftCell[];
   availabilities: Availability[];
@@ -64,6 +74,7 @@ export function ShiftEditor({
   storeId,
   days,
   staff,
+  slots,
   requirements,
   shifts,
   availabilities,
@@ -73,89 +84,53 @@ export function ShiftEditor({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
-  const [editing, setEditing] = useState<{
-    staffId: string;
-    date: string;
-  } | null>(null);
-  const [start, setStart] = useState("20:00");
-  const [end, setEnd] = useState("01:00");
+
+  // 表示中の時間帯
+  const [activeSlotId, setActiveSlotId] = useState(slots[0]?.id ?? "");
+  const activeSlot = slots.find((s) => s.id === activeSlotId) ?? slots[0];
 
   // 自動生成ダイアログ
   const [genOpen, setGenOpen] = useState(false);
-  const [genStart, setGenStart] = useState("20:00");
-  const [genEnd, setGenEnd] = useState("01:00");
   const [genMessage, setGenMessage] = useState<string | null>(null);
   const [isGenerating, startGenerate] = useTransition();
 
-  function handleGenerate() {
-    setError(null);
-    setGenMessage(null);
-    startGenerate(async () => {
-      const result = await generateShifts(
-        organizationId,
-        storeId,
-        weekStart,
-        weekEnd,
-        genStart,
-        genEnd
-      );
-      if (result.error) {
-        setError(result.error);
-        return;
-      }
-      setGenOpen(false);
-      setGenMessage(result.message ?? "自動生成しました");
-      router.refresh();
-    });
-  }
-
+  // 選択中スロットのみに絞ったマップ
   const shiftAt = new Map<string, ShiftCell>();
-  for (const s of shifts) shiftAt.set(`${s.staffId}_${s.businessDate}`, s);
+  for (const s of shifts)
+    if (s.slotId === activeSlotId)
+      shiftAt.set(`${s.staffId}_${s.businessDate}`, s);
 
   const availAt = new Map<string, AvailabilityType>();
   for (const a of availabilities)
-    availAt.set(`${a.staffId}_${a.businessDate}`, a.type);
+    if (a.slotId === activeSlotId)
+      availAt.set(`${a.staffId}_${a.businessDate}`, a.type);
 
   const reqByDate = new Map<string, number>();
-  for (const r of requirements) reqByDate.set(r.businessDate, r.requiredCount);
+  for (const r of requirements)
+    if (r.slotId === activeSlotId) reqByDate.set(r.businessDate, r.requiredCount);
 
   const assignedByDate = new Map<string, number>();
   for (const s of shifts)
-    assignedByDate.set(
-      s.businessDate,
-      (assignedByDate.get(s.businessDate) ?? 0) + 1
-    );
+    if (s.slotId === activeSlotId)
+      assignedByDate.set(
+        s.businessDate,
+        (assignedByDate.get(s.businessDate) ?? 0) + 1
+      );
 
-  function openEditor(staffId: string, date: string) {
-    setError(null);
-    setEditing({ staffId, date });
-    setStart("20:00");
-    setEnd("01:00");
-  }
-
-  function submitShift() {
-    if (!editing) return;
-    const { staffId, date } = editing;
-    // 日跨ぎ: 終了が開始より小さければ翌日
-    const startAt = new Date(`${date}T${start}:00`);
-    let endAt = new Date(`${date}T${end}:00`);
-    if (endAt <= startAt) endAt = new Date(endAt.getTime() + 24 * 60 * 60 * 1000);
-
+  function addShift(staffId: string, date: string) {
     setError(null);
     startTransition(async () => {
       const result = await createShift(organizationId, {
         storeId,
+        slotId: activeSlotId,
         staffId,
         businessDate: date,
-        startAt,
-        endAt,
         note: null,
       });
       if (result.error) {
         setError(result.error);
         return;
       }
-      setEditing(null);
       router.refresh();
     });
   }
@@ -194,10 +169,31 @@ export function ShiftEditor({
     startTransition(async () => {
       await setRequirement(organizationId, {
         storeId,
+        slotId: activeSlotId,
         businessDate: date,
         requiredCount: n,
         note: null,
       });
+      router.refresh();
+    });
+  }
+
+  function handleGenerate() {
+    setError(null);
+    setGenMessage(null);
+    startGenerate(async () => {
+      const result = await generateShifts(
+        organizationId,
+        storeId,
+        weekStart,
+        weekEnd
+      );
+      if (result.error) {
+        setError(result.error);
+        return;
+      }
+      setGenOpen(false);
+      setGenMessage(result.message ?? "自動生成しました");
       router.refresh();
     });
   }
@@ -217,13 +213,40 @@ export function ShiftEditor({
         </p>
       )}
 
+      {/* 時間帯タブ */}
+      <div
+        role="tablist"
+        aria-label="時間帯を選択"
+        className="flex flex-wrap gap-1 border-b border-border"
+      >
+        {slots.map((slot) => (
+          <button
+            key={slot.id}
+            type="button"
+            role="tab"
+            aria-selected={slot.id === activeSlotId}
+            onClick={() => setActiveSlotId(slot.id)}
+            className={`-mb-px min-h-11 border-b-2 px-4 text-sm font-medium transition-colors ${
+              slot.id === activeSlotId
+                ? "border-primary text-primary"
+                : "border-transparent text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {slot.name}
+            <span className="ml-1 font-numeric text-xs text-muted-foreground">
+              {slot.startTime}–{slot.endTime}
+            </span>
+          </button>
+        ))}
+      </div>
+
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs text-muted-foreground">
           背景色は希望（
           <span className="rounded bg-primary/5 px-1">青=希望</span>{" "}
           <span className="rounded bg-green-50 px-1">緑=可</span>{" "}
           <span className="rounded bg-red-50 px-1">赤=不可</span>
-          ）。空きセルの＋でシフトを追加します。
+          ）。空きセルの＋で「{activeSlot?.name}」に追加します。
         </p>
         <div className="flex flex-wrap items-center gap-2">
           <button
@@ -274,7 +297,7 @@ export function ShiftEditor({
                 </th>
               ))}
             </tr>
-            {/* 必要人数の行 */}
+            {/* 必要人数の行（選択中の時間帯） */}
             <tr className="border-b border-border bg-background text-xs">
               <th className="sticky left-0 z-10 bg-background px-3 py-1.5 text-left font-normal text-muted-foreground">
                 必要人数 / 割当
@@ -290,6 +313,7 @@ export function ShiftEditor({
                         type="number"
                         min={0}
                         defaultValue={req}
+                        key={`${activeSlotId}_${d.date}_${req}`}
                         onBlur={(e) => changeRequirement(d.date, e.target.value)}
                         aria-label={`${d.label}の必要人数`}
                         className="w-12 rounded border border-input bg-background px-1 py-0.5 text-center font-numeric text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -321,7 +345,7 @@ export function ShiftEditor({
                       className={`px-1.5 py-1.5 text-center align-middle ${avail ? AVAIL_BG[avail] : ""}`}
                     >
                       {shift ? (
-                        <div className="group relative inline-flex flex-col items-center gap-0.5">
+                        <div className="inline-flex flex-col items-center gap-0.5">
                           <span
                             className={`inline-flex items-center rounded-md px-2 py-1 font-numeric text-xs font-medium ${
                               shift.status === "PUBLISHED"
@@ -344,7 +368,7 @@ export function ShiftEditor({
                       ) : (
                         <button
                           type="button"
-                          onClick={() => openEditor(st.id, d.date)}
+                          onClick={() => addShift(st.id, d.date)}
                           disabled={isPending}
                           aria-label={`${st.displayName} ${d.label} にシフトを追加`}
                           className="inline-flex size-7 items-center justify-center rounded-md text-muted-foreground/50 transition-colors hover:bg-background hover:text-primary disabled:opacity-50"
@@ -370,79 +394,6 @@ export function ShiftEditor({
           </tbody>
         </table>
       </div>
-
-      {/* シフト追加ダイアログ */}
-      {editing && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="shift-dialog-title"
-        >
-          <div className="w-full max-w-sm rounded-2xl bg-card p-6 shadow-2xl">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 id="shift-dialog-title" className="text-lg font-bold">
-                シフトを追加
-              </h2>
-              <button
-                type="button"
-                onClick={() => setEditing(null)}
-                aria-label="閉じる"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <X className="size-5" aria-hidden="true" />
-              </button>
-            </div>
-            <p className="mb-4 text-sm text-muted-foreground">
-              {staff.find((s) => s.id === editing.staffId)?.displayName} ・{" "}
-              {days.find((d) => d.date === editing.date)?.label}
-            </p>
-            <div className="grid grid-cols-2 gap-3">
-              <label className="space-y-1 text-sm">
-                <span className="font-medium">出勤</span>
-                <input
-                  type="time"
-                  value={start}
-                  onChange={(e) => setStart(e.target.value)}
-                  className="min-h-11 w-full rounded-md border border-input bg-background px-3 font-numeric focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                />
-              </label>
-              <label className="space-y-1 text-sm">
-                <span className="font-medium">退勤</span>
-                <input
-                  type="time"
-                  value={end}
-                  onChange={(e) => setEnd(e.target.value)}
-                  className="min-h-11 w-full rounded-md border border-input bg-background px-3 font-numeric focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                />
-              </label>
-            </div>
-            <p className="mt-2 text-xs text-muted-foreground">
-              退勤が出勤より前の場合は翌日として扱います（日跨ぎ）。
-            </p>
-            <div className="mt-5 flex gap-2">
-              <button
-                type="button"
-                onClick={submitShift}
-                disabled={isPending}
-                className="inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-              >
-                {isPending && (
-                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-                )}
-                追加する
-              </button>
-              <button
-                type="button"
-                onClick={() => setEditing(null)}
-                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-border px-4 text-sm font-medium transition-colors hover:bg-muted"
-              >
-                キャンセル
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 自動生成ダイアログ */}
       {genOpen && (
@@ -471,33 +422,13 @@ export function ShiftEditor({
               </button>
             </div>
             <p className="mb-4 text-sm text-muted-foreground">
-              この週の必要人数・希望・ルールをもとに、下書きシフトを自動で組みます。
+              この週の必要人数・希望・ルールをもとに、すべての時間帯の下書きシフトを自動で組みます。
               既存の下書きは置き換わります（公開済みは残ります）。生成後に確認・修正してから公開してください。
             </p>
-            <div className="grid grid-cols-2 gap-3">
-              <label className="space-y-1 text-sm">
-                <span className="font-medium">既定の出勤</span>
-                <input
-                  type="time"
-                  value={genStart}
-                  onChange={(e) => setGenStart(e.target.value)}
-                  className="min-h-11 w-full rounded-md border border-input bg-background px-3 font-numeric focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                />
-              </label>
-              <label className="space-y-1 text-sm">
-                <span className="font-medium">既定の退勤</span>
-                <input
-                  type="time"
-                  value={genEnd}
-                  onChange={(e) => setGenEnd(e.target.value)}
-                  className="min-h-11 w-full rounded-md border border-input bg-background px-3 font-numeric focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                />
-              </label>
-            </div>
-            <p className="mt-2 text-xs text-muted-foreground">
-              希望には時刻が無いため、割り当てた各シフトはこの時刻で作成します（あとで個別に調整できます）。
+            <p className="mb-4 text-xs text-muted-foreground">
+              各シフトの時刻は、割り当てた時間帯の定義（早番・遅番など）から自動で設定します。
             </p>
-            <div className="mt-5 flex gap-2">
+            <div className="flex gap-2">
               <button
                 type="button"
                 onClick={handleGenerate}

@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { updateStore } from "@/actions/store";
+import { STORE_CATEGORIES, STORE_CATEGORY_LABELS } from "@/lib/store-category";
 
 interface StoreEditFormProps {
   store: {
@@ -13,6 +14,7 @@ interface StoreEditFormProps {
     timezone: string;
     dayChangeHour: number;
     dayChangeMinute: number;
+    category: string;
     isActive: boolean;
   };
   organizationId: string;
@@ -37,6 +39,16 @@ export function StoreEditForm({ store, organizationId }: StoreEditFormProps) {
       timezone: formData.get("timezone") as string,
       dayChangeHour: parseInt(formData.get("dayChangeHour") as string, 10),
       dayChangeMinute: parseInt(formData.get("dayChangeMinute") as string, 10),
+      category: formData.get("category") as
+        | "CONCAFE"
+        | "MAID_CAFE"
+        | "GIRLS_BAR"
+        | "CABARET"
+        | "CLUB_LOUNGE"
+        | "SNACK"
+        | "BAR"
+        | "SHISHA"
+        | "OTHER",
     };
 
     startTransition(async () => {
@@ -104,6 +116,28 @@ export function StoreEditForm({ store, organizationId }: StoreEditFormProps) {
           defaultValue={store.address}
           className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
+      </div>
+
+      {/* 業態カテゴリ */}
+      <div className="space-y-1">
+        <label
+          htmlFor="store-category"
+          className="block text-sm font-medium text-foreground"
+        >
+          業態カテゴリ
+        </label>
+        <select
+          id="store-category"
+          name="category"
+          defaultValue={store.category}
+          className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          {STORE_CATEGORIES.map((c) => (
+            <option key={c} value={c}>
+              {STORE_CATEGORY_LABELS[c]}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* タイムゾーン */}
