@@ -218,6 +218,7 @@ export type UserWhereInput = {
   notifications?: Prisma.NotificationListRelationFilter
   lockedAttendances?: Prisma.AttendanceListRelationFilter
   shiftsCreated?: Prisma.ShiftListRelationFilter
+  shiftRulesCreated?: Prisma.ShiftRuleListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -241,6 +242,7 @@ export type UserOrderByWithRelationInput = {
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   lockedAttendances?: Prisma.AttendanceOrderByRelationAggregateInput
   shiftsCreated?: Prisma.ShiftOrderByRelationAggregateInput
+  shiftRulesCreated?: Prisma.ShiftRuleOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -267,6 +269,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   notifications?: Prisma.NotificationListRelationFilter
   lockedAttendances?: Prisma.AttendanceListRelationFilter
   shiftsCreated?: Prisma.ShiftListRelationFilter
+  shiftRulesCreated?: Prisma.ShiftRuleListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -318,6 +321,7 @@ export type UserCreateInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -341,6 +345,7 @@ export type UserUncheckedCreateInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUpdateInput = {
@@ -364,6 +369,7 @@ export type UserUpdateInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -387,6 +393,7 @@ export type UserUncheckedUpdateInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -617,6 +624,22 @@ export type UserUpdateOneWithoutShiftsCreatedNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutShiftsCreatedInput, Prisma.UserUpdateWithoutShiftsCreatedInput>, Prisma.UserUncheckedUpdateWithoutShiftsCreatedInput>
 }
 
+export type UserCreateNestedOneWithoutShiftRulesCreatedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutShiftRulesCreatedInput, Prisma.UserUncheckedCreateWithoutShiftRulesCreatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutShiftRulesCreatedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutShiftRulesCreatedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutShiftRulesCreatedInput, Prisma.UserUncheckedCreateWithoutShiftRulesCreatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutShiftRulesCreatedInput
+  upsert?: Prisma.UserUpsertWithoutShiftRulesCreatedInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutShiftRulesCreatedInput, Prisma.UserUpdateWithoutShiftRulesCreatedInput>, Prisma.UserUncheckedUpdateWithoutShiftRulesCreatedInput>
+}
+
 export type UserCreateNestedOneWithoutNotificationsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
@@ -681,6 +704,7 @@ export type UserCreateWithoutAccountsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -703,6 +727,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -741,6 +766,7 @@ export type UserUpdateWithoutAccountsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -763,6 +789,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -785,6 +812,7 @@ export type UserCreateWithoutSessionsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -807,6 +835,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -845,6 +874,7 @@ export type UserUpdateWithoutSessionsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -867,6 +897,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutOrganizationMembersInput = {
@@ -889,6 +920,7 @@ export type UserCreateWithoutOrganizationMembersInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutOrganizationMembersInput = {
@@ -911,6 +943,7 @@ export type UserUncheckedCreateWithoutOrganizationMembersInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutOrganizationMembersInput = {
@@ -949,6 +982,7 @@ export type UserUpdateWithoutOrganizationMembersInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrganizationMembersInput = {
@@ -971,6 +1005,7 @@ export type UserUncheckedUpdateWithoutOrganizationMembersInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutStaffProfilesInput = {
@@ -993,6 +1028,7 @@ export type UserCreateWithoutStaffProfilesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutStaffProfilesInput = {
@@ -1015,6 +1051,7 @@ export type UserUncheckedCreateWithoutStaffProfilesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutStaffProfilesInput = {
@@ -1053,6 +1090,7 @@ export type UserUpdateWithoutStaffProfilesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStaffProfilesInput = {
@@ -1075,6 +1113,7 @@ export type UserUncheckedUpdateWithoutStaffProfilesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutWageHistoriesCreatedInput = {
@@ -1097,6 +1136,7 @@ export type UserCreateWithoutWageHistoriesCreatedInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutWageHistoriesCreatedInput = {
@@ -1119,6 +1159,7 @@ export type UserUncheckedCreateWithoutWageHistoriesCreatedInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutWageHistoriesCreatedInput = {
@@ -1157,6 +1198,7 @@ export type UserUpdateWithoutWageHistoriesCreatedInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWageHistoriesCreatedInput = {
@@ -1179,6 +1221,7 @@ export type UserUncheckedUpdateWithoutWageHistoriesCreatedInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutLockedAttendancesInput = {
@@ -1201,6 +1244,7 @@ export type UserCreateWithoutLockedAttendancesInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutLockedAttendancesInput = {
@@ -1223,6 +1267,7 @@ export type UserUncheckedCreateWithoutLockedAttendancesInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutLockedAttendancesInput = {
@@ -1261,6 +1306,7 @@ export type UserUpdateWithoutLockedAttendancesInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLockedAttendancesInput = {
@@ -1283,6 +1329,7 @@ export type UserUncheckedUpdateWithoutLockedAttendancesInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutCorrectionReviewsInput = {
@@ -1305,6 +1352,7 @@ export type UserCreateWithoutCorrectionReviewsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutCorrectionReviewsInput = {
@@ -1327,6 +1375,7 @@ export type UserUncheckedCreateWithoutCorrectionReviewsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutCorrectionReviewsInput = {
@@ -1365,6 +1414,7 @@ export type UserUpdateWithoutCorrectionReviewsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCorrectionReviewsInput = {
@@ -1387,6 +1437,7 @@ export type UserUncheckedUpdateWithoutCorrectionReviewsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutTransportationReviewsInput = {
@@ -1409,6 +1460,7 @@ export type UserCreateWithoutTransportationReviewsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutTransportationReviewsInput = {
@@ -1431,6 +1483,7 @@ export type UserUncheckedCreateWithoutTransportationReviewsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutTransportationReviewsInput = {
@@ -1469,6 +1522,7 @@ export type UserUpdateWithoutTransportationReviewsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransportationReviewsInput = {
@@ -1491,6 +1545,7 @@ export type UserUncheckedUpdateWithoutTransportationReviewsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutShiftsCreatedInput = {
@@ -1513,6 +1568,7 @@ export type UserCreateWithoutShiftsCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutShiftsCreatedInput = {
@@ -1535,6 +1591,7 @@ export type UserUncheckedCreateWithoutShiftsCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutShiftsCreatedInput = {
@@ -1573,6 +1630,7 @@ export type UserUpdateWithoutShiftsCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutShiftsCreatedInput = {
@@ -1595,6 +1653,115 @@ export type UserUncheckedUpdateWithoutShiftsCreatedInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserCreateWithoutShiftRulesCreatedInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  organizationMembers?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
+  staffProfiles?: Prisma.StaffCreateNestedManyWithoutUserInput
+  auditLogsAsActor?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
+  apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
+  correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutShiftRulesCreatedInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  organizationMembers?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
+  staffProfiles?: Prisma.StaffUncheckedCreateNestedManyWithoutUserInput
+  auditLogsAsActor?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
+  apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
+  correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+  shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutShiftRulesCreatedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutShiftRulesCreatedInput, Prisma.UserUncheckedCreateWithoutShiftRulesCreatedInput>
+}
+
+export type UserUpsertWithoutShiftRulesCreatedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutShiftRulesCreatedInput, Prisma.UserUncheckedUpdateWithoutShiftRulesCreatedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutShiftRulesCreatedInput, Prisma.UserUncheckedCreateWithoutShiftRulesCreatedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutShiftRulesCreatedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutShiftRulesCreatedInput, Prisma.UserUncheckedUpdateWithoutShiftRulesCreatedInput>
+}
+
+export type UserUpdateWithoutShiftRulesCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  organizationMembers?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
+  staffProfiles?: Prisma.StaffUpdateManyWithoutUserNestedInput
+  auditLogsAsActor?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
+  apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
+  correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutShiftRulesCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  organizationMembers?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
+  staffProfiles?: Prisma.StaffUncheckedUpdateManyWithoutUserNestedInput
+  auditLogsAsActor?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
+  correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+  shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -1617,6 +1784,7 @@ export type UserCreateWithoutNotificationsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -1639,6 +1807,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -1677,6 +1846,7 @@ export type UserUpdateWithoutNotificationsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -1699,6 +1869,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutAuditLogsAsActorInput = {
@@ -1721,6 +1892,7 @@ export type UserCreateWithoutAuditLogsAsActorInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsAsActorInput = {
@@ -1743,6 +1915,7 @@ export type UserUncheckedCreateWithoutAuditLogsAsActorInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsAsActorInput = {
@@ -1781,6 +1954,7 @@ export type UserUpdateWithoutAuditLogsAsActorInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsAsActorInput = {
@@ -1803,6 +1977,7 @@ export type UserUncheckedUpdateWithoutAuditLogsAsActorInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserCreateWithoutApiKeysCreatedInput = {
@@ -1825,6 +2000,7 @@ export type UserCreateWithoutApiKeysCreatedInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserUncheckedCreateWithoutApiKeysCreatedInput = {
@@ -1847,6 +2023,7 @@ export type UserUncheckedCreateWithoutApiKeysCreatedInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
   shiftsCreated?: Prisma.ShiftUncheckedCreateNestedManyWithoutCreatedByInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
 export type UserCreateOrConnectWithoutApiKeysCreatedInput = {
@@ -1885,6 +2062,7 @@ export type UserUpdateWithoutApiKeysCreatedInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUpdateManyWithoutCreatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApiKeysCreatedInput = {
@@ -1907,6 +2085,7 @@ export type UserUncheckedUpdateWithoutApiKeysCreatedInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
   shiftsCreated?: Prisma.ShiftUncheckedUpdateManyWithoutCreatedByNestedInput
+  shiftRulesCreated?: Prisma.ShiftRuleUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
 
@@ -1927,6 +2106,7 @@ export type UserCountOutputType = {
   notifications: number
   lockedAttendances: number
   shiftsCreated: number
+  shiftRulesCreated: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1942,6 +2122,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   lockedAttendances?: boolean | UserCountOutputTypeCountLockedAttendancesArgs
   shiftsCreated?: boolean | UserCountOutputTypeCountShiftsCreatedArgs
+  shiftRulesCreated?: boolean | UserCountOutputTypeCountShiftRulesCreatedArgs
 }
 
 /**
@@ -2038,6 +2219,13 @@ export type UserCountOutputTypeCountShiftsCreatedArgs<ExtArgs extends runtime.Ty
   where?: Prisma.ShiftWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountShiftRulesCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ShiftRuleWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2060,6 +2248,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   lockedAttendances?: boolean | Prisma.User$lockedAttendancesArgs<ExtArgs>
   shiftsCreated?: boolean | Prisma.User$shiftsCreatedArgs<ExtArgs>
+  shiftRulesCreated?: boolean | Prisma.User$shiftRulesCreatedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2110,6 +2299,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   lockedAttendances?: boolean | Prisma.User$lockedAttendancesArgs<ExtArgs>
   shiftsCreated?: boolean | Prisma.User$shiftsCreatedArgs<ExtArgs>
+  shiftRulesCreated?: boolean | Prisma.User$shiftRulesCreatedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2130,6 +2320,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     lockedAttendances: Prisma.$AttendancePayload<ExtArgs>[]
     shiftsCreated: Prisma.$ShiftPayload<ExtArgs>[]
+    shiftRulesCreated: Prisma.$ShiftRulePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2546,6 +2737,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lockedAttendances<T extends Prisma.User$lockedAttendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$lockedAttendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   shiftsCreated<T extends Prisma.User$shiftsCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$shiftsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shiftRulesCreated<T extends Prisma.User$shiftRulesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$shiftRulesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3261,6 +3453,30 @@ export type User$shiftsCreatedArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.ShiftScalarFieldEnum | Prisma.ShiftScalarFieldEnum[]
+}
+
+/**
+ * User.shiftRulesCreated
+ */
+export type User$shiftRulesCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ShiftRule
+   */
+  select?: Prisma.ShiftRuleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ShiftRule
+   */
+  omit?: Prisma.ShiftRuleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ShiftRuleInclude<ExtArgs> | null
+  where?: Prisma.ShiftRuleWhereInput
+  orderBy?: Prisma.ShiftRuleOrderByWithRelationInput | Prisma.ShiftRuleOrderByWithRelationInput[]
+  cursor?: Prisma.ShiftRuleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ShiftRuleScalarFieldEnum | Prisma.ShiftRuleScalarFieldEnum[]
 }
 
 /**

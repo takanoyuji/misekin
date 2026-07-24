@@ -104,6 +104,14 @@ export const ShiftStatus = {
 export type ShiftStatus = (typeof ShiftStatus)[keyof typeof ShiftStatus]
 
 
+export const ShiftRuleWeight = {
+  HARD: 'HARD',
+  SOFT: 'SOFT'
+} as const
+
+export type ShiftRuleWeight = (typeof ShiftRuleWeight)[keyof typeof ShiftRuleWeight]
+
+
 export const NotificationType = {
   ADMIN_INVITED: 'ADMIN_INVITED',
   STAFF_INVITED: 'STAFF_INVITED',

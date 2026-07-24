@@ -73,6 +73,7 @@ export const ModelName = {
   ShiftAvailability: 'ShiftAvailability',
   ShiftRequirement: 'ShiftRequirement',
   Shift: 'Shift',
+  ShiftRule: 'ShiftRule',
   ClosingPeriod: 'ClosingPeriod',
   Notification: 'Notification',
   AuditLog: 'AuditLog',
@@ -450,6 +451,24 @@ export const ShiftScalarFieldEnum = {
 } as const
 
 export type ShiftScalarFieldEnum = (typeof ShiftScalarFieldEnum)[keyof typeof ShiftScalarFieldEnum]
+
+
+export const ShiftRuleScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  ruleType: 'ruleType',
+  weight: 'weight',
+  params: 'params',
+  sourceText: 'sourceText',
+  description: 'description',
+  enabled: 'enabled',
+  createdByUserId: 'createdByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShiftRuleScalarFieldEnum = (typeof ShiftRuleScalarFieldEnum)[keyof typeof ShiftRuleScalarFieldEnum]
 
 
 export const ClosingPeriodScalarFieldEnum = {

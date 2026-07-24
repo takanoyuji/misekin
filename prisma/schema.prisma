@@ -36,6 +36,7 @@ model User {
   notifications        Notification[]
   lockedAttendances    Attendance[]           @relation("AttendanceLockActor")
   shiftsCreated        Shift[]                @relation("ShiftCreator")
+  shiftRulesCreated    ShiftRule[]            @relation("ShiftRuleCreator")
 
   @@map("users")
 }
@@ -110,6 +111,7 @@ model Organization {
   shiftAvailabilities ShiftAvailability[]
   shiftRequirements   ShiftRequirement[]
   shifts              Shift[]
+  shiftRules          ShiftRule[]
 
   @@map("organizations")
 }
@@ -163,6 +165,7 @@ model Store {
   shiftAvailabilities ShiftAvailability[]
   shiftRequirements   ShiftRequirement[]
   shifts              Shift[]
+  shiftRules          ShiftRule[]
 
   @@unique([organizationId, code])
   @@map("stores")
@@ -583,6 +586,41 @@ enum ShiftStatus {
   DRAFT // 下書き（スタッフには非公開）
   PUBLISHED // 公開済み
   CANCELLED // 取消
+}
+
+/// シフト作成ルール（戦略レポート §5 の翻訳器が生成する構造化ルール）
+/// 店長の日本語を Claude が制約JSONに翻訳して保存する。
+/// HARD=必ず守る / SOFT=なるべく守る（努力目標）。
+/// 現段階ではソルバーは無く、SPACING・MAX_SHIFTS_PER_WEEK のみ警告として評価する。
+/// 他タイプ(SALES_PRIORITY, PAIR_AVOID 等)は保存のみで、後続のソルバー段階が利用する。
+model ShiftRule {
+  id             String        @id @default(cuid())
+  organizationId String
+  storeId        String
+  ruleType       String // SPACING / MAX_SHIFTS_PER_WEEK / SALES_PRIORITY / PAIR_AVOID / OTHER
+  weight         ShiftRuleWeight @default(SOFT)
+  // 翻訳された構造化パラメータ（type ごとに形が異なる）
+  params         Json          @default("{}")
+  // 店長が入力した元の日本語
+  sourceText     String
+  // 画面に戻す人間可読の説明
+  description    String
+  enabled        Boolean       @default(true)
+  createdByUserId String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  store        Store        @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  createdBy    User?        @relation("ShiftRuleCreator", fields: [createdByUserId], references: [id])
+
+  @@index([storeId, enabled])
+  @@map("shift_rules")
+}
+
+enum ShiftRuleWeight {
+  HARD // 必ず守る（法令・絶対条件）
+  SOFT // なるべく守る（営業判断・努力目標）
 }
 
 // ============================================================

@@ -123,6 +123,83 @@ export function checkShiftRules(shifts: ShiftLike[]): ShiftWarning[] {
   ];
 }
 
+// ------------------------------------------------------------------
+// 店長ルール（ShiftRule）の評価
+// ------------------------------------------------------------------
+// ソルバー段階の前に、評価可能な一部のルールを現在のシフトに対して警告として出す。
+// SPACING（出勤間隔）と MAX_SHIFTS_PER_WEEK（週上限）は割当てなしで判定できる。
+// SALES_PRIORITY・PAIR_AVOID 等はソルバーが必要なため、ここでは評価しない。
+
+export interface EvaluableRule {
+  id: string;
+  ruleType: string;
+  params: Record<string, unknown>;
+  description: string;
+}
+
+export interface RuleViolation {
+  ruleId: string;
+  staffId: string;
+  message: string;
+}
+
+/** ルールタイプが今の段階で警告評価できるか */
+export function isEvaluableRuleType(ruleType: string): boolean {
+  return ruleType === "SPACING" || ruleType === "MAX_SHIFTS_PER_WEEK";
+}
+
+/**
+ * 有効な店長ルールを、現在のシフトに対して評価して違反を返す
+ */
+export function evaluateRules(
+  rules: EvaluableRule[],
+  shifts: ShiftLike[]
+): RuleViolation[] {
+  const violations: RuleViolation[] = [];
+  const byStaff = groupByStaff(shifts);
+
+  for (const rule of rules) {
+    if (rule.ruleType === "SPACING") {
+      const minGap = Number(rule.params.minGapDays);
+      if (!Number.isFinite(minGap) || minGap < 1) continue;
+      for (const [staffId, staffShifts] of byStaff) {
+        const days = [...new Set(staffShifts.map((s) => s.businessDate))].sort();
+        for (let i = 1; i < days.length; i++) {
+          const gap = dayDiff(days[i - 1], days[i]);
+          if (gap < minGap) {
+            violations.push({
+              ruleId: rule.id,
+              staffId,
+              message: `${days[i - 1]}と${days[i]}の間隔が${gap}日で、${minGap}日以上の希望を下回ります`,
+            });
+          }
+        }
+      }
+    } else if (rule.ruleType === "MAX_SHIFTS_PER_WEEK") {
+      const maxPerWeek = Number(rule.params.maxPerWeek);
+      if (!Number.isFinite(maxPerWeek) || maxPerWeek < 0) continue;
+      for (const [staffId, staffShifts] of byStaff) {
+        const days = new Set(staffShifts.map((s) => s.businessDate));
+        if (days.size > maxPerWeek) {
+          violations.push({
+            ruleId: rule.id,
+            staffId,
+            message: `この期間で${days.size}回の出勤があり、週上限${maxPerWeek}回を超えています`,
+          });
+        }
+      }
+    }
+  }
+  return violations;
+}
+
+/** d1→d2 の日数差（どちらも YYYY-MM-DD） */
+function dayDiff(d1: string, d2: string): number {
+  const a = new Date(`${d1}T00:00:00Z`).getTime();
+  const b = new Date(`${d2}T00:00:00Z`).getTime();
+  return Math.round((b - a) / (24 * 60 * 60 * 1000));
+}
+
 function groupByStaff(shifts: ShiftLike[]): Map<string, ShiftLike[]> {
   const map = new Map<string, ShiftLike[]>();
   for (const s of shifts) {

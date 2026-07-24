@@ -280,6 +280,7 @@ export type StoreWhereInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityListRelationFilter
   shiftRequirements?: Prisma.ShiftRequirementListRelationFilter
   shifts?: Prisma.ShiftListRelationFilter
+  shiftRules?: Prisma.ShiftRuleListRelationFilter
 }
 
 export type StoreOrderByWithRelationInput = {
@@ -306,6 +307,7 @@ export type StoreOrderByWithRelationInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityOrderByRelationAggregateInput
   shiftRequirements?: Prisma.ShiftRequirementOrderByRelationAggregateInput
   shifts?: Prisma.ShiftOrderByRelationAggregateInput
+  shiftRules?: Prisma.ShiftRuleOrderByRelationAggregateInput
 }
 
 export type StoreWhereUniqueInput = Prisma.AtLeast<{
@@ -336,6 +338,7 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   shiftAvailabilities?: Prisma.ShiftAvailabilityListRelationFilter
   shiftRequirements?: Prisma.ShiftRequirementListRelationFilter
   shifts?: Prisma.ShiftListRelationFilter
+  shiftRules?: Prisma.ShiftRuleListRelationFilter
 }, "id" | "organizationId_code">
 
 export type StoreOrderByWithAggregationInput = {
@@ -397,6 +400,7 @@ export type StoreCreateInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateInput = {
@@ -422,6 +426,7 @@ export type StoreUncheckedCreateInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUpdateInput = {
@@ -447,6 +452,7 @@ export type StoreUpdateInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateInput = {
@@ -472,6 +478,7 @@ export type StoreUncheckedUpdateInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateManyInput = {
@@ -762,6 +769,20 @@ export type StoreUpdateOneRequiredWithoutShiftsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutShiftsInput, Prisma.StoreUpdateWithoutShiftsInput>, Prisma.StoreUncheckedUpdateWithoutShiftsInput>
 }
 
+export type StoreCreateNestedOneWithoutShiftRulesInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutShiftRulesInput, Prisma.StoreUncheckedCreateWithoutShiftRulesInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutShiftRulesInput
+  connect?: Prisma.StoreWhereUniqueInput
+}
+
+export type StoreUpdateOneRequiredWithoutShiftRulesNestedInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutShiftRulesInput, Prisma.StoreUncheckedCreateWithoutShiftRulesInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutShiftRulesInput
+  upsert?: Prisma.StoreUpsertWithoutShiftRulesInput
+  connect?: Prisma.StoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutShiftRulesInput, Prisma.StoreUpdateWithoutShiftRulesInput>, Prisma.StoreUncheckedUpdateWithoutShiftRulesInput>
+}
+
 export type StoreCreateNestedOneWithoutClosingPeriodsInput = {
   create?: Prisma.XOR<Prisma.StoreCreateWithoutClosingPeriodsInput, Prisma.StoreUncheckedCreateWithoutClosingPeriodsInput>
   connectOrCreate?: Prisma.StoreCreateOrConnectWithoutClosingPeriodsInput
@@ -816,6 +837,7 @@ export type StoreCreateWithoutOrganizationInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutOrganizationInput = {
@@ -840,6 +862,7 @@ export type StoreUncheckedCreateWithoutOrganizationInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutOrganizationInput = {
@@ -907,6 +930,7 @@ export type StoreCreateWithoutClockUrlsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutClockUrlsInput = {
@@ -931,6 +955,7 @@ export type StoreUncheckedCreateWithoutClockUrlsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutClockUrlsInput = {
@@ -971,6 +996,7 @@ export type StoreUpdateWithoutClockUrlsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutClockUrlsInput = {
@@ -995,6 +1021,7 @@ export type StoreUncheckedUpdateWithoutClockUrlsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutStoreAdminsInput = {
@@ -1019,6 +1046,7 @@ export type StoreCreateWithoutStoreAdminsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutStoreAdminsInput = {
@@ -1043,6 +1071,7 @@ export type StoreUncheckedCreateWithoutStoreAdminsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutStoreAdminsInput = {
@@ -1083,6 +1112,7 @@ export type StoreUpdateWithoutStoreAdminsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutStoreAdminsInput = {
@@ -1107,6 +1137,7 @@ export type StoreUncheckedUpdateWithoutStoreAdminsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutStaffStoresInput = {
@@ -1131,6 +1162,7 @@ export type StoreCreateWithoutStaffStoresInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutStaffStoresInput = {
@@ -1155,6 +1187,7 @@ export type StoreUncheckedCreateWithoutStaffStoresInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutStaffStoresInput = {
@@ -1195,6 +1228,7 @@ export type StoreUpdateWithoutStaffStoresInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutStaffStoresInput = {
@@ -1219,6 +1253,7 @@ export type StoreUncheckedUpdateWithoutStaffStoresInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutAttendanceEventsInput = {
@@ -1243,6 +1278,7 @@ export type StoreCreateWithoutAttendanceEventsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutAttendanceEventsInput = {
@@ -1267,6 +1303,7 @@ export type StoreUncheckedCreateWithoutAttendanceEventsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutAttendanceEventsInput = {
@@ -1307,6 +1344,7 @@ export type StoreUpdateWithoutAttendanceEventsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutAttendanceEventsInput = {
@@ -1331,6 +1369,7 @@ export type StoreUncheckedUpdateWithoutAttendanceEventsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutAttendancesInput = {
@@ -1355,6 +1394,7 @@ export type StoreCreateWithoutAttendancesInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutAttendancesInput = {
@@ -1379,6 +1419,7 @@ export type StoreUncheckedCreateWithoutAttendancesInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutAttendancesInput = {
@@ -1419,6 +1460,7 @@ export type StoreUpdateWithoutAttendancesInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutAttendancesInput = {
@@ -1443,6 +1485,7 @@ export type StoreUncheckedUpdateWithoutAttendancesInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutCorrectionRequestsInput = {
@@ -1467,6 +1510,7 @@ export type StoreCreateWithoutCorrectionRequestsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutCorrectionRequestsInput = {
@@ -1491,6 +1535,7 @@ export type StoreUncheckedCreateWithoutCorrectionRequestsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutCorrectionRequestsInput = {
@@ -1531,6 +1576,7 @@ export type StoreUpdateWithoutCorrectionRequestsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutCorrectionRequestsInput = {
@@ -1555,6 +1601,7 @@ export type StoreUncheckedUpdateWithoutCorrectionRequestsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutShiftAvailabilitiesInput = {
@@ -1579,6 +1626,7 @@ export type StoreCreateWithoutShiftAvailabilitiesInput = {
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutShiftAvailabilitiesInput = {
@@ -1603,6 +1651,7 @@ export type StoreUncheckedCreateWithoutShiftAvailabilitiesInput = {
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutShiftAvailabilitiesInput = {
@@ -1643,6 +1692,7 @@ export type StoreUpdateWithoutShiftAvailabilitiesInput = {
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutShiftAvailabilitiesInput = {
@@ -1667,6 +1717,7 @@ export type StoreUncheckedUpdateWithoutShiftAvailabilitiesInput = {
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutShiftRequirementsInput = {
@@ -1691,6 +1742,7 @@ export type StoreCreateWithoutShiftRequirementsInput = {
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutShiftRequirementsInput = {
@@ -1715,6 +1767,7 @@ export type StoreUncheckedCreateWithoutShiftRequirementsInput = {
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutShiftRequirementsInput = {
@@ -1755,6 +1808,7 @@ export type StoreUpdateWithoutShiftRequirementsInput = {
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutShiftRequirementsInput = {
@@ -1779,6 +1833,7 @@ export type StoreUncheckedUpdateWithoutShiftRequirementsInput = {
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutShiftsInput = {
@@ -1803,6 +1858,7 @@ export type StoreCreateWithoutShiftsInput = {
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutShiftsInput = {
@@ -1827,6 +1883,7 @@ export type StoreUncheckedCreateWithoutShiftsInput = {
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutShiftsInput = {
@@ -1867,6 +1924,7 @@ export type StoreUpdateWithoutShiftsInput = {
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutShiftsInput = {
@@ -1891,6 +1949,123 @@ export type StoreUncheckedUpdateWithoutShiftsInput = {
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreCreateWithoutShiftRulesInput = {
+  id?: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+}
+
+export type StoreUncheckedCreateWithoutShiftRulesInput = {
+  id?: string
+  organizationId: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminUncheckedCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+}
+
+export type StoreCreateOrConnectWithoutShiftRulesInput = {
+  where: Prisma.StoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoreCreateWithoutShiftRulesInput, Prisma.StoreUncheckedCreateWithoutShiftRulesInput>
+}
+
+export type StoreUpsertWithoutShiftRulesInput = {
+  update: Prisma.XOR<Prisma.StoreUpdateWithoutShiftRulesInput, Prisma.StoreUncheckedUpdateWithoutShiftRulesInput>
+  create: Prisma.XOR<Prisma.StoreCreateWithoutShiftRulesInput, Prisma.StoreUncheckedCreateWithoutShiftRulesInput>
+  where?: Prisma.StoreWhereInput
+}
+
+export type StoreUpdateToOneWithWhereWithoutShiftRulesInput = {
+  where?: Prisma.StoreWhereInput
+  data: Prisma.XOR<Prisma.StoreUpdateWithoutShiftRulesInput, Prisma.StoreUncheckedUpdateWithoutShiftRulesInput>
+}
+
+export type StoreUpdateWithoutShiftRulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreUncheckedUpdateWithoutShiftRulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUncheckedUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutClosingPeriodsInput = {
@@ -1915,6 +2090,7 @@ export type StoreCreateWithoutClosingPeriodsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutClosingPeriodsInput = {
@@ -1939,6 +2115,7 @@ export type StoreUncheckedCreateWithoutClosingPeriodsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutClosingPeriodsInput = {
@@ -1979,6 +2156,7 @@ export type StoreUpdateWithoutClosingPeriodsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutClosingPeriodsInput = {
@@ -2003,6 +2181,7 @@ export type StoreUncheckedUpdateWithoutClosingPeriodsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutAuditLogsInput = {
@@ -2027,6 +2206,7 @@ export type StoreCreateWithoutAuditLogsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutAuditLogsInput = {
@@ -2051,6 +2231,7 @@ export type StoreUncheckedCreateWithoutAuditLogsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutAuditLogsInput = {
@@ -2091,6 +2272,7 @@ export type StoreUpdateWithoutAuditLogsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutAuditLogsInput = {
@@ -2115,6 +2297,7 @@ export type StoreUncheckedUpdateWithoutAuditLogsInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateManyOrganizationInput = {
@@ -2152,6 +2335,7 @@ export type StoreUpdateWithoutOrganizationInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutOrganizationInput = {
@@ -2176,6 +2360,7 @@ export type StoreUncheckedUpdateWithoutOrganizationInput = {
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
   shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateManyWithoutOrganizationInput = {
@@ -2208,6 +2393,7 @@ export type StoreCountOutputType = {
   shiftAvailabilities: number
   shiftRequirements: number
   shifts: number
+  shiftRules: number
 }
 
 export type StoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2222,6 +2408,7 @@ export type StoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   shiftAvailabilities?: boolean | StoreCountOutputTypeCountShiftAvailabilitiesArgs
   shiftRequirements?: boolean | StoreCountOutputTypeCountShiftRequirementsArgs
   shifts?: boolean | StoreCountOutputTypeCountShiftsArgs
+  shiftRules?: boolean | StoreCountOutputTypeCountShiftRulesArgs
 }
 
 /**
@@ -2311,6 +2498,13 @@ export type StoreCountOutputTypeCountShiftsArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.ShiftWhereInput
 }
 
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountShiftRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ShiftRuleWhereInput
+}
+
 
 export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2336,6 +2530,7 @@ export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   shiftAvailabilities?: boolean | Prisma.Store$shiftAvailabilitiesArgs<ExtArgs>
   shiftRequirements?: boolean | Prisma.Store$shiftRequirementsArgs<ExtArgs>
   shifts?: boolean | Prisma.Store$shiftsArgs<ExtArgs>
+  shiftRules?: boolean | Prisma.Store$shiftRulesArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["store"]>
 
@@ -2397,6 +2592,7 @@ export type StoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   shiftAvailabilities?: boolean | Prisma.Store$shiftAvailabilitiesArgs<ExtArgs>
   shiftRequirements?: boolean | Prisma.Store$shiftRequirementsArgs<ExtArgs>
   shifts?: boolean | Prisma.Store$shiftsArgs<ExtArgs>
+  shiftRules?: boolean | Prisma.Store$shiftRulesArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StoreIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2421,6 +2617,7 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     shiftAvailabilities: Prisma.$ShiftAvailabilityPayload<ExtArgs>[]
     shiftRequirements: Prisma.$ShiftRequirementPayload<ExtArgs>[]
     shifts: Prisma.$ShiftPayload<ExtArgs>[]
+    shiftRules: Prisma.$ShiftRulePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2840,6 +3037,7 @@ export interface Prisma__StoreClient<T, Null = never, ExtArgs extends runtime.Ty
   shiftAvailabilities<T extends Prisma.Store$shiftAvailabilitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$shiftAvailabilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftAvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   shiftRequirements<T extends Prisma.Store$shiftRequirementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$shiftRequirementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftRequirementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   shifts<T extends Prisma.Store$shiftsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$shiftsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shiftRules<T extends Prisma.Store$shiftRulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$shiftRulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3542,6 +3740,30 @@ export type Store$shiftsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ShiftScalarFieldEnum | Prisma.ShiftScalarFieldEnum[]
+}
+
+/**
+ * Store.shiftRules
+ */
+export type Store$shiftRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ShiftRule
+   */
+  select?: Prisma.ShiftRuleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ShiftRule
+   */
+  omit?: Prisma.ShiftRuleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ShiftRuleInclude<ExtArgs> | null
+  where?: Prisma.ShiftRuleWhereInput
+  orderBy?: Prisma.ShiftRuleOrderByWithRelationInput | Prisma.ShiftRuleOrderByWithRelationInput[]
+  cursor?: Prisma.ShiftRuleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ShiftRuleScalarFieldEnum | Prisma.ShiftRuleScalarFieldEnum[]
 }
 
 /**

@@ -406,6 +406,7 @@ export const ModelName = {
   ShiftAvailability: 'ShiftAvailability',
   ShiftRequirement: 'ShiftRequirement',
   Shift: 'Shift',
+  ShiftRule: 'ShiftRule',
   ClosingPeriod: 'ClosingPeriod',
   Notification: 'Notification',
   AuditLog: 'AuditLog',
@@ -426,7 +427,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "store" | "storeClockUrl" | "storeAdmin" | "staff" | "staffStore" | "wageHistory" | "transportationHistory" | "attendanceEvent" | "attendance" | "break" | "attendanceCorrection" | "correctionRequest" | "transportationChangeRequest" | "shiftAvailability" | "shiftRequirement" | "shift" | "closingPeriod" | "notification" | "auditLog" | "apiKey" | "apiAccessLog"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "store" | "storeClockUrl" | "storeAdmin" | "staff" | "staffStore" | "wageHistory" | "transportationHistory" | "attendanceEvent" | "attendance" | "break" | "attendanceCorrection" | "correctionRequest" | "transportationChangeRequest" | "shiftAvailability" | "shiftRequirement" | "shift" | "shiftRule" | "closingPeriod" | "notification" | "auditLog" | "apiKey" | "apiAccessLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2058,6 +2059,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ShiftRule: {
+      payload: Prisma.$ShiftRulePayload<ExtArgs>
+      fields: Prisma.ShiftRuleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ShiftRuleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftRulePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ShiftRuleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftRulePayload>
+        }
+        findFirst: {
+          args: Prisma.ShiftRuleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftRulePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ShiftRuleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftRulePayload>
+        }
+        findMany: {
+          args: Prisma.ShiftRuleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftRulePayload>[]
+        }
+        create: {
+          args: Prisma.ShiftRuleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftRulePayload>
+        }
+        createMany: {
+          args: Prisma.ShiftRuleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ShiftRuleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftRulePayload>[]
+        }
+        delete: {
+          args: Prisma.ShiftRuleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftRulePayload>
+        }
+        update: {
+          args: Prisma.ShiftRuleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftRulePayload>
+        }
+        deleteMany: {
+          args: Prisma.ShiftRuleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ShiftRuleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ShiftRuleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftRulePayload>[]
+        }
+        upsert: {
+          args: Prisma.ShiftRuleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShiftRulePayload>
+        }
+        aggregate: {
+          args: Prisma.ShiftRuleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateShiftRule>
+        }
+        groupBy: {
+          args: Prisma.ShiftRuleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ShiftRuleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ShiftRuleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ShiftRuleCountAggregateOutputType> | number
+        }
+      }
+    }
     ClosingPeriod: {
       payload: Prisma.$ClosingPeriodPayload<ExtArgs>
       fields: Prisma.ClosingPeriodFieldRefs
@@ -2823,6 +2898,24 @@ export const ShiftScalarFieldEnum = {
 export type ShiftScalarFieldEnum = (typeof ShiftScalarFieldEnum)[keyof typeof ShiftScalarFieldEnum]
 
 
+export const ShiftRuleScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  ruleType: 'ruleType',
+  weight: 'weight',
+  params: 'params',
+  sourceText: 'sourceText',
+  description: 'description',
+  enabled: 'enabled',
+  createdByUserId: 'createdByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShiftRuleScalarFieldEnum = (typeof ShiftRuleScalarFieldEnum)[keyof typeof ShiftRuleScalarFieldEnum]
+
+
 export const ClosingPeriodScalarFieldEnum = {
   id: 'id',
   organizationId: 'organizationId',
@@ -3198,6 +3291,20 @@ export type ListEnumShiftStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'ShiftRuleWeight'
+ */
+export type EnumShiftRuleWeightFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShiftRuleWeight'>
+    
+
+
+/**
+ * Reference to a field of type 'ShiftRuleWeight[]'
+ */
+export type ListEnumShiftRuleWeightFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShiftRuleWeight[]'>
+    
+
+
+/**
  * Reference to a field of type 'NotificationType'
  */
 export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
@@ -3342,6 +3449,7 @@ export type GlobalOmitConfig = {
   shiftAvailability?: Prisma.ShiftAvailabilityOmit
   shiftRequirement?: Prisma.ShiftRequirementOmit
   shift?: Prisma.ShiftOmit
+  shiftRule?: Prisma.ShiftRuleOmit
   closingPeriod?: Prisma.ClosingPeriodOmit
   notification?: Prisma.NotificationOmit
   auditLog?: Prisma.AuditLogOmit

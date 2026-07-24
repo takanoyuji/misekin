@@ -153,3 +153,35 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
     ALTER TABLE "shifts" ADD CONSTRAINT "shifts_createdByUserId_fkey" FOREIGN KEY ("createdByUserId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- ShiftRules: シフト作成ルール（Claude翻訳器が生成する構造化ルール）
+DO $$ BEGIN
+    CREATE TYPE "ShiftRuleWeight" AS ENUM ('HARD', 'SOFT');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+CREATE TABLE IF NOT EXISTS "shift_rules" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "ruleType" TEXT NOT NULL,
+    "weight" "ShiftRuleWeight" NOT NULL DEFAULT 'SOFT',
+    "params" JSONB NOT NULL DEFAULT '{}',
+    "sourceText" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "enabled" BOOLEAN NOT NULL DEFAULT true,
+    "createdByUserId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "shift_rules_pkey" PRIMARY KEY ("id")
+);
+CREATE INDEX IF NOT EXISTS "shift_rules_storeId_enabled_idx" ON "shift_rules"("storeId", "enabled");
+
+DO $$ BEGIN
+    ALTER TABLE "shift_rules" ADD CONSTRAINT "shift_rules_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "shift_rules" ADD CONSTRAINT "shift_rules_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "shift_rules" ADD CONSTRAINT "shift_rules_createdByUserId_fkey" FOREIGN KEY ("createdByUserId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;

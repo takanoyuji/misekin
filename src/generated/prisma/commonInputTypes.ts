@@ -521,6 +521,23 @@ export type EnumShiftStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumShiftStatusFilter<$PrismaModel>
 }
 
+export type EnumShiftRuleWeightFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftRuleWeight | Prisma.EnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftRuleWeight[] | Prisma.ListEnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftRuleWeight[] | Prisma.ListEnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftRuleWeightFilter<$PrismaModel> | $Enums.ShiftRuleWeight
+}
+
+export type EnumShiftRuleWeightWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftRuleWeight | Prisma.EnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftRuleWeight[] | Prisma.ListEnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftRuleWeight[] | Prisma.ListEnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftRuleWeightWithAggregatesFilter<$PrismaModel> | $Enums.ShiftRuleWeight
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumShiftRuleWeightFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumShiftRuleWeightFilter<$PrismaModel>
+}
+
 export type EnumNotificationTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.NotificationType | Prisma.EnumNotificationTypeFieldRefInput<$PrismaModel>
   in?: $Enums.NotificationType[] | Prisma.ListEnumNotificationTypeFieldRefInput<$PrismaModel>
@@ -1069,6 +1086,23 @@ export type NestedEnumShiftStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumShiftStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumShiftStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumShiftRuleWeightFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftRuleWeight | Prisma.EnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftRuleWeight[] | Prisma.ListEnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftRuleWeight[] | Prisma.ListEnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftRuleWeightFilter<$PrismaModel> | $Enums.ShiftRuleWeight
+}
+
+export type NestedEnumShiftRuleWeightWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftRuleWeight | Prisma.EnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftRuleWeight[] | Prisma.ListEnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftRuleWeight[] | Prisma.ListEnumShiftRuleWeightFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftRuleWeightWithAggregatesFilter<$PrismaModel> | $Enums.ShiftRuleWeight
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumShiftRuleWeightFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumShiftRuleWeightFilter<$PrismaModel>
 }
 
 export type NestedEnumNotificationTypeFilter<$PrismaModel = never> = {

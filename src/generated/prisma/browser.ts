@@ -129,6 +129,15 @@ export type ShiftRequirement = Prisma.ShiftRequirementModel
  */
 export type Shift = Prisma.ShiftModel
 /**
+ * Model ShiftRule
+ * シフト作成ルール（戦略レポート §5 の翻訳器が生成する構造化ルール）
+ * 店長の日本語を Claude が制約JSONに翻訳して保存する。
+ * HARD=必ず守る / SOFT=なるべく守る（努力目標）。
+ * 現段階ではソルバーは無く、SPACING・MAX_SHIFTS_PER_WEEK のみ警告として評価する。
+ * 他タイプ(SALES_PRIORITY, PAIR_AVOID 等)は保存のみで、後続のソルバー段階が利用する。
+ */
+export type ShiftRule = Prisma.ShiftRuleModel
+/**
  * Model ClosingPeriod
  * 
  */

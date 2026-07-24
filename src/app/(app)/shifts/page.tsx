@@ -8,9 +8,14 @@ import { PageHeader } from "@/components/common/page-header";
 import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { ja } from "date-fns/locale";
-import { checkShiftRules } from "@/lib/business/shift-rules";
+import { checkShiftRules, evaluateRules } from "@/lib/business/shift-rules";
 import { computeShiftMetrics, formatRate } from "@/lib/business/shift-metrics";
-import { ChevronLeft, ChevronRight, TriangleAlert } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+  TriangleAlert,
+} from "lucide-react";
 import Link from "next/link";
 import { ShiftEditor } from "./shift-editor";
 
@@ -123,18 +128,36 @@ export default async function ShiftsPage({
       }),
     ]);
 
+  // 有効な店長ルール（評価可能なもののみ）
+  const enabledRules = await db.shiftRule.findMany({
+    where: { storeId, enabled: true },
+    select: { id: true, ruleType: true, params: true, description: true },
+  });
+
   const staffList = staffStores.map((ss) => ss.staff);
 
+  const shiftLikes = shifts.map((s) => ({
+    id: s.id,
+    staffId: s.staffId,
+    businessDate: s.businessDate,
+    startAt: s.startAt,
+    endAt: s.endAt,
+  }));
+
   // 法令警告（週内の全シフト対象）
-  const warnings = checkShiftRules(
-    shifts.map((s) => ({
-      id: s.id,
-      staffId: s.staffId,
-      businessDate: s.businessDate,
-      startAt: s.startAt,
-      endAt: s.endAt,
-    }))
+  const warnings = checkShiftRules(shiftLikes);
+
+  // 店長ルールの違反（SPACING / MAX_SHIFTS_PER_WEEK のみ評価）
+  const ruleViolations = evaluateRules(
+    enabledRules.map((r) => ({
+      id: r.id,
+      ruleType: r.ruleType,
+      params: (r.params ?? {}) as Record<string, unknown>,
+      description: r.description,
+    })),
+    shiftLikes
   );
+  const ruleDescById = new Map(enabledRules.map((r) => [r.id, r.description]));
   const staffNameById = new Map(staffList.map((s) => [s.id, s.displayName]));
 
   // 指標
@@ -167,6 +190,15 @@ export default async function ShiftsPage({
       <PageHeader
         title="シフト管理"
         description="スタッフの希望を見ながらシフトを組み、公開します。"
+        actions={
+          <Link
+            href={`/shifts/rules?storeId=${storeId}`}
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-md border border-border bg-background px-3 text-sm font-medium transition-colors hover:bg-muted"
+          >
+            <Sparkles className="size-4 text-primary" aria-hidden="true" />
+            シフトルール
+          </Link>
+        }
       />
 
       {/* 店舗・週の選択 */}
@@ -261,6 +293,42 @@ export default async function ShiftsPage({
           </ul>
           <p className="mt-3 text-xs text-amber-800">
             2027年施行見込みの労基法改正（勤務間インターバル11時間・連続勤務13日）に基づく警告です。
+          </p>
+        </section>
+      )}
+
+      {/* 店長ルールの違反 */}
+      {ruleViolations.length > 0 && (
+        <section
+          aria-labelledby="rule-heading"
+          className="rounded-xl border border-orange-200 bg-orange-50 p-5 shadow-sm"
+        >
+          <h2
+            id="rule-heading"
+            className="flex items-center gap-2 text-sm font-semibold text-orange-900"
+          >
+            <Sparkles className="size-4 shrink-0" aria-hidden="true" />
+            シフトルールに合わない点（{ruleViolations.length}件）
+          </h2>
+          <ul className="mt-3 space-y-1.5 text-sm text-orange-900">
+            {ruleViolations.map((v, i) => (
+              <li key={i} className="flex flex-wrap gap-x-2">
+                <span className="font-medium">
+                  {staffNameById.get(v.staffId) ?? "スタッフ"}
+                </span>
+                <span>{v.message}</span>
+                <span className="text-orange-700">
+                  （{ruleDescById.get(v.ruleId) ?? "ルール"}）
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-xs text-orange-800">
+            努力目標のルールです。登録したルールは
+            <Link href={`/shifts/rules?storeId=${storeId}`} className="underline">
+              シフトルール
+            </Link>
+            で管理できます。
           </p>
         </section>
       )}
