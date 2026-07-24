@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { requireAdmin, getAccessibleStoreIds } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { ExportForm } from "./export-form";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "CSVエクスポート",
@@ -14,7 +15,10 @@ export default async function ExportPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   let ctx;

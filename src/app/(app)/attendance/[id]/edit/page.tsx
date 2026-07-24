@@ -4,6 +4,7 @@ import { redirect, notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireAdmin, canAccessStore } from "@/lib/auth/permissions";
 import { AttendanceEditForm } from "./attendance-edit-form";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "勤怠修正",
@@ -17,7 +18,10 @@ export default async function AttendanceEditPage({
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   let ctx;

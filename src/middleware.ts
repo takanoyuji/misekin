@@ -2,13 +2,16 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 const PUBLIC_PREFIXES = [
+  "/lp",
   "/login",
   "/register",
   "/forgot-password",
   "/reset-password",
   "/verify-email",
+  "/invite",
   "/clock",
   "/api/auth",
+  "/api/v1",
 ];
 
 export function middleware(request: NextRequest) {
@@ -31,9 +34,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (isLoggedIn && (pathname === "/login" || pathname === "/register")) {
-    return NextResponse.redirect(new URL(`${basePath}/dashboard`, request.url));
-  }
+  // JWTが無効な場合もあるためcookieの存在だけで/dashboardにリダイレクトしない
+  // ログイン済みユーザーの/loginリダイレクトはlogin/register page側で対処
 
   return NextResponse.next();
 }

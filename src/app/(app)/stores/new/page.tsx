@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { StoreNewForm } from "./store-new-form";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "店舗を追加",
@@ -13,7 +14,10 @@ export default async function StoreNewPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   const orgId = activeOrgId as string;

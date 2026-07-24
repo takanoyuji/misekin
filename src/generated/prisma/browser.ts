@@ -108,6 +108,12 @@ export type AttendanceCorrection = Prisma.AttendanceCorrectionModel
  */
 export type CorrectionRequest = Prisma.CorrectionRequestModel
 /**
+ * Model TransportationChangeRequest
+ * 交通費の変更申請
+ * スタッフ本人は交通費を直接変更できず、この申請を管理者が承認して初めて反映される
+ */
+export type TransportationChangeRequest = Prisma.TransportationChangeRequestModel
+/**
  * Model ClosingPeriod
  * 
  */

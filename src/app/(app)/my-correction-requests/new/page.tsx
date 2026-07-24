@@ -4,6 +4,9 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireOrgMember } from "@/lib/auth/permissions";
 import { MyCorrectionRequestForm } from "./my-correction-request-form";
+import { MissingAttendanceForm } from "./missing-attendance-form";
+import { RequestTypeTabs } from "./request-type-tabs";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "修正申請",
@@ -17,7 +20,10 @@ export default async function NewCorrectionRequestPage({
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   try {
@@ -66,24 +72,46 @@ export default async function NewCorrectionRequestPage({
   const params = await searchParams;
   const preselectedId = params.attendanceId;
 
+  // 付け忘れ申請用: 自分の所属店舗と、申請できる期間 (既存の修正申請と揃えて直近3ヶ月)
+  const myStores = await db.staffStore.findMany({
+    where: { staffId: staff.id, isActive: true },
+    orderBy: [{ isPrimary: "desc" }, { startDate: "asc" }],
+    select: { store: { select: { id: true, name: true } } },
+  });
+
+  const today = new Date();
+  const maxDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
   return (
-    <MyCorrectionRequestForm
-      userId={session.user!.id}
-      organizationId={activeOrgId}
-      staffId={staff.id}
-      attendances={myAttendances.map((att) => ({
-        id: att.id,
-        businessDate: att.businessDate,
-        storeName: att.store.name,
-        timezone: att.store.timezone ?? "Asia/Tokyo",
-        clockInAt: att.clockInAt?.toISOString() ?? null,
-        clockOutAt: att.clockOutAt?.toISOString() ?? null,
-        breaks: att.breaks.map((b) => ({
-          startAt: b.startAt.toISOString(),
-          endAt: b.endAt?.toISOString() ?? null,
-        })),
-      }))}
-      preselectedAttendanceId={preselectedId}
+    <RequestTypeTabs
+      correctionForm={
+        <MyCorrectionRequestForm
+          userId={session.user!.id}
+          organizationId={activeOrgId}
+          staffId={staff.id}
+          attendances={myAttendances.map((att) => ({
+            id: att.id,
+            businessDate: att.businessDate,
+            storeName: att.store.name,
+            timezone: att.store.timezone ?? "Asia/Tokyo",
+            clockInAt: att.clockInAt?.toISOString() ?? null,
+            clockOutAt: att.clockOutAt?.toISOString() ?? null,
+            breaks: att.breaks.map((b) => ({
+              startAt: b.startAt.toISOString(),
+              endAt: b.endAt?.toISOString() ?? null,
+            })),
+          }))}
+          preselectedAttendanceId={preselectedId}
+        />
+      }
+      missingForm={
+        <MissingAttendanceForm
+          organizationId={activeOrgId}
+          stores={myStores.map((ss) => ss.store)}
+          minDate={fromDate}
+          maxDate={maxDate}
+        />
+      }
     />
   );
 }

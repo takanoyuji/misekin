@@ -6,6 +6,7 @@ import { requireOwner } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { OrganizationForm } from "./organization-form";
 import { format } from "date-fns";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "組織設定",
@@ -15,7 +16,10 @@ export default async function OrganizationPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   let ctx;

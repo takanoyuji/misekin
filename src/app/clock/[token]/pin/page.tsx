@@ -1,8 +1,15 @@
 "use client";
 
-import { Suspense, useState, useCallback, useEffect } from "react";
+import {
+  Suspense,
+  useState,
+  useCallback,
+  useEffect,
+  useTransition,
+} from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
-import { Delete, ChevronLeft } from "lucide-react";
+import { Delete, ChevronLeft, Check, Loader2 } from "lucide-react";
+import { verifyClockPin } from "@/actions/clock-pin";
 
 const PIN_MIN_LENGTH = 4;
 const PIN_MAX_LENGTH = 8;
@@ -12,10 +19,12 @@ function PinPageContent() {
   const params = useParams<{ token: string }>();
   const searchParams = useSearchParams();
   const staffId = searchParams.get("staffId");
+  const errorParam = searchParams.get("error");
   const token = params.token;
 
   const [pin, setPin] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(errorParam);
+  const [isPending, startTransition] = useTransition();
 
   // スタッフIDがない場合はスタッフ選択へ戻す
   useEffect(() => {
@@ -24,24 +33,31 @@ function PinPageContent() {
     }
   }, [staffId, token, router]);
 
+  const submitPin = useCallback(
+    (value: string) => {
+      if (!staffId) return;
+      setError(null);
+      startTransition(async () => {
+        // PINはサーバーで検証し、成功時のみセッションCookieを発行。URLには載せない
+        const result = await verifyClockPin({ token, staffId, pin: value });
+        if (result.error) {
+          setError(result.error);
+          setPin("");
+          return;
+        }
+        router.push(`/clock/${token}/status?staffId=${staffId}`);
+      });
+    },
+    [staffId, token, router]
+  );
+
   const handleDigit = useCallback(
     (digit: string) => {
-      if (pin.length >= PIN_MAX_LENGTH) return;
+      if (isPending || pin.length >= PIN_MAX_LENGTH) return;
       setError(null);
-      const newPin = pin + digit;
-      setPin(newPin);
-
-      // 4桁以上で自動送信
-      if (newPin.length >= PIN_MIN_LENGTH) {
-        // 少し待ってから遷移（最後の桁が見えるように）
-        setTimeout(() => {
-          router.push(
-            `/clock/${token}/status?staffId=${staffId}&pin=${encodeURIComponent(newPin)}`
-          );
-        }, 150);
-      }
+      setPin((prev) => prev + digit);
     },
-    [pin, staffId, token, router]
+    [pin, isPending]
   );
 
   const handleBackspace = useCallback(() => {
@@ -53,6 +69,8 @@ function PinPageContent() {
     router.back();
   }, [router]);
 
+  const canSubmit = pin.length >= PIN_MIN_LENGTH && !isPending;
+
   // キーボード入力
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -62,11 +80,13 @@ function PinPageContent() {
         handleBackspace();
       } else if (e.key === "Escape") {
         handleBack();
+      } else if (e.key === "Enter" && pin.length >= PIN_MIN_LENGTH) {
+        submitPin(pin);
       }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [handleDigit, handleBackspace, handleBack]);
+  }, [handleDigit, handleBackspace, handleBack, submitPin, pin]);
 
   const digits = [
     ["1", "2", "3"],
@@ -80,7 +100,9 @@ function PinPageContent() {
         {/* タイトル */}
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">PIN入力</h1>
-          <p className="text-gray-500 text-sm">4〜8桁のPINを入力してください</p>
+          <p className="text-gray-500 text-sm">
+            4〜8桁のPINを入力し、確定を押してください
+          </p>
         </div>
 
         {/* PIN表示 */}
@@ -128,7 +150,8 @@ function PinPageContent() {
                 key={d}
                 type="button"
                 onClick={() => handleDigit(d)}
-                className="h-20 w-full rounded-2xl bg-gray-50 border border-gray-200 text-2xl font-semibold text-gray-800 hover:bg-blue-50 hover:border-blue-300 active:scale-95 active:bg-blue-100 transition-all duration-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 focus-visible:ring-offset-1"
+                disabled={isPending}
+                className="h-20 w-full rounded-2xl bg-gray-50 border border-gray-200 text-2xl font-semibold text-gray-800 hover:bg-blue-50 hover:border-blue-300 active:scale-95 active:bg-blue-100 transition-all duration-100 disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 focus-visible:ring-offset-1"
                 aria-label={d}
               >
                 {d}
@@ -136,12 +159,25 @@ function PinPageContent() {
             ))
           )}
 
-          {/* 最下行: 空 / 0 / バックスペース */}
-          <div aria-hidden="true" />
+          {/* 最下行: 確定 / 0 / バックスペース */}
+          <button
+            type="button"
+            onClick={() => submitPin(pin)}
+            disabled={!canSubmit}
+            className="h-20 w-full rounded-2xl bg-blue-500 text-white hover:bg-blue-600 active:scale-95 transition-all duration-100 disabled:opacity-30 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 focus-visible:ring-offset-1 flex items-center justify-center"
+            aria-label="確定"
+          >
+            {isPending ? (
+              <Loader2 className="size-7 animate-spin" aria-hidden="true" />
+            ) : (
+              <Check className="size-7" aria-hidden="true" />
+            )}
+          </button>
           <button
             type="button"
             onClick={() => handleDigit("0")}
-            className="h-20 w-full rounded-2xl bg-gray-50 border border-gray-200 text-2xl font-semibold text-gray-800 hover:bg-blue-50 hover:border-blue-300 active:scale-95 active:bg-blue-100 transition-all duration-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 focus-visible:ring-offset-1"
+            disabled={isPending}
+            className="h-20 w-full rounded-2xl bg-gray-50 border border-gray-200 text-2xl font-semibold text-gray-800 hover:bg-blue-50 hover:border-blue-300 active:scale-95 active:bg-blue-100 transition-all duration-100 disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 focus-visible:ring-offset-1"
             aria-label="0"
           >
             0
@@ -149,7 +185,7 @@ function PinPageContent() {
           <button
             type="button"
             onClick={handleBackspace}
-            disabled={pin.length === 0}
+            disabled={pin.length === 0 || isPending}
             className="h-20 w-full rounded-2xl bg-gray-50 border border-gray-200 text-xl text-gray-600 hover:bg-red-50 hover:border-red-300 active:scale-95 active:bg-red-100 transition-all duration-100 disabled:opacity-30 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 focus-visible:ring-offset-1 flex items-center justify-center"
             aria-label="バックスペース"
           >

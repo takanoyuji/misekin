@@ -2,13 +2,15 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { inviteStaff } from "@/actions/staff";
+import Link from "next/link";
+import { addStaff } from "@/actions/staff";
 
 interface StaffNewFormProps {
   organizationId: string;
+  stores: { id: string; name: string }[];
 }
 
-export function StaffNewForm({ organizationId }: StaffNewFormProps) {
+export function StaffNewForm({ organizationId, stores }: StaffNewFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -19,22 +21,25 @@ export function StaffNewForm({ organizationId }: StaffNewFormProps) {
 
     const formData = new FormData(e.currentTarget);
     const hireDateRaw = formData.get("hireDate") as string;
+    const emailRaw = (formData.get("email") as string) || null;
 
     const input = {
       displayName: formData.get("displayName") as string,
       fullName: (formData.get("fullName") as string) || null,
-      email: formData.get("email") as string,
+      email: emailRaw,
       phone: (formData.get("phone") as string) || null,
       employeeCode: (formData.get("employeeCode") as string) || null,
       hireDate: hireDateRaw ? new Date(hireDateRaw) : null,
+      storeId: (formData.get("storeId") as string) || undefined,
     };
 
     startTransition(async () => {
-      const result = await inviteStaff(organizationId, input);
+      const result = await addStaff(organizationId, input);
       if (result.error) {
         setError(result.error);
       } else {
-        router.push("/staff");
+        const data = result.data as { staffId: string };
+        router.push(`/staff/${data.staffId}`);
       }
     });
   };
@@ -87,18 +92,18 @@ export function StaffNewForm({ organizationId }: StaffNewFormProps) {
           htmlFor="new-staff-email"
           className="block text-sm font-medium text-foreground"
         >
-          メールアドレス <span className="text-destructive">*</span>
+          メールアドレス{" "}
+          <span className="text-muted-foreground font-normal">(任意)</span>
         </label>
         <input
           id="new-staff-email"
           name="email"
           type="email"
-          required
           placeholder="例: tanaka@example.com"
           className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
         <p className="text-xs text-muted-foreground">
-          招待メールがこのアドレスに送信されます
+          後からスタッフ詳細ページで招待メールを送ることができます
         </p>
       </div>
 
@@ -138,6 +143,35 @@ export function StaffNewForm({ organizationId }: StaffNewFormProps) {
         />
       </div>
 
+      {/* 所属店舗 */}
+      {stores.length > 0 && (
+        <div className="space-y-1">
+          <label
+            htmlFor="new-staff-storeId"
+            className="block text-sm font-medium text-foreground"
+          >
+            所属店舗{" "}
+            <span className="text-muted-foreground font-normal">(任意)</span>
+          </label>
+          <select
+            id="new-staff-storeId"
+            name="storeId"
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            defaultValue={stores.length === 1 ? stores[0].id : ""}
+          >
+            <option value="">選択しない</option>
+            {stores.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+          <p className="text-xs text-muted-foreground">
+            選択すると打刻URLにすぐ表示されます
+          </p>
+        </div>
+      )}
+
       {/* 入社日 */}
       <div className="space-y-1">
         <label
@@ -161,18 +195,18 @@ export function StaffNewForm({ organizationId }: StaffNewFormProps) {
       )}
 
       <div className="flex gap-3 pt-2">
-        <a
+        <Link
           href="/staff"
           className="flex-1 text-center py-2 rounded-lg border border-input text-sm font-medium hover:bg-muted transition-colors"
         >
           キャンセル
-        </a>
+        </Link>
         <button
           type="submit"
           disabled={isPending}
           className="flex-1 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:pointer-events-none transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
         >
-          {isPending ? "招待中..." : "招待メールを送信"}
+          {isPending ? "追加中…" : "スタッフを追加"}
         </button>
       </div>
     </form>

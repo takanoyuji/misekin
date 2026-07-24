@@ -7,6 +7,7 @@ import type { Session } from "next-auth";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Bell, ChevronDown, LogOut, Settings, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./theme-toggle";
 
 interface AppHeaderProps {
   session: Session;
@@ -74,8 +75,10 @@ export function AppHeader({
         )}
       </div>
 
-      {/* 右側: 通知ベル + アカウントメニュー */}
+      {/* 右側: テーマ切替 + 通知ベル + アカウントメニュー */}
       <div className="flex items-center gap-1">
+        <ThemeToggle />
+
         {/* 通知ベル */}
         <Link
           href="/notifications"
@@ -132,7 +135,8 @@ export function AppHeader({
               sideOffset={6}
               className={cn(
                 "z-50 min-w-[220px] rounded-lg border border-border bg-popover p-1 shadow-lg",
-                "data-[state=closed]:animate-[fadeOut_100ms_ease] data-[state=open]:animate-[fadeIn_100ms_ease]",
+                "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
+                "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
                 "focus:outline-none"
               )}
             >

@@ -7,6 +7,7 @@ import { requireOrgMember } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "通知",
@@ -38,7 +39,10 @@ export default async function NotificationsPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   try {

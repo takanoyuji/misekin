@@ -214,6 +214,7 @@ export type UserWhereInput = {
   wageHistoriesCreated?: Prisma.WageHistoryListRelationFilter
   apiKeysCreated?: Prisma.ApiKeyListRelationFilter
   correctionReviews?: Prisma.CorrectionRequestListRelationFilter
+  transportationReviews?: Prisma.TransportationChangeRequestListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   lockedAttendances?: Prisma.AttendanceListRelationFilter
 }
@@ -235,6 +236,7 @@ export type UserOrderByWithRelationInput = {
   wageHistoriesCreated?: Prisma.WageHistoryOrderByRelationAggregateInput
   apiKeysCreated?: Prisma.ApiKeyOrderByRelationAggregateInput
   correctionReviews?: Prisma.CorrectionRequestOrderByRelationAggregateInput
+  transportationReviews?: Prisma.TransportationChangeRequestOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   lockedAttendances?: Prisma.AttendanceOrderByRelationAggregateInput
 }
@@ -259,6 +261,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   wageHistoriesCreated?: Prisma.WageHistoryListRelationFilter
   apiKeysCreated?: Prisma.ApiKeyListRelationFilter
   correctionReviews?: Prisma.CorrectionRequestListRelationFilter
+  transportationReviews?: Prisma.TransportationChangeRequestListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   lockedAttendances?: Prisma.AttendanceListRelationFilter
 }, "id" | "email">
@@ -308,6 +311,7 @@ export type UserCreateInput = {
   wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
 }
@@ -329,6 +333,7 @@ export type UserUncheckedCreateInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
 }
@@ -350,6 +355,7 @@ export type UserUpdateInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
 }
@@ -371,6 +377,7 @@ export type UserUncheckedUpdateInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
 }
@@ -571,6 +578,22 @@ export type UserUpdateOneWithoutCorrectionReviewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCorrectionReviewsInput, Prisma.UserUpdateWithoutCorrectionReviewsInput>, Prisma.UserUncheckedUpdateWithoutCorrectionReviewsInput>
 }
 
+export type UserCreateNestedOneWithoutTransportationReviewsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransportationReviewsInput, Prisma.UserUncheckedCreateWithoutTransportationReviewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransportationReviewsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutTransportationReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransportationReviewsInput, Prisma.UserUncheckedCreateWithoutTransportationReviewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransportationReviewsInput
+  upsert?: Prisma.UserUpsertWithoutTransportationReviewsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTransportationReviewsInput, Prisma.UserUpdateWithoutTransportationReviewsInput>, Prisma.UserUncheckedUpdateWithoutTransportationReviewsInput>
+}
+
 export type UserCreateNestedOneWithoutNotificationsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
@@ -631,6 +654,7 @@ export type UserCreateWithoutAccountsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
 }
@@ -651,6 +675,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
 }
@@ -687,6 +712,7 @@ export type UserUpdateWithoutAccountsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
 }
@@ -707,6 +733,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
 }
@@ -727,6 +754,7 @@ export type UserCreateWithoutSessionsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
 }
@@ -747,6 +775,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
 }
@@ -783,6 +812,7 @@ export type UserUpdateWithoutSessionsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
 }
@@ -803,6 +833,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
 }
@@ -823,6 +854,7 @@ export type UserCreateWithoutOrganizationMembersInput = {
   wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
 }
@@ -843,6 +875,7 @@ export type UserUncheckedCreateWithoutOrganizationMembersInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
 }
@@ -879,6 +912,7 @@ export type UserUpdateWithoutOrganizationMembersInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
 }
@@ -899,6 +933,7 @@ export type UserUncheckedUpdateWithoutOrganizationMembersInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
 }
@@ -919,6 +954,7 @@ export type UserCreateWithoutStaffProfilesInput = {
   wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
 }
@@ -939,6 +975,7 @@ export type UserUncheckedCreateWithoutStaffProfilesInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
 }
@@ -975,6 +1012,7 @@ export type UserUpdateWithoutStaffProfilesInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
 }
@@ -995,6 +1033,7 @@ export type UserUncheckedUpdateWithoutStaffProfilesInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
 }
@@ -1015,6 +1054,7 @@ export type UserCreateWithoutWageHistoriesCreatedInput = {
   auditLogsAsActor?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
 }
@@ -1035,6 +1075,7 @@ export type UserUncheckedCreateWithoutWageHistoriesCreatedInput = {
   auditLogsAsActor?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
 }
@@ -1071,6 +1112,7 @@ export type UserUpdateWithoutWageHistoriesCreatedInput = {
   auditLogsAsActor?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
 }
@@ -1091,6 +1133,7 @@ export type UserUncheckedUpdateWithoutWageHistoriesCreatedInput = {
   auditLogsAsActor?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
 }
@@ -1112,6 +1155,7 @@ export type UserCreateWithoutLockedAttendancesInput = {
   wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
@@ -1132,6 +1176,7 @@ export type UserUncheckedCreateWithoutLockedAttendancesInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -1168,6 +1213,7 @@ export type UserUpdateWithoutLockedAttendancesInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
@@ -1188,6 +1234,7 @@ export type UserUncheckedUpdateWithoutLockedAttendancesInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1207,6 +1254,7 @@ export type UserCreateWithoutCorrectionReviewsInput = {
   auditLogsAsActor?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
 }
@@ -1227,6 +1275,7 @@ export type UserUncheckedCreateWithoutCorrectionReviewsInput = {
   auditLogsAsActor?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
 }
@@ -1263,6 +1312,7 @@ export type UserUpdateWithoutCorrectionReviewsInput = {
   auditLogsAsActor?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
 }
@@ -1283,6 +1333,107 @@ export type UserUncheckedUpdateWithoutCorrectionReviewsInput = {
   auditLogsAsActor?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
+}
+
+export type UserCreateWithoutTransportationReviewsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  organizationMembers?: Prisma.OrganizationMemberCreateNestedManyWithoutUserInput
+  staffProfiles?: Prisma.StaffCreateNestedManyWithoutUserInput
+  auditLogsAsActor?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
+  apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
+  correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
+}
+
+export type UserUncheckedCreateWithoutTransportationReviewsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  passwordHash?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  organizationMembers?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutUserInput
+  staffProfiles?: Prisma.StaffUncheckedCreateNestedManyWithoutUserInput
+  auditLogsAsActor?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
+  apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
+  correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
+}
+
+export type UserCreateOrConnectWithoutTransportationReviewsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransportationReviewsInput, Prisma.UserUncheckedCreateWithoutTransportationReviewsInput>
+}
+
+export type UserUpsertWithoutTransportationReviewsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTransportationReviewsInput, Prisma.UserUncheckedUpdateWithoutTransportationReviewsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransportationReviewsInput, Prisma.UserUncheckedCreateWithoutTransportationReviewsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTransportationReviewsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTransportationReviewsInput, Prisma.UserUncheckedUpdateWithoutTransportationReviewsInput>
+}
+
+export type UserUpdateWithoutTransportationReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  organizationMembers?: Prisma.OrganizationMemberUpdateManyWithoutUserNestedInput
+  staffProfiles?: Prisma.StaffUpdateManyWithoutUserNestedInput
+  auditLogsAsActor?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
+  apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
+  correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTransportationReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  organizationMembers?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutUserNestedInput
+  staffProfiles?: Prisma.StaffUncheckedUpdateManyWithoutUserNestedInput
+  auditLogsAsActor?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
+  correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
 }
@@ -1304,6 +1455,7 @@ export type UserCreateWithoutNotificationsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
 }
 
@@ -1324,6 +1476,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
 }
 
@@ -1360,6 +1513,7 @@ export type UserUpdateWithoutNotificationsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
 }
 
@@ -1380,6 +1534,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
 }
 
@@ -1399,6 +1554,7 @@ export type UserCreateWithoutAuditLogsAsActorInput = {
   wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
 }
@@ -1419,6 +1575,7 @@ export type UserUncheckedCreateWithoutAuditLogsAsActorInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
 }
@@ -1455,6 +1612,7 @@ export type UserUpdateWithoutAuditLogsAsActorInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
 }
@@ -1475,6 +1633,7 @@ export type UserUncheckedUpdateWithoutAuditLogsAsActorInput = {
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
   apiKeysCreated?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByNestedInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
 }
@@ -1495,6 +1654,7 @@ export type UserCreateWithoutApiKeysCreatedInput = {
   auditLogsAsActor?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   wageHistoriesCreated?: Prisma.WageHistoryCreateNestedManyWithoutCreatedByUserInput
   correctionReviews?: Prisma.CorrectionRequestCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceCreateNestedManyWithoutLockedByInput
 }
@@ -1515,6 +1675,7 @@ export type UserUncheckedCreateWithoutApiKeysCreatedInput = {
   auditLogsAsActor?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutCreatedByUserInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutReviewedByInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutReviewedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   lockedAttendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutLockedByInput
 }
@@ -1551,6 +1712,7 @@ export type UserUpdateWithoutApiKeysCreatedInput = {
   auditLogsAsActor?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   wageHistoriesCreated?: Prisma.WageHistoryUpdateManyWithoutCreatedByUserNestedInput
   correctionReviews?: Prisma.CorrectionRequestUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUpdateManyWithoutLockedByNestedInput
 }
@@ -1571,6 +1733,7 @@ export type UserUncheckedUpdateWithoutApiKeysCreatedInput = {
   auditLogsAsActor?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   wageHistoriesCreated?: Prisma.WageHistoryUncheckedUpdateManyWithoutCreatedByUserNestedInput
   correctionReviews?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+  transportationReviews?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutReviewedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   lockedAttendances?: Prisma.AttendanceUncheckedUpdateManyWithoutLockedByNestedInput
 }
@@ -1589,6 +1752,7 @@ export type UserCountOutputType = {
   wageHistoriesCreated: number
   apiKeysCreated: number
   correctionReviews: number
+  transportationReviews: number
   notifications: number
   lockedAttendances: number
 }
@@ -1602,6 +1766,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   wageHistoriesCreated?: boolean | UserCountOutputTypeCountWageHistoriesCreatedArgs
   apiKeysCreated?: boolean | UserCountOutputTypeCountApiKeysCreatedArgs
   correctionReviews?: boolean | UserCountOutputTypeCountCorrectionReviewsArgs
+  transportationReviews?: boolean | UserCountOutputTypeCountTransportationReviewsArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   lockedAttendances?: boolean | UserCountOutputTypeCountLockedAttendancesArgs
 }
@@ -1675,6 +1840,13 @@ export type UserCountOutputTypeCountCorrectionReviewsArgs<ExtArgs extends runtim
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountTransportationReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransportationChangeRequestWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.NotificationWhereInput
 }
@@ -1704,6 +1876,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   wageHistoriesCreated?: boolean | Prisma.User$wageHistoriesCreatedArgs<ExtArgs>
   apiKeysCreated?: boolean | Prisma.User$apiKeysCreatedArgs<ExtArgs>
   correctionReviews?: boolean | Prisma.User$correctionReviewsArgs<ExtArgs>
+  transportationReviews?: boolean | Prisma.User$transportationReviewsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   lockedAttendances?: boolean | Prisma.User$lockedAttendancesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1752,6 +1925,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   wageHistoriesCreated?: boolean | Prisma.User$wageHistoriesCreatedArgs<ExtArgs>
   apiKeysCreated?: boolean | Prisma.User$apiKeysCreatedArgs<ExtArgs>
   correctionReviews?: boolean | Prisma.User$correctionReviewsArgs<ExtArgs>
+  transportationReviews?: boolean | Prisma.User$transportationReviewsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   lockedAttendances?: boolean | Prisma.User$lockedAttendancesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1770,6 +1944,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     wageHistoriesCreated: Prisma.$WageHistoryPayload<ExtArgs>[]
     apiKeysCreated: Prisma.$ApiKeyPayload<ExtArgs>[]
     correctionReviews: Prisma.$CorrectionRequestPayload<ExtArgs>[]
+    transportationReviews: Prisma.$TransportationChangeRequestPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     lockedAttendances: Prisma.$AttendancePayload<ExtArgs>[]
   }
@@ -2184,6 +2359,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   wageHistoriesCreated<T extends Prisma.User$wageHistoriesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$wageHistoriesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WageHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   apiKeysCreated<T extends Prisma.User$apiKeysCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$apiKeysCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   correctionReviews<T extends Prisma.User$correctionReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$correctionReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CorrectionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transportationReviews<T extends Prisma.User$transportationReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transportationReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportationChangeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lockedAttendances<T extends Prisma.User$lockedAttendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$lockedAttendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -2805,6 +2981,30 @@ export type User$correctionReviewsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.CorrectionRequestScalarFieldEnum | Prisma.CorrectionRequestScalarFieldEnum[]
+}
+
+/**
+ * User.transportationReviews
+ */
+export type User$transportationReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransportationChangeRequest
+   */
+  select?: Prisma.TransportationChangeRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransportationChangeRequest
+   */
+  omit?: Prisma.TransportationChangeRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransportationChangeRequestInclude<ExtArgs> | null
+  where?: Prisma.TransportationChangeRequestWhereInput
+  orderBy?: Prisma.TransportationChangeRequestOrderByWithRelationInput | Prisma.TransportationChangeRequestOrderByWithRelationInput[]
+  cursor?: Prisma.TransportationChangeRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransportationChangeRequestScalarFieldEnum | Prisma.TransportationChangeRequestScalarFieldEnum[]
 }
 
 /**

@@ -207,7 +207,7 @@ export type StaffGroupByOutputType = {
   userId: string | null
   displayName: string
   fullName: string | null
-  email: string
+  email: string | null
   phone: string | null
   employeeCode: string | null
   status: $Enums.StaffStatus
@@ -245,7 +245,7 @@ export type StaffWhereInput = {
   userId?: Prisma.StringNullableFilter<"Staff"> | string | null
   displayName?: Prisma.StringFilter<"Staff"> | string
   fullName?: Prisma.StringNullableFilter<"Staff"> | string | null
-  email?: Prisma.StringFilter<"Staff"> | string
+  email?: Prisma.StringNullableFilter<"Staff"> | string | null
   phone?: Prisma.StringNullableFilter<"Staff"> | string | null
   employeeCode?: Prisma.StringNullableFilter<"Staff"> | string | null
   status?: Prisma.EnumStaffStatusFilter<"Staff"> | $Enums.StaffStatus
@@ -260,6 +260,7 @@ export type StaffWhereInput = {
   attendanceEvents?: Prisma.AttendanceEventListRelationFilter
   attendances?: Prisma.AttendanceListRelationFilter
   correctionRequests?: Prisma.CorrectionRequestListRelationFilter
+  transportationChangeRequests?: Prisma.TransportationChangeRequestListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
 }
@@ -270,7 +271,7 @@ export type StaffOrderByWithRelationInput = {
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   displayName?: Prisma.SortOrder
   fullName?: Prisma.SortOrderInput | Prisma.SortOrder
-  email?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   employeeCode?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -285,6 +286,7 @@ export type StaffOrderByWithRelationInput = {
   attendanceEvents?: Prisma.AttendanceEventOrderByRelationAggregateInput
   attendances?: Prisma.AttendanceOrderByRelationAggregateInput
   correctionRequests?: Prisma.CorrectionRequestOrderByRelationAggregateInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
@@ -299,7 +301,7 @@ export type StaffWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringNullableFilter<"Staff"> | string | null
   displayName?: Prisma.StringFilter<"Staff"> | string
   fullName?: Prisma.StringNullableFilter<"Staff"> | string | null
-  email?: Prisma.StringFilter<"Staff"> | string
+  email?: Prisma.StringNullableFilter<"Staff"> | string | null
   phone?: Prisma.StringNullableFilter<"Staff"> | string | null
   employeeCode?: Prisma.StringNullableFilter<"Staff"> | string | null
   status?: Prisma.EnumStaffStatusFilter<"Staff"> | $Enums.StaffStatus
@@ -314,6 +316,7 @@ export type StaffWhereUniqueInput = Prisma.AtLeast<{
   attendanceEvents?: Prisma.AttendanceEventListRelationFilter
   attendances?: Prisma.AttendanceListRelationFilter
   correctionRequests?: Prisma.CorrectionRequestListRelationFilter
+  transportationChangeRequests?: Prisma.TransportationChangeRequestListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
 }, "id" | "organizationId_email">
@@ -324,7 +327,7 @@ export type StaffOrderByWithAggregationInput = {
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   displayName?: Prisma.SortOrder
   fullName?: Prisma.SortOrderInput | Prisma.SortOrder
-  email?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   employeeCode?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -347,7 +350,7 @@ export type StaffScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
   displayName?: Prisma.StringWithAggregatesFilter<"Staff"> | string
   fullName?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
-  email?: Prisma.StringWithAggregatesFilter<"Staff"> | string
+  email?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
   employeeCode?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
   status?: Prisma.EnumStaffStatusWithAggregatesFilter<"Staff"> | $Enums.StaffStatus
@@ -362,7 +365,7 @@ export type StaffCreateInput = {
   id?: string
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -377,6 +380,7 @@ export type StaffCreateInput = {
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
 }
@@ -387,7 +391,7 @@ export type StaffUncheckedCreateInput = {
   userId?: string | null
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -400,6 +404,7 @@ export type StaffUncheckedCreateInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
 }
@@ -408,7 +413,7 @@ export type StaffUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -423,6 +428,7 @@ export type StaffUpdateInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
 }
@@ -433,7 +439,7 @@ export type StaffUncheckedUpdateInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -446,6 +452,7 @@ export type StaffUncheckedUpdateInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
 }
@@ -456,7 +463,7 @@ export type StaffCreateManyInput = {
   userId?: string | null
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -471,7 +478,7 @@ export type StaffUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -488,7 +495,7 @@ export type StaffUncheckedUpdateManyInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -719,6 +726,20 @@ export type StaffUpdateOneRequiredWithoutCorrectionRequestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StaffUpdateToOneWithWhereWithoutCorrectionRequestsInput, Prisma.StaffUpdateWithoutCorrectionRequestsInput>, Prisma.StaffUncheckedUpdateWithoutCorrectionRequestsInput>
 }
 
+export type StaffCreateNestedOneWithoutTransportationChangeRequestsInput = {
+  create?: Prisma.XOR<Prisma.StaffCreateWithoutTransportationChangeRequestsInput, Prisma.StaffUncheckedCreateWithoutTransportationChangeRequestsInput>
+  connectOrCreate?: Prisma.StaffCreateOrConnectWithoutTransportationChangeRequestsInput
+  connect?: Prisma.StaffWhereUniqueInput
+}
+
+export type StaffUpdateOneRequiredWithoutTransportationChangeRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.StaffCreateWithoutTransportationChangeRequestsInput, Prisma.StaffUncheckedCreateWithoutTransportationChangeRequestsInput>
+  connectOrCreate?: Prisma.StaffCreateOrConnectWithoutTransportationChangeRequestsInput
+  upsert?: Prisma.StaffUpsertWithoutTransportationChangeRequestsInput
+  connect?: Prisma.StaffWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StaffUpdateToOneWithWhereWithoutTransportationChangeRequestsInput, Prisma.StaffUpdateWithoutTransportationChangeRequestsInput>, Prisma.StaffUncheckedUpdateWithoutTransportationChangeRequestsInput>
+}
+
 export type StaffCreateNestedOneWithoutNotificationsInput = {
   create?: Prisma.XOR<Prisma.StaffCreateWithoutNotificationsInput, Prisma.StaffUncheckedCreateWithoutNotificationsInput>
   connectOrCreate?: Prisma.StaffCreateOrConnectWithoutNotificationsInput
@@ -755,7 +776,7 @@ export type StaffCreateWithoutUserInput = {
   id?: string
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -769,6 +790,7 @@ export type StaffCreateWithoutUserInput = {
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
 }
@@ -778,7 +800,7 @@ export type StaffUncheckedCreateWithoutUserInput = {
   organizationId: string
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -791,6 +813,7 @@ export type StaffUncheckedCreateWithoutUserInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
 }
@@ -830,7 +853,7 @@ export type StaffScalarWhereInput = {
   userId?: Prisma.StringNullableFilter<"Staff"> | string | null
   displayName?: Prisma.StringFilter<"Staff"> | string
   fullName?: Prisma.StringNullableFilter<"Staff"> | string | null
-  email?: Prisma.StringFilter<"Staff"> | string
+  email?: Prisma.StringNullableFilter<"Staff"> | string | null
   phone?: Prisma.StringNullableFilter<"Staff"> | string | null
   employeeCode?: Prisma.StringNullableFilter<"Staff"> | string | null
   status?: Prisma.EnumStaffStatusFilter<"Staff"> | $Enums.StaffStatus
@@ -845,7 +868,7 @@ export type StaffCreateWithoutOrganizationInput = {
   id?: string
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -859,6 +882,7 @@ export type StaffCreateWithoutOrganizationInput = {
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
 }
@@ -868,7 +892,7 @@ export type StaffUncheckedCreateWithoutOrganizationInput = {
   userId?: string | null
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -881,6 +905,7 @@ export type StaffUncheckedCreateWithoutOrganizationInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
 }
@@ -915,7 +940,7 @@ export type StaffCreateWithoutStaffStoresInput = {
   id?: string
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -929,6 +954,7 @@ export type StaffCreateWithoutStaffStoresInput = {
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
 }
@@ -939,7 +965,7 @@ export type StaffUncheckedCreateWithoutStaffStoresInput = {
   userId?: string | null
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -951,6 +977,7 @@ export type StaffUncheckedCreateWithoutStaffStoresInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
 }
@@ -975,7 +1002,7 @@ export type StaffUpdateWithoutStaffStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -989,6 +1016,7 @@ export type StaffUpdateWithoutStaffStoresInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
 }
@@ -999,7 +1027,7 @@ export type StaffUncheckedUpdateWithoutStaffStoresInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1011,6 +1039,7 @@ export type StaffUncheckedUpdateWithoutStaffStoresInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
 }
@@ -1019,7 +1048,7 @@ export type StaffCreateWithoutAttendanceEventsInput = {
   id?: string
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1033,6 +1062,7 @@ export type StaffCreateWithoutAttendanceEventsInput = {
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
 }
@@ -1043,7 +1073,7 @@ export type StaffUncheckedCreateWithoutAttendanceEventsInput = {
   userId?: string | null
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1055,6 +1085,7 @@ export type StaffUncheckedCreateWithoutAttendanceEventsInput = {
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
 }
@@ -1079,7 +1110,7 @@ export type StaffUpdateWithoutAttendanceEventsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1093,6 +1124,7 @@ export type StaffUpdateWithoutAttendanceEventsInput = {
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
 }
@@ -1103,7 +1135,7 @@ export type StaffUncheckedUpdateWithoutAttendanceEventsInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1115,6 +1147,7 @@ export type StaffUncheckedUpdateWithoutAttendanceEventsInput = {
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
 }
@@ -1123,7 +1156,7 @@ export type StaffCreateWithoutAttendancesInput = {
   id?: string
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1137,6 +1170,7 @@ export type StaffCreateWithoutAttendancesInput = {
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStaffInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
 }
@@ -1147,7 +1181,7 @@ export type StaffUncheckedCreateWithoutAttendancesInput = {
   userId?: string | null
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1159,6 +1193,7 @@ export type StaffUncheckedCreateWithoutAttendancesInput = {
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStaffInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
 }
@@ -1183,7 +1218,7 @@ export type StaffUpdateWithoutAttendancesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1197,6 +1232,7 @@ export type StaffUpdateWithoutAttendancesInput = {
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStaffNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
 }
@@ -1207,7 +1243,7 @@ export type StaffUncheckedUpdateWithoutAttendancesInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1219,6 +1255,7 @@ export type StaffUncheckedUpdateWithoutAttendancesInput = {
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStaffNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
 }
@@ -1227,7 +1264,7 @@ export type StaffCreateWithoutCorrectionRequestsInput = {
   id?: string
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1241,6 +1278,7 @@ export type StaffCreateWithoutCorrectionRequestsInput = {
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStaffInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
 }
@@ -1251,7 +1289,7 @@ export type StaffUncheckedCreateWithoutCorrectionRequestsInput = {
   userId?: string | null
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1263,6 +1301,7 @@ export type StaffUncheckedCreateWithoutCorrectionRequestsInput = {
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStaffInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
 }
@@ -1287,7 +1326,7 @@ export type StaffUpdateWithoutCorrectionRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1301,6 +1340,7 @@ export type StaffUpdateWithoutCorrectionRequestsInput = {
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStaffNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
 }
@@ -1311,7 +1351,7 @@ export type StaffUncheckedUpdateWithoutCorrectionRequestsInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1323,15 +1363,16 @@ export type StaffUncheckedUpdateWithoutCorrectionRequestsInput = {
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStaffNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
 }
 
-export type StaffCreateWithoutNotificationsInput = {
+export type StaffCreateWithoutTransportationChangeRequestsInput = {
   id?: string
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1347,15 +1388,16 @@ export type StaffCreateWithoutNotificationsInput = {
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
 }
 
-export type StaffUncheckedCreateWithoutNotificationsInput = {
+export type StaffUncheckedCreateWithoutTransportationChangeRequestsInput = {
   id?: string
   organizationId: string
   userId?: string | null
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1368,6 +1410,115 @@ export type StaffUncheckedCreateWithoutNotificationsInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStaffInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
+}
+
+export type StaffCreateOrConnectWithoutTransportationChangeRequestsInput = {
+  where: Prisma.StaffWhereUniqueInput
+  create: Prisma.XOR<Prisma.StaffCreateWithoutTransportationChangeRequestsInput, Prisma.StaffUncheckedCreateWithoutTransportationChangeRequestsInput>
+}
+
+export type StaffUpsertWithoutTransportationChangeRequestsInput = {
+  update: Prisma.XOR<Prisma.StaffUpdateWithoutTransportationChangeRequestsInput, Prisma.StaffUncheckedUpdateWithoutTransportationChangeRequestsInput>
+  create: Prisma.XOR<Prisma.StaffCreateWithoutTransportationChangeRequestsInput, Prisma.StaffUncheckedCreateWithoutTransportationChangeRequestsInput>
+  where?: Prisma.StaffWhereInput
+}
+
+export type StaffUpdateToOneWithWhereWithoutTransportationChangeRequestsInput = {
+  where?: Prisma.StaffWhereInput
+  data: Prisma.XOR<Prisma.StaffUpdateWithoutTransportationChangeRequestsInput, Prisma.StaffUncheckedUpdateWithoutTransportationChangeRequestsInput>
+}
+
+export type StaffUpdateWithoutTransportationChangeRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutStaffNestedInput
+  user?: Prisma.UserUpdateOneWithoutStaffProfilesNestedInput
+  staffStores?: Prisma.StaffStoreUpdateManyWithoutStaffNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStaffNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutStaffNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStaffNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
+}
+
+export type StaffUncheckedUpdateWithoutTransportationChangeRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStaffNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStaffNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStaffNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStaffNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
+}
+
+export type StaffCreateWithoutNotificationsInput = {
+  id?: string
+  displayName: string
+  fullName?: string | null
+  email?: string | null
+  phone?: string | null
+  employeeCode?: string | null
+  status?: $Enums.StaffStatus
+  hireDate?: Date | string | null
+  resignDate?: Date | string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutStaffInput
+  user?: Prisma.UserCreateNestedOneWithoutStaffProfilesInput
+  staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStaffInput
+  attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStaffInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutStaffInput
+  correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
+}
+
+export type StaffUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  organizationId: string
+  userId?: string | null
+  displayName: string
+  fullName?: string | null
+  email?: string | null
+  phone?: string | null
+  employeeCode?: string | null
+  status?: $Enums.StaffStatus
+  hireDate?: Date | string | null
+  resignDate?: Date | string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStaffInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStaffInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStaffInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
 }
 
@@ -1391,7 +1542,7 @@ export type StaffUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1406,6 +1557,7 @@ export type StaffUpdateWithoutNotificationsInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
 }
 
@@ -1415,7 +1567,7 @@ export type StaffUncheckedUpdateWithoutNotificationsInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1428,6 +1580,7 @@ export type StaffUncheckedUpdateWithoutNotificationsInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
 }
 
@@ -1435,7 +1588,7 @@ export type StaffCreateWithoutAuditLogsInput = {
   id?: string
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1450,6 +1603,7 @@ export type StaffCreateWithoutAuditLogsInput = {
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
 }
 
@@ -1459,7 +1613,7 @@ export type StaffUncheckedCreateWithoutAuditLogsInput = {
   userId?: string | null
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1472,6 +1626,7 @@ export type StaffUncheckedCreateWithoutAuditLogsInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStaffInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStaffInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
 }
 
@@ -1495,7 +1650,7 @@ export type StaffUpdateWithoutAuditLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1510,6 +1665,7 @@ export type StaffUpdateWithoutAuditLogsInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
 }
 
@@ -1519,7 +1675,7 @@ export type StaffUncheckedUpdateWithoutAuditLogsInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1532,6 +1688,7 @@ export type StaffUncheckedUpdateWithoutAuditLogsInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
 }
 
@@ -1540,7 +1697,7 @@ export type StaffCreateManyUserInput = {
   organizationId: string
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1555,7 +1712,7 @@ export type StaffUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1569,6 +1726,7 @@ export type StaffUpdateWithoutUserInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
 }
@@ -1578,7 +1736,7 @@ export type StaffUncheckedUpdateWithoutUserInput = {
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1591,6 +1749,7 @@ export type StaffUncheckedUpdateWithoutUserInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
 }
@@ -1600,7 +1759,7 @@ export type StaffUncheckedUpdateManyWithoutUserInput = {
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1616,7 +1775,7 @@ export type StaffCreateManyOrganizationInput = {
   userId?: string | null
   displayName: string
   fullName?: string | null
-  email: string
+  email?: string | null
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
@@ -1631,7 +1790,7 @@ export type StaffUpdateWithoutOrganizationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1645,6 +1804,7 @@ export type StaffUpdateWithoutOrganizationInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
 }
@@ -1654,7 +1814,7 @@ export type StaffUncheckedUpdateWithoutOrganizationInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1667,6 +1827,7 @@ export type StaffUncheckedUpdateWithoutOrganizationInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStaffNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStaffNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
 }
@@ -1676,7 +1837,7 @@ export type StaffUncheckedUpdateManyWithoutOrganizationInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
@@ -1697,6 +1858,7 @@ export type StaffCountOutputType = {
   attendanceEvents: number
   attendances: number
   correctionRequests: number
+  transportationChangeRequests: number
   auditLogs: number
   notifications: number
 }
@@ -1706,6 +1868,7 @@ export type StaffCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   attendanceEvents?: boolean | StaffCountOutputTypeCountAttendanceEventsArgs
   attendances?: boolean | StaffCountOutputTypeCountAttendancesArgs
   correctionRequests?: boolean | StaffCountOutputTypeCountCorrectionRequestsArgs
+  transportationChangeRequests?: boolean | StaffCountOutputTypeCountTransportationChangeRequestsArgs
   auditLogs?: boolean | StaffCountOutputTypeCountAuditLogsArgs
   notifications?: boolean | StaffCountOutputTypeCountNotificationsArgs
 }
@@ -1751,6 +1914,13 @@ export type StaffCountOutputTypeCountCorrectionRequestsArgs<ExtArgs extends runt
 /**
  * StaffCountOutputType without action
  */
+export type StaffCountOutputTypeCountTransportationChangeRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransportationChangeRequestWhereInput
+}
+
+/**
+ * StaffCountOutputType without action
+ */
 export type StaffCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AuditLogWhereInput
 }
@@ -1784,6 +1954,7 @@ export type StaffSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   attendanceEvents?: boolean | Prisma.Staff$attendanceEventsArgs<ExtArgs>
   attendances?: boolean | Prisma.Staff$attendancesArgs<ExtArgs>
   correctionRequests?: boolean | Prisma.Staff$correctionRequestsArgs<ExtArgs>
+  transportationChangeRequests?: boolean | Prisma.Staff$transportationChangeRequestsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.Staff$auditLogsArgs<ExtArgs>
   notifications?: boolean | Prisma.Staff$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.StaffCountOutputTypeDefaultArgs<ExtArgs>
@@ -1852,6 +2023,7 @@ export type StaffInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   attendanceEvents?: boolean | Prisma.Staff$attendanceEventsArgs<ExtArgs>
   attendances?: boolean | Prisma.Staff$attendancesArgs<ExtArgs>
   correctionRequests?: boolean | Prisma.Staff$correctionRequestsArgs<ExtArgs>
+  transportationChangeRequests?: boolean | Prisma.Staff$transportationChangeRequestsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.Staff$auditLogsArgs<ExtArgs>
   notifications?: boolean | Prisma.Staff$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.StaffCountOutputTypeDefaultArgs<ExtArgs>
@@ -1874,6 +2046,7 @@ export type $StaffPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     attendanceEvents: Prisma.$AttendanceEventPayload<ExtArgs>[]
     attendances: Prisma.$AttendancePayload<ExtArgs>[]
     correctionRequests: Prisma.$CorrectionRequestPayload<ExtArgs>[]
+    transportationChangeRequests: Prisma.$TransportationChangeRequestPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
@@ -1883,7 +2056,7 @@ export type $StaffPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     userId: string | null
     displayName: string
     fullName: string | null
-    email: string
+    email: string | null
     phone: string | null
     employeeCode: string | null
     status: $Enums.StaffStatus
@@ -2292,6 +2465,7 @@ export interface Prisma__StaffClient<T, Null = never, ExtArgs extends runtime.Ty
   attendanceEvents<T extends Prisma.Staff$attendanceEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$attendanceEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   attendances<T extends Prisma.Staff$attendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   correctionRequests<T extends Prisma.Staff$correctionRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$correctionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CorrectionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transportationChangeRequests<T extends Prisma.Staff$transportationChangeRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$transportationChangeRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportationChangeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.Staff$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.Staff$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -2850,6 +3024,30 @@ export type Staff$correctionRequestsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.CorrectionRequestScalarFieldEnum | Prisma.CorrectionRequestScalarFieldEnum[]
+}
+
+/**
+ * Staff.transportationChangeRequests
+ */
+export type Staff$transportationChangeRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransportationChangeRequest
+   */
+  select?: Prisma.TransportationChangeRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransportationChangeRequest
+   */
+  omit?: Prisma.TransportationChangeRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransportationChangeRequestInclude<ExtArgs> | null
+  where?: Prisma.TransportationChangeRequestWhereInput
+  orderBy?: Prisma.TransportationChangeRequestOrderByWithRelationInput | Prisma.TransportationChangeRequestOrderByWithRelationInput[]
+  cursor?: Prisma.TransportationChangeRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransportationChangeRequestScalarFieldEnum | Prisma.TransportationChangeRequestScalarFieldEnum[]
 }
 
 /**

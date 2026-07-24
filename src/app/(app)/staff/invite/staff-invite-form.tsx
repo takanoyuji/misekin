@@ -2,7 +2,8 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { inviteStaff } from "@/actions/staff";
+import Link from "next/link";
+import { addStaff } from "@/actions/staff";
 import type { CreateStaffInput } from "@/lib/validations/staff";
 
 interface StaffInviteFormProps {
@@ -30,7 +31,7 @@ export function StaffInviteForm({ organizationId }: StaffInviteFormProps) {
     };
 
     startTransition(async () => {
-      const result = await inviteStaff(organizationId, input);
+      const result = await addStaff(organizationId, input);
       if (result.error) {
         setError(result.error);
       } else {
@@ -146,18 +147,18 @@ export function StaffInviteForm({ organizationId }: StaffInviteFormProps) {
       )}
 
       <div className="flex gap-3 pt-2">
-        <a
+        <Link
           href="/staff"
           className="flex-1 text-center py-2 rounded-lg border border-input text-sm font-medium hover:bg-muted transition-colors"
         >
           キャンセル
-        </a>
+        </Link>
         <button
           type="submit"
           disabled={isPending}
           className="flex-1 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:pointer-events-none transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
         >
-          {isPending ? "送信中..." : "招待メールを送る"}
+          {isPending ? "送信中…" : "招待メールを送る"}
         </button>
       </div>
     </form>

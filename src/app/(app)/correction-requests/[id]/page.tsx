@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/common/status-badge";
 import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { CorrectionRequestReviewForm } from "./correction-request-review-form";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "修正申請詳細",
@@ -35,7 +36,10 @@ export default async function CorrectionRequestDetailPage({
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   let ctx;
@@ -64,21 +68,29 @@ export default async function CorrectionRequestDetailPage({
           store: { select: { name: true, timezone: true } },
         },
       },
+      store: { select: { id: true, name: true, timezone: true } },
       reviewedBy: { select: { name: true, email: true } },
     },
   });
 
   if (!request) notFound();
-  if (request.attendance.organizationId !== activeOrgId) notFound();
 
-  const hasAccess = await canAccessStore(
-    ctx.memberId,
-    ctx.role,
-    request.attendance.storeId
-  );
+  // 打刻の付け忘れ申請は勤怠が存在しないため、申請自身の店舗・営業日を使う
+  const isMissingAttendance = request.attendanceId === null;
+  const store = request.attendance?.store ?? request.store;
+  const targetStoreId = request.attendance?.storeId ?? request.storeId;
+  const businessDate =
+    request.attendance?.businessDate ?? request.businessDate ?? "—";
+
+  if (request.attendance && request.attendance.organizationId !== activeOrgId) {
+    notFound();
+  }
+  if (!targetStoreId) notFound();
+
+  const hasAccess = await canAccessStore(ctx.memberId, ctx.role, targetStoreId);
   if (!hasAccess) redirect("/correction-requests");
 
-  const timezone = request.attendance.store.timezone ?? "Asia/Tokyo";
+  const timezone = store?.timezone ?? "Asia/Tokyo";
   const originalData = request.originalData as any;
   const requestedData = request.requestedData as any;
   const isPending = request.status === "PENDING";
@@ -133,35 +145,43 @@ export default async function CorrectionRequestDetailPage({
           <dl className="space-y-3 text-sm">
             <div className="flex justify-between gap-4">
               <dt className="text-muted-foreground">勤務日</dt>
-              <dd className="font-numeric font-medium">
-                {request.attendance.businessDate}
-              </dd>
+              <dd className="font-numeric font-medium">{businessDate}</dd>
             </div>
             <div className="flex justify-between gap-4">
               <dt className="text-muted-foreground">店舗</dt>
-              <dd>{request.attendance.store.name}</dd>
+              <dd>{store?.name ?? "—"}</dd>
             </div>
-            <div className="flex justify-between gap-4">
-              <dt className="text-muted-foreground">現在の出勤</dt>
-              <dd className="font-numeric">
-                {formatDateTime(request.attendance.clockInAt, timezone)}
-              </dd>
-            </div>
-            <div className="flex justify-between gap-4">
-              <dt className="text-muted-foreground">現在の退勤</dt>
-              <dd className="font-numeric">
-                {formatDateTime(request.attendance.clockOutAt, timezone)}
-              </dd>
-            </div>
+            {isMissingAttendance ? (
+              <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+                打刻がされていない日の申請です。承認すると、この内容で勤怠を新規に作成します。
+              </div>
+            ) : (
+              <>
+                <div className="flex justify-between gap-4">
+                  <dt className="text-muted-foreground">現在の出勤</dt>
+                  <dd className="font-numeric">
+                    {formatDateTime(request.attendance!.clockInAt, timezone)}
+                  </dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="text-muted-foreground">現在の退勤</dt>
+                  <dd className="font-numeric">
+                    {formatDateTime(request.attendance!.clockOutAt, timezone)}
+                  </dd>
+                </div>
+              </>
+            )}
           </dl>
-          <div className="mt-4">
-            <Link
-              href={`/attendance/${request.attendance.id}`}
-              className="text-sm text-primary hover:underline"
-            >
-              勤怠詳細を確認 &rarr;
-            </Link>
-          </div>
+          {request.attendance && (
+            <div className="mt-4">
+              <Link
+                href={`/attendance/${request.attendance.id}`}
+                className="text-sm text-primary hover:underline"
+              >
+                勤怠詳細を確認 &rarr;
+              </Link>
+            </div>
+          )}
         </section>
       </div>
 

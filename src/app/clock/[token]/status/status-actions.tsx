@@ -34,7 +34,6 @@ const actionConfig: Record<
 interface StatusActionsProps {
   token: string;
   staffId: string;
-  pin: string;
   staffName: string;
   currentState: ClockState;
   availableActions: ClockAction[];
@@ -43,7 +42,6 @@ interface StatusActionsProps {
 export function StatusActions({
   token,
   staffId,
-  pin,
   staffName,
   currentState,
   availableActions,
@@ -52,15 +50,18 @@ export function StatusActions({
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [confirmAction, setConfirmAction] = useState<ClockAction | null>(null);
+  // メモ入力ステップ
+  const [memoStep, setMemoStep] = useState(false);
+  const [memo, setMemo] = useState("");
 
-  const executeAction = (action: ClockAction) => {
+  const executeAction = (action: ClockAction, memoText?: string) => {
     setError(null);
     startTransition(async () => {
       const result = await clockAction({
         token,
         staffId,
-        pin,
         action,
+        memo: memoText || undefined,
       });
 
       if (result.error) {
@@ -68,7 +69,6 @@ export function StatusActions({
         return;
       }
 
-      // 完了画面へ遷移
       const clockedAt = result.clockedAt
         ? new Date(result.clockedAt).toISOString()
         : new Date().toISOString();
@@ -80,8 +80,13 @@ export function StatusActions({
   };
 
   const handleActionClick = (action: ClockAction) => {
+    // 退勤の場合はメモ入力ステップへ
+    if (action === "CLOCK_OUT") {
+      setMemo("");
+      setMemoStep(true);
+      return;
+    }
     const config = actionConfig[action];
-    // 休憩中に退勤を押した場合は確認ダイアログを表示
     if (config.confirmIfState && currentState === config.confirmIfState) {
       setConfirmAction(action);
       return;
@@ -89,15 +94,27 @@ export function StatusActions({
     executeAction(action);
   };
 
+  const handleMemoSubmit = () => {
+    // 休憩中退勤の場合は確認ダイアログへ
+    if (currentState === "ON_BREAK") {
+      setMemoStep(false);
+      setConfirmAction("CLOCK_OUT");
+      return;
+    }
+    setMemoStep(false);
+    executeAction("CLOCK_OUT", memo);
+  };
+
   const handleConfirm = () => {
     if (confirmAction) {
-      executeAction(confirmAction);
+      executeAction(confirmAction, memo);
       setConfirmAction(null);
     }
   };
 
   const handleCancelConfirm = () => {
     setConfirmAction(null);
+    setMemo("");
   };
 
   if (availableActions.length === 0) {
@@ -134,11 +151,59 @@ export function StatusActions({
               className={`w-full py-5 rounded-2xl text-xl font-bold shadow-md transition-all duration-150 active:scale-95 disabled:opacity-60 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-offset-2 focus-visible:ring-blue-400 ${config.className}`}
               aria-label={config.label}
             >
-              {isPending ? "処理中..." : config.label}
+              {isPending ? "処理中…" : config.label}
             </button>
           );
         })}
       </div>
+
+      {/* 退勤メモ入力ダイアログ */}
+      {memoStep && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="memo-title"
+        >
+          <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl p-6">
+            <h2
+              id="memo-title"
+              className="text-xl font-bold text-gray-900 mb-1"
+            >
+              退勤メモ
+            </h2>
+            <p className="text-gray-500 text-sm mb-4">
+              申し送り事項があれば入力してください（任意）
+            </p>
+            <textarea
+              value={memo}
+              onChange={(e) => setMemo(e.target.value)}
+              placeholder="例: 在庫補充済み、明日の準備完了"
+              maxLength={500}
+              rows={4}
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+              autoFocus
+            />
+            <div className="flex gap-3 mt-4">
+              <button
+                type="button"
+                onClick={() => { setMemoStep(false); setMemo(""); }}
+                className="flex-1 py-3 rounded-xl border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gray-400"
+              >
+                キャンセル
+              </button>
+              <button
+                type="button"
+                onClick={handleMemoSubmit}
+                disabled={isPending}
+                className="flex-1 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-bold transition-colors disabled:opacity-60 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
+              >
+                退勤する
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 確認ダイアログ（休憩中退勤） */}
       {confirmAction && (
@@ -173,7 +238,7 @@ export function StatusActions({
                 disabled={isPending}
                 className="flex-1 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-bold transition-colors disabled:opacity-60 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
               >
-                {isPending ? "処理中..." : "退勤する"}
+                {isPending ? "処理中…" : "退勤する"}
               </button>
             </div>
           </div>

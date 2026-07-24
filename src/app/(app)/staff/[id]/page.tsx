@@ -2,13 +2,21 @@ import type { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import { db } from "@/lib/db";
-import { requireAdmin } from "@/lib/auth/permissions";
+import {
+  requireAdmin,
+  requireStaffEmailEditPermission,
+} from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { StaffStatusActions } from "./staff-status-actions";
 import { StaffEditForm } from "./staff-edit-form";
-import { Mail, Phone, Hash, Calendar, Building2 } from "lucide-react";
+import { StaffInviteButton } from "./staff-invite-button";
+import { StaffStoreAddForm } from "./staff-store-add-form";
+import { StaffPinForm } from "./staff-pin-form";
+import { StaffEmailForm } from "./staff-email-form";
+import { Mail, Phone, Hash, Calendar, Building2, KeyRound } from "lucide-react";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "スタッフ詳細",
@@ -40,7 +48,10 @@ export default async function StaffDetailPage({ params }: PageProps) {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   const orgId = activeOrgId as string;
@@ -69,6 +80,27 @@ export default async function StaffDetailPage({ params }: PageProps) {
 
   if (!staff) notFound();
 
+  // メールアドレスは基本情報とは権限が異なる（オーナー / 該当店舗の店舗管理者 / 本人のみ）
+  let canEditEmail = false;
+  try {
+    await requireStaffEmailEditPermission(session.user!.id, orgId, staff.id);
+    canEditEmail = true;
+  } catch {
+    canEditEmail = false;
+  }
+
+  // 未所属の店舗一覧（追加フォーム用）
+  const assignedStoreIds = staff.staffStores.map((ss) => ss.storeId);
+  const availableStores = await db.store.findMany({
+    where: {
+      organizationId: orgId,
+      isActive: true,
+      id: { notIn: assignedStoreIds.length > 0 ? assignedStoreIds : ["__none__"] },
+    },
+    select: { id: true, name: true },
+    orderBy: { name: "asc" },
+  });
+
   return (
     <div className="space-y-8">
       <PageHeader
@@ -80,11 +112,20 @@ export default async function StaffDetailPage({ params }: PageProps) {
           { label: staff.displayName },
         ]}
         actions={
-          <span
-            className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${staffStatusColor[staff.status] ?? "bg-gray-100 text-gray-500"}`}
-          >
-            {staffStatusLabel[staff.status] ?? staff.status}
-          </span>
+          <div className="flex items-center gap-3">
+            <span
+              className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${staffStatusColor[staff.status] ?? "bg-gray-100 text-gray-500"}`}
+            >
+              {staffStatusLabel[staff.status] ?? staff.status}
+            </span>
+            {staff.status !== "RESIGNED" && (
+              <StaffInviteButton
+                staffId={staff.id}
+                organizationId={orgId}
+                staffEmail={staff.email}
+              />
+            )}
+          </div>
         }
       />
 
@@ -101,7 +142,6 @@ export default async function StaffDetailPage({ params }: PageProps) {
                   id: staff.id,
                   displayName: staff.displayName,
                   fullName: staff.fullName ?? "",
-                  email: staff.email,
                   phone: staff.phone ?? "",
                   employeeCode: staff.employeeCode ?? "",
                   hireDate: staff.hireDate
@@ -112,6 +152,17 @@ export default async function StaffDetailPage({ params }: PageProps) {
                 organizationId={orgId}
               />
             </div>
+
+            {canEditEmail && (
+              <div className="border-t border-border p-6">
+                <StaffEmailForm
+                  staffId={staff.id}
+                  organizationId={orgId}
+                  currentEmail={staff.email}
+                  hasLoginAccount={!!staff.userId}
+                />
+              </div>
+            )}
           </div>
         </section>
 
@@ -138,16 +189,18 @@ export default async function StaffDetailPage({ params }: PageProps) {
 
               {/* 基本情報表示 */}
               <dl className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <Mail
-                    className="size-4 text-muted-foreground shrink-0"
-                    aria-hidden="true"
-                  />
-                  <div>
-                    <dt className="sr-only">メール</dt>
-                    <dd className="text-sm">{staff.email}</dd>
+                {staff.email && (
+                  <div className="flex items-center gap-3">
+                    <Mail
+                      className="size-4 text-muted-foreground shrink-0"
+                      aria-hidden="true"
+                    />
+                    <div>
+                      <dt className="sr-only">メール</dt>
+                      <dd className="text-sm">{staff.email}</dd>
+                    </div>
                   </div>
-                </div>
+                )}
                 {staff.phone && (
                   <div className="flex items-center gap-3">
                     <Phone
@@ -235,6 +288,11 @@ export default async function StaffDetailPage({ params }: PageProps) {
                   ({staff.staffStores.length}件)
                 </span>
               </h2>
+              <StaffStoreAddForm
+                staffId={staff.id}
+                organizationId={orgId}
+                availableStores={availableStores}
+              />
             </div>
           </div>
           {staff.staffStores.length === 0 ? (
@@ -249,7 +307,7 @@ export default async function StaffDetailPage({ params }: PageProps) {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full min-w-[640px] text-sm">
                 <thead>
                   <tr className="border-b border-border bg-muted/40">
                     <th className="px-6 py-3 text-left font-medium text-muted-foreground">
@@ -346,6 +404,38 @@ export default async function StaffDetailPage({ params }: PageProps) {
         </div>
       </section>
 
+      {/* PIN管理 */}
+      {staff.staffStores.filter((ss) => ss.isActive).length > 0 && (
+        <section>
+          <div className="rounded-xl border border-border bg-card shadow-sm">
+            <div className="border-b border-border px-6 py-4">
+              <div className="flex items-center gap-2">
+                <KeyRound className="size-4 text-muted-foreground" aria-hidden="true" />
+                <h2 className="text-base font-semibold">PIN管理</h2>
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                店舗ごとに打刻時のPIN設定を管理します
+              </p>
+            </div>
+            <div className="p-6 grid gap-4 sm:grid-cols-2">
+              {staff.staffStores
+                .filter((ss) => ss.isActive)
+                .map((ss) => (
+                  <StaffPinForm
+                    key={ss.storeId}
+                    staffId={staff.id}
+                    organizationId={orgId}
+                    storeId={ss.storeId}
+                    storeName={ss.store.name}
+                    hasPinSet={!!ss.pinHash}
+                    requirePin={ss.requirePin}
+                  />
+                ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* 時給履歴 */}
       {staff.staffStores.some((ss) => ss.wageHistories.length > 0) && (
         <section>
@@ -354,7 +444,7 @@ export default async function StaffDetailPage({ params }: PageProps) {
               <h2 className="text-base font-semibold">時給履歴</h2>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full min-w-[640px] text-sm">
                 <thead>
                   <tr className="border-b border-border bg-muted/40">
                     <th className="px-6 py-3 text-left font-medium text-muted-foreground">

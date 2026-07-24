@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerUser } from "@/actions/auth";
+import { registerUser, resendVerificationEmail } from "@/actions/auth";
 import {
   registerSchema,
   type RegisterInput,
@@ -23,6 +23,9 @@ import { Label } from "@/components/ui/label";
 
 export default function RegisterPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
+  const [resendDone, setResendDone] = useState(false);
+  const [resending, setResending] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
   const {
@@ -38,9 +41,65 @@ export default function RegisterPage() {
     const result = await registerUser(data);
     if (result.error) {
       setServerError(result.error);
+    } else if (result.unverifiedExists) {
+      setUnverifiedEmail(data.email);
     } else {
       setSubmitted(true);
     }
+  }
+
+  async function handleResend() {
+    if (!unverifiedEmail) return;
+    setResending(true);
+    await resendVerificationEmail(unverifiedEmail);
+    setResending(false);
+    setResendDone(true);
+  }
+
+  if (unverifiedEmail) {
+    return (
+      <Card>
+        <CardContent className="pt-6">
+          <div className="flex flex-col items-center gap-4 py-6 text-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100">
+              <svg
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-amber-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+                />
+              </svg>
+            </div>
+            <div>
+              <p className="font-semibold text-foreground">すでに登録済みのメールアドレスです</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {unverifiedEmail} はまだメール認証が完了していません。
+                <br />
+                認証メールを再送することができます。
+              </p>
+            </div>
+            {resendDone ? (
+              <p className="text-sm text-primary font-medium">認証メールを再送しました</p>
+            ) : (
+              <Button onClick={handleResend} disabled={resending} className="w-full max-w-xs">
+                {resending ? "送信中…" : "認証メールを再送する"}
+              </Button>
+            )}
+            <Link href="/login" className="text-sm text-muted-foreground hover:underline">
+              ログインページへ
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    );
   }
 
   if (submitted) {
@@ -208,7 +267,7 @@ export default function RegisterPage() {
             disabled={isSubmitting}
             aria-busy={isSubmitting}
           >
-            {isSubmitting ? "登録中..." : "アカウントを作成"}
+            {isSubmitting ? "登録中…" : "アカウントを作成"}
           </Button>
         </form>
       </CardContent>

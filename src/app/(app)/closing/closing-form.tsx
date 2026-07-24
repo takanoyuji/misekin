@@ -162,7 +162,7 @@ export function ClosingForm({ organizationId, stores }: Props) {
               : "bg-primary text-primary-foreground hover:bg-primary/90"
           )}
         >
-          {isPending ? "作成中..." : "締め期間を作成"}
+          {isPending ? "作成中…" : "締め期間を作成"}
         </button>
       </div>
     </form>

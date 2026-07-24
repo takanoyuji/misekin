@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { ApiKeyCreateForm } from "./api-key-create-form";
 import { ApiKeyRevokeButton } from "./api-key-revoke-button";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "APIキー管理",
@@ -17,7 +18,10 @@ export default async function ApiKeysPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   let ctx;
@@ -68,7 +72,7 @@ export default async function ApiKeysPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
                   <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">

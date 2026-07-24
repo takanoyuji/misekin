@@ -19,7 +19,8 @@ export type VerificationTokenType = (typeof VerificationTokenType)[keyof typeof 
 
 export const OrganizationRole = {
   OWNER: 'OWNER',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
 } as const
 
 export type OrganizationRole = (typeof OrganizationRole)[keyof typeof OrganizationRole]

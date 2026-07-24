@@ -65,7 +65,7 @@ export function AdminRemoveButton({ memberId, memberName, organizationId }: Admi
                 disabled={isPending}
                 className="flex-1 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-bold disabled:opacity-60"
               >
-                {isPending ? "処理中..." : "削除する"}
+                {isPending ? "処理中…" : "削除する"}
               </button>
             </div>
           </div>

@@ -1,16 +1,19 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { createAuditLog } from "@/lib/auth/audit";
+import { clockCookieName, verifyClockSession } from "@/lib/clock-session";
 import { requireAdmin, canAccessStore } from "@/lib/auth/permissions";
 import {
   correctAttendanceSchema,
   correctionRequestSchema,
+  missingAttendanceRequestSchema,
   reviewCorrectionRequestSchema,
   type CorrectAttendanceInput,
   type CorrectionRequestInput,
+  type MissingAttendanceRequestInput,
   type ReviewCorrectionRequestInput,
 } from "@/lib/validations/attendance";
 import { getBusinessDate } from "@/lib/business/business-day";
@@ -23,8 +26,6 @@ import {
   calculateWorkMinutes,
 } from "@/lib/business/attendance";
 import { detectAnomalies } from "@/lib/business/anomaly-detection";
-import bcrypt from "bcryptjs";
-import { addMinutes } from "date-fns";
 
 interface ActionResult {
   success?: boolean;
@@ -35,8 +36,8 @@ interface ActionResult {
 interface ClockActionParams {
   token: string;
   staffId: string;
-  pin: string;
   action: "CLOCK_IN" | "BREAK_START" | "BREAK_END" | "CLOCK_OUT";
+  memo?: string;
   ipAddress?: string;
   userAgent?: string;
   deviceFingerprint?: string;
@@ -49,7 +50,7 @@ interface ClockActionParams {
 export async function clockAction(
   params: ClockActionParams
 ): Promise<ActionResult & { newState?: string; clockedAt?: Date }> {
-  const { token, staffId, pin, action, ipAddress, userAgent, deviceFingerprint } =
+  const { token, staffId, action, memo, ipAddress, userAgent, deviceFingerprint } =
     params;
 
   // 打刻URLのトークン検証
@@ -92,44 +93,15 @@ export async function clockAction(
     return { error: "スタッフが見つかりません" };
   }
 
-  // PINロックチェック
-  if (staffStore.pinLockedUntil && staffStore.pinLockedUntil > new Date()) {
-    return { error: "PINが一時的にロックされています。しばらく待ってからお試しください" };
-  }
-
-  // PIN検証
-  if (!staffStore.pinHash) {
-    return { error: "PINが設定されていません。管理者にお問い合わせください" };
-  }
-
-  const isPinValid = await bcrypt.compare(pin, staffStore.pinHash);
-  if (!isPinValid) {
-    // 失敗回数を増やす
-    const newFailCount = staffStore.pinFailCount + 1;
-    const lockUntil = newFailCount >= 5 ? addMinutes(new Date(), 15) : null;
-
-    await db.staffStore.update({
-      where: { id: staffStore.id },
-      data: {
-        pinFailCount: newFailCount,
-        pinLockedUntil: lockUntil,
-      },
-    });
-
-    if (lockUntil) {
-      return { error: "PINの入力を5回間違えました。15分間ロックされます" };
+  // PINは verifyClockPin で検証済み。ここではその結果である短命セッションCookieを確認する。
+  // PIN必須スタッフはセッションが無ければ打刻を拒否（PIN入力画面へ戻す想定）。
+  if (staffStore.requirePin) {
+    const cookieStore = await cookies();
+    const session = cookieStore.get(clockCookieName(token))?.value;
+    if (!verifyClockSession(session, staffStore.id, Date.now())) {
+      return { error: "PIN認証の有効期限が切れました。PINを入力し直してください" };
     }
-
-    return {
-      error: `PINが正しくありません（残り${5 - newFailCount}回）`,
-    };
   }
-
-  // PIN成功: 失敗カウントリセット
-  await db.staffStore.update({
-    where: { id: staffStore.id },
-    data: { pinFailCount: 0, pinLockedUntil: null },
-  });
 
   const now = new Date();
   const businessDate = getBusinessDate(
@@ -315,6 +287,7 @@ export async function clockAction(
             status: "COMPLETED",
             hasAnomaly: anomalyResult.hasAnomaly,
             anomalyReasons: anomalyResult.reasons as any,
+            clockOutMemo: memo ?? null,
           },
         });
       }
@@ -495,10 +468,14 @@ export async function correctAttendance(
  * スタッフによる修正申請
  */
 export async function createCorrectionRequest(
-  userId: string,
   organizationId: string,
   input: CorrectionRequestInput
 ): Promise<ActionResult> {
+  // 呼び出し側から渡された userId は信用できないため、セッションから取得する
+  const session = await auth();
+  if (!session?.user?.id) return { error: "ログインが必要です" };
+  const userId = session.user.id;
+
   const parsed = correctionRequestSchema.safeParse(input);
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? "入力値が不正です" };
@@ -560,6 +537,114 @@ export async function createCorrectionRequest(
 }
 
 /**
+ * 打刻の付け忘れを申請する (勤怠レコードが存在しない日)
+ *
+ * 承認されると勤怠レコードが新規作成される。打刻イベントを伴わない勤怠になるため、
+ * 承認時に監査ログと修正履歴を残して経緯を追えるようにする。
+ */
+export async function createMissingAttendanceRequest(
+  organizationId: string,
+  input: MissingAttendanceRequestInput
+): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "ログインが必要です" };
+  const userId = session.user.id;
+
+  const parsed = missingAttendanceRequestSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "入力値が不正です" };
+  }
+
+  const { storeId, businessDate, requestedClockInAt, requestedClockOutAt } =
+    parsed.data;
+
+  if (requestedClockOutAt <= requestedClockInAt) {
+    return { error: "退勤時刻は出勤時刻より後にしてください" };
+  }
+
+  try {
+    const staff = await db.staff.findFirst({
+      where: { userId, organizationId },
+      select: { id: true },
+    });
+    if (!staff) return { error: "スタッフ情報が見つかりません" };
+
+    // 自分が所属している店舗のみ申請できる
+    const staffStore = await db.staffStore.findFirst({
+      where: { staffId: staff.id, storeId, isActive: true },
+      select: { id: true },
+    });
+    if (!staffStore) {
+      return { error: "所属していない店舗の申請はできません" };
+    }
+
+    // 既に勤怠がある日は「付け忘れ」ではないので通常の修正申請を使ってもらう
+    const existing = await db.attendance.findFirst({
+      where: { staffId: staff.id, storeId, businessDate },
+      select: { id: true, isLocked: true },
+    });
+    if (existing) {
+      return {
+        error:
+          "この日の勤怠は既に登録されています。勤怠一覧から修正申請してください",
+      };
+    }
+
+    // 締め済み期間には申請できない
+    const closed = await db.closingPeriod.findFirst({
+      where: {
+        organizationId,
+        closedAt: { not: null },
+        periodStart: { lte: businessDate },
+        periodEnd: { gte: businessDate },
+        OR: [{ storeId }, { storeId: null }],
+      },
+      select: { id: true },
+    });
+    if (closed) {
+      return { error: "締め処理済みの期間には申請できません" };
+    }
+
+    const duplicatePending = await db.correctionRequest.findFirst({
+      where: {
+        staffId: staff.id,
+        storeId,
+        businessDate,
+        status: "PENDING",
+      },
+      select: { id: true },
+    });
+    if (duplicatePending) {
+      return { error: "この日の申請は既に審査中です" };
+    }
+
+    const request = await db.correctionRequest.create({
+      data: {
+        attendanceId: null,
+        staffId: staff.id,
+        storeId,
+        businessDate,
+        // 勤怠が存在しないため修正前の値は無い
+        originalData: { clockInAt: null, clockOutAt: null, breaks: [] } as any,
+        requestedData: {
+          clockInAt: requestedClockInAt,
+          clockOutAt: requestedClockOutAt,
+          breaks: parsed.data.requestedBreaks ?? [],
+        } as any,
+        reason: parsed.data.reason,
+        notes: parsed.data.notes,
+      },
+      select: { id: true },
+    });
+
+    revalidatePath("/my-correction-requests");
+    return { success: true, data: { requestId: request.id } };
+  } catch (error: any) {
+    return { error: error.message ?? "申請に失敗しました" };
+  }
+}
+
+/**
  * 修正申請を承認または却下する
  */
 export async function reviewCorrectionRequest(
@@ -587,8 +672,27 @@ export async function reviewCorrectionRequest(
     });
 
     if (!request) return { error: "申請が見つかりません" };
-    if (request.attendance.organizationId !== organizationId) {
-      return { error: "権限がありません" };
+
+    // 付け忘れ申請は勤怠が無いため、申請自身が持つ店舗・営業日を使う
+    const isMissingAttendanceRequest = request.attendanceId === null;
+    const targetStoreId = request.attendance?.storeId ?? request.storeId;
+    const targetBusinessDate =
+      request.attendance?.businessDate ?? request.businessDate;
+
+    if (!targetStoreId || !targetBusinessDate) {
+      return { error: "申請の対象が不正です" };
+    }
+
+    if (request.attendance) {
+      if (request.attendance.organizationId !== organizationId) {
+        return { error: "権限がありません" };
+      }
+    } else {
+      const store = await db.store.findFirst({
+        where: { id: targetStoreId, organizationId },
+        select: { id: true },
+      });
+      if (!store) return { error: "権限がありません" };
     }
 
     if (request.status !== "PENDING") {
@@ -599,9 +703,27 @@ export async function reviewCorrectionRequest(
     const hasAccess = await canAccessStore(
       ctx.memberId,
       ctx.role,
-      request.attendance.storeId
+      targetStoreId
     );
     if (!hasAccess) return { error: "この店舗へのアクセス権がありません" };
+
+    // 承認までの間に打刻されて勤怠が作られている場合は二重登録を防ぐ
+    if (isMissingAttendanceRequest && parsed.data.action === "APPROVE") {
+      const existing = await db.attendance.findFirst({
+        where: {
+          staffId: request.staffId,
+          storeId: targetStoreId,
+          businessDate: targetBusinessDate,
+        },
+        select: { id: true },
+      });
+      if (existing) {
+        return {
+          error:
+            "この日の勤怠は既に登録されています。申請を却下し、勤怠一覧から直接修正してください",
+        };
+      }
+    }
 
     await db.$transaction(async (tx) => {
       const newStatus =
@@ -624,37 +746,92 @@ export async function reviewCorrectionRequest(
         // 修正前のスナップショット
         const before = request.originalData;
 
-        await tx.attendance.update({
-          where: { id: request.attendanceId },
-          data: {
-            clockInAt: requestedData.clockInAt
-              ? new Date(requestedData.clockInAt)
-              : undefined,
-            clockOutAt: requestedData.clockOutAt
-              ? new Date(requestedData.clockOutAt)
-              : undefined,
-          },
-        });
+        const breaksInput: { startAt: Date; endAt: Date | null }[] = (
+          requestedData.breaks ?? []
+        ).map((b: any) => ({
+          startAt: new Date(b.startAt),
+          endAt: b.endAt ? new Date(b.endAt) : null,
+        }));
 
-        if (requestedData.breaks) {
-          await tx.break.deleteMany({
-            where: { attendanceId: request.attendanceId },
+        // 付け忘れ申請は勤怠を新規作成する
+        let attendanceId = request.attendanceId;
+
+        if (!attendanceId) {
+          const clockInAt = new Date(requestedData.clockInAt);
+          const clockOutAt = new Date(requestedData.clockOutAt);
+
+          const created = await tx.attendance.create({
+            data: {
+              organizationId,
+              storeId: targetStoreId,
+              staffId: request.staffId,
+              businessDate: targetBusinessDate,
+              clockInAt,
+              clockOutAt,
+              breakMinutes: calculateBreakMinutes(breaksInput),
+              workMinutes: calculateWorkMinutes(
+                clockInAt,
+                clockOutAt,
+                breaksInput
+              ),
+              status: "COMPLETED",
+              // 打刻イベントを伴わない勤怠であることを残す
+              adminNotes: `打刻の付け忘れ申請を承認して作成 (申請理由: ${request.reason})`,
+            },
+            select: { id: true },
           });
-          await tx.break.createMany({
-            data: requestedData.breaks.map((b: any) => ({
-              attendanceId: request.attendanceId,
-              startAt: new Date(b.startAt),
-              endAt: b.endAt ? new Date(b.endAt) : null,
-            })),
+          attendanceId = created.id;
+
+          if (breaksInput.length > 0) {
+            await tx.break.createMany({
+              data: breaksInput.map((b) => ({
+                attendanceId: created.id,
+                startAt: b.startAt,
+                endAt: b.endAt,
+              })),
+            });
+          }
+
+          // 申請と作成された勤怠を紐付ける
+          await tx.correctionRequest.update({
+            where: { id: request.id },
+            data: { attendanceId: created.id },
           });
+        } else {
+          await tx.attendance.update({
+            where: { id: attendanceId },
+            data: {
+              clockInAt: requestedData.clockInAt
+                ? new Date(requestedData.clockInAt)
+                : undefined,
+              clockOutAt: requestedData.clockOutAt
+                ? new Date(requestedData.clockOutAt)
+                : undefined,
+            },
+          });
+
+          if (requestedData.breaks) {
+            await tx.break.deleteMany({
+              where: { attendanceId },
+            });
+            await tx.break.createMany({
+              data: breaksInput.map((b) => ({
+                attendanceId: attendanceId!,
+                startAt: b.startAt,
+                endAt: b.endAt,
+              })),
+            });
+          }
         }
 
         // 修正履歴
         await tx.attendanceCorrection.create({
           data: {
-            attendanceId: request.attendanceId,
+            attendanceId,
             correctedByUserId: session.user!.id,
-            reason: `修正申請承認: ${request.reason}`,
+            reason: isMissingAttendanceRequest
+              ? `打刻の付け忘れ申請を承認: ${request.reason}`
+              : `修正申請承認: ${request.reason}`,
             before: before as any,
             after: requestedData,
           },

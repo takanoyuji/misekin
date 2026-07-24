@@ -45,6 +45,7 @@ export type StaffStoreMinAggregateOutputType = {
   pinFailCount: number | null
   pinLockedUntil: Date | null
   canClock: boolean | null
+  requirePin: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -61,6 +62,7 @@ export type StaffStoreMaxAggregateOutputType = {
   pinFailCount: number | null
   pinLockedUntil: Date | null
   canClock: boolean | null
+  requirePin: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -77,6 +79,7 @@ export type StaffStoreCountAggregateOutputType = {
   pinFailCount: number
   pinLockedUntil: number
   canClock: number
+  requirePin: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -103,6 +106,7 @@ export type StaffStoreMinAggregateInputType = {
   pinFailCount?: true
   pinLockedUntil?: true
   canClock?: true
+  requirePin?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -119,6 +123,7 @@ export type StaffStoreMaxAggregateInputType = {
   pinFailCount?: true
   pinLockedUntil?: true
   canClock?: true
+  requirePin?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -135,6 +140,7 @@ export type StaffStoreCountAggregateInputType = {
   pinFailCount?: true
   pinLockedUntil?: true
   canClock?: true
+  requirePin?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -238,6 +244,7 @@ export type StaffStoreGroupByOutputType = {
   pinFailCount: number
   pinLockedUntil: Date | null
   canClock: boolean
+  requirePin: boolean
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -277,6 +284,7 @@ export type StaffStoreWhereInput = {
   pinFailCount?: Prisma.IntFilter<"StaffStore"> | number
   pinLockedUntil?: Prisma.DateTimeNullableFilter<"StaffStore"> | Date | string | null
   canClock?: Prisma.BoolFilter<"StaffStore"> | boolean
+  requirePin?: Prisma.BoolFilter<"StaffStore"> | boolean
   isActive?: Prisma.BoolFilter<"StaffStore"> | boolean
   createdAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
@@ -284,6 +292,7 @@ export type StaffStoreWhereInput = {
   store?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
   wageHistories?: Prisma.WageHistoryListRelationFilter
   transportationHistories?: Prisma.TransportationHistoryListRelationFilter
+  transportationChangeRequests?: Prisma.TransportationChangeRequestListRelationFilter
 }
 
 export type StaffStoreOrderByWithRelationInput = {
@@ -297,6 +306,7 @@ export type StaffStoreOrderByWithRelationInput = {
   pinFailCount?: Prisma.SortOrder
   pinLockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder
   canClock?: Prisma.SortOrder
+  requirePin?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -304,6 +314,7 @@ export type StaffStoreOrderByWithRelationInput = {
   store?: Prisma.StoreOrderByWithRelationInput
   wageHistories?: Prisma.WageHistoryOrderByRelationAggregateInput
   transportationHistories?: Prisma.TransportationHistoryOrderByRelationAggregateInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestOrderByRelationAggregateInput
 }
 
 export type StaffStoreWhereUniqueInput = Prisma.AtLeast<{
@@ -321,6 +332,7 @@ export type StaffStoreWhereUniqueInput = Prisma.AtLeast<{
   pinFailCount?: Prisma.IntFilter<"StaffStore"> | number
   pinLockedUntil?: Prisma.DateTimeNullableFilter<"StaffStore"> | Date | string | null
   canClock?: Prisma.BoolFilter<"StaffStore"> | boolean
+  requirePin?: Prisma.BoolFilter<"StaffStore"> | boolean
   isActive?: Prisma.BoolFilter<"StaffStore"> | boolean
   createdAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
@@ -328,6 +340,7 @@ export type StaffStoreWhereUniqueInput = Prisma.AtLeast<{
   store?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
   wageHistories?: Prisma.WageHistoryListRelationFilter
   transportationHistories?: Prisma.TransportationHistoryListRelationFilter
+  transportationChangeRequests?: Prisma.TransportationChangeRequestListRelationFilter
 }, "id" | "staffId_storeId">
 
 export type StaffStoreOrderByWithAggregationInput = {
@@ -341,6 +354,7 @@ export type StaffStoreOrderByWithAggregationInput = {
   pinFailCount?: Prisma.SortOrder
   pinLockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder
   canClock?: Prisma.SortOrder
+  requirePin?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -365,6 +379,7 @@ export type StaffStoreScalarWhereWithAggregatesInput = {
   pinFailCount?: Prisma.IntWithAggregatesFilter<"StaffStore"> | number
   pinLockedUntil?: Prisma.DateTimeNullableWithAggregatesFilter<"StaffStore"> | Date | string | null
   canClock?: Prisma.BoolWithAggregatesFilter<"StaffStore"> | boolean
+  requirePin?: Prisma.BoolWithAggregatesFilter<"StaffStore"> | boolean
   isActive?: Prisma.BoolWithAggregatesFilter<"StaffStore"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"StaffStore"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"StaffStore"> | Date | string
@@ -379,6 +394,7 @@ export type StaffStoreCreateInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -386,6 +402,7 @@ export type StaffStoreCreateInput = {
   store: Prisma.StoreCreateNestedOneWithoutStaffStoresInput
   wageHistories?: Prisma.WageHistoryCreateNestedManyWithoutStaffStoreInput
   transportationHistories?: Prisma.TransportationHistoryCreateNestedManyWithoutStaffStoreInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffStoreInput
 }
 
 export type StaffStoreUncheckedCreateInput = {
@@ -399,11 +416,13 @@ export type StaffStoreUncheckedCreateInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   wageHistories?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutStaffStoreInput
   transportationHistories?: Prisma.TransportationHistoryUncheckedCreateNestedManyWithoutStaffStoreInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffStoreInput
 }
 
 export type StaffStoreUpdateInput = {
@@ -415,6 +434,7 @@ export type StaffStoreUpdateInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -422,6 +442,7 @@ export type StaffStoreUpdateInput = {
   store?: Prisma.StoreUpdateOneRequiredWithoutStaffStoresNestedInput
   wageHistories?: Prisma.WageHistoryUpdateManyWithoutStaffStoreNestedInput
   transportationHistories?: Prisma.TransportationHistoryUpdateManyWithoutStaffStoreNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffStoreNestedInput
 }
 
 export type StaffStoreUncheckedUpdateInput = {
@@ -435,11 +456,13 @@ export type StaffStoreUncheckedUpdateInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   wageHistories?: Prisma.WageHistoryUncheckedUpdateManyWithoutStaffStoreNestedInput
   transportationHistories?: Prisma.TransportationHistoryUncheckedUpdateManyWithoutStaffStoreNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffStoreNestedInput
 }
 
 export type StaffStoreCreateManyInput = {
@@ -453,6 +476,7 @@ export type StaffStoreCreateManyInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -467,6 +491,7 @@ export type StaffStoreUpdateManyMutationInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -483,6 +508,7 @@ export type StaffStoreUncheckedUpdateManyInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -514,6 +540,7 @@ export type StaffStoreCountOrderByAggregateInput = {
   pinFailCount?: Prisma.SortOrder
   pinLockedUntil?: Prisma.SortOrder
   canClock?: Prisma.SortOrder
+  requirePin?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -534,6 +561,7 @@ export type StaffStoreMaxOrderByAggregateInput = {
   pinFailCount?: Prisma.SortOrder
   pinLockedUntil?: Prisma.SortOrder
   canClock?: Prisma.SortOrder
+  requirePin?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -550,6 +578,7 @@ export type StaffStoreMinOrderByAggregateInput = {
   pinFailCount?: Prisma.SortOrder
   pinLockedUntil?: Prisma.SortOrder
   canClock?: Prisma.SortOrder
+  requirePin?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -676,6 +705,20 @@ export type StaffStoreUpdateOneRequiredWithoutTransportationHistoriesNestedInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.StaffStoreUpdateToOneWithWhereWithoutTransportationHistoriesInput, Prisma.StaffStoreUpdateWithoutTransportationHistoriesInput>, Prisma.StaffStoreUncheckedUpdateWithoutTransportationHistoriesInput>
 }
 
+export type StaffStoreCreateNestedOneWithoutTransportationChangeRequestsInput = {
+  create?: Prisma.XOR<Prisma.StaffStoreCreateWithoutTransportationChangeRequestsInput, Prisma.StaffStoreUncheckedCreateWithoutTransportationChangeRequestsInput>
+  connectOrCreate?: Prisma.StaffStoreCreateOrConnectWithoutTransportationChangeRequestsInput
+  connect?: Prisma.StaffStoreWhereUniqueInput
+}
+
+export type StaffStoreUpdateOneRequiredWithoutTransportationChangeRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.StaffStoreCreateWithoutTransportationChangeRequestsInput, Prisma.StaffStoreUncheckedCreateWithoutTransportationChangeRequestsInput>
+  connectOrCreate?: Prisma.StaffStoreCreateOrConnectWithoutTransportationChangeRequestsInput
+  upsert?: Prisma.StaffStoreUpsertWithoutTransportationChangeRequestsInput
+  connect?: Prisma.StaffStoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StaffStoreUpdateToOneWithWhereWithoutTransportationChangeRequestsInput, Prisma.StaffStoreUpdateWithoutTransportationChangeRequestsInput>, Prisma.StaffStoreUncheckedUpdateWithoutTransportationChangeRequestsInput>
+}
+
 export type StaffStoreCreateWithoutStoreInput = {
   id?: string
   startDate: Date | string
@@ -685,12 +728,14 @@ export type StaffStoreCreateWithoutStoreInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   staff: Prisma.StaffCreateNestedOneWithoutStaffStoresInput
   wageHistories?: Prisma.WageHistoryCreateNestedManyWithoutStaffStoreInput
   transportationHistories?: Prisma.TransportationHistoryCreateNestedManyWithoutStaffStoreInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffStoreInput
 }
 
 export type StaffStoreUncheckedCreateWithoutStoreInput = {
@@ -703,11 +748,13 @@ export type StaffStoreUncheckedCreateWithoutStoreInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   wageHistories?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutStaffStoreInput
   transportationHistories?: Prisma.TransportationHistoryUncheckedCreateNestedManyWithoutStaffStoreInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffStoreInput
 }
 
 export type StaffStoreCreateOrConnectWithoutStoreInput = {
@@ -750,6 +797,7 @@ export type StaffStoreScalarWhereInput = {
   pinFailCount?: Prisma.IntFilter<"StaffStore"> | number
   pinLockedUntil?: Prisma.DateTimeNullableFilter<"StaffStore"> | Date | string | null
   canClock?: Prisma.BoolFilter<"StaffStore"> | boolean
+  requirePin?: Prisma.BoolFilter<"StaffStore"> | boolean
   isActive?: Prisma.BoolFilter<"StaffStore"> | boolean
   createdAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
@@ -764,12 +812,14 @@ export type StaffStoreCreateWithoutStaffInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   store: Prisma.StoreCreateNestedOneWithoutStaffStoresInput
   wageHistories?: Prisma.WageHistoryCreateNestedManyWithoutStaffStoreInput
   transportationHistories?: Prisma.TransportationHistoryCreateNestedManyWithoutStaffStoreInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffStoreInput
 }
 
 export type StaffStoreUncheckedCreateWithoutStaffInput = {
@@ -782,11 +832,13 @@ export type StaffStoreUncheckedCreateWithoutStaffInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   wageHistories?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutStaffStoreInput
   transportationHistories?: Prisma.TransportationHistoryUncheckedCreateNestedManyWithoutStaffStoreInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffStoreInput
 }
 
 export type StaffStoreCreateOrConnectWithoutStaffInput = {
@@ -824,12 +876,14 @@ export type StaffStoreCreateWithoutWageHistoriesInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   staff: Prisma.StaffCreateNestedOneWithoutStaffStoresInput
   store: Prisma.StoreCreateNestedOneWithoutStaffStoresInput
   transportationHistories?: Prisma.TransportationHistoryCreateNestedManyWithoutStaffStoreInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffStoreInput
 }
 
 export type StaffStoreUncheckedCreateWithoutWageHistoriesInput = {
@@ -843,10 +897,12 @@ export type StaffStoreUncheckedCreateWithoutWageHistoriesInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   transportationHistories?: Prisma.TransportationHistoryUncheckedCreateNestedManyWithoutStaffStoreInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffStoreInput
 }
 
 export type StaffStoreCreateOrConnectWithoutWageHistoriesInput = {
@@ -874,12 +930,14 @@ export type StaffStoreUpdateWithoutWageHistoriesInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   staff?: Prisma.StaffUpdateOneRequiredWithoutStaffStoresNestedInput
   store?: Prisma.StoreUpdateOneRequiredWithoutStaffStoresNestedInput
   transportationHistories?: Prisma.TransportationHistoryUpdateManyWithoutStaffStoreNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffStoreNestedInput
 }
 
 export type StaffStoreUncheckedUpdateWithoutWageHistoriesInput = {
@@ -893,10 +951,12 @@ export type StaffStoreUncheckedUpdateWithoutWageHistoriesInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transportationHistories?: Prisma.TransportationHistoryUncheckedUpdateManyWithoutStaffStoreNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffStoreNestedInput
 }
 
 export type StaffStoreCreateWithoutTransportationHistoriesInput = {
@@ -908,12 +968,14 @@ export type StaffStoreCreateWithoutTransportationHistoriesInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   staff: Prisma.StaffCreateNestedOneWithoutStaffStoresInput
   store: Prisma.StoreCreateNestedOneWithoutStaffStoresInput
   wageHistories?: Prisma.WageHistoryCreateNestedManyWithoutStaffStoreInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffStoreInput
 }
 
 export type StaffStoreUncheckedCreateWithoutTransportationHistoriesInput = {
@@ -927,10 +989,12 @@ export type StaffStoreUncheckedCreateWithoutTransportationHistoriesInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   wageHistories?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutStaffStoreInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffStoreInput
 }
 
 export type StaffStoreCreateOrConnectWithoutTransportationHistoriesInput = {
@@ -958,12 +1022,14 @@ export type StaffStoreUpdateWithoutTransportationHistoriesInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   staff?: Prisma.StaffUpdateOneRequiredWithoutStaffStoresNestedInput
   store?: Prisma.StoreUpdateOneRequiredWithoutStaffStoresNestedInput
   wageHistories?: Prisma.WageHistoryUpdateManyWithoutStaffStoreNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffStoreNestedInput
 }
 
 export type StaffStoreUncheckedUpdateWithoutTransportationHistoriesInput = {
@@ -977,10 +1043,104 @@ export type StaffStoreUncheckedUpdateWithoutTransportationHistoriesInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   wageHistories?: Prisma.WageHistoryUncheckedUpdateManyWithoutStaffStoreNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffStoreNestedInput
+}
+
+export type StaffStoreCreateWithoutTransportationChangeRequestsInput = {
+  id?: string
+  startDate: Date | string
+  endDate?: Date | string | null
+  isPrimary?: boolean
+  pinHash?: string | null
+  pinFailCount?: number
+  pinLockedUntil?: Date | string | null
+  canClock?: boolean
+  requirePin?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  staff: Prisma.StaffCreateNestedOneWithoutStaffStoresInput
+  store: Prisma.StoreCreateNestedOneWithoutStaffStoresInput
+  wageHistories?: Prisma.WageHistoryCreateNestedManyWithoutStaffStoreInput
+  transportationHistories?: Prisma.TransportationHistoryCreateNestedManyWithoutStaffStoreInput
+}
+
+export type StaffStoreUncheckedCreateWithoutTransportationChangeRequestsInput = {
+  id?: string
+  staffId: string
+  storeId: string
+  startDate: Date | string
+  endDate?: Date | string | null
+  isPrimary?: boolean
+  pinHash?: string | null
+  pinFailCount?: number
+  pinLockedUntil?: Date | string | null
+  canClock?: boolean
+  requirePin?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  wageHistories?: Prisma.WageHistoryUncheckedCreateNestedManyWithoutStaffStoreInput
+  transportationHistories?: Prisma.TransportationHistoryUncheckedCreateNestedManyWithoutStaffStoreInput
+}
+
+export type StaffStoreCreateOrConnectWithoutTransportationChangeRequestsInput = {
+  where: Prisma.StaffStoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StaffStoreCreateWithoutTransportationChangeRequestsInput, Prisma.StaffStoreUncheckedCreateWithoutTransportationChangeRequestsInput>
+}
+
+export type StaffStoreUpsertWithoutTransportationChangeRequestsInput = {
+  update: Prisma.XOR<Prisma.StaffStoreUpdateWithoutTransportationChangeRequestsInput, Prisma.StaffStoreUncheckedUpdateWithoutTransportationChangeRequestsInput>
+  create: Prisma.XOR<Prisma.StaffStoreCreateWithoutTransportationChangeRequestsInput, Prisma.StaffStoreUncheckedCreateWithoutTransportationChangeRequestsInput>
+  where?: Prisma.StaffStoreWhereInput
+}
+
+export type StaffStoreUpdateToOneWithWhereWithoutTransportationChangeRequestsInput = {
+  where?: Prisma.StaffStoreWhereInput
+  data: Prisma.XOR<Prisma.StaffStoreUpdateWithoutTransportationChangeRequestsInput, Prisma.StaffStoreUncheckedUpdateWithoutTransportationChangeRequestsInput>
+}
+
+export type StaffStoreUpdateWithoutTransportationChangeRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
+  pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  staff?: Prisma.StaffUpdateOneRequiredWithoutStaffStoresNestedInput
+  store?: Prisma.StoreUpdateOneRequiredWithoutStaffStoresNestedInput
+  wageHistories?: Prisma.WageHistoryUpdateManyWithoutStaffStoreNestedInput
+  transportationHistories?: Prisma.TransportationHistoryUpdateManyWithoutStaffStoreNestedInput
+}
+
+export type StaffStoreUncheckedUpdateWithoutTransportationChangeRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  pinHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
+  pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wageHistories?: Prisma.WageHistoryUncheckedUpdateManyWithoutStaffStoreNestedInput
+  transportationHistories?: Prisma.TransportationHistoryUncheckedUpdateManyWithoutStaffStoreNestedInput
 }
 
 export type StaffStoreCreateManyStoreInput = {
@@ -993,6 +1153,7 @@ export type StaffStoreCreateManyStoreInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1007,12 +1168,14 @@ export type StaffStoreUpdateWithoutStoreInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   staff?: Prisma.StaffUpdateOneRequiredWithoutStaffStoresNestedInput
   wageHistories?: Prisma.WageHistoryUpdateManyWithoutStaffStoreNestedInput
   transportationHistories?: Prisma.TransportationHistoryUpdateManyWithoutStaffStoreNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffStoreNestedInput
 }
 
 export type StaffStoreUncheckedUpdateWithoutStoreInput = {
@@ -1025,11 +1188,13 @@ export type StaffStoreUncheckedUpdateWithoutStoreInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   wageHistories?: Prisma.WageHistoryUncheckedUpdateManyWithoutStaffStoreNestedInput
   transportationHistories?: Prisma.TransportationHistoryUncheckedUpdateManyWithoutStaffStoreNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffStoreNestedInput
 }
 
 export type StaffStoreUncheckedUpdateManyWithoutStoreInput = {
@@ -1042,6 +1207,7 @@ export type StaffStoreUncheckedUpdateManyWithoutStoreInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1057,6 +1223,7 @@ export type StaffStoreCreateManyStaffInput = {
   pinFailCount?: number
   pinLockedUntil?: Date | string | null
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1071,12 +1238,14 @@ export type StaffStoreUpdateWithoutStaffInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   store?: Prisma.StoreUpdateOneRequiredWithoutStaffStoresNestedInput
   wageHistories?: Prisma.WageHistoryUpdateManyWithoutStaffStoreNestedInput
   transportationHistories?: Prisma.TransportationHistoryUpdateManyWithoutStaffStoreNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffStoreNestedInput
 }
 
 export type StaffStoreUncheckedUpdateWithoutStaffInput = {
@@ -1089,11 +1258,13 @@ export type StaffStoreUncheckedUpdateWithoutStaffInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   wageHistories?: Prisma.WageHistoryUncheckedUpdateManyWithoutStaffStoreNestedInput
   transportationHistories?: Prisma.TransportationHistoryUncheckedUpdateManyWithoutStaffStoreNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffStoreNestedInput
 }
 
 export type StaffStoreUncheckedUpdateManyWithoutStaffInput = {
@@ -1106,6 +1277,7 @@ export type StaffStoreUncheckedUpdateManyWithoutStaffInput = {
   pinFailCount?: Prisma.IntFieldUpdateOperationsInput | number
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1119,11 +1291,13 @@ export type StaffStoreUncheckedUpdateManyWithoutStaffInput = {
 export type StaffStoreCountOutputType = {
   wageHistories: number
   transportationHistories: number
+  transportationChangeRequests: number
 }
 
 export type StaffStoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   wageHistories?: boolean | StaffStoreCountOutputTypeCountWageHistoriesArgs
   transportationHistories?: boolean | StaffStoreCountOutputTypeCountTransportationHistoriesArgs
+  transportationChangeRequests?: boolean | StaffStoreCountOutputTypeCountTransportationChangeRequestsArgs
 }
 
 /**
@@ -1150,6 +1324,13 @@ export type StaffStoreCountOutputTypeCountTransportationHistoriesArgs<ExtArgs ex
   where?: Prisma.TransportationHistoryWhereInput
 }
 
+/**
+ * StaffStoreCountOutputType without action
+ */
+export type StaffStoreCountOutputTypeCountTransportationChangeRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransportationChangeRequestWhereInput
+}
+
 
 export type StaffStoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1162,6 +1343,7 @@ export type StaffStoreSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   pinFailCount?: boolean
   pinLockedUntil?: boolean
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1169,6 +1351,7 @@ export type StaffStoreSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   wageHistories?: boolean | Prisma.StaffStore$wageHistoriesArgs<ExtArgs>
   transportationHistories?: boolean | Prisma.StaffStore$transportationHistoriesArgs<ExtArgs>
+  transportationChangeRequests?: boolean | Prisma.StaffStore$transportationChangeRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.StaffStoreCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staffStore"]>
 
@@ -1183,6 +1366,7 @@ export type StaffStoreSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   pinFailCount?: boolean
   pinLockedUntil?: boolean
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1201,6 +1385,7 @@ export type StaffStoreSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   pinFailCount?: boolean
   pinLockedUntil?: boolean
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1219,17 +1404,19 @@ export type StaffStoreSelectScalar = {
   pinFailCount?: boolean
   pinLockedUntil?: boolean
   canClock?: boolean
+  requirePin?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type StaffStoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffId" | "storeId" | "startDate" | "endDate" | "isPrimary" | "pinHash" | "pinFailCount" | "pinLockedUntil" | "canClock" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["staffStore"]>
+export type StaffStoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffId" | "storeId" | "startDate" | "endDate" | "isPrimary" | "pinHash" | "pinFailCount" | "pinLockedUntil" | "canClock" | "requirePin" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["staffStore"]>
 export type StaffStoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   wageHistories?: boolean | Prisma.StaffStore$wageHistoriesArgs<ExtArgs>
   transportationHistories?: boolean | Prisma.StaffStore$transportationHistoriesArgs<ExtArgs>
+  transportationChangeRequests?: boolean | Prisma.StaffStore$transportationChangeRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.StaffStoreCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StaffStoreIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1248,6 +1435,7 @@ export type $StaffStorePayload<ExtArgs extends runtime.Types.Extensions.Internal
     store: Prisma.$StorePayload<ExtArgs>
     wageHistories: Prisma.$WageHistoryPayload<ExtArgs>[]
     transportationHistories: Prisma.$TransportationHistoryPayload<ExtArgs>[]
+    transportationChangeRequests: Prisma.$TransportationChangeRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1260,6 +1448,7 @@ export type $StaffStorePayload<ExtArgs extends runtime.Types.Extensions.Internal
     pinFailCount: number
     pinLockedUntil: Date | null
     canClock: boolean
+    requirePin: boolean
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1661,6 +1850,7 @@ export interface Prisma__StaffStoreClient<T, Null = never, ExtArgs extends runti
   store<T extends Prisma.StoreDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StoreDefaultArgs<ExtArgs>>): Prisma.Prisma__StoreClient<runtime.Types.Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   wageHistories<T extends Prisma.StaffStore$wageHistoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StaffStore$wageHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WageHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transportationHistories<T extends Prisma.StaffStore$transportationHistoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StaffStore$transportationHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportationHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transportationChangeRequests<T extends Prisma.StaffStore$transportationChangeRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StaffStore$transportationChangeRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportationChangeRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1700,6 +1890,7 @@ export interface StaffStoreFieldRefs {
   readonly pinFailCount: Prisma.FieldRef<"StaffStore", 'Int'>
   readonly pinLockedUntil: Prisma.FieldRef<"StaffStore", 'DateTime'>
   readonly canClock: Prisma.FieldRef<"StaffStore", 'Boolean'>
+  readonly requirePin: Prisma.FieldRef<"StaffStore", 'Boolean'>
   readonly isActive: Prisma.FieldRef<"StaffStore", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"StaffStore", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"StaffStore", 'DateTime'>
@@ -2149,6 +2340,30 @@ export type StaffStore$transportationHistoriesArgs<ExtArgs extends runtime.Types
   take?: number
   skip?: number
   distinct?: Prisma.TransportationHistoryScalarFieldEnum | Prisma.TransportationHistoryScalarFieldEnum[]
+}
+
+/**
+ * StaffStore.transportationChangeRequests
+ */
+export type StaffStore$transportationChangeRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransportationChangeRequest
+   */
+  select?: Prisma.TransportationChangeRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransportationChangeRequest
+   */
+  omit?: Prisma.TransportationChangeRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransportationChangeRequestInclude<ExtArgs> | null
+  where?: Prisma.TransportationChangeRequestWhereInput
+  orderBy?: Prisma.TransportationChangeRequestOrderByWithRelationInput | Prisma.TransportationChangeRequestOrderByWithRelationInput[]
+  cursor?: Prisma.TransportationChangeRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransportationChangeRequestScalarFieldEnum | Prisma.TransportationChangeRequestScalarFieldEnum[]
 }
 
 /**

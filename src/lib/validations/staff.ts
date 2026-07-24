@@ -6,15 +6,37 @@ export const createStaffSchema = z.object({
   email: z
     .string()
     .email("有効なメールアドレスを入力してください")
-    .toLowerCase(),
+    .toLowerCase()
+    .optional()
+    .nullable(),
   phone: z.string().max(20).optional().nullable(),
   employeeCode: z.string().max(20).optional().nullable(),
   hireDate: z.coerce.date().optional().nullable(),
   notes: z.string().max(500).optional().nullable(),
 });
 
+/**
+ * スタッフの基本情報更新
+ * メールアドレスは権限が異なるため updateStaffEmailSchema / updateStaffEmail で扱う
+ */
 export const updateStaffSchema = createStaffSchema.partial().omit({
   email: true,
+});
+
+/**
+ * スタッフのメールアドレス変更
+ * 空文字は「未設定にする」意図として null に正規化する
+ */
+export const updateStaffEmailSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .email("有効なメールアドレスを入力してください")
+    .max(254, "メールアドレスが長すぎます")
+    .or(z.literal(""))
+    .transform((v) => (v === "" ? null : v))
+    .nullable(),
 });
 
 export const staffStoreSchema = z.object({
@@ -56,6 +78,7 @@ export const transportationSchema = z.object({
 
 export type CreateStaffInput = z.infer<typeof createStaffSchema>;
 export type UpdateStaffInput = z.infer<typeof updateStaffSchema>;
+export type UpdateStaffEmailInput = z.infer<typeof updateStaffEmailSchema>;
 export type StaffStoreInput = z.infer<typeof staffStoreSchema>;
 export type SetPinInput = z.infer<typeof setPinSchema>;
 export type WageHistoryInput = z.infer<typeof wageHistorySchema>;

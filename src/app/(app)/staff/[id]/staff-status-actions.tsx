@@ -173,7 +173,7 @@ export function StaffStatusActions({
                 disabled={isPending}
                 className="flex-1 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-800 text-white text-sm font-bold transition-colors disabled:opacity-60"
               >
-                {isPending ? "処理中..." : "退職処理する"}
+                {isPending ? "処理中…" : "退職処理する"}
               </button>
             </div>
           </div>

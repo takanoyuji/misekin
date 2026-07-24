@@ -125,7 +125,7 @@ function LoginPageContent() {
             disabled={isPending}
             aria-busy={isPending}
           >
-            {isPending ? "ログイン中..." : "ログイン"}
+            {isPending ? "ログイン中…" : "ログイン"}
           </Button>
         </form>
       </CardContent>

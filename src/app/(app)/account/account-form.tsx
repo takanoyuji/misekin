@@ -3,7 +3,12 @@
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { updateAccountName, changePassword } from "@/actions/account";
+import {
+  updateAccountName,
+  updateAccountEmail,
+  changePassword,
+} from "@/actions/account";
+import { TriangleAlert } from "lucide-react";
 
 interface AccountFormProps {
   userName: string;
@@ -22,6 +27,12 @@ export function AccountForm({
   const [name, setName] = useState(userName);
   const [isNamePending, startNameTransition] = useTransition();
 
+  // メールアドレス変更（ログインIDを兼ねるため独立したフォームにする）
+  const [currentEmail, setCurrentEmail] = useState(userEmail);
+  const [email, setEmail] = useState(userEmail);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [isEmailPending, startEmailTransition] = useTransition();
+
   // パスワード変更
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -38,6 +49,31 @@ export function AccountForm({
         toast.success("名前を更新しました");
         router.refresh();
       }
+    });
+  }
+
+  function handleEmailSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    const next = email.trim();
+    if (next === currentEmail) {
+      setIsEditingEmail(false);
+      return;
+    }
+
+    startEmailTransition(async () => {
+      const result = await updateAccountEmail(next);
+      if (result.error) {
+        toast.error(result.error);
+        return;
+      }
+
+      setCurrentEmail(next);
+      setIsEditingEmail(false);
+      toast.success(
+        "メールアドレスを変更しました。確認メールのリンクを開くまでログインできません"
+      );
+      router.refresh();
     });
   }
 
@@ -71,26 +107,6 @@ export function AccountForm({
         </div>
         <div className="p-6">
           <form onSubmit={handleNameSubmit} className="space-y-4">
-            {/* メールアドレス（読み取り専用） */}
-            <div className="space-y-1">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-foreground"
-              >
-                メールアドレス
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={userEmail}
-                disabled
-                className="w-full rounded-md border border-input bg-muted px-3 py-2 text-sm text-muted-foreground cursor-not-allowed"
-              />
-              <p className="text-xs text-muted-foreground">
-                メールアドレスは変更できません
-              </p>
-            </div>
-
             {/* 名前 */}
             <div className="space-y-1">
               <label
@@ -118,9 +134,95 @@ export function AccountForm({
               disabled={isNamePending}
               className="rounded-lg bg-primary px-6 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:pointer-events-none transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
             >
-              {isNamePending ? "保存中..." : "保存する"}
+              {isNamePending ? "保存中…" : "保存する"}
             </button>
           </form>
+        </div>
+      </section>
+
+      {/* メールアドレス変更 */}
+      <section className="rounded-xl border border-border bg-card shadow-sm">
+        <div className="border-b border-border px-6 py-4">
+          <h2 className="text-base font-semibold">メールアドレス</h2>
+        </div>
+        <div className="p-6">
+          {!isEditingEmail ? (
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-sm">{currentEmail}</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  ログインIDと、スタッフ情報のメールアドレスを兼ねています
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail(currentEmail);
+                  setIsEditingEmail(true);
+                }}
+                className="rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
+              >
+                変更する
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleEmailSubmit} className="space-y-4">
+              <div className="space-y-1">
+                <label
+                  htmlFor="account-email"
+                  className="block text-sm font-medium text-foreground"
+                >
+                  新しいメールアドレス
+                  <span className="ml-1 text-destructive" aria-hidden="true">
+                    *
+                  </span>
+                </label>
+                <input
+                  id="account-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoComplete="email"
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                />
+              </div>
+
+              <div className="flex gap-2 rounded-md border border-orange-200 bg-orange-50 p-3 text-xs text-orange-800">
+                <TriangleAlert
+                  className="mt-0.5 size-4 shrink-0"
+                  aria-hidden="true"
+                />
+                <p>
+                  変更するとログインIDも新しいアドレスに変わります。
+                  <strong className="font-semibold">
+                    確認メールのリンクを開くまでログインできなくなります。
+                  </strong>
+                </p>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  type="submit"
+                  disabled={isEmailPending || !email.trim()}
+                  className="rounded-lg bg-primary px-6 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-60"
+                >
+                  {isEmailPending ? "変更中…" : "変更する"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsEditingEmail(false);
+                    setEmail(currentEmail);
+                  }}
+                  disabled={isEmailPending}
+                  className="rounded-lg border border-border px-6 py-2 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-60"
+                >
+                  キャンセル
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </section>
 
@@ -222,7 +324,7 @@ export function AccountForm({
                 }
                 className="rounded-lg bg-primary px-6 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:pointer-events-none transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
               >
-                {isPasswordPending ? "変更中..." : "パスワードを変更する"}
+                {isPasswordPending ? "変更中…" : "パスワードを変更する"}
               </button>
             </form>
           )}

@@ -28,6 +28,8 @@ export type CorrectionRequestMinAggregateOutputType = {
   id: string | null
   attendanceId: string | null
   staffId: string | null
+  storeId: string | null
+  businessDate: string | null
   status: $Enums.CorrectionRequestStatus | null
   reason: string | null
   notes: string | null
@@ -42,6 +44,8 @@ export type CorrectionRequestMaxAggregateOutputType = {
   id: string | null
   attendanceId: string | null
   staffId: string | null
+  storeId: string | null
+  businessDate: string | null
   status: $Enums.CorrectionRequestStatus | null
   reason: string | null
   notes: string | null
@@ -56,6 +60,8 @@ export type CorrectionRequestCountAggregateOutputType = {
   id: number
   attendanceId: number
   staffId: number
+  storeId: number
+  businessDate: number
   status: number
   originalData: number
   requestedData: number
@@ -74,6 +80,8 @@ export type CorrectionRequestMinAggregateInputType = {
   id?: true
   attendanceId?: true
   staffId?: true
+  storeId?: true
+  businessDate?: true
   status?: true
   reason?: true
   notes?: true
@@ -88,6 +96,8 @@ export type CorrectionRequestMaxAggregateInputType = {
   id?: true
   attendanceId?: true
   staffId?: true
+  storeId?: true
+  businessDate?: true
   status?: true
   reason?: true
   notes?: true
@@ -102,6 +112,8 @@ export type CorrectionRequestCountAggregateInputType = {
   id?: true
   attendanceId?: true
   staffId?: true
+  storeId?: true
+  businessDate?: true
   status?: true
   originalData?: true
   requestedData?: true
@@ -189,8 +201,10 @@ export type CorrectionRequestGroupByArgs<ExtArgs extends runtime.Types.Extension
 
 export type CorrectionRequestGroupByOutputType = {
   id: string
-  attendanceId: string
+  attendanceId: string | null
   staffId: string
+  storeId: string | null
+  businessDate: string | null
   status: $Enums.CorrectionRequestStatus
   originalData: runtime.JsonValue
   requestedData: runtime.JsonValue
@@ -226,8 +240,10 @@ export type CorrectionRequestWhereInput = {
   OR?: Prisma.CorrectionRequestWhereInput[]
   NOT?: Prisma.CorrectionRequestWhereInput | Prisma.CorrectionRequestWhereInput[]
   id?: Prisma.StringFilter<"CorrectionRequest"> | string
-  attendanceId?: Prisma.StringFilter<"CorrectionRequest"> | string
+  attendanceId?: Prisma.StringNullableFilter<"CorrectionRequest"> | string | null
   staffId?: Prisma.StringFilter<"CorrectionRequest"> | string
+  storeId?: Prisma.StringNullableFilter<"CorrectionRequest"> | string | null
+  businessDate?: Prisma.StringNullableFilter<"CorrectionRequest"> | string | null
   status?: Prisma.EnumCorrectionRequestStatusFilter<"CorrectionRequest"> | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonFilter<"CorrectionRequest">
   requestedData?: Prisma.JsonFilter<"CorrectionRequest">
@@ -238,15 +254,18 @@ export type CorrectionRequestWhereInput = {
   reviewNotes?: Prisma.StringNullableFilter<"CorrectionRequest"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CorrectionRequest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CorrectionRequest"> | Date | string
-  attendance?: Prisma.XOR<Prisma.AttendanceScalarRelationFilter, Prisma.AttendanceWhereInput>
+  attendance?: Prisma.XOR<Prisma.AttendanceNullableScalarRelationFilter, Prisma.AttendanceWhereInput> | null
   staff?: Prisma.XOR<Prisma.StaffScalarRelationFilter, Prisma.StaffWhereInput>
+  store?: Prisma.XOR<Prisma.StoreNullableScalarRelationFilter, Prisma.StoreWhereInput> | null
   reviewedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type CorrectionRequestOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  attendanceId?: Prisma.SortOrder
+  attendanceId?: Prisma.SortOrderInput | Prisma.SortOrder
   staffId?: Prisma.SortOrder
+  storeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  businessDate?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   originalData?: Prisma.SortOrder
   requestedData?: Prisma.SortOrder
@@ -259,6 +278,7 @@ export type CorrectionRequestOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   attendance?: Prisma.AttendanceOrderByWithRelationInput
   staff?: Prisma.StaffOrderByWithRelationInput
+  store?: Prisma.StoreOrderByWithRelationInput
   reviewedBy?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -267,8 +287,10 @@ export type CorrectionRequestWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.CorrectionRequestWhereInput | Prisma.CorrectionRequestWhereInput[]
   OR?: Prisma.CorrectionRequestWhereInput[]
   NOT?: Prisma.CorrectionRequestWhereInput | Prisma.CorrectionRequestWhereInput[]
-  attendanceId?: Prisma.StringFilter<"CorrectionRequest"> | string
+  attendanceId?: Prisma.StringNullableFilter<"CorrectionRequest"> | string | null
   staffId?: Prisma.StringFilter<"CorrectionRequest"> | string
+  storeId?: Prisma.StringNullableFilter<"CorrectionRequest"> | string | null
+  businessDate?: Prisma.StringNullableFilter<"CorrectionRequest"> | string | null
   status?: Prisma.EnumCorrectionRequestStatusFilter<"CorrectionRequest"> | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonFilter<"CorrectionRequest">
   requestedData?: Prisma.JsonFilter<"CorrectionRequest">
@@ -279,15 +301,18 @@ export type CorrectionRequestWhereUniqueInput = Prisma.AtLeast<{
   reviewNotes?: Prisma.StringNullableFilter<"CorrectionRequest"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CorrectionRequest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CorrectionRequest"> | Date | string
-  attendance?: Prisma.XOR<Prisma.AttendanceScalarRelationFilter, Prisma.AttendanceWhereInput>
+  attendance?: Prisma.XOR<Prisma.AttendanceNullableScalarRelationFilter, Prisma.AttendanceWhereInput> | null
   staff?: Prisma.XOR<Prisma.StaffScalarRelationFilter, Prisma.StaffWhereInput>
+  store?: Prisma.XOR<Prisma.StoreNullableScalarRelationFilter, Prisma.StoreWhereInput> | null
   reviewedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id">
 
 export type CorrectionRequestOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  attendanceId?: Prisma.SortOrder
+  attendanceId?: Prisma.SortOrderInput | Prisma.SortOrder
   staffId?: Prisma.SortOrder
+  storeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  businessDate?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   originalData?: Prisma.SortOrder
   requestedData?: Prisma.SortOrder
@@ -308,8 +333,10 @@ export type CorrectionRequestScalarWhereWithAggregatesInput = {
   OR?: Prisma.CorrectionRequestScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CorrectionRequestScalarWhereWithAggregatesInput | Prisma.CorrectionRequestScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"CorrectionRequest"> | string
-  attendanceId?: Prisma.StringWithAggregatesFilter<"CorrectionRequest"> | string
+  attendanceId?: Prisma.StringNullableWithAggregatesFilter<"CorrectionRequest"> | string | null
   staffId?: Prisma.StringWithAggregatesFilter<"CorrectionRequest"> | string
+  storeId?: Prisma.StringNullableWithAggregatesFilter<"CorrectionRequest"> | string | null
+  businessDate?: Prisma.StringNullableWithAggregatesFilter<"CorrectionRequest"> | string | null
   status?: Prisma.EnumCorrectionRequestStatusWithAggregatesFilter<"CorrectionRequest"> | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonWithAggregatesFilter<"CorrectionRequest">
   requestedData?: Prisma.JsonWithAggregatesFilter<"CorrectionRequest">
@@ -324,6 +351,7 @@ export type CorrectionRequestScalarWhereWithAggregatesInput = {
 
 export type CorrectionRequestCreateInput = {
   id?: string
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -333,15 +361,18 @@ export type CorrectionRequestCreateInput = {
   reviewNotes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  attendance: Prisma.AttendanceCreateNestedOneWithoutCorrectionRequestsInput
+  attendance?: Prisma.AttendanceCreateNestedOneWithoutCorrectionRequestsInput
   staff: Prisma.StaffCreateNestedOneWithoutCorrectionRequestsInput
+  store?: Prisma.StoreCreateNestedOneWithoutCorrectionRequestsInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutCorrectionReviewsInput
 }
 
 export type CorrectionRequestUncheckedCreateInput = {
   id?: string
-  attendanceId: string
+  attendanceId?: string | null
   staffId: string
+  storeId?: string | null
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -356,6 +387,7 @@ export type CorrectionRequestUncheckedCreateInput = {
 
 export type CorrectionRequestUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -365,15 +397,18 @@ export type CorrectionRequestUpdateInput = {
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attendance?: Prisma.AttendanceUpdateOneRequiredWithoutCorrectionRequestsNestedInput
+  attendance?: Prisma.AttendanceUpdateOneWithoutCorrectionRequestsNestedInput
   staff?: Prisma.StaffUpdateOneRequiredWithoutCorrectionRequestsNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCorrectionRequestsNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutCorrectionReviewsNestedInput
 }
 
 export type CorrectionRequestUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
+  attendanceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -388,8 +423,10 @@ export type CorrectionRequestUncheckedUpdateInput = {
 
 export type CorrectionRequestCreateManyInput = {
   id?: string
-  attendanceId: string
+  attendanceId?: string | null
   staffId: string
+  storeId?: string | null
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -404,6 +441,7 @@ export type CorrectionRequestCreateManyInput = {
 
 export type CorrectionRequestUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -417,8 +455,10 @@ export type CorrectionRequestUpdateManyMutationInput = {
 
 export type CorrectionRequestUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
+  attendanceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -445,6 +485,8 @@ export type CorrectionRequestCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   attendanceId?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
+  storeId?: Prisma.SortOrder
+  businessDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   originalData?: Prisma.SortOrder
   requestedData?: Prisma.SortOrder
@@ -461,6 +503,8 @@ export type CorrectionRequestMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   attendanceId?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
+  storeId?: Prisma.SortOrder
+  businessDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -475,6 +519,8 @@ export type CorrectionRequestMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   attendanceId?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
+  storeId?: Prisma.SortOrder
+  businessDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -524,6 +570,48 @@ export type CorrectionRequestUncheckedUpdateManyWithoutReviewedByNestedInput = {
   connect?: Prisma.CorrectionRequestWhereUniqueInput | Prisma.CorrectionRequestWhereUniqueInput[]
   update?: Prisma.CorrectionRequestUpdateWithWhereUniqueWithoutReviewedByInput | Prisma.CorrectionRequestUpdateWithWhereUniqueWithoutReviewedByInput[]
   updateMany?: Prisma.CorrectionRequestUpdateManyWithWhereWithoutReviewedByInput | Prisma.CorrectionRequestUpdateManyWithWhereWithoutReviewedByInput[]
+  deleteMany?: Prisma.CorrectionRequestScalarWhereInput | Prisma.CorrectionRequestScalarWhereInput[]
+}
+
+export type CorrectionRequestCreateNestedManyWithoutStoreInput = {
+  create?: Prisma.XOR<Prisma.CorrectionRequestCreateWithoutStoreInput, Prisma.CorrectionRequestUncheckedCreateWithoutStoreInput> | Prisma.CorrectionRequestCreateWithoutStoreInput[] | Prisma.CorrectionRequestUncheckedCreateWithoutStoreInput[]
+  connectOrCreate?: Prisma.CorrectionRequestCreateOrConnectWithoutStoreInput | Prisma.CorrectionRequestCreateOrConnectWithoutStoreInput[]
+  createMany?: Prisma.CorrectionRequestCreateManyStoreInputEnvelope
+  connect?: Prisma.CorrectionRequestWhereUniqueInput | Prisma.CorrectionRequestWhereUniqueInput[]
+}
+
+export type CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput = {
+  create?: Prisma.XOR<Prisma.CorrectionRequestCreateWithoutStoreInput, Prisma.CorrectionRequestUncheckedCreateWithoutStoreInput> | Prisma.CorrectionRequestCreateWithoutStoreInput[] | Prisma.CorrectionRequestUncheckedCreateWithoutStoreInput[]
+  connectOrCreate?: Prisma.CorrectionRequestCreateOrConnectWithoutStoreInput | Prisma.CorrectionRequestCreateOrConnectWithoutStoreInput[]
+  createMany?: Prisma.CorrectionRequestCreateManyStoreInputEnvelope
+  connect?: Prisma.CorrectionRequestWhereUniqueInput | Prisma.CorrectionRequestWhereUniqueInput[]
+}
+
+export type CorrectionRequestUpdateManyWithoutStoreNestedInput = {
+  create?: Prisma.XOR<Prisma.CorrectionRequestCreateWithoutStoreInput, Prisma.CorrectionRequestUncheckedCreateWithoutStoreInput> | Prisma.CorrectionRequestCreateWithoutStoreInput[] | Prisma.CorrectionRequestUncheckedCreateWithoutStoreInput[]
+  connectOrCreate?: Prisma.CorrectionRequestCreateOrConnectWithoutStoreInput | Prisma.CorrectionRequestCreateOrConnectWithoutStoreInput[]
+  upsert?: Prisma.CorrectionRequestUpsertWithWhereUniqueWithoutStoreInput | Prisma.CorrectionRequestUpsertWithWhereUniqueWithoutStoreInput[]
+  createMany?: Prisma.CorrectionRequestCreateManyStoreInputEnvelope
+  set?: Prisma.CorrectionRequestWhereUniqueInput | Prisma.CorrectionRequestWhereUniqueInput[]
+  disconnect?: Prisma.CorrectionRequestWhereUniqueInput | Prisma.CorrectionRequestWhereUniqueInput[]
+  delete?: Prisma.CorrectionRequestWhereUniqueInput | Prisma.CorrectionRequestWhereUniqueInput[]
+  connect?: Prisma.CorrectionRequestWhereUniqueInput | Prisma.CorrectionRequestWhereUniqueInput[]
+  update?: Prisma.CorrectionRequestUpdateWithWhereUniqueWithoutStoreInput | Prisma.CorrectionRequestUpdateWithWhereUniqueWithoutStoreInput[]
+  updateMany?: Prisma.CorrectionRequestUpdateManyWithWhereWithoutStoreInput | Prisma.CorrectionRequestUpdateManyWithWhereWithoutStoreInput[]
+  deleteMany?: Prisma.CorrectionRequestScalarWhereInput | Prisma.CorrectionRequestScalarWhereInput[]
+}
+
+export type CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput = {
+  create?: Prisma.XOR<Prisma.CorrectionRequestCreateWithoutStoreInput, Prisma.CorrectionRequestUncheckedCreateWithoutStoreInput> | Prisma.CorrectionRequestCreateWithoutStoreInput[] | Prisma.CorrectionRequestUncheckedCreateWithoutStoreInput[]
+  connectOrCreate?: Prisma.CorrectionRequestCreateOrConnectWithoutStoreInput | Prisma.CorrectionRequestCreateOrConnectWithoutStoreInput[]
+  upsert?: Prisma.CorrectionRequestUpsertWithWhereUniqueWithoutStoreInput | Prisma.CorrectionRequestUpsertWithWhereUniqueWithoutStoreInput[]
+  createMany?: Prisma.CorrectionRequestCreateManyStoreInputEnvelope
+  set?: Prisma.CorrectionRequestWhereUniqueInput | Prisma.CorrectionRequestWhereUniqueInput[]
+  disconnect?: Prisma.CorrectionRequestWhereUniqueInput | Prisma.CorrectionRequestWhereUniqueInput[]
+  delete?: Prisma.CorrectionRequestWhereUniqueInput | Prisma.CorrectionRequestWhereUniqueInput[]
+  connect?: Prisma.CorrectionRequestWhereUniqueInput | Prisma.CorrectionRequestWhereUniqueInput[]
+  update?: Prisma.CorrectionRequestUpdateWithWhereUniqueWithoutStoreInput | Prisma.CorrectionRequestUpdateWithWhereUniqueWithoutStoreInput[]
+  updateMany?: Prisma.CorrectionRequestUpdateManyWithWhereWithoutStoreInput | Prisma.CorrectionRequestUpdateManyWithWhereWithoutStoreInput[]
   deleteMany?: Prisma.CorrectionRequestScalarWhereInput | Prisma.CorrectionRequestScalarWhereInput[]
 }
 
@@ -617,6 +705,7 @@ export type EnumCorrectionRequestStatusFieldUpdateOperationsInput = {
 
 export type CorrectionRequestCreateWithoutReviewedByInput = {
   id?: string
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -626,14 +715,17 @@ export type CorrectionRequestCreateWithoutReviewedByInput = {
   reviewNotes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  attendance: Prisma.AttendanceCreateNestedOneWithoutCorrectionRequestsInput
+  attendance?: Prisma.AttendanceCreateNestedOneWithoutCorrectionRequestsInput
   staff: Prisma.StaffCreateNestedOneWithoutCorrectionRequestsInput
+  store?: Prisma.StoreCreateNestedOneWithoutCorrectionRequestsInput
 }
 
 export type CorrectionRequestUncheckedCreateWithoutReviewedByInput = {
   id?: string
-  attendanceId: string
+  attendanceId?: string | null
   staffId: string
+  storeId?: string | null
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -676,8 +768,10 @@ export type CorrectionRequestScalarWhereInput = {
   OR?: Prisma.CorrectionRequestScalarWhereInput[]
   NOT?: Prisma.CorrectionRequestScalarWhereInput | Prisma.CorrectionRequestScalarWhereInput[]
   id?: Prisma.StringFilter<"CorrectionRequest"> | string
-  attendanceId?: Prisma.StringFilter<"CorrectionRequest"> | string
+  attendanceId?: Prisma.StringNullableFilter<"CorrectionRequest"> | string | null
   staffId?: Prisma.StringFilter<"CorrectionRequest"> | string
+  storeId?: Prisma.StringNullableFilter<"CorrectionRequest"> | string | null
+  businessDate?: Prisma.StringNullableFilter<"CorrectionRequest"> | string | null
   status?: Prisma.EnumCorrectionRequestStatusFilter<"CorrectionRequest"> | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonFilter<"CorrectionRequest">
   requestedData?: Prisma.JsonFilter<"CorrectionRequest">
@@ -690,8 +784,9 @@ export type CorrectionRequestScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"CorrectionRequest"> | Date | string
 }
 
-export type CorrectionRequestCreateWithoutStaffInput = {
+export type CorrectionRequestCreateWithoutStoreInput = {
   id?: string
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -701,13 +796,76 @@ export type CorrectionRequestCreateWithoutStaffInput = {
   reviewNotes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  attendance: Prisma.AttendanceCreateNestedOneWithoutCorrectionRequestsInput
+  attendance?: Prisma.AttendanceCreateNestedOneWithoutCorrectionRequestsInput
+  staff: Prisma.StaffCreateNestedOneWithoutCorrectionRequestsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutCorrectionReviewsInput
+}
+
+export type CorrectionRequestUncheckedCreateWithoutStoreInput = {
+  id?: string
+  attendanceId?: string | null
+  staffId: string
+  businessDate?: string | null
+  status?: $Enums.CorrectionRequestStatus
+  originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  reason: string
+  notes?: string | null
+  reviewedByUserId?: string | null
+  reviewedAt?: Date | string | null
+  reviewNotes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CorrectionRequestCreateOrConnectWithoutStoreInput = {
+  where: Prisma.CorrectionRequestWhereUniqueInput
+  create: Prisma.XOR<Prisma.CorrectionRequestCreateWithoutStoreInput, Prisma.CorrectionRequestUncheckedCreateWithoutStoreInput>
+}
+
+export type CorrectionRequestCreateManyStoreInputEnvelope = {
+  data: Prisma.CorrectionRequestCreateManyStoreInput | Prisma.CorrectionRequestCreateManyStoreInput[]
+  skipDuplicates?: boolean
+}
+
+export type CorrectionRequestUpsertWithWhereUniqueWithoutStoreInput = {
+  where: Prisma.CorrectionRequestWhereUniqueInput
+  update: Prisma.XOR<Prisma.CorrectionRequestUpdateWithoutStoreInput, Prisma.CorrectionRequestUncheckedUpdateWithoutStoreInput>
+  create: Prisma.XOR<Prisma.CorrectionRequestCreateWithoutStoreInput, Prisma.CorrectionRequestUncheckedCreateWithoutStoreInput>
+}
+
+export type CorrectionRequestUpdateWithWhereUniqueWithoutStoreInput = {
+  where: Prisma.CorrectionRequestWhereUniqueInput
+  data: Prisma.XOR<Prisma.CorrectionRequestUpdateWithoutStoreInput, Prisma.CorrectionRequestUncheckedUpdateWithoutStoreInput>
+}
+
+export type CorrectionRequestUpdateManyWithWhereWithoutStoreInput = {
+  where: Prisma.CorrectionRequestScalarWhereInput
+  data: Prisma.XOR<Prisma.CorrectionRequestUpdateManyMutationInput, Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreInput>
+}
+
+export type CorrectionRequestCreateWithoutStaffInput = {
+  id?: string
+  businessDate?: string | null
+  status?: $Enums.CorrectionRequestStatus
+  originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  reason: string
+  notes?: string | null
+  reviewedAt?: Date | string | null
+  reviewNotes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  attendance?: Prisma.AttendanceCreateNestedOneWithoutCorrectionRequestsInput
+  store?: Prisma.StoreCreateNestedOneWithoutCorrectionRequestsInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutCorrectionReviewsInput
 }
 
 export type CorrectionRequestUncheckedCreateWithoutStaffInput = {
   id?: string
-  attendanceId: string
+  attendanceId?: string | null
+  storeId?: string | null
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -748,6 +906,7 @@ export type CorrectionRequestUpdateManyWithWhereWithoutStaffInput = {
 
 export type CorrectionRequestCreateWithoutAttendanceInput = {
   id?: string
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -758,12 +917,15 @@ export type CorrectionRequestCreateWithoutAttendanceInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   staff: Prisma.StaffCreateNestedOneWithoutCorrectionRequestsInput
+  store?: Prisma.StoreCreateNestedOneWithoutCorrectionRequestsInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutCorrectionReviewsInput
 }
 
 export type CorrectionRequestUncheckedCreateWithoutAttendanceInput = {
   id?: string
   staffId: string
+  storeId?: string | null
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -804,8 +966,10 @@ export type CorrectionRequestUpdateManyWithWhereWithoutAttendanceInput = {
 
 export type CorrectionRequestCreateManyReviewedByInput = {
   id?: string
-  attendanceId: string
+  attendanceId?: string | null
   staffId: string
+  storeId?: string | null
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -819,6 +983,7 @@ export type CorrectionRequestCreateManyReviewedByInput = {
 
 export type CorrectionRequestUpdateWithoutReviewedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -828,14 +993,17 @@ export type CorrectionRequestUpdateWithoutReviewedByInput = {
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attendance?: Prisma.AttendanceUpdateOneRequiredWithoutCorrectionRequestsNestedInput
+  attendance?: Prisma.AttendanceUpdateOneWithoutCorrectionRequestsNestedInput
   staff?: Prisma.StaffUpdateOneRequiredWithoutCorrectionRequestsNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCorrectionRequestsNestedInput
 }
 
 export type CorrectionRequestUncheckedUpdateWithoutReviewedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
+  attendanceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -849,8 +1017,10 @@ export type CorrectionRequestUncheckedUpdateWithoutReviewedByInput = {
 
 export type CorrectionRequestUncheckedUpdateManyWithoutReviewedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
+  attendanceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -862,9 +1032,79 @@ export type CorrectionRequestUncheckedUpdateManyWithoutReviewedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type CorrectionRequestCreateManyStoreInput = {
+  id?: string
+  attendanceId?: string | null
+  staffId: string
+  businessDate?: string | null
+  status?: $Enums.CorrectionRequestStatus
+  originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  reason: string
+  notes?: string | null
+  reviewedByUserId?: string | null
+  reviewedAt?: Date | string | null
+  reviewNotes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CorrectionRequestUpdateWithoutStoreInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
+  originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attendance?: Prisma.AttendanceUpdateOneWithoutCorrectionRequestsNestedInput
+  staff?: Prisma.StaffUpdateOneRequiredWithoutCorrectionRequestsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutCorrectionReviewsNestedInput
+}
+
+export type CorrectionRequestUncheckedUpdateWithoutStoreInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  attendanceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
+  originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CorrectionRequestUncheckedUpdateManyWithoutStoreInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  attendanceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
+  originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type CorrectionRequestCreateManyStaffInput = {
   id?: string
-  attendanceId: string
+  attendanceId?: string | null
+  storeId?: string | null
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -879,6 +1119,7 @@ export type CorrectionRequestCreateManyStaffInput = {
 
 export type CorrectionRequestUpdateWithoutStaffInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -888,13 +1129,16 @@ export type CorrectionRequestUpdateWithoutStaffInput = {
   reviewNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  attendance?: Prisma.AttendanceUpdateOneRequiredWithoutCorrectionRequestsNestedInput
+  attendance?: Prisma.AttendanceUpdateOneWithoutCorrectionRequestsNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCorrectionRequestsNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutCorrectionReviewsNestedInput
 }
 
 export type CorrectionRequestUncheckedUpdateWithoutStaffInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
+  attendanceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -909,7 +1153,9 @@ export type CorrectionRequestUncheckedUpdateWithoutStaffInput = {
 
 export type CorrectionRequestUncheckedUpdateManyWithoutStaffInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
+  attendanceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -925,6 +1171,8 @@ export type CorrectionRequestUncheckedUpdateManyWithoutStaffInput = {
 export type CorrectionRequestCreateManyAttendanceInput = {
   id?: string
   staffId: string
+  storeId?: string | null
+  businessDate?: string | null
   status?: $Enums.CorrectionRequestStatus
   originalData: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -939,6 +1187,7 @@ export type CorrectionRequestCreateManyAttendanceInput = {
 
 export type CorrectionRequestUpdateWithoutAttendanceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -949,12 +1198,15 @@ export type CorrectionRequestUpdateWithoutAttendanceInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   staff?: Prisma.StaffUpdateOneRequiredWithoutCorrectionRequestsNestedInput
+  store?: Prisma.StoreUpdateOneWithoutCorrectionRequestsNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutCorrectionReviewsNestedInput
 }
 
 export type CorrectionRequestUncheckedUpdateWithoutAttendanceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -970,6 +1222,8 @@ export type CorrectionRequestUncheckedUpdateWithoutAttendanceInput = {
 export type CorrectionRequestUncheckedUpdateManyWithoutAttendanceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  businessDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumCorrectionRequestStatusFieldUpdateOperationsInput | $Enums.CorrectionRequestStatus
   originalData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   requestedData?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -988,6 +1242,8 @@ export type CorrectionRequestSelect<ExtArgs extends runtime.Types.Extensions.Int
   id?: boolean
   attendanceId?: boolean
   staffId?: boolean
+  storeId?: boolean
+  businessDate?: boolean
   status?: boolean
   originalData?: boolean
   requestedData?: boolean
@@ -998,8 +1254,9 @@ export type CorrectionRequestSelect<ExtArgs extends runtime.Types.Extensions.Int
   reviewNotes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  attendance?: boolean | Prisma.AttendanceDefaultArgs<ExtArgs>
+  attendance?: boolean | Prisma.CorrectionRequest$attendanceArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  store?: boolean | Prisma.CorrectionRequest$storeArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.CorrectionRequest$reviewedByArgs<ExtArgs>
 }, ExtArgs["result"]["correctionRequest"]>
 
@@ -1007,6 +1264,8 @@ export type CorrectionRequestSelectCreateManyAndReturn<ExtArgs extends runtime.T
   id?: boolean
   attendanceId?: boolean
   staffId?: boolean
+  storeId?: boolean
+  businessDate?: boolean
   status?: boolean
   originalData?: boolean
   requestedData?: boolean
@@ -1017,8 +1276,9 @@ export type CorrectionRequestSelectCreateManyAndReturn<ExtArgs extends runtime.T
   reviewNotes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  attendance?: boolean | Prisma.AttendanceDefaultArgs<ExtArgs>
+  attendance?: boolean | Prisma.CorrectionRequest$attendanceArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  store?: boolean | Prisma.CorrectionRequest$storeArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.CorrectionRequest$reviewedByArgs<ExtArgs>
 }, ExtArgs["result"]["correctionRequest"]>
 
@@ -1026,6 +1286,8 @@ export type CorrectionRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   id?: boolean
   attendanceId?: boolean
   staffId?: boolean
+  storeId?: boolean
+  businessDate?: boolean
   status?: boolean
   originalData?: boolean
   requestedData?: boolean
@@ -1036,8 +1298,9 @@ export type CorrectionRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   reviewNotes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  attendance?: boolean | Prisma.AttendanceDefaultArgs<ExtArgs>
+  attendance?: boolean | Prisma.CorrectionRequest$attendanceArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  store?: boolean | Prisma.CorrectionRequest$storeArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.CorrectionRequest$reviewedByArgs<ExtArgs>
 }, ExtArgs["result"]["correctionRequest"]>
 
@@ -1045,6 +1308,8 @@ export type CorrectionRequestSelectScalar = {
   id?: boolean
   attendanceId?: boolean
   staffId?: boolean
+  storeId?: boolean
+  businessDate?: boolean
   status?: boolean
   originalData?: boolean
   requestedData?: boolean
@@ -1057,34 +1322,46 @@ export type CorrectionRequestSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CorrectionRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attendanceId" | "staffId" | "status" | "originalData" | "requestedData" | "reason" | "notes" | "reviewedByUserId" | "reviewedAt" | "reviewNotes" | "createdAt" | "updatedAt", ExtArgs["result"]["correctionRequest"]>
+export type CorrectionRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attendanceId" | "staffId" | "storeId" | "businessDate" | "status" | "originalData" | "requestedData" | "reason" | "notes" | "reviewedByUserId" | "reviewedAt" | "reviewNotes" | "createdAt" | "updatedAt", ExtArgs["result"]["correctionRequest"]>
 export type CorrectionRequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  attendance?: boolean | Prisma.AttendanceDefaultArgs<ExtArgs>
+  attendance?: boolean | Prisma.CorrectionRequest$attendanceArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  store?: boolean | Prisma.CorrectionRequest$storeArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.CorrectionRequest$reviewedByArgs<ExtArgs>
 }
 export type CorrectionRequestIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  attendance?: boolean | Prisma.AttendanceDefaultArgs<ExtArgs>
+  attendance?: boolean | Prisma.CorrectionRequest$attendanceArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  store?: boolean | Prisma.CorrectionRequest$storeArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.CorrectionRequest$reviewedByArgs<ExtArgs>
 }
 export type CorrectionRequestIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  attendance?: boolean | Prisma.AttendanceDefaultArgs<ExtArgs>
+  attendance?: boolean | Prisma.CorrectionRequest$attendanceArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
+  store?: boolean | Prisma.CorrectionRequest$storeArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.CorrectionRequest$reviewedByArgs<ExtArgs>
 }
 
 export type $CorrectionRequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CorrectionRequest"
   objects: {
-    attendance: Prisma.$AttendancePayload<ExtArgs>
+    attendance: Prisma.$AttendancePayload<ExtArgs> | null
     staff: Prisma.$StaffPayload<ExtArgs>
+    store: Prisma.$StorePayload<ExtArgs> | null
     reviewedBy: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    attendanceId: string
+    /**
+     * 既存の勤怠を修正する申請では必須。打刻の付け忘れ(新規作成)申請では null
+     */
+    attendanceId: string | null
     staffId: string
+    /**
+     * 付け忘れ申請の対象。既存勤怠の修正では null (attendance から辿れる)
+     */
+    storeId: string | null
+    businessDate: string | null
     status: $Enums.CorrectionRequestStatus
     originalData: runtime.JsonValue
     requestedData: runtime.JsonValue
@@ -1489,8 +1766,9 @@ readonly fields: CorrectionRequestFieldRefs;
  */
 export interface Prisma__CorrectionRequestClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  attendance<T extends Prisma.AttendanceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AttendanceDefaultArgs<ExtArgs>>): Prisma.Prisma__AttendanceClient<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  attendance<T extends Prisma.CorrectionRequest$attendanceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CorrectionRequest$attendanceArgs<ExtArgs>>): Prisma.Prisma__AttendanceClient<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   staff<T extends Prisma.StaffDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StaffDefaultArgs<ExtArgs>>): Prisma.Prisma__StaffClient<runtime.Types.Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  store<T extends Prisma.CorrectionRequest$storeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CorrectionRequest$storeArgs<ExtArgs>>): Prisma.Prisma__StoreClient<runtime.Types.Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   reviewedBy<T extends Prisma.CorrectionRequest$reviewedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CorrectionRequest$reviewedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1524,6 +1802,8 @@ export interface CorrectionRequestFieldRefs {
   readonly id: Prisma.FieldRef<"CorrectionRequest", 'String'>
   readonly attendanceId: Prisma.FieldRef<"CorrectionRequest", 'String'>
   readonly staffId: Prisma.FieldRef<"CorrectionRequest", 'String'>
+  readonly storeId: Prisma.FieldRef<"CorrectionRequest", 'String'>
+  readonly businessDate: Prisma.FieldRef<"CorrectionRequest", 'String'>
   readonly status: Prisma.FieldRef<"CorrectionRequest", 'CorrectionRequestStatus'>
   readonly originalData: Prisma.FieldRef<"CorrectionRequest", 'Json'>
   readonly requestedData: Prisma.FieldRef<"CorrectionRequest", 'Json'>
@@ -1932,6 +2212,44 @@ export type CorrectionRequestDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many CorrectionRequests to delete.
    */
   limit?: number
+}
+
+/**
+ * CorrectionRequest.attendance
+ */
+export type CorrectionRequest$attendanceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Attendance
+   */
+  select?: Prisma.AttendanceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Attendance
+   */
+  omit?: Prisma.AttendanceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttendanceInclude<ExtArgs> | null
+  where?: Prisma.AttendanceWhereInput
+}
+
+/**
+ * CorrectionRequest.store
+ */
+export type CorrectionRequest$storeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Store
+   */
+  select?: Prisma.StoreSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Store
+   */
+  omit?: Prisma.StoreOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoreInclude<ExtArgs> | null
+  where?: Prisma.StoreWhereInput
 }
 
 /**

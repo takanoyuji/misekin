@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
@@ -6,6 +7,7 @@ import { requireAdmin } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "監査ログ",
@@ -38,7 +40,10 @@ export default async function AuditLogsPage({
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   try {
@@ -173,12 +178,12 @@ export default async function AuditLogsPage({
           >
             絞り込む
           </button>
-          <a
+          <Link
             href="/audit-logs"
             className="rounded-lg border border-border px-4 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted/50 transition-colors"
           >
             リセット
-          </a>
+          </Link>
         </div>
       </form>
 
@@ -191,7 +196,7 @@ export default async function AuditLogsPage({
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
                   <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground whitespace-nowrap">

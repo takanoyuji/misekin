@@ -78,7 +78,7 @@ export function ApiKeyRevokeButton({
                 disabled={isPending}
                 className="flex-1 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-bold transition-colors disabled:opacity-60"
               >
-                {isPending ? "処理中..." : "無効化する"}
+                {isPending ? "処理中…" : "無効化する"}
               </button>
             </div>
           </div>

@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/common/page-header";
 import { Users, Plus } from "lucide-react";
 import { format } from "date-fns";
 import type { Prisma } from "@/generated/prisma/client";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "スタッフ一覧",
@@ -42,7 +43,10 @@ export default async function StaffPage({
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -157,12 +161,12 @@ export default async function StaffPage({
         >
           絞り込む
         </button>
-        <a
+        <Link
           href="/staff"
           className="rounded-md border border-input px-4 py-1.5 text-sm font-medium hover:bg-muted transition-colors"
         >
           リセット
-        </a>
+        </Link>
       </form>
 
       {/* テーブル */}
@@ -200,7 +204,7 @@ export default async function StaffPage({
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
                   <th className="px-5 py-3 text-left font-medium text-muted-foreground">

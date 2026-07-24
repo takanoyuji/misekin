@@ -69,6 +69,7 @@ export const ModelName = {
   Break: 'Break',
   AttendanceCorrection: 'AttendanceCorrection',
   CorrectionRequest: 'CorrectionRequest',
+  TransportationChangeRequest: 'TransportationChangeRequest',
   ClosingPeriod: 'ClosingPeriod',
   Notification: 'Notification',
   AuditLog: 'AuditLog',
@@ -241,6 +242,7 @@ export const StaffStoreScalarFieldEnum = {
   pinFailCount: 'pinFailCount',
   pinLockedUntil: 'pinLockedUntil',
   canClock: 'canClock',
+  requirePin: 'requirePin',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -316,6 +318,7 @@ export const AttendanceScalarFieldEnum = {
   hasAnomaly: 'hasAnomaly',
   anomalyReasons: 'anomalyReasons',
   adminNotes: 'adminNotes',
+  clockOutMemo: 'clockOutMemo',
   isLocked: 'isLocked',
   lockedAt: 'lockedAt',
   lockedByUserId: 'lockedByUserId',
@@ -357,6 +360,8 @@ export const CorrectionRequestScalarFieldEnum = {
   id: 'id',
   attendanceId: 'attendanceId',
   staffId: 'staffId',
+  storeId: 'storeId',
+  businessDate: 'businessDate',
   status: 'status',
   originalData: 'originalData',
   requestedData: 'requestedData',
@@ -370,6 +375,27 @@ export const CorrectionRequestScalarFieldEnum = {
 } as const
 
 export type CorrectionRequestScalarFieldEnum = (typeof CorrectionRequestScalarFieldEnum)[keyof typeof CorrectionRequestScalarFieldEnum]
+
+
+export const TransportationChangeRequestScalarFieldEnum = {
+  id: 'id',
+  staffStoreId: 'staffStoreId',
+  staffId: 'staffId',
+  status: 'status',
+  currentType: 'currentType',
+  currentAmount: 'currentAmount',
+  requestedType: 'requestedType',
+  requestedAmount: 'requestedAmount',
+  requestedLimit: 'requestedLimit',
+  reason: 'reason',
+  reviewedByUserId: 'reviewedByUserId',
+  reviewedAt: 'reviewedAt',
+  reviewNotes: 'reviewNotes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TransportationChangeRequestScalarFieldEnum = (typeof TransportationChangeRequestScalarFieldEnum)[keyof typeof TransportationChangeRequestScalarFieldEnum]
 
 
 export const ClosingPeriodScalarFieldEnum = {

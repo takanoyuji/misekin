@@ -123,7 +123,7 @@ export function MyCorrectionRequestForm({
     }
 
     startTransition(async () => {
-      const result = await createCorrectionRequest(userId, organizationId, {
+      const result = await createCorrectionRequest(organizationId, {
         attendanceId: selectedId,
         requestedClockInAt: requestedClockInAt
           ? new Date(requestedClockInAt)
@@ -423,7 +423,7 @@ export function MyCorrectionRequestForm({
                 : "bg-primary text-primary-foreground hover:bg-primary/90"
             )}
           >
-            {isPending ? "申請中..." : "申請する"}
+            {isPending ? "申請中…" : "申請する"}
           </button>
           <Link
             href="/my-correction-requests"

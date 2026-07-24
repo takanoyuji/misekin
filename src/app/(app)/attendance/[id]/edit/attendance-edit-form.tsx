@@ -379,7 +379,7 @@ export function AttendanceEditForm({
                 : "bg-primary text-primary-foreground hover:bg-primary/90"
             )}
           >
-            {isPending ? "保存中..." : "修正を保存"}
+            {isPending ? "保存中…" : "修正を保存"}
           </button>
           <Link
             href={`/attendance/${attendanceId}`}

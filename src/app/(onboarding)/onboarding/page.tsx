@@ -337,7 +337,7 @@ export default function OnboardingPage() {
                     disabled={isPending}
                     aria-busy={isPending}
                   >
-                    {isPending ? "作成中..." : "みせ勤を開始する"}
+                    {isPending ? "作成中…" : "みせ勤を開始する"}
                   </Button>
                 </div>
               </CardContent>

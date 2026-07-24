@@ -2,28 +2,41 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { cookies } from "next/headers";
 import { db } from "@/lib/db";
 import { loginSchema } from "@/lib/validations/auth";
 import { authConfig } from "@/lib/auth/config";
+
+export const ACTIVE_ORG_COOKIE = "misekin-active-org";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   adapter: PrismaAdapter(db),
   trustHost: true,
   session: {
-    strategy: "database",
+    strategy: "jwt",
   },
   callbacks: {
     ...authConfig.callbacks,
-    async session({ session, user }) {
+    async jwt({ token, user }) {
       if (user) {
-        session.user.id = user.id;
-        // アクティブ組織IDをセッションから取得
-        const dbSession = await db.session.findUnique({
-          where: { sessionToken: session.sessionToken as string },
-        });
+        token.userId = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token.userId) {
+        session.user.id = token.userId as string;
+      } else if (token.sub) {
+        session.user.id = token.sub;
+      }
+      // アクティブ組織IDをクッキーから取得
+      try {
+        const cookieStore = await cookies();
         (session as any).activeOrganizationId =
-          dbSession?.activeOrganizationId ?? null;
+          cookieStore.get(ACTIVE_ORG_COOKIE)?.value ?? null;
+      } catch {
+        (session as any).activeOrganizationId = null;
       }
       return session;
     },
@@ -66,27 +79,3 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
 });
 
-/**
- * 現在のユーザーのアクティブ組織IDを取得する
- */
-export async function getActiveOrganizationId(
-  sessionToken: string
-): Promise<string | null> {
-  const session = await db.session.findUnique({
-    where: { sessionToken },
-  });
-  return session?.activeOrganizationId ?? null;
-}
-
-/**
- * アクティブ組織を設定する
- */
-export async function setActiveOrganization(
-  sessionToken: string,
-  organizationId: string
-): Promise<void> {
-  await db.session.update({
-    where: { sessionToken },
-    data: { activeOrganizationId: organizationId },
-  });
-}

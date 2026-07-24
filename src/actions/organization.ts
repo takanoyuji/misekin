@@ -2,7 +2,8 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { auth } from "@/lib/auth";
+import { cookies } from "next/headers";
+import { auth, ACTIVE_ORG_COOKIE } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { createAuditLog } from "@/lib/auth/audit";
 import { requireOwner, requireAdmin } from "@/lib/auth/permissions";
@@ -83,13 +84,15 @@ export async function createOrganizationWithStore(
         },
       });
 
-      // セッションのアクティブ組織を更新
-      await tx.session.updateMany({
-        where: { userId: session.user!.id },
-        data: { activeOrganizationId: organization.id },
-      });
-
       return { organization, store };
+    });
+
+    // アクティブ組織をクッキーに保存
+    const cookieStore = await cookies();
+    cookieStore.set(ACTIVE_ORG_COOKIE, result.organization.id, {
+      httpOnly: true,
+      path: "/",
+      sameSite: "lax",
     });
 
     return { success: true, data: result };
@@ -158,9 +161,12 @@ export async function switchOrganization(
 
   if (!member) return { error: "この組織へのアクセス権がありません" };
 
-  await db.session.updateMany({
-    where: { userId: session.user.id },
-    data: { activeOrganizationId: organizationId },
+  // アクティブ組織をクッキーに保存
+  const cookieStore = await cookies();
+  cookieStore.set(ACTIVE_ORG_COOKIE, organizationId, {
+    httpOnly: true,
+    path: "/",
+    sameSite: "lax",
   });
 
   revalidatePath("/dashboard");

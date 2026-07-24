@@ -115,6 +115,70 @@ export async function getAccessibleStoreIds(
   return scopes.map((s) => s.storeId);
 }
 
+/** スタッフのメールアドレスを変更できる主体の種別 */
+export type StaffEmailEditorScope = "SELF" | "OWNER" | "STORE_ADMIN";
+
+/**
+ * スタッフのメールアドレスを変更する権限を確認する
+ *
+ * 変更できるのは以下の3者に限る。
+ * - 本人 (Staff.userId が自分) … 自分のスタッフ情報のみ
+ * - 組織オーナー … 組織内の全スタッフ
+ * - 店舗管理者 (ADMIN) … そのスタッフの所属店舗を1つでも管理していれば可
+ *
+ * @throws Error if 権限がない / スタッフが存在しない
+ */
+export async function requireStaffEmailEditPermission(
+  userId: string,
+  organizationId: string,
+  staffId: string
+): Promise<StaffEmailEditorScope> {
+  const staff = await db.staff.findFirst({
+    where: { id: staffId, organizationId },
+    select: {
+      userId: true,
+      staffStores: { select: { storeId: true } },
+    },
+  });
+
+  if (!staff) {
+    throw new Error("NOT_FOUND: スタッフが見つかりません");
+  }
+
+  // 本人は自分のスタッフ情報のみ変更できる
+  if (staff.userId && staff.userId === userId) {
+    return "SELF";
+  }
+
+  const ctx = await requireAdmin(userId, organizationId);
+
+  if (ctx.role === "OWNER") {
+    return "OWNER";
+  }
+
+  // 店舗管理者は、所属店舗のいずれかを管理していれば変更できる
+  const accessibleStoreIds = await getAccessibleStoreIds(
+    ctx.memberId,
+    ctx.role,
+    organizationId
+  );
+
+  // null = スコープ未設定 (全店舗管理者) のため、店舗未所属のスタッフも変更できる
+  if (accessibleStoreIds === null) {
+    return "STORE_ADMIN";
+  }
+
+  const isAccessible = staff.staffStores.some((s) =>
+    accessibleStoreIds.includes(s.storeId)
+  );
+
+  if (isAccessible) {
+    return "STORE_ADMIN";
+  }
+
+  throw new Error("FORBIDDEN: このスタッフを編集する権限がありません");
+}
+
 /**
  * ユーザーが唯一のオーナーかどうか確認する
  */

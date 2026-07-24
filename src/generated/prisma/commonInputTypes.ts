@@ -470,6 +470,23 @@ export type EnumCorrectionRequestStatusWithAggregatesFilter<$PrismaModel = never
   _max?: Prisma.NestedEnumCorrectionRequestStatusFilter<$PrismaModel>
 }
 
+export type EnumTransportationTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.TransportationType | Prisma.EnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TransportationType[] | Prisma.ListEnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TransportationType[] | Prisma.ListEnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTransportationTypeNullableFilter<$PrismaModel> | $Enums.TransportationType | null
+}
+
+export type EnumTransportationTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TransportationType | Prisma.EnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TransportationType[] | Prisma.ListEnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TransportationType[] | Prisma.ListEnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTransportationTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.TransportationType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTransportationTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTransportationTypeNullableFilter<$PrismaModel>
+}
+
 export type EnumNotificationTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.NotificationType | Prisma.EnumNotificationTypeFieldRefInput<$PrismaModel>
   in?: $Enums.NotificationType[] | Prisma.ListEnumNotificationTypeFieldRefInput<$PrismaModel>
@@ -967,6 +984,23 @@ export type NestedEnumCorrectionRequestStatusWithAggregatesFilter<$PrismaModel =
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumCorrectionRequestStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumCorrectionRequestStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumTransportationTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.TransportationType | Prisma.EnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TransportationType[] | Prisma.ListEnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TransportationType[] | Prisma.ListEnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTransportationTypeNullableFilter<$PrismaModel> | $Enums.TransportationType | null
+}
+
+export type NestedEnumTransportationTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TransportationType | Prisma.EnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TransportationType[] | Prisma.ListEnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TransportationType[] | Prisma.ListEnumTransportationTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTransportationTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.TransportationType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTransportationTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTransportationTypeNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumNotificationTypeFilter<$PrismaModel = never> = {

@@ -10,6 +10,7 @@ import { format, addMonths, subMonths, startOfMonth, endOfMonth } from "date-fns
 import { toZonedTime } from "date-fns-tz";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight, FileEdit } from "lucide-react";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "自分の勤怠",
@@ -39,7 +40,10 @@ export default async function MyAttendancePage({
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -195,7 +199,7 @@ export default async function MyAttendancePage({
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
                   <th className="px-4 py-3 text-left font-medium text-muted-foreground">

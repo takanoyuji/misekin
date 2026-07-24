@@ -1,6 +1,10 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import {
+  resolveActiveOrganizationId,
+  getOrganizationRole,
+} from "@/lib/auth/active-org";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { AppHeader } from "@/components/layout/app-header";
 
@@ -13,15 +17,24 @@ export default async function AppLayout({
   if (!session) redirect("/login");
 
   // アクティブ組織の名前を取得
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  // クッキー未設定 (招待で参加したスタッフ等) でも所属組織に解決する
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
 
   let organizationName: string | null = null;
+  let isMember = false;
   if (activeOrgId) {
     const org = await db.organization.findUnique({
       where: { id: activeOrgId },
       select: { name: true },
     });
     organizationName = org?.name ?? null;
+
+    // MEMBER は管理メニューを表示しない
+    const role = await getOrganizationRole(session.user?.id, activeOrgId);
+    isMember = role === "MEMBER";
   }
 
   // ログインユーザーの未読通知数を取得
@@ -39,7 +52,7 @@ export default async function AppLayout({
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <AppSidebar />
+      <AppSidebar isMember={isMember} />
       <div className="flex flex-col flex-1 overflow-hidden">
         <AppHeader
           session={session}
@@ -48,7 +61,7 @@ export default async function AppLayout({
         />
         <main
           id="main-content"
-          className="flex-1 overflow-y-auto bg-background p-6"
+          className="flex-1 overflow-y-auto bg-background p-4 sm:p-6"
         >
           {children}
         </main>

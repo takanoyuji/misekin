@@ -19,6 +19,8 @@ import {
   HelpCircle,
   Menu,
   X,
+  Bell,
+  Wallet,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -28,16 +30,27 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
 }
 
-const mainNavItems: NavItem[] = [
+/** 管理者(OWNER / ADMIN)向けメニュー */
+const adminNavItems: NavItem[] = [
   { label: "ホーム", href: "/dashboard", icon: LayoutDashboard },
   { label: "勤怠管理", href: "/attendance", icon: Clock },
   { label: "スタッフ", href: "/staff", icon: Users },
   { label: "店舗", href: "/stores", icon: Store },
   { label: "修正申請", href: "/correction-requests", icon: FileEdit },
+  { label: "交通費申請", href: "/transportation-requests", icon: Wallet },
   { label: "締め処理", href: "/closing", icon: Lock },
   { label: "CSVエクスポート", href: "/export", icon: Download },
   { label: "APIキー", href: "/api-keys", icon: Key },
   { label: "監査ログ", href: "/audit-logs", icon: Shield },
+];
+
+/** スタッフ本人(MEMBER)向けメニュー。管理機能は表示しない */
+const memberNavItems: NavItem[] = [
+  { label: "ホーム", href: "/dashboard", icon: LayoutDashboard },
+  { label: "自分の勤怠", href: "/my-attendance", icon: Clock },
+  { label: "修正申請", href: "/my-correction-requests", icon: FileEdit },
+  { label: "担当店舗", href: "/my-stores", icon: Store },
+  { label: "通知", href: "/notifications", icon: Bell },
 ];
 
 const secondaryNavItems: NavItem[] = [
@@ -78,14 +91,17 @@ function NavLink({ item, pathname, onClick }: NavLinkProps) {
 
 interface SidebarContentProps {
   pathname: string;
+  isMember: boolean;
   onNavClick?: () => void;
 }
 
-function SidebarContent({ pathname, onNavClick }: SidebarContentProps) {
+function SidebarContent({ pathname, isMember, onNavClick }: SidebarContentProps) {
+  const navItems = isMember ? memberNavItems : adminNavItems;
+
   return (
     <div className="flex h-full flex-col gap-1 overflow-y-auto px-3 py-4">
       <nav aria-label="メインナビゲーション" className="flex flex-col gap-0.5">
-        {mainNavItems.map((item) => (
+        {navItems.map((item) => (
           <NavLink
             key={item.href}
             item={item}
@@ -114,7 +130,12 @@ function SidebarContent({ pathname, onNavClick }: SidebarContentProps) {
   );
 }
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  /** MEMBER は管理メニューを表示しない */
+  isMember?: boolean;
+}
+
+export function AppSidebar({ isMember = false }: AppSidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -125,30 +146,36 @@ export function AppSidebar() {
         className="hidden w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar md:flex"
         aria-label="サイドバー"
       >
-        <SidebarContent pathname={pathname} />
+        <SidebarContent pathname={pathname} isMember={isMember} />
       </aside>
 
       {/* モバイルサイドバー (Sheet) */}
       <Dialog.Root open={mobileOpen} onOpenChange={setMobileOpen}>
-        {/* トリガーボタン (ヘッダーから呼び出されるため data-mobile-sidebar-trigger を付与) */}
+        {/*
+          実際に操作するボタンはヘッダー側 (AppHeader) の1つだけ。
+          こちらは Radix にトリガーを認識させるための隠し要素で、
+          ヘッダーのボタンから click() 経由で開かれる。
+          表示するとハンバーガーが2つ並んでしまうため非表示にする。
+        */}
         <Dialog.Trigger asChild>
           <button
             id="mobile-sidebar-trigger"
-            aria-label="メニューを開く"
-            aria-expanded={mobileOpen}
-            className="inline-flex items-center justify-center rounded-md p-2 text-foreground/70 hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
+            tabIndex={-1}
+            aria-hidden="true"
+            className="hidden"
           >
             <Menu className="size-5" aria-hidden="true" />
           </button>
         </Dialog.Trigger>
 
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-40 bg-black/40 data-[state=closed]:animate-[fadeOut_150ms_ease] data-[state=open]:animate-[fadeIn_150ms_ease]" />
+          <Dialog.Overlay className="fixed inset-0 z-40 bg-black/40 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
           <Dialog.Content
             aria-label="ナビゲーションメニュー"
             className={cn(
               "fixed inset-y-0 left-0 z-50 w-72 bg-sidebar shadow-xl",
-              "data-[state=closed]:animate-[slideOutLeft_200ms_ease] data-[state=open]:animate-[slideInLeft_200ms_ease]",
+              "data-[state=open]:animate-in data-[state=open]:slide-in-from-left",
+              "data-[state=closed]:animate-out data-[state=closed]:slide-out-to-left",
               "focus:outline-none"
             )}
           >
@@ -163,6 +190,7 @@ export function AppSidebar() {
             </div>
             <SidebarContent
               pathname={pathname}
+              isMember={isMember}
               onNavClick={() => setMobileOpen(false)}
             />
           </Dialog.Content>

@@ -9,7 +9,6 @@ interface StaffEditFormProps {
     id: string;
     displayName: string;
     fullName: string;
-    email: string;
     phone: string;
     employeeCode: string;
     hireDate: string;
@@ -93,27 +92,7 @@ export function StaffEditForm({ staff, organizationId }: StaffEditFormProps) {
         />
       </div>
 
-      {/* メール（読み取り専用） */}
-      <div className="space-y-1">
-        <label
-          htmlFor="staff-email"
-          className="block text-sm font-medium text-foreground"
-        >
-          メールアドレス
-        </label>
-        <input
-          id="staff-email"
-          name="email"
-          type="email"
-          value={staff.email}
-          readOnly
-          className="w-full rounded-md border border-input bg-muted px-3 py-2 text-sm text-muted-foreground cursor-not-allowed"
-          aria-describedby="email-readonly-note"
-        />
-        <p id="email-readonly-note" className="text-xs text-muted-foreground">
-          メールアドレスは変更できません
-        </p>
-      </div>
+      {/* メールアドレスは権限が異なるため、このフォームでは扱わない (StaffEmailForm が担当) */}
 
       {/* 電話番号 */}
       <div className="space-y-1">
@@ -199,7 +178,7 @@ export function StaffEditForm({ staff, organizationId }: StaffEditFormProps) {
         disabled={isPending}
         className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:pointer-events-none transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
       >
-        {isPending ? "保存中..." : "保存する"}
+        {isPending ? "保存中…" : "保存する"}
       </button>
     </form>
   );

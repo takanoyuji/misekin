@@ -6,6 +6,8 @@ import { requireAdmin, canAccessStore } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { StoreEditForm } from "./store-edit-form";
 import { ClockUrlSection } from "./clock-url-section";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
+import { buildClockUrl } from "@/lib/app-url";
 
 export const metadata: Metadata = {
   title: "店舗詳細",
@@ -21,7 +23,10 @@ export default async function StoreDetailPage({ params }: PageProps) {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   const orgId = activeOrgId as string;
@@ -57,9 +62,8 @@ export default async function StoreDetailPage({ params }: PageProps) {
   if (!store) notFound();
 
   const activeClockUrl = store.clockUrls[0] ?? null;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
   const clockUrlFull = activeClockUrl
-    ? `${appUrl}/clock/${activeClockUrl.token}`
+    ? buildClockUrl(activeClockUrl.token)
     : null;
 
   return (
@@ -128,7 +132,7 @@ export default async function StoreDetailPage({ params }: PageProps) {
             </p>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full min-w-[640px] text-sm">
                 <thead>
                   <tr className="border-b border-border bg-muted/40">
                     <th className="px-6 py-3 text-left font-medium text-muted-foreground">

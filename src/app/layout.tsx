@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -31,6 +31,25 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  // アドレスバーの色を背景に合わせる（テーマごと）
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
+
+// ハイドレーション前にテーマを確定し、切替時のちらつき(FOUC)を防ぐ
+const themeInitScript = `
+(function() {
+  try {
+    var t = localStorage.getItem("misekin-theme");
+    var dark = t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    if (dark) document.documentElement.classList.add("dark");
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -39,6 +58,7 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${notoSansJP.variable} h-full`}
       style={{
         "--font-sans":
@@ -47,6 +67,7 @@ export default function RootLayout({
     >
       <head>
         <link rel="icon" href="/favicon.ico" />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="min-h-full flex flex-col">
         <a href="#main-content" className="skip-link">

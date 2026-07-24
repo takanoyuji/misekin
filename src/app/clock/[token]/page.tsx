@@ -25,7 +25,10 @@ export default async function ClockPage({ params }: PageProps) {
               canClock: true,
               staff: { status: "ACTIVE" },
             },
-            include: { staff: { select: { id: true, displayName: true } } },
+            select: {
+              requirePin: true,
+              staff: { select: { id: true, displayName: true } },
+            },
             orderBy: { staff: { displayName: "asc" } },
           },
         },
@@ -80,10 +83,14 @@ export default async function ClockPage({ params }: PageProps) {
             role="list"
             aria-label="スタッフ一覧"
           >
-            {store.staffStores.map(({ staff }) => (
+            {store.staffStores.map(({ staff, requirePin }) => (
               <li key={staff.id}>
                 <Link
-                  href={`/clock/${token}/pin?staffId=${staff.id}`}
+                  href={
+                    requirePin === false
+                      ? `/clock/${token}/status?staffId=${staff.id}`
+                      : `/clock/${token}/pin?staffId=${staff.id}`
+                  }
                   className="flex flex-col items-center justify-center min-h-[120px] rounded-2xl bg-white shadow-md border-2 border-transparent hover:border-blue-400 hover:shadow-lg active:scale-95 transition-all duration-150 p-4 text-center focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
                   aria-label={`${staff.displayName}を選択`}
                 >

@@ -9,6 +9,7 @@ import { toZonedTime } from "date-fns-tz";
 import { Lock, CheckCircle } from "lucide-react";
 import { ClosingForm } from "./closing-form";
 import { ClosingExecuteButton } from "./closing-execute-button";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "締め処理",
@@ -26,7 +27,10 @@ export default async function ClosingPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -153,7 +157,7 @@ export default async function ClosingPage() {
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
                   <th className="px-5 py-3 text-left font-medium text-muted-foreground">

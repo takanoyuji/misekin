@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { cn } from "@/lib/utils";
 import { AlertTriangle, Edit, Lock } from "lucide-react";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "勤怠詳細",
@@ -53,7 +54,10 @@ export default async function AttendanceDetailPage({
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   let ctx;
@@ -249,7 +253,7 @@ export default async function AttendanceDetailPage({
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
                   <th className="px-5 py-3 text-left font-medium text-muted-foreground">
@@ -300,7 +304,7 @@ export default async function AttendanceDetailPage({
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
                   <th className="px-5 py-3 text-left font-medium text-muted-foreground">
@@ -478,6 +482,13 @@ export default async function AttendanceDetailPage({
           </div>
         )}
       </section>
+
+      {(attendance as any).clockOutMemo && (
+        <section className="rounded-xl border border-border bg-card p-5 shadow-sm">
+          <h2 className="mb-2 text-base font-semibold">退勤メモ</h2>
+          <p className="text-sm whitespace-pre-wrap">{(attendance as any).clockOutMemo}</p>
+        </section>
+      )}
 
       {attendance.adminNotes && (
         <section className="rounded-xl border border-border bg-card p-5 shadow-sm">

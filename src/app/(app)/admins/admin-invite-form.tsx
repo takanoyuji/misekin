@@ -63,7 +63,7 @@ export function AdminInviteForm({ organizationId }: AdminInviteFormProps) {
         disabled={isPending || !email.trim()}
         className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:pointer-events-none transition-colors"
       >
-        {isPending ? "追加中..." : "管理者として追加"}
+        {isPending ? "追加中…" : "管理者として追加"}
       </button>
     </form>
   );

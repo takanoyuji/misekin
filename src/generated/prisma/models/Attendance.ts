@@ -49,6 +49,7 @@ export type AttendanceMinAggregateOutputType = {
   status: $Enums.AttendanceStatus | null
   hasAnomaly: boolean | null
   adminNotes: string | null
+  clockOutMemo: string | null
   isLocked: boolean | null
   lockedAt: Date | null
   lockedByUserId: string | null
@@ -70,6 +71,7 @@ export type AttendanceMaxAggregateOutputType = {
   status: $Enums.AttendanceStatus | null
   hasAnomaly: boolean | null
   adminNotes: string | null
+  clockOutMemo: string | null
   isLocked: boolean | null
   lockedAt: Date | null
   lockedByUserId: string | null
@@ -92,6 +94,7 @@ export type AttendanceCountAggregateOutputType = {
   hasAnomaly: number
   anomalyReasons: number
   adminNotes: number
+  clockOutMemo: number
   isLocked: number
   lockedAt: number
   lockedByUserId: number
@@ -125,6 +128,7 @@ export type AttendanceMinAggregateInputType = {
   status?: true
   hasAnomaly?: true
   adminNotes?: true
+  clockOutMemo?: true
   isLocked?: true
   lockedAt?: true
   lockedByUserId?: true
@@ -146,6 +150,7 @@ export type AttendanceMaxAggregateInputType = {
   status?: true
   hasAnomaly?: true
   adminNotes?: true
+  clockOutMemo?: true
   isLocked?: true
   lockedAt?: true
   lockedByUserId?: true
@@ -168,6 +173,7 @@ export type AttendanceCountAggregateInputType = {
   hasAnomaly?: true
   anomalyReasons?: true
   adminNotes?: true
+  clockOutMemo?: true
   isLocked?: true
   lockedAt?: true
   lockedByUserId?: true
@@ -277,6 +283,7 @@ export type AttendanceGroupByOutputType = {
   hasAnomaly: boolean
   anomalyReasons: runtime.JsonValue
   adminNotes: string | null
+  clockOutMemo: string | null
   isLocked: boolean
   lockedAt: Date | null
   lockedByUserId: string | null
@@ -322,6 +329,7 @@ export type AttendanceWhereInput = {
   hasAnomaly?: Prisma.BoolFilter<"Attendance"> | boolean
   anomalyReasons?: Prisma.JsonFilter<"Attendance">
   adminNotes?: Prisma.StringNullableFilter<"Attendance"> | string | null
+  clockOutMemo?: Prisma.StringNullableFilter<"Attendance"> | string | null
   isLocked?: Prisma.BoolFilter<"Attendance"> | boolean
   lockedAt?: Prisma.DateTimeNullableFilter<"Attendance"> | Date | string | null
   lockedByUserId?: Prisma.StringNullableFilter<"Attendance"> | string | null
@@ -352,6 +360,7 @@ export type AttendanceOrderByWithRelationInput = {
   hasAnomaly?: Prisma.SortOrder
   anomalyReasons?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  clockOutMemo?: Prisma.SortOrderInput | Prisma.SortOrder
   isLocked?: Prisma.SortOrder
   lockedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lockedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -386,6 +395,7 @@ export type AttendanceWhereUniqueInput = Prisma.AtLeast<{
   hasAnomaly?: Prisma.BoolFilter<"Attendance"> | boolean
   anomalyReasons?: Prisma.JsonFilter<"Attendance">
   adminNotes?: Prisma.StringNullableFilter<"Attendance"> | string | null
+  clockOutMemo?: Prisma.StringNullableFilter<"Attendance"> | string | null
   isLocked?: Prisma.BoolFilter<"Attendance"> | boolean
   lockedAt?: Prisma.DateTimeNullableFilter<"Attendance"> | Date | string | null
   lockedByUserId?: Prisma.StringNullableFilter<"Attendance"> | string | null
@@ -416,6 +426,7 @@ export type AttendanceOrderByWithAggregationInput = {
   hasAnomaly?: Prisma.SortOrder
   anomalyReasons?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  clockOutMemo?: Prisma.SortOrderInput | Prisma.SortOrder
   isLocked?: Prisma.SortOrder
   lockedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lockedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -446,6 +457,7 @@ export type AttendanceScalarWhereWithAggregatesInput = {
   hasAnomaly?: Prisma.BoolWithAggregatesFilter<"Attendance"> | boolean
   anomalyReasons?: Prisma.JsonWithAggregatesFilter<"Attendance">
   adminNotes?: Prisma.StringNullableWithAggregatesFilter<"Attendance"> | string | null
+  clockOutMemo?: Prisma.StringNullableWithAggregatesFilter<"Attendance"> | string | null
   isLocked?: Prisma.BoolWithAggregatesFilter<"Attendance"> | boolean
   lockedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Attendance"> | Date | string | null
   lockedByUserId?: Prisma.StringNullableWithAggregatesFilter<"Attendance"> | string | null
@@ -466,6 +478,7 @@ export type AttendanceCreateInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   createdAt?: Date | string
@@ -494,6 +507,7 @@ export type AttendanceUncheckedCreateInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -518,6 +532,7 @@ export type AttendanceUpdateInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -546,6 +561,7 @@ export type AttendanceUncheckedUpdateInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -572,6 +588,7 @@ export type AttendanceCreateManyInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -592,6 +609,7 @@ export type AttendanceUpdateManyMutationInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -612,6 +630,7 @@ export type AttendanceUncheckedUpdateManyInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -655,6 +674,7 @@ export type AttendanceCountOrderByAggregateInput = {
   hasAnomaly?: Prisma.SortOrder
   anomalyReasons?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
+  clockOutMemo?: Prisma.SortOrder
   isLocked?: Prisma.SortOrder
   lockedAt?: Prisma.SortOrder
   lockedByUserId?: Prisma.SortOrder
@@ -681,6 +701,7 @@ export type AttendanceMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   hasAnomaly?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
+  clockOutMemo?: Prisma.SortOrder
   isLocked?: Prisma.SortOrder
   lockedAt?: Prisma.SortOrder
   lockedByUserId?: Prisma.SortOrder
@@ -702,6 +723,7 @@ export type AttendanceMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   hasAnomaly?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
+  clockOutMemo?: Prisma.SortOrder
   isLocked?: Prisma.SortOrder
   lockedAt?: Prisma.SortOrder
   lockedByUserId?: Prisma.SortOrder
@@ -900,10 +922,12 @@ export type AttendanceCreateNestedOneWithoutCorrectionRequestsInput = {
   connect?: Prisma.AttendanceWhereUniqueInput
 }
 
-export type AttendanceUpdateOneRequiredWithoutCorrectionRequestsNestedInput = {
+export type AttendanceUpdateOneWithoutCorrectionRequestsNestedInput = {
   create?: Prisma.XOR<Prisma.AttendanceCreateWithoutCorrectionRequestsInput, Prisma.AttendanceUncheckedCreateWithoutCorrectionRequestsInput>
   connectOrCreate?: Prisma.AttendanceCreateOrConnectWithoutCorrectionRequestsInput
   upsert?: Prisma.AttendanceUpsertWithoutCorrectionRequestsInput
+  disconnect?: Prisma.AttendanceWhereInput | boolean
+  delete?: Prisma.AttendanceWhereInput | boolean
   connect?: Prisma.AttendanceWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.AttendanceUpdateToOneWithWhereWithoutCorrectionRequestsInput, Prisma.AttendanceUpdateWithoutCorrectionRequestsInput>, Prisma.AttendanceUncheckedUpdateWithoutCorrectionRequestsInput>
 }
@@ -962,6 +986,7 @@ export type AttendanceCreateWithoutLockedByInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   createdAt?: Date | string
@@ -989,6 +1014,7 @@ export type AttendanceUncheckedCreateWithoutLockedByInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   closingPeriodId?: string | null
@@ -1043,6 +1069,7 @@ export type AttendanceScalarWhereInput = {
   hasAnomaly?: Prisma.BoolFilter<"Attendance"> | boolean
   anomalyReasons?: Prisma.JsonFilter<"Attendance">
   adminNotes?: Prisma.StringNullableFilter<"Attendance"> | string | null
+  clockOutMemo?: Prisma.StringNullableFilter<"Attendance"> | string | null
   isLocked?: Prisma.BoolFilter<"Attendance"> | boolean
   lockedAt?: Prisma.DateTimeNullableFilter<"Attendance"> | Date | string | null
   lockedByUserId?: Prisma.StringNullableFilter<"Attendance"> | string | null
@@ -1063,6 +1090,7 @@ export type AttendanceCreateWithoutStoreInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   createdAt?: Date | string
@@ -1089,6 +1117,7 @@ export type AttendanceUncheckedCreateWithoutStoreInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -1139,6 +1168,7 @@ export type AttendanceCreateWithoutStaffInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   createdAt?: Date | string
@@ -1165,6 +1195,7 @@ export type AttendanceUncheckedCreateWithoutStaffInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -1215,6 +1246,7 @@ export type AttendanceCreateWithoutAttendanceEventsInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   createdAt?: Date | string
@@ -1242,6 +1274,7 @@ export type AttendanceUncheckedCreateWithoutAttendanceEventsInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -1281,6 +1314,7 @@ export type AttendanceUpdateWithoutAttendanceEventsInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1308,6 +1342,7 @@ export type AttendanceUncheckedUpdateWithoutAttendanceEventsInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1331,6 +1366,7 @@ export type AttendanceCreateWithoutBreaksInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   createdAt?: Date | string
@@ -1358,6 +1394,7 @@ export type AttendanceUncheckedCreateWithoutBreaksInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -1397,6 +1434,7 @@ export type AttendanceUpdateWithoutBreaksInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1424,6 +1462,7 @@ export type AttendanceUncheckedUpdateWithoutBreaksInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1447,6 +1486,7 @@ export type AttendanceCreateWithoutCorrectionsInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   createdAt?: Date | string
@@ -1474,6 +1514,7 @@ export type AttendanceUncheckedCreateWithoutCorrectionsInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -1513,6 +1554,7 @@ export type AttendanceUpdateWithoutCorrectionsInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1540,6 +1582,7 @@ export type AttendanceUncheckedUpdateWithoutCorrectionsInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1563,6 +1606,7 @@ export type AttendanceCreateWithoutCorrectionRequestsInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   createdAt?: Date | string
@@ -1590,6 +1634,7 @@ export type AttendanceUncheckedCreateWithoutCorrectionRequestsInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -1629,6 +1674,7 @@ export type AttendanceUpdateWithoutCorrectionRequestsInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1656,6 +1702,7 @@ export type AttendanceUncheckedUpdateWithoutCorrectionRequestsInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1679,6 +1726,7 @@ export type AttendanceCreateWithoutClosingPeriodInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   createdAt?: Date | string
@@ -1706,6 +1754,7 @@ export type AttendanceUncheckedCreateWithoutClosingPeriodInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -1757,6 +1806,7 @@ export type AttendanceCreateManyLockedByInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   closingPeriodId?: string | null
@@ -1776,6 +1826,7 @@ export type AttendanceUpdateWithoutLockedByInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1803,6 +1854,7 @@ export type AttendanceUncheckedUpdateWithoutLockedByInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closingPeriodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1828,6 +1880,7 @@ export type AttendanceUncheckedUpdateManyWithoutLockedByInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closingPeriodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1848,6 +1901,7 @@ export type AttendanceCreateManyStoreInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -1868,6 +1922,7 @@ export type AttendanceUpdateWithoutStoreInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1894,6 +1949,7 @@ export type AttendanceUncheckedUpdateWithoutStoreInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1919,6 +1975,7 @@ export type AttendanceUncheckedUpdateManyWithoutStoreInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1940,6 +1997,7 @@ export type AttendanceCreateManyStaffInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -1960,6 +2018,7 @@ export type AttendanceUpdateWithoutStaffInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1986,6 +2045,7 @@ export type AttendanceUncheckedUpdateWithoutStaffInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2011,6 +2071,7 @@ export type AttendanceUncheckedUpdateManyWithoutStaffInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2033,6 +2094,7 @@ export type AttendanceCreateManyClosingPeriodInput = {
   hasAnomaly?: boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: string | null
+  clockOutMemo?: string | null
   isLocked?: boolean
   lockedAt?: Date | string | null
   lockedByUserId?: string | null
@@ -2052,6 +2114,7 @@ export type AttendanceUpdateWithoutClosingPeriodInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2079,6 +2142,7 @@ export type AttendanceUncheckedUpdateWithoutClosingPeriodInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2104,6 +2168,7 @@ export type AttendanceUncheckedUpdateManyWithoutClosingPeriodInput = {
   hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
   anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2183,6 +2248,7 @@ export type AttendanceSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   hasAnomaly?: boolean
   anomalyReasons?: boolean
   adminNotes?: boolean
+  clockOutMemo?: boolean
   isLocked?: boolean
   lockedAt?: boolean
   lockedByUserId?: boolean
@@ -2214,6 +2280,7 @@ export type AttendanceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   hasAnomaly?: boolean
   anomalyReasons?: boolean
   adminNotes?: boolean
+  clockOutMemo?: boolean
   isLocked?: boolean
   lockedAt?: boolean
   lockedByUserId?: boolean
@@ -2240,6 +2307,7 @@ export type AttendanceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   hasAnomaly?: boolean
   anomalyReasons?: boolean
   adminNotes?: boolean
+  clockOutMemo?: boolean
   isLocked?: boolean
   lockedAt?: boolean
   lockedByUserId?: boolean
@@ -2266,6 +2334,7 @@ export type AttendanceSelectScalar = {
   hasAnomaly?: boolean
   anomalyReasons?: boolean
   adminNotes?: boolean
+  clockOutMemo?: boolean
   isLocked?: boolean
   lockedAt?: boolean
   lockedByUserId?: boolean
@@ -2274,7 +2343,7 @@ export type AttendanceSelectScalar = {
   updatedAt?: boolean
 }
 
-export type AttendanceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "storeId" | "staffId" | "businessDate" | "clockInAt" | "clockOutAt" | "breakMinutes" | "workMinutes" | "status" | "hasAnomaly" | "anomalyReasons" | "adminNotes" | "isLocked" | "lockedAt" | "lockedByUserId" | "closingPeriodId" | "createdAt" | "updatedAt", ExtArgs["result"]["attendance"]>
+export type AttendanceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "storeId" | "staffId" | "businessDate" | "clockInAt" | "clockOutAt" | "breakMinutes" | "workMinutes" | "status" | "hasAnomaly" | "anomalyReasons" | "adminNotes" | "clockOutMemo" | "isLocked" | "lockedAt" | "lockedByUserId" | "closingPeriodId" | "createdAt" | "updatedAt", ExtArgs["result"]["attendance"]>
 export type AttendanceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
@@ -2325,6 +2394,7 @@ export type $AttendancePayload<ExtArgs extends runtime.Types.Extensions.Internal
     hasAnomaly: boolean
     anomalyReasons: runtime.JsonValue
     adminNotes: string | null
+    clockOutMemo: string | null
     isLocked: boolean
     lockedAt: Date | null
     lockedByUserId: string | null
@@ -2775,6 +2845,7 @@ export interface AttendanceFieldRefs {
   readonly hasAnomaly: Prisma.FieldRef<"Attendance", 'Boolean'>
   readonly anomalyReasons: Prisma.FieldRef<"Attendance", 'Json'>
   readonly adminNotes: Prisma.FieldRef<"Attendance", 'String'>
+  readonly clockOutMemo: Prisma.FieldRef<"Attendance", 'String'>
   readonly isLocked: Prisma.FieldRef<"Attendance", 'Boolean'>
   readonly lockedAt: Prisma.FieldRef<"Attendance", 'DateTime'>
   readonly lockedByUserId: Prisma.FieldRef<"Attendance", 'String'>

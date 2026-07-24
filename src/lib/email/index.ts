@@ -1,7 +1,7 @@
 import { Resend } from "resend";
+import { getAppUrl } from "@/lib/app-url";
 
 const FROM = process.env.EMAIL_FROM ?? "みせ勤 <noreply@misekin.app>";
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY);
@@ -15,6 +15,7 @@ export async function sendVerificationEmail(
   name: string,
   token: string
 ): Promise<void> {
+  const APP_URL = getAppUrl();
   const url = `${APP_URL}/verify-email?token=${token}&email=${encodeURIComponent(to)}`;
 
   try {
@@ -52,6 +53,7 @@ export async function sendPasswordResetEmail(
   name: string,
   token: string
 ): Promise<void> {
+  const APP_URL = getAppUrl();
   const url = `${APP_URL}/reset-password?token=${token}&email=${encodeURIComponent(to)}`;
 
   try {
@@ -88,10 +90,16 @@ export async function sendStaffInvitationEmail(params: {
   to: string;
   staffName: string;
   organizationName: string;
-  storeName: string;
-  inviterName: string;
+  /** 所属店舗名。未確定の場合は省略する */
+  storeName?: string;
+  inviterName?: string;
   invitationUrl: string;
 }): Promise<void> {
+  // 店舗名・招待者名は未設定のことがあるため、空の括弧や「招待者: 」が出ないようにする
+  const orgLabel = params.storeName
+    ? `<strong>${params.organizationName}</strong>（${params.storeName}）`
+    : `<strong>${params.organizationName}</strong>`;
+
   try {
     await getResend().emails.send({
       from: FROM,
@@ -101,8 +109,8 @@ export async function sendStaffInvitationEmail(params: {
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #4f46e5;">みせ勤</h1>
           <p>${params.staffName} さん</p>
-          <p><strong>${params.organizationName}</strong>（${params.storeName}）から、スタッフとして招待されました。</p>
-          <p>招待者: ${params.inviterName}</p>
+          <p>${orgLabel}から、スタッフとして招待されました。</p>
+          ${params.inviterName ? `<p>招待者: ${params.inviterName}</p>` : ""}
           <p>以下のリンクからアカウントを有効化してください。</p>
           <a href="${params.invitationUrl}" style="display: inline-block; background: #4f46e5; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; margin: 16px 0;">
             アカウントを有効化する

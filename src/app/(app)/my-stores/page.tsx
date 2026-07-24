@@ -5,7 +5,10 @@ import { db } from "@/lib/db";
 import { requireOrgMember } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { format } from "date-fns";
-import { Store, KeyRound } from "lucide-react";
+import { Store, KeyRound, QrCode } from "lucide-react";
+import { TransportationRequestForm } from "./transportation-request-form";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
+import { buildClockUrl } from "@/lib/app-url";
 
 export const metadata: Metadata = {
   title: "担当店舗",
@@ -15,7 +18,10 @@ export default async function MyStoresPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -48,14 +54,34 @@ export default async function MyStoresPage() {
   const staffStores = await db.staffStore.findMany({
     where: { staffId: staff.id, isActive: true },
     include: {
-      store: true,
+      store: {
+        include: {
+          // 打刻用URL (有効なもの1件)
+          clockUrls: {
+            where: { isActive: true, invalidatedAt: null },
+            orderBy: { createdAt: "desc" },
+            take: 1,
+            select: { token: true, expiresAt: true },
+          },
+        },
+      },
       wageHistories: {
         orderBy: { effectiveFrom: "desc" },
+        take: 1,
+      },
+      transportationHistories: {
+        orderBy: { effectiveFrom: "desc" },
+        take: 1,
+      },
+      transportationChangeRequests: {
+        where: { status: "PENDING" },
+        orderBy: { createdAt: "desc" },
         take: 1,
       },
     },
     orderBy: [{ isPrimary: "desc" }, { startDate: "asc" }],
   });
+
 
   return (
     <div className="space-y-6">
@@ -82,6 +108,11 @@ export default async function MyStoresPage() {
           {staffStores.map((ss) => {
             const currentWage = ss.wageHistories[0] ?? null;
             const hasPinSet = !!ss.pinHash;
+            const currentTransportation = ss.transportationHistories[0] ?? null;
+            const pendingTransportation =
+              ss.transportationChangeRequests[0] ?? null;
+            const token = ss.store.clockUrls[0]?.token;
+            const clockUrl = token ? buildClockUrl(token) : null;
 
             return (
               <div
@@ -158,7 +189,63 @@ export default async function MyStoresPage() {
                       <dd className="font-mono text-xs">{ss.store.code}</dd>
                     </div>
                   )}
+                  <div className="flex justify-between gap-4">
+                    <dt className="text-muted-foreground">交通費</dt>
+                    <dd className="font-numeric font-medium">
+                      {currentTransportation
+                        ? currentTransportation.type === "NONE"
+                          ? "支給なし"
+                          : `${
+                              currentTransportation.type === "MONTHLY"
+                                ? "月額"
+                                : "出勤ごと"
+                            } ¥${Number(
+                              currentTransportation.amount
+                            ).toLocaleString()}`
+                        : "未設定"}
+                    </dd>
+                  </div>
                 </dl>
+
+                {/* 打刻URL */}
+                {clockUrl && (
+                  <div className="border-t border-border pt-3">
+                    <p className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                      <QrCode className="size-3.5" aria-hidden="true" />
+                      打刻ページ
+                    </p>
+                    <a
+                      href={clockUrl}
+                      className="mt-1.5 block truncate rounded-md bg-muted/50 px-2 py-1.5 text-xs text-primary underline underline-offset-2"
+                    >
+                      {clockUrl}
+                    </a>
+                  </div>
+                )}
+
+                {/* 交通費の変更申請 */}
+                <TransportationRequestForm
+                  staffStoreId={ss.id}
+                  currentType={currentTransportation?.type ?? null}
+                  currentAmount={
+                    currentTransportation
+                      ? Number(currentTransportation.amount)
+                      : null
+                  }
+                  pendingRequest={
+                    pendingTransportation
+                      ? {
+                          id: pendingTransportation.id,
+                          requestedType: pendingTransportation.requestedType,
+                          requestedAmount: Number(
+                            pendingTransportation.requestedAmount
+                          ),
+                          createdAt:
+                            pendingTransportation.createdAt.toISOString(),
+                        }
+                      : null
+                  }
+                />
               </div>
             );
           })}

@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { cn } from "@/lib/utils";
 import { AlertTriangle, ChevronLeft, ChevronRight } from "lucide-react";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "勤怠一覧",
@@ -48,7 +49,10 @@ export default async function AttendancePage({
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -265,12 +269,12 @@ export default async function AttendancePage({
           >
             絞り込む
           </button>
-          <a
+          <Link
             href="/attendance"
             className="inline-flex items-center rounded-md border border-input px-4 py-1.5 text-sm font-medium hover:bg-muted"
           >
             リセット
-          </a>
+          </Link>
         </div>
       </form>
 
@@ -288,7 +292,7 @@ export default async function AttendancePage({
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
                   <th className="px-4 py-3 text-left font-medium text-muted-foreground">
@@ -329,39 +333,35 @@ export default async function AttendancePage({
                     <tr
                       key={att.id}
                       className={cn(
-                        "cursor-pointer transition-colors hover:bg-muted/30",
+                        "group relative transition-colors hover:bg-muted/30 focus-within:bg-muted/30",
                         isMissing && "bg-red-50 hover:bg-red-100"
                       )}
                     >
+                      {/* 行全体を1つのリンクにする（重複リンクによる冗長な読み上げを防ぐ） */}
                       <td className="px-4 py-3">
                         <Link
                           href={`/attendance/${att.id}`}
-                          className="block font-numeric text-sm"
+                          aria-label={`${att.businessDate} ${att.staff.displayName} の勤怠詳細`}
+                          className="font-numeric text-sm after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
                         >
                           {att.businessDate}
                         </Link>
                       </td>
                       <td className="px-4 py-3">
-                        <Link href={`/attendance/${att.id}`} className="block">
-                          <span className="font-medium">
-                            {att.staff.displayName}
+                        <span className="font-medium">
+                          {att.staff.displayName}
+                        </span>
+                        {att.staff.employeeCode && (
+                          <span className="ml-1.5 text-xs text-muted-foreground">
+                            #{att.staff.employeeCode}
                           </span>
-                          {att.staff.employeeCode && (
-                            <span className="ml-1.5 text-xs text-muted-foreground">
-                              #{att.staff.employeeCode}
-                            </span>
-                          )}
-                        </Link>
+                        )}
                       </td>
                       <td className="px-4 py-3 text-muted-foreground">
-                        <Link href={`/attendance/${att.id}`} className="block">
-                          {att.store.name}
-                        </Link>
+                        {att.store.name}
                       </td>
                       <td className="px-4 py-3 font-numeric">
-                        <Link href={`/attendance/${att.id}`} className="block">
-                          {formatTime(att.clockInAt)}
-                        </Link>
+                        {formatTime(att.clockInAt)}
                       </td>
                       <td
                         className={cn(
@@ -369,41 +369,31 @@ export default async function AttendancePage({
                           isMissing && "text-red-600 font-semibold"
                         )}
                       >
-                        <Link href={`/attendance/${att.id}`} className="block">
-                          {formatTime(att.clockOutAt)}
-                        </Link>
+                        {formatTime(att.clockOutAt)}
                       </td>
                       <td className="px-4 py-3 font-numeric text-muted-foreground">
-                        <Link href={`/attendance/${att.id}`} className="block">
-                          {formatMinutes(att.breakMinutes)}
-                        </Link>
+                        {formatMinutes(att.breakMinutes)}
                       </td>
                       <td className="px-4 py-3 font-numeric">
-                        <Link href={`/attendance/${att.id}`} className="block">
-                          {formatMinutes(att.workMinutes)}
-                        </Link>
+                        {formatMinutes(att.workMinutes)}
                       </td>
                       <td className="px-4 py-3">
-                        <Link href={`/attendance/${att.id}`} className="block">
-                          <div className="flex flex-col gap-1">
-                            <StatusBadge status={att.status} />
-                            {hasPending && (
-                              <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
-                                申請中
-                              </span>
-                            )}
-                          </div>
-                        </Link>
-                      </td>
-                      <td className="px-4 py-3">
-                        <Link href={`/attendance/${att.id}`} className="block">
-                          {att.hasAnomaly && (
-                            <AlertTriangle
-                              className="size-4 text-orange-500"
-                              aria-label="異常あり"
-                            />
+                        <div className="flex flex-col gap-1">
+                          <StatusBadge status={att.status} />
+                          {hasPending && (
+                            <span className="inline-flex w-fit items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+                              申請中
+                            </span>
                           )}
-                        </Link>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        {att.hasAnomaly && (
+                          <AlertTriangle
+                            className="size-4 text-orange-500"
+                            aria-label="異常あり"
+                          />
+                        )}
                       </td>
                     </tr>
                   );

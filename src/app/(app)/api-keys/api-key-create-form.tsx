@@ -269,7 +269,7 @@ export function ApiKeyCreateForm({
                     disabled={isPending || !name}
                     className="flex-1 py-2.5 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors disabled:opacity-60"
                   >
-                    {isPending ? "発行中..." : "発行する"}
+                    {isPending ? "発行中…" : "発行する"}
                   </button>
                 </div>
               </form>

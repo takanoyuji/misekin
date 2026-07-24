@@ -146,7 +146,7 @@ export function ClockUrlSection({
               className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 transition-colors"
             >
               <RefreshCw className="size-4" aria-hidden="true" />
-              {isPending ? "発行中..." : "URLを発行する"}
+              {isPending ? "発行中…" : "URLを発行する"}
             </button>
           </div>
         )}
@@ -202,7 +202,7 @@ export function ClockUrlSection({
                 disabled={isPending}
                 className="flex-1 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-bold transition-colors disabled:opacity-60"
               >
-                {isPending ? "発行中..." : "再発行する"}
+                {isPending ? "発行中…" : "再発行する"}
               </button>
             </div>
           </div>

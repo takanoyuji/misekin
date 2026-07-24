@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/common/page-header";
 import { StatusBadge } from "@/components/common/status-badge";
 import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "修正申請一覧",
@@ -32,7 +33,10 @@ export default async function CorrectionRequestsPage({
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -76,7 +80,8 @@ export default async function CorrectionRequestsPage({
       where: whereBase,
       include: {
         staff: { select: { displayName: true, employeeCode: true } },
-        attendance: {
+        store: { select: { name: true } },
+      attendance: {
           select: {
             businessDate: true,
             store: { select: { name: true } },
@@ -157,7 +162,7 @@ export default async function CorrectionRequestsPage({
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
                   <th className="px-5 py-3 text-left font-medium text-muted-foreground">
@@ -206,7 +211,7 @@ export default async function CorrectionRequestsPage({
                         href={`/correction-requests/${req.id}`}
                         className="block"
                       >
-                        {req.attendance.store.name}
+                        {req.attendance?.store.name ?? req.store?.name ?? "—"}
                       </Link>
                     </td>
                     <td className="px-4 py-3 font-numeric">
@@ -214,7 +219,12 @@ export default async function CorrectionRequestsPage({
                         href={`/correction-requests/${req.id}`}
                         className="block"
                       >
-                        {req.attendance.businessDate}
+                        {req.attendance?.businessDate ?? req.businessDate ?? "—"}
+                        {req.attendanceId === null && (
+                          <span className="ml-2 inline-flex rounded-full bg-amber-100 px-2 py-0.5 font-sans text-xs font-medium text-amber-800">
+                            付け忘れ
+                          </span>
+                        )}
                       </Link>
                     </td>
                     <td className="px-4 py-3 font-numeric text-muted-foreground">

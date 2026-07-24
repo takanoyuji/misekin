@@ -146,7 +146,7 @@ function RequestResetForm() {
             disabled={isSubmitting}
             aria-busy={isSubmitting}
           >
-            {isSubmitting ? "送信中..." : "リセットメールを送信"}
+            {isSubmitting ? "送信中…" : "リセットメールを送信"}
           </Button>
         </form>
       </CardContent>
@@ -315,7 +315,7 @@ function ResetPasswordForm({ token }: { token: string }) {
             disabled={isSubmitting}
             aria-busy={isSubmitting}
           >
-            {isSubmitting ? "変更中..." : "パスワードを変更する"}
+            {isSubmitting ? "変更中…" : "パスワードを変更する"}
           </Button>
         </form>
       </CardContent>

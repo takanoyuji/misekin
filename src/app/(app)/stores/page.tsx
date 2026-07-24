@@ -7,6 +7,7 @@ import { requireAdmin, getAccessibleStoreIds } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { Plus, Building2, ExternalLink } from "lucide-react";
 import { StoreDeactivateButton } from "./store-deactivate-button";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "店舗一覧",
@@ -16,7 +17,10 @@ export default async function StoresPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -92,7 +96,7 @@ export default async function StoresPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
                   <th className="px-5 py-3 text-left font-medium text-muted-foreground">
@@ -125,7 +129,7 @@ export default async function StoresPage() {
                       <div className="flex items-center gap-2">
                         <span className="font-medium">{store.name}</span>
                         {store.clockUrls[0] && (
-                          <a
+                          <Link
                             href={`/clock/${store.clockUrls[0].token}`}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -133,7 +137,7 @@ export default async function StoresPage() {
                             aria-label={`${store.name}の打刻URLを開く`}
                           >
                             <ExternalLink className="size-3.5" aria-hidden="true" />
-                          </a>
+                          </Link>
                         )}
                       </div>
                       {store.address && (

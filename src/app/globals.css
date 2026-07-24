@@ -129,6 +129,22 @@
   }
   html {
     @apply font-sans;
+    /* OSのダーク設定にスクロールバー・ネイティブ入力を追従させる */
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+
+  /* ダブルタップ拡大の遅延をなくす（打刻テンキー等での反応を速く） */
+  button,
+  a,
+  [role="button"],
+  input,
+  select,
+  textarea,
+  label {
+    touch-action: manipulation;
   }
 
   /* スキップリンク */

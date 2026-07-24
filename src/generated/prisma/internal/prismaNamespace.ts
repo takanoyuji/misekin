@@ -402,6 +402,7 @@ export const ModelName = {
   Break: 'Break',
   AttendanceCorrection: 'AttendanceCorrection',
   CorrectionRequest: 'CorrectionRequest',
+  TransportationChangeRequest: 'TransportationChangeRequest',
   ClosingPeriod: 'ClosingPeriod',
   Notification: 'Notification',
   AuditLog: 'AuditLog',
@@ -422,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "store" | "storeClockUrl" | "storeAdmin" | "staff" | "staffStore" | "wageHistory" | "transportationHistory" | "attendanceEvent" | "attendance" | "break" | "attendanceCorrection" | "correctionRequest" | "closingPeriod" | "notification" | "auditLog" | "apiKey" | "apiAccessLog"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "store" | "storeClockUrl" | "storeAdmin" | "staff" | "staffStore" | "wageHistory" | "transportationHistory" | "attendanceEvent" | "attendance" | "break" | "attendanceCorrection" | "correctionRequest" | "transportationChangeRequest" | "closingPeriod" | "notification" | "auditLog" | "apiKey" | "apiAccessLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1758,6 +1759,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TransportationChangeRequest: {
+      payload: Prisma.$TransportationChangeRequestPayload<ExtArgs>
+      fields: Prisma.TransportationChangeRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TransportationChangeRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportationChangeRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TransportationChangeRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportationChangeRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.TransportationChangeRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportationChangeRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TransportationChangeRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportationChangeRequestPayload>
+        }
+        findMany: {
+          args: Prisma.TransportationChangeRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportationChangeRequestPayload>[]
+        }
+        create: {
+          args: Prisma.TransportationChangeRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportationChangeRequestPayload>
+        }
+        createMany: {
+          args: Prisma.TransportationChangeRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TransportationChangeRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportationChangeRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.TransportationChangeRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportationChangeRequestPayload>
+        }
+        update: {
+          args: Prisma.TransportationChangeRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportationChangeRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.TransportationChangeRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TransportationChangeRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TransportationChangeRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportationChangeRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.TransportationChangeRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportationChangeRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.TransportationChangeRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTransportationChangeRequest>
+        }
+        groupBy: {
+          args: Prisma.TransportationChangeRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransportationChangeRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TransportationChangeRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransportationChangeRequestCountAggregateOutputType> | number
+        }
+      }
+    }
     ClosingPeriod: {
       payload: Prisma.$ClosingPeriodPayload<ExtArgs>
       fields: Prisma.ClosingPeriodFieldRefs
@@ -2316,6 +2391,7 @@ export const StaffStoreScalarFieldEnum = {
   pinFailCount: 'pinFailCount',
   pinLockedUntil: 'pinLockedUntil',
   canClock: 'canClock',
+  requirePin: 'requirePin',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2391,6 +2467,7 @@ export const AttendanceScalarFieldEnum = {
   hasAnomaly: 'hasAnomaly',
   anomalyReasons: 'anomalyReasons',
   adminNotes: 'adminNotes',
+  clockOutMemo: 'clockOutMemo',
   isLocked: 'isLocked',
   lockedAt: 'lockedAt',
   lockedByUserId: 'lockedByUserId',
@@ -2432,6 +2509,8 @@ export const CorrectionRequestScalarFieldEnum = {
   id: 'id',
   attendanceId: 'attendanceId',
   staffId: 'staffId',
+  storeId: 'storeId',
+  businessDate: 'businessDate',
   status: 'status',
   originalData: 'originalData',
   requestedData: 'requestedData',
@@ -2445,6 +2524,27 @@ export const CorrectionRequestScalarFieldEnum = {
 } as const
 
 export type CorrectionRequestScalarFieldEnum = (typeof CorrectionRequestScalarFieldEnum)[keyof typeof CorrectionRequestScalarFieldEnum]
+
+
+export const TransportationChangeRequestScalarFieldEnum = {
+  id: 'id',
+  staffStoreId: 'staffStoreId',
+  staffId: 'staffId',
+  status: 'status',
+  currentType: 'currentType',
+  currentAmount: 'currentAmount',
+  requestedType: 'requestedType',
+  requestedAmount: 'requestedAmount',
+  requestedLimit: 'requestedLimit',
+  reason: 'reason',
+  reviewedByUserId: 'reviewedByUserId',
+  reviewedAt: 'reviewedAt',
+  reviewNotes: 'reviewNotes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TransportationChangeRequestScalarFieldEnum = (typeof TransportationChangeRequestScalarFieldEnum)[keyof typeof TransportationChangeRequestScalarFieldEnum]
 
 
 export const ClosingPeriodScalarFieldEnum = {
@@ -2934,6 +3034,7 @@ export type GlobalOmitConfig = {
   break?: Prisma.BreakOmit
   attendanceCorrection?: Prisma.AttendanceCorrectionOmit
   correctionRequest?: Prisma.CorrectionRequestOmit
+  transportationChangeRequest?: Prisma.TransportationChangeRequestOmit
   closingPeriod?: Prisma.ClosingPeriodOmit
   notification?: Prisma.NotificationOmit
   auditLog?: Prisma.AuditLogOmit

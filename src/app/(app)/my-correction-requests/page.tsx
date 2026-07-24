@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/common/status-badge";
 import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { Plus } from "lucide-react";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "修正申請一覧",
@@ -22,7 +23,10 @@ export default async function MyCorrectionRequestsPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -61,6 +65,8 @@ export default async function MyCorrectionRequestsPage() {
           store: { select: { name: true } },
         },
       },
+      // 付け忘れ申請は勤怠が無いため、申請自身の店舗を参照する
+      store: { select: { name: true } },
       reviewedBy: { select: { name: true } },
     },
     orderBy: { createdAt: "desc" },
@@ -106,7 +112,7 @@ export default async function MyCorrectionRequestsPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
                   <th className="px-5 py-3 text-left font-medium text-muted-foreground">
@@ -133,10 +139,15 @@ export default async function MyCorrectionRequestsPage() {
                       {formatDateTime(req.createdAt)}
                     </td>
                     <td className="px-4 py-3 font-numeric font-medium">
-                      {req.attendance.businessDate}
+                      {req.attendance?.businessDate ?? req.businessDate ?? "—"}
+                      {req.attendanceId === null && (
+                        <span className="ml-2 inline-flex rounded-full bg-amber-100 px-2 py-0.5 font-sans text-xs font-medium text-amber-800">
+                          付け忘れ
+                        </span>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-muted-foreground">
-                      {req.attendance.store.name}
+                      {req.attendance?.store.name ?? req.store?.name ?? "—"}
                     </td>
                     <td className="max-w-[200px] truncate px-4 py-3 text-muted-foreground">
                       {req.reason}

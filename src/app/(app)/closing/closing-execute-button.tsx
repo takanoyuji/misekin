@@ -91,7 +91,7 @@ export function ClosingExecuteButton({
                   : "bg-orange-600 text-white hover:bg-orange-700"
               )}
             >
-              {isPending ? "実行中..." : "実行する"}
+              {isPending ? "実行中…" : "実行する"}
             </button>
             <button
               type="button"

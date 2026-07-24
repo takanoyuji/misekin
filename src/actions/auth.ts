@@ -1,7 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { signIn, signOut } from "@/lib/auth";
+import { cookies } from "next/headers";
+import { signIn, signOut, ACTIVE_ORG_COOKIE } from "@/lib/auth";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { nanoid } from "nanoid";
@@ -19,6 +20,7 @@ import { sendVerificationEmail, sendPasswordResetEmail } from "@/lib/email";
 interface ActionResult {
   success?: boolean;
   error?: string;
+  unverifiedExists?: boolean;
 }
 
 /**
@@ -37,7 +39,11 @@ export async function registerUser(
   // 既存ユーザーチェック
   const existing = await db.user.findUnique({ where: { email } });
   if (existing) {
-    // セキュリティのため「メールを送信しました」と返す
+    if (!existing.emailVerified) {
+      // メール未認証の場合は専用UIを表示させる
+      return { unverifiedExists: true };
+    }
+    // 認証済みの場合はセキュリティのため成功���返す
     return { success: true };
   }
 
@@ -63,6 +69,31 @@ export async function registerUser(
 
   await sendVerificationEmail(email, name ?? email, token);
 
+  return { success: true };
+}
+
+/**
+ * 認証メール再送信
+ */
+export async function resendVerificationEmail(
+  email: string
+): Promise<ActionResult> {
+  const user = await db.user.findUnique({ where: { email } });
+  if (!user || user.emailVerified) return { success: true };
+
+  await db.verificationToken.deleteMany({
+    where: { identifier: email, type: "EMAIL_VERIFICATION" },
+  });
+  const token = nanoid(32);
+  await db.verificationToken.create({
+    data: {
+      identifier: email,
+      token,
+      expires: addHours(new Date(), 24),
+      type: "EMAIL_VERIFICATION",
+    },
+  });
+  await sendVerificationEmail(email, user.name ?? email, token);
   return { success: true };
 }
 
@@ -190,9 +221,45 @@ export async function resetPassword(
 /**
  * ログイン
  */
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 export async function loginUser(formData: FormData) {
+  const email = formData.get("email");
+
   try {
-    await signIn("credentials", formData);
+    // アクティブ組織のクッキーは組織の作成時・切替時にしか設定されないため、
+    // 招待で参加したスタッフはログイン時に設定しておく
+    if (typeof email === "string" && email) {
+      const user = await db.user.findUnique({
+        where: { email: email.toLowerCase() },
+        select: {
+          organizationMembers: {
+            where: { isActive: true },
+            orderBy: { createdAt: "asc" },
+            take: 1,
+            select: { organizationId: true },
+          },
+        },
+      });
+
+      const organizationId = user?.organizationMembers[0]?.organizationId;
+      if (organizationId) {
+        const cookieStore = await cookies();
+        if (!cookieStore.get(ACTIVE_ORG_COOKIE)?.value) {
+          cookieStore.set(ACTIVE_ORG_COOKIE, organizationId, {
+            httpOnly: true,
+            path: "/",
+            sameSite: "lax",
+          });
+        }
+      }
+    }
+
+    await signIn("credentials", {
+      email,
+      password: formData.get("password"),
+      redirectTo: `${BASE_PATH}/dashboard`,
+    });
   } catch (error: any) {
     if (error.message?.includes("CredentialsSignin")) {
       redirect("/login?error=credentials");

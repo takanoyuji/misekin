@@ -136,7 +136,7 @@ export function OrganizationForm({
         disabled={isPending}
         className="rounded-lg bg-primary px-6 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:pointer-events-none transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
       >
-        {isPending ? "保存中..." : "保存する"}
+        {isPending ? "保存中…" : "保存する"}
       </button>
     </form>
   );

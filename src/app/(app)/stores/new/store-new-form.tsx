@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createStore } from "@/actions/store";
 
 interface StoreNewFormProps {
@@ -146,18 +147,18 @@ export function StoreNewForm({ organizationId }: StoreNewFormProps) {
       )}
 
       <div className="flex gap-3 pt-2">
-        <a
+        <Link
           href="/stores"
           className="flex-1 text-center py-2 rounded-lg border border-input text-sm font-medium hover:bg-muted transition-colors"
         >
           キャンセル
-        </a>
+        </Link>
         <button
           type="submit"
           disabled={isPending}
           className="flex-1 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:pointer-events-none transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
         >
-          {isPending ? "作成中..." : "店舗を作成"}
+          {isPending ? "作成中…" : "店舗を作成"}
         </button>
       </div>
     </form>

@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/common/page-header";
 import { format } from "date-fns";
 import { AdminInviteForm } from "./admin-invite-form";
 import { AdminRemoveButton } from "./admin-remove-button";
+import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
   title: "管理者管理",
@@ -16,7 +17,10 @@ export default async function AdminsPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  const activeOrgId = await resolveActiveOrganizationId(
+    session.user?.id,
+    (session as any).activeOrganizationId as string | null
+  );
   if (!activeOrgId) redirect("/dashboard");
 
   try {
@@ -61,7 +65,7 @@ export default async function AdminsPage() {
           </h2>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[640px] text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/40">
                 <th className="px-5 py-3 text-left font-medium text-muted-foreground">名前</th>

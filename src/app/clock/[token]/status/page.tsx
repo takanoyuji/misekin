@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import {
   calculateClockState,
   getClockStateLabel,
@@ -7,16 +8,15 @@ import {
   type ClockState,
 } from "@/lib/business/time-clock";
 import { getBusinessDate } from "@/lib/business/business-day";
-import bcrypt from "bcryptjs";
+import { clockCookieName, verifyClockSession } from "@/lib/clock-session";
 import { StatusActions } from "./status-actions";
-import { addMinutes } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { format } from "date-fns";
 import { Clock } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ token: string }>;
-  searchParams: Promise<{ staffId?: string; pin?: string }>;
+  searchParams: Promise<{ staffId?: string }>;
 }
 
 const stateColorMap: Record<ClockState, string> = {
@@ -35,9 +35,9 @@ const stateBgMap: Record<ClockState, string> = {
 
 export default async function StatusPage({ params, searchParams }: PageProps) {
   const { token } = await params;
-  const { staffId, pin } = await searchParams;
+  const { staffId } = await searchParams;
 
-  if (!staffId || !pin) {
+  if (!staffId) {
     redirect(`/clock/${token}`);
   }
 
@@ -75,49 +75,14 @@ export default async function StatusPage({ params, searchParams }: PageProps) {
     redirect(`/clock/${token}`);
   }
 
-  // PINロックチェック
-  const isPinLocked =
-    staffStore.pinLockedUntil && staffStore.pinLockedUntil > new Date();
-  let pinError: string | null = null;
-
-  if (isPinLocked) {
-    const lockedUntil = addMinutes(staffStore.pinLockedUntil!, 0);
-    const timezone = store.organization.timezone ?? "Asia/Tokyo";
-    const zonedLockedUntil = toZonedTime(lockedUntil, timezone);
-    pinError = `PINが一時的にロックされています（${format(zonedLockedUntil, "HH:mm")}まで）`;
-  } else if (!staffStore.pinHash) {
-    pinError = "PINが設定されていません。管理者にお問い合わせください";
-  } else {
-    const isPinValid = await bcrypt.compare(pin, staffStore.pinHash);
-    if (!isPinValid) {
-      const newFailCount = staffStore.pinFailCount + 1;
-      const lockUntil = newFailCount >= 5 ? addMinutes(new Date(), 15) : null;
-
-      await db.staffStore.update({
-        where: { id: staffStore.id },
-        data: { pinFailCount: newFailCount, pinLockedUntil: lockUntil },
-      });
-
-      if (lockUntil) {
-        pinError = "PINを5回間違えました。15分間ロックされます";
-      } else {
-        pinError = `PINが正しくありません（残り${5 - newFailCount}回）`;
-      }
-    } else {
-      // PIN成功: 失敗カウントリセット
-      await db.staffStore.update({
-        where: { id: staffStore.id },
-        data: { pinFailCount: 0, pinLockedUntil: null },
-      });
+  // PINの検証は verifyClockPin 側で済ませ、その結果を短命Cookieで確認する。
+  // PIN必須のスタッフはセッションが無ければPIN入力へ戻す。
+  if (staffStore.requirePin) {
+    const cookieStore = await cookies();
+    const session = cookieStore.get(clockCookieName(token))?.value;
+    if (!verifyClockSession(session, staffStore.id, new Date().getTime())) {
+      redirect(`/clock/${token}/pin?staffId=${staffId}`);
     }
-  }
-
-  // PINエラー時はPIN入力画面に戻す
-  if (pinError) {
-    // エラーをURLパラメータ経由で渡す（クライアントサイドリダイレクト用）
-    redirect(
-      `/clock/${token}/pin?staffId=${staffId}&error=${encodeURIComponent(pinError)}`
-    );
   }
 
   // 現在の勤怠状態を取得
@@ -190,7 +155,6 @@ export default async function StatusPage({ params, searchParams }: PageProps) {
         <StatusActions
           token={token}
           staffId={staffId}
-          pin={pin}
           staffName={staffStore.staff.displayName}
           currentState={currentState}
           availableActions={availableActions}

@@ -140,7 +140,7 @@ export function CorrectionRequestReviewForm({ requestId, organizationId }: Props
             )}
           >
             {isPending
-              ? "処理中..."
+              ? "処理中…"
               : action === "APPROVE"
                 ? "承認を確定する"
                 : "却下を確定する"}

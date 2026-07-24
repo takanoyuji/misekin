@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
@@ -14,6 +15,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { MemberDashboard } from "./member-dashboard";
 
 export const metadata: Metadata = {
   title: "ホーム",
@@ -67,15 +69,37 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  const activeOrgId = (session as any).activeOrganizationId as string | null;
+  let activeOrgId = (session as any).activeOrganizationId as string | null;
 
   if (!activeOrgId) {
+    // ユーザーが所属する組織を確認
+    const membership = await db.organizationMember.findFirst({
+      where: { userId: session.user.id, isActive: true },
+      select: { organizationId: true },
+    });
+
+    if (!membership) {
+      // 組織未作成 → オンボーディングへ
+      redirect("/onboarding");
+    }
+
+    // 組織はあるがクッキー未設定 → 最初の組織をアクティブに
+    activeOrgId = membership.organizationId;
+  }
+
+  // MEMBER (スタッフ本人) は自分向けのホームを表示する
+  const membership = await db.organizationMember.findFirst({
+    where: {
+      userId: session.user.id,
+      organizationId: activeOrgId,
+      isActive: true,
+    },
+    select: { role: true },
+  });
+
+  if (membership?.role === "MEMBER") {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-        <p className="text-muted-foreground">
-          所属組織が設定されていません。管理者にお問い合わせください。
-        </p>
-      </div>
+      <MemberDashboard userId={session.user.id} organizationId={activeOrgId} />
     );
   }
 
@@ -281,7 +305,7 @@ export default async function DashboardPage() {
               </p>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full min-w-[640px] text-sm">
                   <thead>
                     <tr className="border-b border-border bg-muted/40">
                       <th className="px-5 py-3 text-left font-medium text-muted-foreground">
@@ -396,12 +420,12 @@ export default async function DashboardPage() {
               未処理修正申請
             </h2>
             {pendingCorrectionCount > 0 && (
-              <a
+              <Link
                 href="/correction-requests"
                 className="text-sm font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
               >
                 すべて見る ({pendingCorrectionCount}件)
-              </a>
+              </Link>
             )}
           </div>
           {pendingCorrections.length === 0 ? (
@@ -410,7 +434,7 @@ export default async function DashboardPage() {
             </p>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full min-w-[640px] text-sm">
                 <thead>
                   <tr className="border-b border-border bg-muted/40">
                     <th className="px-5 py-3 text-left font-medium text-muted-foreground">
