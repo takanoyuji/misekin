@@ -52,6 +52,8 @@ weight の判定:
 description は、店長が確認できる簡潔な日本語一文にしてください（例:「同じ人の出勤間隔を2日以上空けます（努力目標）」）。
 数値が明示されていない場合は常識的な既定値を補い、note にその旨を書いてください。`;
 
+// 構造化出力は additionalProperties:true を許さないため、
+// params は既知フィールドの固定オブジェクトにする（type ごとに使うものだけ埋まる）
 const OUTPUT_SCHEMA = {
   type: "object",
   properties: {
@@ -67,7 +69,16 @@ const OUTPUT_SCHEMA = {
       ],
     },
     weight: { type: "string", enum: ["HARD", "SOFT"] },
-    params: { type: "object", additionalProperties: true },
+    params: {
+      type: "object",
+      properties: {
+        minGapDays: { type: "integer" },
+        maxPerWeek: { type: "integer" },
+        minPerWeek: { type: "integer" },
+        names: { type: "array", items: { type: "string" } },
+      },
+      additionalProperties: false,
+    },
     description: { type: "string" },
     note: { type: "string" },
   },
