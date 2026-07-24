@@ -13,6 +13,10 @@ import {
   type UpdateShiftInput,
   type RequirementInput,
 } from "@/lib/validations/shift";
+import {
+  solveShifts,
+  type SolverRule,
+} from "@/lib/ai/shift-solver";
 
 interface ActionResult {
   success?: boolean;
@@ -205,6 +209,191 @@ export async function publishShifts(
     return { success: true, publishedCount: result.count };
   } catch (error: any) {
     return { error: error.message ?? "公開に失敗しました" };
+  }
+}
+
+/**
+ * 指定店舗・週のシフトを自動生成する（設計A→C）
+ *
+ * 必要人数・希望・ルールをソルバーに渡し、割当て結果から下書きシフトを作る。
+ * 既存の下書きは置き換える（公開済みは残す）。生成後は管理者が確認・修正してから公開する。
+ * 割当ての時刻は希望に無いため、渡された既定時刻で埋める。
+ */
+export async function generateShifts(
+  organizationId: string,
+  storeId: string,
+  from: string,
+  to: string,
+  defaultStartTime: string, // "HH:mm"
+  defaultEndTime: string
+): Promise<ActionResult & { message?: string; unmetDays?: number }> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "ログインが必要です" };
+
+  if (
+    !/^\d{2}:\d{2}$/.test(defaultStartTime) ||
+    !/^\d{2}:\d{2}$/.test(defaultEndTime)
+  ) {
+    return { error: "時刻の形式が不正です" };
+  }
+
+  try {
+    await assertStoreAccess(session.user.id, organizationId, storeId);
+
+    // 対象日リスト
+    const days: string[] = [];
+    {
+      let cur = from;
+      for (let i = 0; i < 62 && cur <= to; i++) {
+        days.push(cur);
+        const d = new Date(`${cur}T00:00:00Z`);
+        d.setUTCDate(d.getUTCDate() + 1);
+        cur = d.toISOString().slice(0, 10);
+      }
+    }
+
+    const [staffStores, availabilities, requirements, rules] =
+      await Promise.all([
+        db.staffStore.findMany({
+          where: { storeId, isActive: true, staff: { status: "ACTIVE" } },
+          select: { staffId: true },
+        }),
+        db.shiftAvailability.findMany({
+          where: { storeId, businessDate: { gte: from, lte: to } },
+          select: { staffId: true, businessDate: true, type: true },
+        }),
+        db.shiftRequirement.findMany({
+          where: { storeId, businessDate: { gte: from, lte: to } },
+          select: { businessDate: true, requiredCount: true },
+        }),
+        db.shiftRule.findMany({
+          where: { storeId, enabled: true },
+          select: { ruleType: true, weight: true, params: true },
+        }),
+      ]);
+
+    const staffIds = staffStores.map((s) => s.staffId);
+    if (staffIds.length === 0) {
+      return { error: "この店舗に所属するスタッフがいません" };
+    }
+
+    // ルールを solver 形式に変換（評価可能なタイプのみ）
+    const solverRules: SolverRule[] = [];
+    for (const r of rules) {
+      const p = (r.params ?? {}) as Record<string, unknown>;
+      if (r.ruleType === "SPACING" && typeof p.minGapDays === "number") {
+        solverRules.push({
+          ruleType: "SPACING",
+          weight: r.weight,
+          minGapDays: p.minGapDays,
+        });
+      } else if (
+        r.ruleType === "MAX_SHIFTS_PER_WEEK" &&
+        typeof p.maxPerWeek === "number"
+      ) {
+        solverRules.push({
+          ruleType: "MAX_SHIFTS_PER_WEEK",
+          weight: r.weight,
+          maxPerWeek: p.maxPerWeek,
+        });
+      } else if (
+        r.ruleType === "MIN_SHIFTS_PER_WEEK" &&
+        typeof p.minPerWeek === "number"
+      ) {
+        solverRules.push({
+          ruleType: "MIN_SHIFTS_PER_WEEK",
+          weight: r.weight,
+          minPerWeek: p.minPerWeek,
+        });
+      }
+    }
+
+    const result = await solveShifts({
+      days,
+      staffIds,
+      availabilities,
+      requirements,
+      rules: solverRules,
+    });
+
+    if (result.status === "NO_REQUIREMENT") {
+      return { error: result.message };
+    }
+    if (result.status === "INFEASIBLE") {
+      return { error: result.message };
+    }
+
+    // 時刻を Date に変換（日跨ぎは翌日）
+    function toShiftTimes(dateStr: string): { start: Date; end: Date } {
+      const start = new Date(`${dateStr}T${defaultStartTime}:00`);
+      let end = new Date(`${dateStr}T${defaultEndTime}:00`);
+      if (end <= start) end = new Date(end.getTime() + 24 * 60 * 60 * 1000);
+      return { start, end };
+    }
+
+    await db.$transaction(async (tx) => {
+      // 既存の下書きだけを消して置き換える（公開済みは温存）
+      await tx.shift.deleteMany({
+        where: {
+          organizationId,
+          storeId,
+          status: "DRAFT",
+          businessDate: { gte: from, lte: to },
+        },
+      });
+
+      // 公開済みで既に割当てのある (staff,date) は重複を避けて除外
+      const published = await tx.shift.findMany({
+        where: {
+          storeId,
+          status: "PUBLISHED",
+          businessDate: { gte: from, lte: to },
+        },
+        select: { staffId: true, businessDate: true },
+      });
+      const publishedKey = new Set(
+        published.map((p) => `${p.staffId}_${p.businessDate}`)
+      );
+
+      const toCreate = result.assignments
+        .filter((a) => !publishedKey.has(`${a.staffId}_${a.businessDate}`))
+        .map((a) => {
+          const { start, end } = toShiftTimes(a.businessDate);
+          return {
+            organizationId,
+            storeId,
+            staffId: a.staffId,
+            businessDate: a.businessDate,
+            startAt: start,
+            endAt: end,
+            status: "DRAFT" as const,
+            createdByUserId: session.user!.id,
+          };
+        });
+
+      if (toCreate.length > 0) {
+        await tx.shift.createMany({ data: toCreate });
+      }
+    });
+
+    await createAuditLog({
+      organizationId,
+      actorUserId: session.user.id,
+      action: "ATTENDANCE_MODIFY",
+      targetType: "Shift",
+      storeId,
+      reason: `シフト自動生成 (${from}〜${to}, ${result.assignments.length}件)`,
+      metadata: { status: result.status, unmet: result.unmet.length },
+    });
+
+    revalidatePath("/shifts");
+    return {
+      success: true,
+      message: result.message,
+      unmetDays: result.unmet.length,
+    };
+  } catch (error: any) {
+    return { error: error.message ?? "自動生成に失敗しました" };
   }
 }
 

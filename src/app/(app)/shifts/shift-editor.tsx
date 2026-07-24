@@ -7,8 +7,9 @@ import {
   deleteShift,
   publishShifts,
   setRequirement,
+  generateShifts,
 } from "@/actions/shift";
-import { Loader2, Plus, Send, Trash2, X } from "lucide-react";
+import { Loader2, Plus, Send, Sparkles, Trash2, X } from "lucide-react";
 
 type ShiftStatus = "DRAFT" | "PUBLISHED" | "CANCELLED";
 type AvailabilityType = "AVAILABLE" | "UNAVAILABLE" | "PREFERRED";
@@ -78,6 +79,35 @@ export function ShiftEditor({
   } | null>(null);
   const [start, setStart] = useState("20:00");
   const [end, setEnd] = useState("01:00");
+
+  // 自動生成ダイアログ
+  const [genOpen, setGenOpen] = useState(false);
+  const [genStart, setGenStart] = useState("20:00");
+  const [genEnd, setGenEnd] = useState("01:00");
+  const [genMessage, setGenMessage] = useState<string | null>(null);
+  const [isGenerating, startGenerate] = useTransition();
+
+  function handleGenerate() {
+    setError(null);
+    setGenMessage(null);
+    startGenerate(async () => {
+      const result = await generateShifts(
+        organizationId,
+        storeId,
+        weekStart,
+        weekEnd,
+        genStart,
+        genEnd
+      );
+      if (result.error) {
+        setError(result.error);
+        return;
+      }
+      setGenOpen(false);
+      setGenMessage(result.message ?? "自動生成しました");
+      router.refresh();
+    });
+  }
 
   const shiftAt = new Map<string, ShiftCell>();
   for (const s of shifts) shiftAt.set(`${s.staffId}_${s.businessDate}`, s);
@@ -181,8 +211,13 @@ export function ShiftEditor({
           {error}
         </p>
       )}
+      {genMessage && (
+        <p className="text-sm text-green-600" role="status">
+          {genMessage}
+        </p>
+      )}
 
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs text-muted-foreground">
           背景色は希望（
           <span className="rounded bg-primary/5 px-1">青=希望</span>{" "}
@@ -190,19 +225,37 @@ export function ShiftEditor({
           <span className="rounded bg-red-50 px-1">赤=不可</span>
           ）。空きセルの＋でシフトを追加します。
         </p>
-        <button
-          type="button"
-          onClick={publish}
-          disabled={isPending || !hasDraft}
-          className="inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
-        >
-          {isPending ? (
-            <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-          ) : (
-            <Send className="size-4" aria-hidden="true" />
-          )}
-          この週を公開
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setGenMessage(null);
+              setGenOpen(true);
+            }}
+            disabled={isPending || isGenerating}
+            className="inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-md border border-primary/40 bg-background px-4 text-sm font-medium text-primary transition-colors hover:bg-primary/5 disabled:pointer-events-none disabled:opacity-50"
+          >
+            {isGenerating ? (
+              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+            ) : (
+              <Sparkles className="size-4" aria-hidden="true" />
+            )}
+            自動生成
+          </button>
+          <button
+            type="button"
+            onClick={publish}
+            disabled={isPending || !hasDraft}
+            className="inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
+          >
+            {isPending ? (
+              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+            ) : (
+              <Send className="size-4" aria-hidden="true" />
+            )}
+            この週を公開
+          </button>
+        </div>
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-sm">
@@ -382,6 +435,84 @@ export function ShiftEditor({
               <button
                 type="button"
                 onClick={() => setEditing(null)}
+                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-border px-4 text-sm font-medium transition-colors hover:bg-muted"
+              >
+                キャンセル
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 自動生成ダイアログ */}
+      {genOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="gen-dialog-title"
+        >
+          <div className="w-full max-w-sm rounded-2xl bg-card p-6 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between">
+              <h2
+                id="gen-dialog-title"
+                className="flex items-center gap-2 text-lg font-bold"
+              >
+                <Sparkles className="size-5 text-primary" aria-hidden="true" />
+                シフトを自動生成
+              </h2>
+              <button
+                type="button"
+                onClick={() => setGenOpen(false)}
+                aria-label="閉じる"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <X className="size-5" aria-hidden="true" />
+              </button>
+            </div>
+            <p className="mb-4 text-sm text-muted-foreground">
+              この週の必要人数・希望・ルールをもとに、下書きシフトを自動で組みます。
+              既存の下書きは置き換わります（公開済みは残ります）。生成後に確認・修正してから公開してください。
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <label className="space-y-1 text-sm">
+                <span className="font-medium">既定の出勤</span>
+                <input
+                  type="time"
+                  value={genStart}
+                  onChange={(e) => setGenStart(e.target.value)}
+                  className="min-h-11 w-full rounded-md border border-input bg-background px-3 font-numeric focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                />
+              </label>
+              <label className="space-y-1 text-sm">
+                <span className="font-medium">既定の退勤</span>
+                <input
+                  type="time"
+                  value={genEnd}
+                  onChange={(e) => setGenEnd(e.target.value)}
+                  className="min-h-11 w-full rounded-md border border-input bg-background px-3 font-numeric focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                />
+              </label>
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              希望には時刻が無いため、割り当てた各シフトはこの時刻で作成します（あとで個別に調整できます）。
+            </p>
+            <div className="mt-5 flex gap-2">
+              <button
+                type="button"
+                onClick={handleGenerate}
+                disabled={isGenerating}
+                className="inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+              >
+                {isGenerating && (
+                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                )}
+                生成する
+              </button>
+              <button
+                type="button"
+                onClick={() => setGenOpen(false)}
+                disabled={isGenerating}
                 className="inline-flex min-h-11 items-center justify-center rounded-lg border border-border px-4 text-sm font-medium transition-colors hover:bg-muted"
               >
                 キャンセル
