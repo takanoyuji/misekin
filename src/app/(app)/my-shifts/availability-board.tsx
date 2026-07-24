@@ -146,7 +146,7 @@ export function AvailabilityBoard({
       )}
 
       <p className="text-xs text-muted-foreground">
-        各日で「可 / 希望 / 不可」を選べます。同じものをもう一度押すと取り消します。
+        各日で「希望 / 可 / 不可」を選べます。同じものをもう一度押すと取り消します。
         公開されたシフトは右側に表示されます。
       </p>
 
@@ -166,7 +166,7 @@ export function AvailabilityBoard({
 
               <div className="flex gap-2">
                 {(
-                  ["AVAILABLE", "PREFERRED", "UNAVAILABLE"] as AvailabilityType[]
+                  ["PREFERRED", "AVAILABLE", "UNAVAILABLE"] as AvailabilityType[]
                 ).map((t) => {
                   const meta = TYPE_META[t];
                   const Icon = meta.icon;

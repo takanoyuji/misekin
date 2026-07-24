@@ -185,8 +185,8 @@ export function ShiftEditor({
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs text-muted-foreground">
           背景色は希望（
-          <span className="rounded bg-green-50 px-1">緑=可</span>{" "}
           <span className="rounded bg-primary/5 px-1">青=希望</span>{" "}
+          <span className="rounded bg-green-50 px-1">緑=可</span>{" "}
           <span className="rounded bg-red-50 px-1">赤=不可</span>
           ）。空きセルの＋でシフトを追加します。
         </p>
