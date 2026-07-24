@@ -43,3 +43,7 @@ yarn-error.log*
 next-env.d.ts
 
 
+
+# Python solver build artifacts
+solver/__pycache__/
+*.pyc

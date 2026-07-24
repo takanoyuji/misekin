@@ -22,7 +22,7 @@ export function AdminRemoveButton({ memberId, memberName, organizationId }: Admi
       if (result.error) {
         toast.error(result.error);
       } else {
-        toast.success("管理者を削除しました");
+        toast.success("メンバーを削除しました");
         setIsConfirming(false);
         router.refresh();
       }
@@ -46,9 +46,9 @@ export function AdminRemoveButton({ memberId, memberName, organizationId }: Admi
           aria-modal="true"
         >
           <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl p-6">
-            <h2 className="text-lg font-bold text-gray-900 mb-2">管理者を削除しますか？</h2>
+            <h2 className="text-lg font-bold text-gray-900 mb-2">メンバーを削除しますか？</h2>
             <p className="text-gray-600 text-sm mb-5">
-              <strong>{memberName}</strong> を管理者から削除します。この操作は取り消せません。
+              <strong>{memberName}</strong> を組織から削除します。この操作は取り消せません。
             </p>
             <div className="flex gap-3">
               <button
