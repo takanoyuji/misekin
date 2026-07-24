@@ -2630,6 +2630,8 @@ export const StoreScalarFieldEnum = {
   timezone: 'timezone',
   dayChangeHour: 'dayChangeHour',
   dayChangeMinute: 'dayChangeMinute',
+  shiftPeriodUnit: 'shiftPeriodUnit',
+  shiftPeriodStartDay: 'shiftPeriodStartDay',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -3133,6 +3135,20 @@ export type EnumOrganizationRoleFieldRefInput<$PrismaModel> = FieldRefInputType<
  * Reference to a field of type 'OrganizationRole[]'
  */
 export type ListEnumOrganizationRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrganizationRole[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ShiftPeriodUnit'
+ */
+export type EnumShiftPeriodUnitFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShiftPeriodUnit'>
+    
+
+
+/**
+ * Reference to a field of type 'ShiftPeriodUnit[]'
+ */
+export type ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShiftPeriodUnit[]'>
     
 
 

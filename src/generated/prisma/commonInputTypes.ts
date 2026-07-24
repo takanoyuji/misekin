@@ -236,6 +236,23 @@ export type EnumOrganizationRoleWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumOrganizationRoleFilter<$PrismaModel>
 }
 
+export type EnumShiftPeriodUnitFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftPeriodUnit | Prisma.EnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftPeriodUnit[] | Prisma.ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftPeriodUnit[] | Prisma.ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel> | $Enums.ShiftPeriodUnit
+}
+
+export type EnumShiftPeriodUnitWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftPeriodUnit | Prisma.EnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftPeriodUnit[] | Prisma.ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftPeriodUnit[] | Prisma.ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftPeriodUnitWithAggregatesFilter<$PrismaModel> | $Enums.ShiftPeriodUnit
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel>
+}
+
 export type EnumStaffStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.StaffStatus | Prisma.EnumStaffStatusFieldRefInput<$PrismaModel>
   in?: $Enums.StaffStatus[] | Prisma.ListEnumStaffStatusFieldRefInput<$PrismaModel>
@@ -839,6 +856,23 @@ export type NestedEnumOrganizationRoleWithAggregatesFilter<$PrismaModel = never>
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumOrganizationRoleFilter<$PrismaModel>
   _max?: Prisma.NestedEnumOrganizationRoleFilter<$PrismaModel>
+}
+
+export type NestedEnumShiftPeriodUnitFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftPeriodUnit | Prisma.EnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftPeriodUnit[] | Prisma.ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftPeriodUnit[] | Prisma.ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel> | $Enums.ShiftPeriodUnit
+}
+
+export type NestedEnumShiftPeriodUnitWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ShiftPeriodUnit | Prisma.EnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  in?: $Enums.ShiftPeriodUnit[] | Prisma.ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ShiftPeriodUnit[] | Prisma.ListEnumShiftPeriodUnitFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumShiftPeriodUnitWithAggregatesFilter<$PrismaModel> | $Enums.ShiftPeriodUnit
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumShiftPeriodUnitFilter<$PrismaModel>
 }
 
 export type NestedEnumStaffStatusFilter<$PrismaModel = never> = {

@@ -185,6 +185,8 @@ export const StoreScalarFieldEnum = {
   timezone: 'timezone',
   dayChangeHour: 'dayChangeHour',
   dayChangeMinute: 'dayChangeMinute',
+  shiftPeriodUnit: 'shiftPeriodUnit',
+  shiftPeriodStartDay: 'shiftPeriodStartDay',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

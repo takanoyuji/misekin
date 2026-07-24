@@ -12,7 +12,9 @@ import {
 import {
   createStoreSchema,
   updateStoreSchema,
+  shiftPeriodSettingsSchema,
   type CreateStoreInput,
+  type ShiftPeriodSettingsInput,
 } from "@/lib/validations/store";
 import { customAlphabet } from "nanoid";
 
@@ -114,6 +116,63 @@ export async function updateStore(
     });
 
     revalidatePath(`/stores/${storeId}`);
+    return { success: true };
+  } catch (error: any) {
+    return { error: error.message ?? "更新に失敗しました" };
+  }
+}
+
+/**
+ * シフト希望の提出期間設定を更新する
+ * （通常の店舗編集とは分けた専用経路。誤操作を避け、権限も個別に検証する）
+ */
+export async function updateShiftPeriodSettings(
+  organizationId: string,
+  storeId: string,
+  input: ShiftPeriodSettingsInput
+): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "ログインが必要です" };
+
+  const parsed = shiftPeriodSettingsSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "入力値が不正です" };
+  }
+
+  try {
+    const ctx = await requireAdmin(session.user.id, organizationId);
+    if (!(await canAccessStore(ctx.memberId, ctx.role, storeId))) {
+      return { error: "この店舗へのアクセス権がありません" };
+    }
+
+    const before = await db.store.findFirst({
+      where: { id: storeId, organizationId },
+      select: { shiftPeriodUnit: true, shiftPeriodStartDay: true },
+    });
+    if (!before) return { error: "店舗が見つかりません" };
+
+    await db.store.update({
+      where: { id: storeId, organizationId },
+      data: {
+        shiftPeriodUnit: parsed.data.shiftPeriodUnit,
+        shiftPeriodStartDay: parsed.data.shiftPeriodStartDay,
+      },
+    });
+
+    await createAuditLog({
+      organizationId,
+      actorUserId: session.user.id,
+      action: "STORE_UPDATE",
+      targetType: "Store",
+      targetId: storeId,
+      storeId,
+      before,
+      after: parsed.data,
+      reason: "シフト希望の提出期間設定を変更",
+    });
+
+    revalidatePath(`/stores/${storeId}`);
+    revalidatePath("/shifts");
     return { success: true };
   } catch (error: any) {
     return { error: error.message ?? "更新に失敗しました" };

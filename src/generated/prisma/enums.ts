@@ -26,6 +26,14 @@ export const OrganizationRole = {
 export type OrganizationRole = (typeof OrganizationRole)[keyof typeof OrganizationRole]
 
 
+export const ShiftPeriodUnit = {
+  MONTHLY: 'MONTHLY',
+  WEEKLY: 'WEEKLY'
+} as const
+
+export type ShiftPeriodUnit = (typeof ShiftPeriodUnit)[keyof typeof ShiftPeriodUnit]
+
+
 export const StaffStatus = {
   INVITED: 'INVITED',
   ACTIVE: 'ACTIVE',

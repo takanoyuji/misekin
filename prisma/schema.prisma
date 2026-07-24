@@ -149,6 +149,10 @@ model Store {
   timezone        String   @default("Asia/Tokyo")
   dayChangeHour   Int      @default(6)
   dayChangeMinute Int      @default(0)
+  // シフト希望の提出期間設定（オーナー/管理者が設定、既定は月次）
+  shiftPeriodUnit ShiftPeriodUnit @default(MONTHLY)
+  // 期間の区切り日。MONTHLY=月の何日(1-28) / WEEKLY=曜日(0=日曜〜6=土曜)
+  shiftPeriodStartDay Int  @default(1)
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -169,6 +173,11 @@ model Store {
 
   @@unique([organizationId, code])
   @@map("stores")
+}
+
+enum ShiftPeriodUnit {
+  MONTHLY // 月次
+  WEEKLY  // 週次
 }
 
 model StoreClockUrl {

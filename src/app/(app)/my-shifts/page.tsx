@@ -9,6 +9,10 @@ import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { ja } from "date-fns/locale";
 import { CalendarDays } from "lucide-react";
+import {
+  getSubmissionPeriods,
+  daysInPeriod,
+} from "@/lib/business/shift-period";
 import { AvailabilityBoard } from "./availability-board";
 
 export const metadata: Metadata = {
@@ -16,7 +20,6 @@ export const metadata: Metadata = {
 };
 
 const TZ = "Asia/Tokyo";
-const DAYS_AHEAD = 21; // 3週間先まで希望を出せる
 
 export default async function MyShiftsPage() {
   const session = await auth();
@@ -51,22 +54,62 @@ export default async function MyShiftsPage() {
   const staffStores = await db.staffStore.findMany({
     where: { staffId: staff.id, isActive: true },
     orderBy: [{ isPrimary: "desc" }],
-    select: { store: { select: { id: true, name: true } } },
+    select: {
+      store: {
+        select: {
+          id: true,
+          name: true,
+          shiftPeriodUnit: true,
+          shiftPeriodStartDay: true,
+        },
+      },
+    },
   });
-
-  // 対象期間の営業日リスト（今日〜DAYS_AHEAD日先）
-  const now = toZonedTime(new Date(), TZ);
-  const dates: string[] = [];
-  for (let i = 0; i < DAYS_AHEAD; i++) {
-    const d = new Date(now);
-    d.setDate(d.getDate() + i);
-    dates.push(format(d, "yyyy-MM-dd"));
-  }
-  const from = dates[0];
-  const to = dates[dates.length - 1];
 
   const stores = staffStores.map((ss) => ss.store);
   const storeIds = stores.map((s) => s.id);
+
+  // 店舗ごとに提出対象期間（当期＋翌期）を計算し、日リストと表示範囲を作る
+  const todayStr = format(toZonedTime(new Date(), TZ), "yyyy-MM-dd");
+
+  // 全店舗をまとめて取得するための最小・最大日
+  let globalFrom = todayStr;
+  let globalTo = todayStr;
+  const storeDays = new Map<string, { date: string; label: string }[]>();
+  const storePeriods = new Map<
+    string,
+    { label: string; start: string; end: string }[]
+  >();
+
+  for (const store of stores) {
+    const periods = getSubmissionPeriods(
+      store.shiftPeriodUnit,
+      store.shiftPeriodStartDay,
+      todayStr,
+      2
+    );
+    storePeriods.set(
+      store.id,
+      periods.map((p) => ({ label: p.label, start: p.start, end: p.end }))
+    );
+
+    const days: { date: string; label: string }[] = [];
+    for (const p of periods) {
+      for (const d of daysInPeriod(p)) {
+        // 過去日は提出しない（当期の途中から）
+        if (d < todayStr) continue;
+        days.push({
+          date: d,
+          label: format(toZonedTime(new Date(`${d}T00:00:00`), TZ), "M/d(E)", {
+            locale: ja,
+          }),
+        });
+        if (d < globalFrom) globalFrom = d;
+        if (d > globalTo) globalTo = d;
+      }
+    }
+    storeDays.set(store.id, days);
+  }
 
   // 提出済みの希望と、公開済みの自分のシフト
   const [availabilities, myShifts] = await Promise.all([
@@ -74,7 +117,7 @@ export default async function MyShiftsPage() {
       where: {
         staffId: staff.id,
         storeId: { in: storeIds.length ? storeIds : ["__none__"] },
-        businessDate: { gte: from, lte: to },
+        businessDate: { gte: globalFrom, lte: globalTo },
       },
       select: {
         storeId: true,
@@ -89,7 +132,7 @@ export default async function MyShiftsPage() {
       where: {
         staffId: staff.id,
         status: "PUBLISHED",
-        businessDate: { gte: from, lte: to },
+        businessDate: { gte: globalFrom, lte: globalTo },
       },
       select: {
         storeId: true,
@@ -99,13 +142,6 @@ export default async function MyShiftsPage() {
       },
     }),
   ]);
-
-  const dayLabels = dates.map((d) => ({
-    date: d,
-    label: format(toZonedTime(new Date(`${d}T00:00:00`), TZ), "M/d(E)", {
-      locale: ja,
-    }),
-  }));
 
   return (
     <div className="space-y-6">
@@ -126,8 +162,12 @@ export default async function MyShiftsPage() {
         </div>
       ) : (
         <AvailabilityBoard
-          stores={stores}
-          days={dayLabels}
+          stores={stores.map((s) => ({
+            id: s.id,
+            name: s.name,
+            days: storeDays.get(s.id) ?? [],
+            periods: storePeriods.get(s.id) ?? [],
+          }))}
           availabilities={availabilities.map((a) => ({
             storeId: a.storeId,
             businessDate: a.businessDate,

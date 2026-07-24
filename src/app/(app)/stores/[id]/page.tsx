@@ -6,6 +6,7 @@ import { requireAdmin, canAccessStore } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { StoreEditForm } from "./store-edit-form";
 import { ClockUrlSection } from "./clock-url-section";
+import { ShiftPeriodForm } from "./shift-period-form";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 import { buildClockUrl } from "@/lib/app-url";
 
@@ -112,6 +113,20 @@ export default async function StoreDetailPage({ params }: PageProps) {
             clockUrlFull={clockUrlFull}
             clockUrlToken={activeClockUrl?.token ?? null}
           />
+        </section>
+
+        {/* シフト希望の提出期間 */}
+        <section>
+          <div className="rounded-xl border border-border bg-card shadow-sm">
+            <div className="p-6">
+              <ShiftPeriodForm
+                organizationId={orgId}
+                storeId={store.id}
+                initialUnit={store.shiftPeriodUnit}
+                initialStartDay={store.shiftPeriodStartDay}
+              />
+            </div>
+          </div>
         </section>
       </div>
 

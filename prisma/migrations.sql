@@ -185,3 +185,11 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
     ALTER TABLE "shift_rules" ADD CONSTRAINT "shift_rules_createdByUserId_fkey" FOREIGN KEY ("createdByUserId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- ShiftPeriod: 店舗ごとのシフト希望提出期間設定（既定は月次・1日区切り）
+DO $$ BEGIN
+    CREATE TYPE "ShiftPeriodUnit" AS ENUM ('MONTHLY', 'WEEKLY');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "shiftPeriodUnit" "ShiftPeriodUnit" NOT NULL DEFAULT 'MONTHLY';
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "shiftPeriodStartDay" INTEGER NOT NULL DEFAULT 1;

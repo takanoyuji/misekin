@@ -10,13 +10,21 @@ import { Check, CircleSlash, Loader2, Star } from "lucide-react";
 
 type AvailabilityType = "AVAILABLE" | "UNAVAILABLE" | "PREFERRED";
 
-interface StoreOption {
-  id: string;
-  name: string;
-}
 interface DayLabel {
   date: string;
   label: string;
+}
+interface PeriodLabel {
+  label: string;
+  start: string;
+  end: string;
+}
+interface StoreOption {
+  id: string;
+  name: string;
+  // 店舗ごとに提出対象の日と期間が異なる
+  days: DayLabel[];
+  periods: PeriodLabel[];
 }
 interface AvailabilityRow {
   storeId: string;
@@ -35,7 +43,6 @@ interface PublishedShift {
 
 interface Props {
   stores: StoreOption[];
-  days: DayLabel[];
   availabilities: AvailabilityRow[];
   publishedShifts: PublishedShift[];
 }
@@ -66,7 +73,6 @@ const TYPE_META: Record<
 
 export function AvailabilityBoard({
   stores,
-  days,
   availabilities,
   publishedShifts,
 }: Props) {
@@ -75,6 +81,10 @@ export function AvailabilityBoard({
   const [pendingDate, setPendingDate] = useState<string | null>(null);
   const [, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+
+  const activeStore = stores.find((s) => s.id === storeId) ?? stores[0];
+  const days = activeStore?.days ?? [];
+  const periods = activeStore?.periods ?? [];
 
   // 現在の店舗の希望を date -> type で引けるようにする
   const current = new Map<string, AvailabilityType>();
@@ -85,6 +95,14 @@ export function AvailabilityBoard({
   for (const s of publishedShifts) {
     if (s.storeId === storeId) shiftByDate.set(s.businessDate, s);
   }
+
+  // 日を期間ごとにグループ化（期間ラベルの見出しを挟む）
+  const groups = periods
+    .map((p) => ({
+      period: p,
+      days: days.filter((d) => d.date >= p.start && d.date <= p.end),
+    }))
+    .filter((g) => g.days.length > 0);
 
   function choose(date: string, type: AvailabilityType) {
     setError(null);
@@ -150,58 +168,78 @@ export function AvailabilityBoard({
         公開されたシフトは右側に表示されます。
       </p>
 
-      <ul className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-        {days.map(({ date, label }) => {
-          const chosen = current.get(date);
-          const shift = shiftByDate.get(date);
-          const isRowPending = pendingDate === date;
-          return (
-            <li
-              key={date}
-              className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3"
-            >
-              <span className="w-24 shrink-0 font-numeric text-sm font-medium">
-                {label}
-              </span>
-
-              <div className="flex gap-2">
-                {(
-                  ["PREFERRED", "AVAILABLE", "UNAVAILABLE"] as AvailabilityType[]
-                ).map((t) => {
-                  const meta = TYPE_META[t];
-                  const Icon = meta.icon;
-                  const active = chosen === t;
+      {groups.length === 0 ? (
+        <div className="rounded-xl border border-border bg-card p-8 text-center text-sm text-muted-foreground">
+          提出できる期間がありません。
+        </div>
+      ) : (
+        <div className="space-y-5">
+          {groups.map((g) => (
+            <section key={g.period.start}>
+              <h2 className="mb-2 text-sm font-semibold">{g.period.label}</h2>
+              <ul className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+                {g.days.map(({ date, label }) => {
+                  const chosen = current.get(date);
+                  const shift = shiftByDate.get(date);
+                  const isRowPending = pendingDate === date;
                   return (
-                    <button
-                      key={t}
-                      type="button"
-                      onClick={() => choose(date, t)}
-                      disabled={isRowPending}
-                      aria-pressed={active}
-                      className={`inline-flex min-h-9 items-center gap-1 rounded-md border px-3 text-xs font-medium transition-colors disabled:opacity-50 ${
-                        active ? meta.activeCls : `bg-background ${meta.cls}`
-                      }`}
+                    <li
+                      key={date}
+                      className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3"
                     >
-                      {isRowPending && active ? (
-                        <Loader2 className="size-3 animate-spin" aria-hidden="true" />
-                      ) : (
-                        <Icon className="size-3" aria-hidden="true" />
+                      <span className="w-24 shrink-0 font-numeric text-sm font-medium">
+                        {label}
+                      </span>
+
+                      <div className="flex gap-2">
+                        {(
+                          [
+                            "PREFERRED",
+                            "AVAILABLE",
+                            "UNAVAILABLE",
+                          ] as AvailabilityType[]
+                        ).map((t) => {
+                          const meta = TYPE_META[t];
+                          const Icon = meta.icon;
+                          const active = chosen === t;
+                          return (
+                            <button
+                              key={t}
+                              type="button"
+                              onClick={() => choose(date, t)}
+                              disabled={isRowPending}
+                              aria-pressed={active}
+                              className={`inline-flex min-h-9 items-center gap-1 rounded-md border px-3 text-xs font-medium transition-colors disabled:opacity-50 ${
+                                active ? meta.activeCls : `bg-background ${meta.cls}`
+                              }`}
+                            >
+                              {isRowPending && active ? (
+                                <Loader2
+                                  className="size-3 animate-spin"
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <Icon className="size-3" aria-hidden="true" />
+                              )}
+                              {meta.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {shift && (
+                        <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 font-numeric text-xs font-medium text-primary">
+                          シフト {shift.startTime}–{shift.endTime}
+                        </span>
                       )}
-                      {meta.label}
-                    </button>
+                    </li>
                   );
                 })}
-              </div>
-
-              {shift && (
-                <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 font-numeric text-xs font-medium text-primary">
-                  シフト {shift.startTime}–{shift.endTime}
-                </span>
-              )}
-            </li>
-          );
-        })}
-      </ul>
+              </ul>
+            </section>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
