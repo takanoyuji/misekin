@@ -58,7 +58,7 @@ const memberNavItems: NavItem[] = [
 
 const secondaryNavItems: NavItem[] = [
   { label: "アカウント設定", href: "/account", icon: Settings },
-  { label: "ヘルプ", href: "/help", icon: HelpCircle },
+  { label: "使い方・ヘルプ", href: "/help", icon: HelpCircle },
 ];
 
 interface NavLinkProps {
