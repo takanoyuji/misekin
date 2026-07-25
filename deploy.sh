@@ -20,6 +20,9 @@ rsync -az --delete \
   --exclude='.env*' \
   --exclude='tests' \
   --exclude='*.md' \
+  --exclude='.venv' \
+  --exclude='__pycache__' \
+  --exclude='*.pyc' \
   -e "ssh -i $SSH_KEY" \
   ./ $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/
 
