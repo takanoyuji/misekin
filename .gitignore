@@ -30,10 +30,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env
-.env.local
-.env.*.local
+# env files — 既定で全て無視し、公開してよいテンプレートのみ明示的に許可する
+# (.env.local.bak-... のような派生名がすり抜けて公開リポジトリに載る事故があったため)
+.env*
+!.env.example
+!.env.production.example
 
 # vercel
 .vercel
@@ -45,5 +46,8 @@ next-env.d.ts
 
 
 # Python solver build artifacts
-solver/__pycache__/
+solver/.venv/
+.venv/
+venv/
+__pycache__/
 *.pyc
