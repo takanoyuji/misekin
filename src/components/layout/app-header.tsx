@@ -9,6 +9,9 @@ import { Bell, ChevronDown, LogOut, Settings, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./theme-toggle";
 
+// ビルド時にクライアントバンドルへ埋め込まれる (next.config.ts の basePath と同じ値)
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 interface AppHeaderProps {
   session: Session;
   organizationName?: string | null;
@@ -31,7 +34,9 @@ export function AppHeader({
   async function handleSignOut() {
     // next-auth の signOut はクライアントサイドで実行
     const { signOut } = await import("next-auth/react");
-    await signOut({ callbackUrl: "/login" });
+    // Auth.js の callbackUrl は basePath を自動で付けないため明示する
+    // (付けないと https://<host>/login に飛んで404になる)
+    await signOut({ callbackUrl: `${BASE_PATH}/login` });
   }
 
   function openMobileSidebar() {

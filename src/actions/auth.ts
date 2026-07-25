@@ -272,5 +272,6 @@ export async function loginUser(formData: FormData) {
  * ログアウト
  */
 export async function logoutUser() {
-  await signOut({ redirectTo: "/login" });
+  // Auth.js の redirectTo は next/navigation の redirect() と違い basePath を付けないため明示する
+  await signOut({ redirectTo: `${BASE_PATH}/login` });
 }
