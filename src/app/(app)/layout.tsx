@@ -25,6 +25,7 @@ export default async function AppLayout({
 
   let organizationName: string | null = null;
   let isMember = false;
+  let isOwner = false;
   if (activeOrgId) {
     const org = await db.organization.findUnique({
       where: { id: activeOrgId },
@@ -32,9 +33,10 @@ export default async function AppLayout({
     });
     organizationName = org?.name ?? null;
 
-    // MEMBER は管理メニューを表示しない
+    // MEMBER は管理メニューを表示しない / OWNER のみ権限管理を表示
     const role = await getOrganizationRole(session.user?.id, activeOrgId);
     isMember = role === "MEMBER";
+    isOwner = role === "OWNER";
   }
 
   // ログインユーザーの未読通知数を取得
@@ -52,7 +54,7 @@ export default async function AppLayout({
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <AppSidebar isMember={isMember} />
+      <AppSidebar isMember={isMember} isOwner={isOwner} />
       <div className="flex flex-col flex-1 overflow-hidden">
         <AppHeader
           session={session}

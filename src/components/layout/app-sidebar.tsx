@@ -22,6 +22,7 @@ import {
   Bell,
   Wallet,
   CalendarDays,
+  ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -45,6 +46,13 @@ const adminNavItems: NavItem[] = [
   { label: "APIキー", href: "/api-keys", icon: Key },
   { label: "監査ログ", href: "/audit-logs", icon: Shield },
 ];
+
+/** OWNER のみに表示する管理メニュー */
+const ownerNavItem: NavItem = {
+  label: "管理者・権限",
+  href: "/admins",
+  icon: ShieldCheck,
+};
 
 /** スタッフ本人(MEMBER)向けメニュー。管理機能は表示しない */
 const memberNavItems: NavItem[] = [
@@ -95,11 +103,21 @@ function NavLink({ item, pathname, onClick }: NavLinkProps) {
 interface SidebarContentProps {
   pathname: string;
   isMember: boolean;
+  isOwner: boolean;
   onNavClick?: () => void;
 }
 
-function SidebarContent({ pathname, isMember, onNavClick }: SidebarContentProps) {
-  const navItems = isMember ? memberNavItems : adminNavItems;
+function SidebarContent({
+  pathname,
+  isMember,
+  isOwner,
+  onNavClick,
+}: SidebarContentProps) {
+  const navItems = isMember
+    ? memberNavItems
+    : isOwner
+      ? [...adminNavItems, ownerNavItem]
+      : adminNavItems;
 
   return (
     <div className="flex h-full flex-col gap-1 overflow-y-auto px-3 py-4">
@@ -136,9 +154,11 @@ function SidebarContent({ pathname, isMember, onNavClick }: SidebarContentProps)
 interface AppSidebarProps {
   /** MEMBER は管理メニューを表示しない */
   isMember?: boolean;
+  /** OWNER のみ「管理者・権限」メニューを表示する */
+  isOwner?: boolean;
 }
 
-export function AppSidebar({ isMember = false }: AppSidebarProps) {
+export function AppSidebar({ isMember = false, isOwner = false }: AppSidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -149,7 +169,11 @@ export function AppSidebar({ isMember = false }: AppSidebarProps) {
         className="hidden w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar md:flex"
         aria-label="サイドバー"
       >
-        <SidebarContent pathname={pathname} isMember={isMember} />
+        <SidebarContent
+          pathname={pathname}
+          isMember={isMember}
+          isOwner={isOwner}
+        />
       </aside>
 
       {/* モバイルサイドバー (Sheet) */}
@@ -194,6 +218,7 @@ export function AppSidebar({ isMember = false }: AppSidebarProps) {
             <SidebarContent
               pathname={pathname}
               isMember={isMember}
+              isOwner={isOwner}
               onNavClick={() => setMobileOpen(false)}
             />
           </Dialog.Content>
