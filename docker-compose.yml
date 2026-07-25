@@ -40,6 +40,8 @@ services:
       EMAIL_FROM: ${EMAIL_FROM:-みせ勤 <noreply@dataraw.jp>}
       # コンテナ間はサービス名で解決
       SHIFT_SOLVER_URL: http://solver:8000
+      # シフトルールのAI翻訳用（未設定なら翻訳機能のみ無効・他は動作）
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       NODE_ENV: production
     depends_on:
       db:
