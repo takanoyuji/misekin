@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
@@ -161,12 +162,12 @@ export default async function StatusPage({ params, searchParams }: PageProps) {
         />
 
         {/* 戻るボタン */}
-        <a
+        <Link
           href={`/clock/${token}`}
           className="mt-4 block text-center text-sm text-gray-400 hover:text-gray-600 py-2 transition-colors"
         >
           スタッフ選択に戻る
-        </a>
+        </Link>
       </div>
     </div>
   );

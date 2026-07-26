@@ -7,10 +7,8 @@ import type { Session } from "next-auth";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Bell, ChevronDown, LogOut, Settings, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BASE_PATH } from "@/lib/base-path";
 import { ThemeToggle } from "./theme-toggle";
-
-// ビルド時にクライアントバンドルへ埋め込まれる (next.config.ts の basePath と同じ値)
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 interface AppHeaderProps {
   session: Session;

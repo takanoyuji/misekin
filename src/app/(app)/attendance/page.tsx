@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BASE_PATH } from "@/lib/base-path";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
@@ -174,7 +175,8 @@ export default async function AttendancePage({
       {/* フィルター */}
       <form
         method="GET"
-        action="/attendance"
+        /* 素の form の action には basePath が自動で付かないため明示する */
+        action={`${BASE_PATH}/attendance`}
         className="rounded-xl border border-border bg-card p-4 shadow-sm"
       >
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">

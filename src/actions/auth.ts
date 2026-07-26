@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { signIn, signOut, ACTIVE_ORG_COOKIE } from "@/lib/auth";
+import { BASE_PATH } from "@/lib/base-path";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { nanoid } from "nanoid";
@@ -221,8 +222,6 @@ export async function resetPassword(
 /**
  * ログイン
  */
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 export async function loginUser(formData: FormData) {
   const email = formData.get("email");
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BASE_PATH } from "@/lib/base-path";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
@@ -115,7 +116,8 @@ export default async function StaffPage({
       {/* フィルター */}
       <form
         method="GET"
-        action="/staff"
+        /* 素の form の action には basePath が自動で付かないため明示する */
+        action={`${BASE_PATH}/staff`}
         className="flex flex-wrap items-end gap-3"
       >
         <div className="space-y-1">

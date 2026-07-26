@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import { db } from "@/lib/db";
@@ -340,12 +341,12 @@ export default async function StaffDetailPage({ params }: PageProps) {
                       >
                         <td className="px-6 py-3">
                           <div className="flex items-center gap-2">
-                            <a
+                            <Link
                               href={`/stores/${ss.store.id}`}
                               className="font-medium hover:text-primary hover:underline"
                             >
                               {ss.store.name}
-                            </a>
+                            </Link>
                             {!ss.isActive && (
                               <span className="text-xs text-muted-foreground">
                                 (無効)

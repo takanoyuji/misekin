@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import { db } from "@/lib/db";
@@ -216,12 +217,12 @@ export default async function StoreDetailPage({ params }: PageProps) {
                         </span>
                       </td>
                       <td className="px-4 py-3">
-                        <a
+                        <Link
                           href={`/staff/${ss.staff.id}`}
                           className="text-xs text-primary hover:underline"
                         >
                           詳細
-                        </a>
+                        </Link>
                       </td>
                     </tr>
                   ))}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { Download } from "lucide-react";
+import { BASE_PATH } from "@/lib/base-path";
 
 interface ExportFormProps {
   stores: { id: string; name: string }[];
@@ -24,7 +25,9 @@ export function ExportForm({ stores, organizationId }: ExportFormProps) {
       dateTo,
       ...(storeId ? { storeId } : {}),
     });
-    return `/api/export/attendance?${params.toString()}`;
+    // APIルートへの直リンクなので next/link ではなく素の <a> を使う。
+    // そのため basePath が自動で付かず、明示しないと 404 になる
+    return `${BASE_PATH}/api/export/attendance?${params.toString()}`;
   }
 
   return (

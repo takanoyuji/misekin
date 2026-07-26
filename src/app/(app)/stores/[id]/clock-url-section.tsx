@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createStoreClockUrl } from "@/actions/store";
 import { Copy, Check, RefreshCw, ExternalLink, Link2Off } from "lucide-react";
@@ -104,7 +105,7 @@ export function ClockUrlSection({
             </div>
 
             {/* 打刻URLを開くボタン */}
-            <a
+            <Link
               href={`/clock/${token}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -112,7 +113,7 @@ export function ClockUrlSection({
             >
               <ExternalLink className="size-4" aria-hidden="true" />
               打刻画面を開く
-            </a>
+            </Link>
 
             {/* 再発行ボタン */}
             <div className="pt-2 border-t border-border">
