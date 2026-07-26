@@ -4,7 +4,10 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { inviteAdminMember } from "@/actions/admin";
-import { StoreScopePicker, type StoreOption } from "./store-scope-picker";
+import {
+  StoreScopePicker,
+  type StoreOption,
+} from "@/components/permission/store-scope-picker";
 
 interface AdminInviteFormProps {
   organizationId: string;

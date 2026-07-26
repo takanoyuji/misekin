@@ -3,11 +3,13 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import { db } from "@/lib/db";
+import type { OrganizationRole } from "@/generated/prisma/client";
 import {
   requireAdmin,
   requireStaffEmailEditPermission,
 } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
+import { MemberPermissionCard } from "@/components/permission/member-permission-card";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { StaffStatusActions } from "./staff-status-actions";
@@ -16,7 +18,16 @@ import { StaffInviteButton } from "./staff-invite-button";
 import { StaffStoreAddForm } from "./staff-store-add-form";
 import { StaffPinForm } from "./staff-pin-form";
 import { StaffEmailForm } from "./staff-email-form";
-import { Mail, Phone, Hash, Calendar, Building2, KeyRound } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  Hash,
+  Calendar,
+  Building2,
+  KeyRound,
+  UserCheck,
+  UserX,
+} from "lucide-react";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
@@ -57,8 +68,10 @@ export default async function StaffDetailPage({ params }: PageProps) {
 
   const orgId = activeOrgId as string;
 
+  let viewerRole: OrganizationRole;
   try {
-    await requireAdmin(session.user!.id, orgId);
+    const ctx = await requireAdmin(session.user!.id, orgId);
+    viewerRole = ctx.role;
   } catch {
     redirect("/dashboard");
   }
@@ -89,6 +102,37 @@ export default async function StaffDetailPage({ params }: PageProps) {
   } catch {
     canEditEmail = false;
   }
+
+  // 権限（ロール・担当店舗スコープ）は組織の権限構成そのものなので、
+  // 管理者・権限ページ (requireOwner) と同じくオーナーだけに見せる。
+  // 例外として自分自身の権限は見えてよい。
+  const isSelf = !!staff.userId && staff.userId === session.user!.id;
+  const canViewPermission = viewerRole === "OWNER" || isSelf;
+
+  // ログインアカウントに紐づくメンバー情報。userId が無いスタッフは権限を持ちえない
+  const member =
+    staff.userId && canViewPermission
+      ? await db.organizationMember.findFirst({
+          where: {
+            organizationId: orgId,
+            userId: staff.userId,
+            isActive: true,
+          },
+          include: {
+            user: { select: { name: true, email: true } },
+            storeScopes: { select: { storeId: true } },
+          },
+        })
+      : null;
+
+  // 権限カードの担当店舗ピッカー用（オーナーが権限を見るときだけ引く）
+  const scopeStores = member
+    ? await db.store.findMany({
+        where: { organizationId: orgId, isActive: true },
+        select: { id: true, name: true },
+        orderBy: { name: "asc" },
+      })
+    : [];
 
   // 未所属の店舗一覧（追加フォーム用）
   const assignedStoreIds = staff.staffStores.map((ss) => ss.storeId);
@@ -403,6 +447,70 @@ export default async function StaffDetailPage({ params }: PageProps) {
             </div>
           )}
         </div>
+      </section>
+
+      {/* ログイン・権限
+          ログイン状態は管理者以上に見せる（誰が招待済みかは現場の管理者も知る必要がある）。
+          権限（ロール・担当店舗）は組織の権限構成そのものなのでオーナー（と本人）のみ。 */}
+      <section className="space-y-3">
+        <h2 className="text-base font-semibold">ログイン・権限</h2>
+
+        {/* 第1層: ログイン状態（管理者以上） */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+          {staff.userId ? (
+            <p className="flex items-center gap-2 text-sm">
+              <UserCheck
+                className="size-4 shrink-0 text-emerald-600"
+                aria-hidden="true"
+              />
+              このスタッフはログインアカウントと連携済みです。
+            </p>
+          ) : (
+            <div className="space-y-2">
+              <p className="flex items-center gap-2 text-sm">
+                <UserX
+                  className="size-4 shrink-0 text-muted-foreground"
+                  aria-hidden="true"
+                />
+                ログインアカウントが未連携です。打刻はできますが、本人が管理画面やシフト希望を使うことはできません。
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {staff.email
+                  ? "ページ上部の「招待メールを送る」から招待してください。本人が登録するとアカウントが連携されます。"
+                  : "先にメールアドレスを設定すると招待できるようになります。"}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* 第2層: 権限（オーナーまたは本人のみ） */}
+        {canViewPermission &&
+          (member ? (
+            <MemberPermissionCard
+              organizationId={orgId}
+              member={{
+                id: member.id,
+                name: member.user.name ?? staff.displayName,
+                email: member.user.email ?? staff.email ?? "",
+                role: member.role,
+                isSelf,
+                scopeStoreIds: member.storeScopes.map((s) => s.storeId),
+              }}
+              stores={scopeStores}
+            />
+          ) : (
+            staff.userId && (
+              <p className="rounded-xl border border-dashed border-border px-5 py-4 text-sm text-muted-foreground">
+                この組織のメンバーとして有効化されていないため、権限はありません。
+              </p>
+            )
+          ))}
+
+        {!canViewPermission && staff.userId && (
+          <p className="rounded-xl border border-dashed border-border px-5 py-4 text-sm text-muted-foreground">
+            権限（ロール・担当店舗）の確認と変更はオーナーのみ行えます。
+          </p>
+        )}
       </section>
 
       {/* PIN管理 */}

@@ -6,7 +6,7 @@ import { requireOwner } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { AdminInviteForm } from "./admin-invite-form";
 import { AdminRemoveButton } from "./admin-remove-button";
-import { MemberPermissionCard } from "./member-permission-card";
+import { MemberPermissionCard } from "@/components/permission/member-permission-card";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {

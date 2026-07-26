@@ -21,7 +21,8 @@ interface Props {
     scopeStoreIds: string[];
   };
   stores: StoreOption[];
-  onRemove: React.ReactNode;
+  /** 組織から外すボタン。管理者・権限ページ以外では省略する */
+  onRemove?: React.ReactNode;
 }
 
 const ROLE_LABEL: Record<Role, string> = {
@@ -194,7 +195,9 @@ export function MemberPermissionCard({
             </div>
           )}
 
-          <div className="border-t border-border pt-3">{onRemove}</div>
+          {onRemove && (
+            <div className="border-t border-border pt-3">{onRemove}</div>
+          )}
         </div>
       )}
 

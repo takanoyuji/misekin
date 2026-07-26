@@ -123,6 +123,8 @@ export async function inviteAdminMember(
     });
 
     revalidatePath("/admins");
+    // スタッフ詳細にも権限セクションがあるため合わせて再検証する
+    revalidatePath("/staff/[id]", "page");
     return { success: true };
   } catch (error: any) {
     return { error: error.message ?? "招待に失敗しました" };
@@ -186,6 +188,8 @@ export async function changeMemberRole(
     });
 
     revalidatePath("/admins");
+    // スタッフ詳細にも権限セクションがあるため合わせて再検証する
+    revalidatePath("/staff/[id]", "page");
     return { success: true };
   } catch (error: any) {
     return { error: error.message ?? "権限の変更に失敗しました" };
@@ -252,6 +256,8 @@ export async function setStoreAdminScope(
     });
 
     revalidatePath("/admins");
+    // スタッフ詳細にも権限セクションがあるため合わせて再検証する
+    revalidatePath("/staff/[id]", "page");
     return { success: true };
   } catch (error: any) {
     return { error: error.message ?? "担当店舗の設定に失敗しました" };
@@ -294,6 +300,8 @@ export async function removeAdminMember(
     });
 
     revalidatePath("/admins");
+    // スタッフ詳細にも権限セクションがあるため合わせて再検証する
+    revalidatePath("/staff/[id]", "page");
     return { success: true };
   } catch (error: any) {
     return { error: error.message ?? "削除に失敗しました" };
