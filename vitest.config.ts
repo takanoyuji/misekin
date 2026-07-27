@@ -11,8 +11,13 @@ export default defineConfig({
     },
   },
   resolve: {
-    alias: {
-      "@": resolve(__dirname, "./src"),
-    },
+    alias: [
+      // 画像インポート（Verticalレジストリが静的インポートしている）をスタブに寄せる
+      {
+        find: /^.*\.(jpg|jpeg|png|webp|avif|gif)$/,
+        replacement: resolve(__dirname, "./tests/stubs/image.ts"),
+      },
+      { find: "@", replacement: resolve(__dirname, "./src") },
+    ],
   },
 });
