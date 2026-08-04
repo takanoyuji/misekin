@@ -79,7 +79,9 @@ export const ModelName = {
   Notification: 'Notification',
   AuditLog: 'AuditLog',
   ApiKey: 'ApiKey',
-  ApiAccessLog: 'ApiAccessLog'
+  ApiAccessLog: 'ApiAccessLog',
+  StoreSalesTxn: 'StoreSalesTxn',
+  StoreSalesDaily: 'StoreSalesDaily'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -156,6 +158,8 @@ export const OrganizationScalarFieldEnum = {
   country: 'country',
   dayChangeHour: 'dayChangeHour',
   dayChangeMinute: 'dayChangeMinute',
+  vertical: 'vertical',
+  staffTerm: 'staffTerm',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -189,6 +193,7 @@ export const StoreScalarFieldEnum = {
   shiftPeriodUnit: 'shiftPeriodUnit',
   shiftPeriodStartDay: 'shiftPeriodStartDay',
   category: 'category',
+  maxStaffPerSlot: 'maxStaffPerSlot',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -229,6 +234,8 @@ export const StaffScalarFieldEnum = {
   phone: 'phone',
   employeeCode: 'employeeCode',
   status: 'status',
+  invitedRole: 'invitedRole',
+  invitedStoreIds: 'invitedStoreIds',
   hireDate: 'hireDate',
   resignDate: 'resignDate',
   notes: 'notes',
@@ -581,6 +588,38 @@ export const ApiAccessLogScalarFieldEnum = {
 } as const
 
 export type ApiAccessLogScalarFieldEnum = (typeof ApiAccessLogScalarFieldEnum)[keyof typeof ApiAccessLogScalarFieldEnum]
+
+
+export const StoreSalesTxnScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  occurredAt: 'occurredAt',
+  amount: 'amount',
+  customerCount: 'customerCount',
+  externalId: 'externalId',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type StoreSalesTxnScalarFieldEnum = (typeof StoreSalesTxnScalarFieldEnum)[keyof typeof StoreSalesTxnScalarFieldEnum]
+
+
+export const StoreSalesDailyScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  businessDate: 'businessDate',
+  hourBucket: 'hourBucket',
+  amount: 'amount',
+  customerCount: 'customerCount',
+  source: 'source',
+  stayMinutes: 'stayMinutes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StoreSalesDailyScalarFieldEnum = (typeof StoreSalesDailyScalarFieldEnum)[keyof typeof StoreSalesDailyScalarFieldEnum]
 
 
 export const SortOrder = {

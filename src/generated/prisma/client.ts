@@ -191,3 +191,24 @@ export type ApiKey = Prisma.ApiKeyModel
  * 
  */
 export type ApiAccessLog = Prisma.ApiAccessLogModel
+/**
+ * Model StoreSalesTxn
+ * 営業日 × 時間帯ごとの売上実績。
+ * 確定した実績を持つだけで、ここからシフトを直接いじることはしない。
+ * 勤怠と同じく「あとから数字が変わると困るデータ」なので、
+ * 取り込み直しは同じキーへの上書き（source を見て判断）に限る。
+ * 取り込んだ生の会計。ここが売上の一次情報で、集計はすべてここから作り直せる。
+ * 滞在時間の仮定や時間帯の区切りを変えても、CSVを探し直さずに再集計できるようにするため
+ * 集計結果ではなく取引そのものを保持する。
+ */
+export type StoreSalesTxn = Prisma.StoreSalesTxnModel
+/**
+ * Model StoreSalesDaily
+ * StoreSalesTxn から生成する派生データ。営業日 × 1時間バケットの売上。
+ * 
+ * 客は会計時刻の stayMinutes 前から滞在していたとみなし、その区間へ金額を按分する
+ * （人手が要るのは会計の瞬間ではなく滞在中のため）。
+ * 日合計の行は作らない。合計が要るときは SUM で出す。粒度を1種類に保つことで
+ * 二重計上が構造的に起きないようにしている。
+ */
+export type StoreSalesDaily = Prisma.StoreSalesDailyModel

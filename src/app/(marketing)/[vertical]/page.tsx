@@ -611,7 +611,12 @@ function SalesSection({ v }: { v: Vertical }) {
 function SalesChart({ v }: { v: Vertical }) {
   const { sample, caption, summary } = v.content.sales;
   const max = Math.max(...sample.map((d) => d.index));
+  // 「山がある」ことを一目で伝えるのが役目なので、ピークだけ濃く塗って
+  // 残りは同じ色相を薄くする。7本を同じ色で並べると山が消える。
+  const isPeak = (index: number) => index >= max * 0.9;
   const label = sample.map((d) => `${d.day}${d.index}`).join("、");
+  // 棒・曜日・人数を別の行に分ける。列幅は3行とも flex-1 + 同じ gap で揃える
+  const row = "flex gap-1.5 sm:gap-2";
 
   return (
     <figure className="rounded-[1.75rem] border border-[var(--lp-line)] bg-[var(--lp-card)] p-6 shadow-[0_12px_36px_var(--lp-glow)] sm:p-7">
@@ -622,91 +627,99 @@ function SalesChart({ v }: { v: Vertical }) {
         </span>
       </figcaption>
 
-      {/* 棒と曜日ラベルの列を揃えるため、グラフごと1つのテーブルに入れている */}
-      <table className="mt-6 w-full table-fixed text-center text-xs">
-        <caption className="sr-only">
+      {/* 見た目のグラフ。読み上げは下の表が担当する */}
+      <div aria-hidden="true" className="mt-7">
+        {/* 棒。高さを揃えた箱の中で下から伸ばす。
+            items-end を付けると列が親の高さを継承せず、棒の % が効かなくなる */}
+        <div className={`${row} h-36 items-stretch`}>
+          {sample.map((d) => {
+            const peak = isPeak(d.index);
+            return (
+              <div
+                key={d.day}
+                className="flex flex-1 flex-col items-center justify-end gap-1.5"
+              >
+                {peak ? (
+                  <span className="font-mono text-[11px] font-bold leading-none tabular-nums text-[var(--lp-brand-deep)]">
+                    {d.index}
+                  </span>
+                ) : null}
+                <div
+                  className={`w-full rounded-t-[5px] ${
+                    peak
+                      ? "bg-[var(--lp-brand-deep)] shadow-[0_2px_10px_var(--lp-glow)]"
+                      : "bg-[var(--lp-mark)]"
+                  }`}
+                  style={{ height: `${Math.max((d.index / max) * 100, 5)}%` }}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 基線は1本の連続した線にする（列ごとに引くと破線に見える） */}
+        <div className="border-t border-[var(--lp-line)]" />
+
+        <div className={`${row} pt-2`}>
+          {sample.map((d) => (
+            <span
+              key={d.day}
+              className={`flex-1 text-center text-xs font-bold ${
+                isPeak(d.index)
+                  ? "text-[var(--lp-heading)]"
+                  : "text-[var(--lp-muted)]"
+              }`}
+            >
+              {d.day}
+            </span>
+          ))}
+        </div>
+
+        {/* 提案人数は売上とは別の指標なので、棒ではなくチップで添える */}
+        <div className={`${row} mt-2`}>
+          {sample.map((d) => (
+            <span key={d.day} className="flex flex-1 justify-center">
+              <span
+                className={`inline-flex size-6 items-center justify-center rounded-lg text-[11px] font-bold tabular-nums ${
+                  isPeak(d.index)
+                    ? "bg-[var(--lp-tint-2)] text-[var(--lp-brand-deep)]"
+                    : "text-[var(--lp-muted)]"
+                }`}
+              >
+                {d.need}
+              </span>
+            </span>
+          ))}
+        </div>
+      </div>
+      <p className="mt-2 text-center text-[11px] text-[var(--lp-muted)]">
+        下の数字は、その曜日に提案される人数
+      </p>
+
+      {/* 読み上げ・コピー用。目では上のグラフ、値はこちらで担保する */}
+      <table className="sr-only">
+        <caption>
           曜日ごとの売上の割合（{label}）と、AIが提案する必要人数
         </caption>
-        <tbody>
+        <thead>
           <tr>
-            <th scope="row" className="w-[4.5rem]">
-              <span className="sr-only">売上のグラフ</span>
-            </th>
-            {sample.map((d) => (
-              <td key={d.day} className="h-32 px-[3px] align-bottom">
-                <div className="flex h-full flex-col justify-end gap-1">
-                  {/* 直接ラベルは高い2本だけ（全点に数字は置かない） */}
-                  {d.index >= 80 ? (
-                    <span className="font-mono text-[11px] font-bold leading-none tabular-nums text-[var(--lp-heading)]">
-                      {d.index}
-                    </span>
-                  ) : null}
-                  <div
-                    aria-hidden="true"
-                    className="w-full rounded-t-[4px] bg-[var(--lp-brand-deep)]"
-                    style={{ height: `${(d.index / max) * 86}%` }}
-                  />
-                </div>
-              </td>
-            ))}
+            <th scope="col">曜日</th>
+            <th scope="col">売上の割合</th>
+            <th scope="col">提案人数</th>
           </tr>
-          <tr className="border-t border-[var(--lp-line)]">
-            <th
-              scope="row"
-              className="py-2 text-left text-[11px] font-medium text-[var(--lp-muted)]"
-            >
-              曜日
-            </th>
-            {sample.map((d) => (
-              <td
-                key={d.day}
-                className="py-2 text-xs font-bold text-[var(--lp-heading)]"
-              >
-                {d.day}
-              </td>
-            ))}
-          </tr>
-          <tr className="border-t border-[var(--lp-line)]">
-            <th
-              scope="row"
-              className="py-2 text-left text-[11px] font-medium text-[var(--lp-muted)]"
-            >
-              売上
-            </th>
-            {sample.map((d) => (
-              <td
-                key={d.day}
-                className="py-2 font-mono text-[11px] tabular-nums text-[var(--lp-muted)]"
-              >
-                {d.index}
-              </td>
-            ))}
-          </tr>
-          <tr className="border-t border-[var(--lp-line)]">
-            <th
-              scope="row"
-              className="py-2 text-left text-[11px] font-medium text-[var(--lp-muted)]"
-            >
-              提案人数
-            </th>
-            {sample.map((d) => (
-              <td key={d.day} className="py-2">
-                <span
-                  className={`inline-flex size-6 items-center justify-center rounded-lg text-[11px] font-bold tabular-nums ${
-                    d.need >= 3
-                      ? "bg-[var(--lp-tint-2)] text-[var(--lp-brand-deep)]"
-                      : "text-[var(--lp-muted)]"
-                  }`}
-                >
-                  {d.need}
-                </span>
-              </td>
-            ))}
-          </tr>
+        </thead>
+        <tbody>
+          {sample.map((d) => (
+            <tr key={d.day}>
+              <th scope="row">{d.day}</th>
+              <td>{d.index}</td>
+              <td>{d.need}人</td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
-      <p className="mt-4 rounded-2xl bg-[var(--lp-tint)] px-4 py-3 text-sm leading-relaxed text-[var(--lp-heading)]">
+      <p className="mt-5 rounded-2xl bg-[var(--lp-tint)] px-4 py-3 text-sm leading-relaxed text-[var(--lp-heading)]">
         {summary.before}
         <strong className="font-bold text-[var(--lp-brand-deep)]">
           {summary.strong}

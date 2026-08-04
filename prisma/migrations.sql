@@ -257,3 +257,80 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
     ALTER TABLE "shifts" ADD CONSTRAINT "shifts_slotId_fkey" FOREIGN KEY ("slotId") REFERENCES "shift_slots"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- AddVertical: 業態版（獲得経路）と表示用語を組織に持たせる
+-- vertical  … どの版のLPから登録したかの記録。あとから変えない
+-- staffTerm … 画面上の呼び方。複数業態を運営する組織は STAFF に寄せる運用
+DO $$ BEGIN
+    CREATE TYPE "Vertical" AS ENUM ('CONCAFE', 'SHISHA');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+DO $$ BEGIN
+    CREATE TYPE "StaffTerm" AS ENUM ('CAST', 'STAFF');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+ALTER TABLE "organizations" ADD COLUMN IF NOT EXISTS "vertical" "Vertical" NOT NULL DEFAULT 'CONCAFE';
+ALTER TABLE "organizations" ADD COLUMN IF NOT EXISTS "staffTerm" "StaffTerm" NOT NULL DEFAULT 'CAST';
+
+-- AddStoreSalesTxn: 取り込んだ生の会計（売上の一次情報）
+-- 集計はここから作り直せるので、滞在時間や時間帯の区切りを変えても再取り込みが要らない。
+CREATE TABLE IF NOT EXISTS "store_sales_txns" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "occurredAt" TIMESTAMP(3) NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "customerCount" INTEGER,
+    "externalId" TEXT NOT NULL,
+    "source" TEXT NOT NULL DEFAULT 'CSV_AIRREGI',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "store_sales_txns_pkey" PRIMARY KEY ("id")
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS "store_sales_txns_storeId_externalId_key" ON "store_sales_txns"("storeId", "externalId");
+CREATE INDEX IF NOT EXISTS "store_sales_txns_storeId_occurredAt_idx" ON "store_sales_txns"("storeId", "occurredAt");
+
+DO $$ BEGIN
+    ALTER TABLE "store_sales_txns" ADD CONSTRAINT "store_sales_txns_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "store_sales_txns" ADD CONSTRAINT "store_sales_txns_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- AddStoreSalesDaily: 営業日×1時間バケットの売上（StoreSalesTxn からの派生データ）
+-- 客は会計時刻の stayMinutes 前から滞在していたとみなして按分する。
+-- 日合計の行は作らない（粒度を1種類に保ち、二重計上を構造的に防ぐ）。
+CREATE TABLE IF NOT EXISTS "store_sales_daily" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "businessDate" TEXT NOT NULL,
+    "hourBucket" TEXT NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "customerCount" INTEGER,
+    "source" TEXT NOT NULL DEFAULT 'MANUAL',
+    "stayMinutes" INTEGER NOT NULL DEFAULT 120,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    CONSTRAINT "store_sales_daily_pkey" PRIMARY KEY ("id")
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS "store_sales_daily_storeId_businessDate_hourBucket_key" ON "store_sales_daily"("storeId", "businessDate", "hourBucket");
+CREATE INDEX IF NOT EXISTS "store_sales_daily_storeId_businessDate_idx" ON "store_sales_daily"("storeId", "businessDate");
+
+DO $$ BEGIN
+    ALTER TABLE "store_sales_daily" ADD CONSTRAINT "store_sales_daily_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "store_sales_daily" ADD CONSTRAINT "store_sales_daily_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- AddStaffInvitedRole: スタッフを管理者として招待できるようにする
+-- 招待時点では相手のアカウントが無いため、意図したロールと担当店舗を保持しておき、
+-- 受諾時に OrganizationMember / StoreAdmin へ反映してクリアする。
+-- ADMIN を入れられるのはオーナーのみ（アプリ側で検証）。
+ALTER TABLE "staff" ADD COLUMN IF NOT EXISTS "invitedRole" "OrganizationRole";
+ALTER TABLE "staff" ADD COLUMN IF NOT EXISTS "invitedStoreIds" TEXT[] DEFAULT ARRAY[]::TEXT[];
+
+-- AddMaxStaffPerSlot: 必要人数の提案で立てる上限（1時間あたり）を店舗ごとに持つ
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "maxStaffPerSlot" INTEGER NOT NULL DEFAULT 2;

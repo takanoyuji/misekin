@@ -25,6 +25,8 @@ interface Props {
   organizationId: string;
   storeId: string;
   aiEnabled: boolean;
+  /** 業態ごとに用意したルールの文例。押すと入力欄に入る */
+  presets: { text: string; tag: string }[];
   rules: RuleRow[];
 }
 
@@ -44,6 +46,7 @@ export function ShiftRuleManager({
   organizationId,
   storeId,
   aiEnabled,
+  presets,
   rules,
 }: Props) {
   const router = useRouter();
@@ -129,8 +132,27 @@ export function ShiftRuleManager({
         ) : (
           <>
             <p className="mt-2 text-sm text-muted-foreground">
-              例:「同じ人はなるべく連続しないで」「1人あたり週4回まで」
+              よく使うルールを用意しています。押すと入力欄に入るので、数字だけお店に合わせて直してください。
             </p>
+            {presets.length > 0 && (
+              <ul className="mt-3 flex flex-wrap gap-1.5">
+                {presets.map((preset) => (
+                  <li key={preset.text}>
+                    <button
+                      type="button"
+                      onClick={() => setText(preset.text)}
+                      disabled={isTranslating}
+                      className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-background px-3 text-xs transition-colors hover:bg-muted disabled:opacity-50"
+                    >
+                      <span className="font-semibold text-primary">
+                        {preset.tag}
+                      </span>
+                      <span className="text-foreground">{preset.text}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="mt-3 flex flex-col gap-2 sm:flex-row">
               <input
                 type="text"

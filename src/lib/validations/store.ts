@@ -20,6 +20,13 @@ export const createStoreSchema = z.object({
       "OTHER",
     ])
     .optional(),
+  /** 必要人数の提案で立てる上限（1時間あたり） */
+  maxStaffPerSlot: z
+    .number()
+    .int()
+    .min(1, "1人以上にしてください")
+    .max(20, "20人以下にしてください")
+    .optional(),
 });
 
 export const updateStoreSchema = createStoreSchema.partial();

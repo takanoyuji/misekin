@@ -4,12 +4,13 @@ import { BASE_PATH } from "@/lib/base-path";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { requireAdmin } from "@/lib/auth/permissions";
+import { requireAdmin, getAccessibleStoreIds } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
 import { Users, Plus } from "lucide-react";
 import { format } from "date-fns";
 import type { Prisma } from "@/generated/prisma/client";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
+import { getOrgPresentation } from "@/lib/verticals/server";
 
 export const metadata: Metadata = {
   title: "スタッフ一覧",
@@ -57,12 +58,23 @@ export default async function StaffPage({
   }
 
   const orgId = activeOrgId as string;
+  // 業態版による呼び方（キャスト / スタッフ）
+  const { terms } = await getOrgPresentation(orgId);
 
+  let ctx;
   try {
-    await requireAdmin(session.user!.id, orgId);
+    ctx = await requireAdmin(session.user!.id, orgId);
   } catch {
     redirect("/dashboard");
   }
+
+  // 担当店舗が限定されている管理者には、その店舗のスタッフだけを見せる
+  // （勤怠やシフトと同じ絞り込み。ここだけ組織全体が見えていた）
+  const accessibleStoreIds = await getAccessibleStoreIds(
+    ctx.memberId,
+    ctx.role,
+    orgId
+  );
 
   const params = await searchParams;
   const statusFilter = params.status || undefined;
@@ -70,6 +82,10 @@ export default async function StaffPage({
 
   const whereClause: Prisma.StaffWhereInput = {
     organizationId: orgId,
+    // null = 全店舗アクセス可なので絞らない
+    ...(accessibleStoreIds
+      ? { staffStores: { some: { storeId: { in: accessibleStoreIds } } } }
+      : {}),
   };
   if (statusFilter) {
     whereClause.status = statusFilter as Prisma.EnumStaffStatusFilter;
@@ -96,11 +112,11 @@ export default async function StaffPage({
   return (
     <div className="space-y-6">
       <PageHeader
-        title="スタッフ一覧"
-        description="組織のスタッフを管理します"
+        title={`${terms.staff}一覧`}
+        description={`組織の${terms.staff}を管理します`}
         breadcrumbs={[
           { label: "ホーム", href: "/dashboard" },
-          { label: "スタッフ一覧" },
+          { label: `${terms.staff}一覧` },
         ]}
         actions={
           <Link
@@ -108,7 +124,7 @@ export default async function StaffPage({
             className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50 transition-colors"
           >
             <Plus className="size-4" aria-hidden="true" />
-            スタッフを招待
+            {terms.staff}を招待
           </Link>
         }
       />
@@ -191,8 +207,8 @@ export default async function StaffPage({
             />
             <p className="text-muted-foreground">
               {query || statusFilter
-                ? "条件に一致するスタッフがいません"
-                : "スタッフがまだいません"}
+                ? `条件に一致する${terms.staff}がいません`
+                : `${terms.staff}がまだいません`}
             </p>
             {!query && !statusFilter && (
               <Link
@@ -200,7 +216,7 @@ export default async function StaffPage({
                 className="mt-3 inline-flex items-center gap-1 text-sm text-primary hover:underline"
               >
                 <Plus className="size-4" />
-                スタッフを招待する
+                {terms.staff}を招待する
               </Link>
             )}
           </div>

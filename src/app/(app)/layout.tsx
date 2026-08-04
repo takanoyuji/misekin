@@ -7,6 +7,9 @@ import {
 } from "@/lib/auth/active-org";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { AppHeader } from "@/components/layout/app-header";
+import { ThemeScope } from "@/components/layout/theme-scope";
+import { buildPresentation } from "@/lib/verticals/server";
+import type { ThemeKey } from "@/lib/verticals";
 
 export default async function AppLayout({
   children,
@@ -26,12 +29,25 @@ export default async function AppLayout({
   let organizationName: string | null = null;
   let isMember = false;
   let isOwner = false;
+  // 業態が1種類ならその版の配色、複数業態ならどれにも寄らない中立の配色
+  let themeKey: ThemeKey = "neutral";
+  let staffTerm = "スタッフ";
   if (activeOrgId) {
     const org = await db.organization.findUnique({
       where: { id: activeOrgId },
-      select: { name: true },
+      select: {
+        name: true,
+        vertical: true,
+        staffTerm: true,
+        stores: { where: { isActive: true }, select: { category: true } },
+      },
     });
     organizationName = org?.name ?? null;
+    if (org) {
+      const presentation = buildPresentation(org);
+      themeKey = presentation.themeKey;
+      staffTerm = presentation.terms.staff;
+    }
 
     // MEMBER は管理メニューを表示しない / OWNER のみ権限管理を表示
     const role = await getOrganizationRole(session.user?.id, activeOrgId);
@@ -53,8 +69,12 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <AppSidebar isMember={isMember} isOwner={isOwner} />
+    <ThemeScope themeKey={themeKey} className="flex h-screen overflow-hidden">
+      <AppSidebar
+        isMember={isMember}
+        isOwner={isOwner}
+        staffTerm={staffTerm}
+      />
       <div className="flex flex-col flex-1 overflow-hidden">
         <AppHeader
           session={session}
@@ -68,6 +88,6 @@ export default async function AppLayout({
           {children}
         </main>
       </div>
-    </div>
+    </ThemeScope>
   );
 }

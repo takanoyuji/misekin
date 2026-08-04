@@ -17,6 +17,22 @@ export const VerificationTokenType = {
 export type VerificationTokenType = (typeof VerificationTokenType)[keyof typeof VerificationTokenType]
 
 
+export const Vertical = {
+  CONCAFE: 'CONCAFE',
+  SHISHA: 'SHISHA'
+} as const
+
+export type Vertical = (typeof Vertical)[keyof typeof Vertical]
+
+
+export const StaffTerm = {
+  CAST: 'CAST',
+  STAFF: 'STAFF'
+} as const
+
+export type StaffTerm = (typeof StaffTerm)[keyof typeof StaffTerm]
+
+
 export const OrganizationRole = {
   OWNER: 'OWNER',
   ADMIN: 'ADMIN',

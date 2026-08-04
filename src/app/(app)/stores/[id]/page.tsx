@@ -10,6 +10,9 @@ import { ClockUrlSection } from "./clock-url-section";
 import { ShiftPeriodForm } from "./shift-period-form";
 import { ShiftSlotManager } from "./shift-slot-manager";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
+import { ThemeScope } from "@/components/layout/theme-scope";
+import { resolveStoreThemeKey } from "@/lib/verticals";
+import { getOrgPresentation } from "@/lib/verticals/server";
 import { buildClockUrl } from "@/lib/app-url";
 
 export const metadata: Metadata = {
@@ -80,8 +83,16 @@ export default async function StoreDetailPage({ params }: PageProps) {
     ? buildClockUrl(activeClockUrl.token)
     : null;
 
+  // 店舗のページは、その店舗の業態の配色に寄せる
+  // （版を持たない業態のときは組織の配色をそのまま使う）
+  const presentation = await getOrgPresentation(orgId);
+  const storeThemeKey = resolveStoreThemeKey(
+    store.category,
+    presentation.themeKey
+  );
+
   return (
-    <div className="space-y-8">
+    <ThemeScope themeKey={storeThemeKey} className="space-y-8">
       <PageHeader
         title={store.name}
         description="店舗情報の表示・編集"
@@ -110,6 +121,7 @@ export default async function StoreDetailPage({ params }: PageProps) {
                   dayChangeHour: store.dayChangeHour,
                   dayChangeMinute: store.dayChangeMinute,
                   category: store.category,
+                  maxStaffPerSlot: store.maxStaffPerSlot,
                   isActive: store.isActive,
                 }}
                 organizationId={orgId}
@@ -232,6 +244,6 @@ export default async function StoreDetailPage({ params }: PageProps) {
           )}
         </div>
       </section>
-    </div>
+    </ThemeScope>
   );
 }

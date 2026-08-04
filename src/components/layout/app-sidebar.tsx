@@ -32,12 +32,12 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
 }
 
-/** 管理者(OWNER / ADMIN)向けメニュー */
-const adminNavItems: NavItem[] = [
+/** 管理者(OWNER / ADMIN)向けメニュー。staffTerm は業態版によって変わる */
+const buildAdminNavItems = (staffTerm: string): NavItem[] => [
   { label: "ホーム", href: "/dashboard", icon: LayoutDashboard },
   { label: "勤怠管理", href: "/attendance", icon: Clock },
   { label: "シフト管理", href: "/shifts", icon: CalendarDays },
-  { label: "スタッフ", href: "/staff", icon: Users },
+  { label: staffTerm, href: "/staff", icon: Users },
   { label: "店舗", href: "/stores", icon: Store },
   { label: "修正申請", href: "/correction-requests", icon: FileEdit },
   { label: "交通費申請", href: "/transportation-requests", icon: Wallet },
@@ -104,6 +104,7 @@ interface SidebarContentProps {
   pathname: string;
   isMember: boolean;
   isOwner: boolean;
+  staffTerm: string;
   onNavClick?: () => void;
 }
 
@@ -111,8 +112,10 @@ function SidebarContent({
   pathname,
   isMember,
   isOwner,
+  staffTerm,
   onNavClick,
 }: SidebarContentProps) {
+  const adminNavItems = buildAdminNavItems(staffTerm);
   const navItems = isMember
     ? memberNavItems
     : isOwner
@@ -156,9 +159,15 @@ interface AppSidebarProps {
   isMember?: boolean;
   /** OWNER のみ「管理者・権限」メニューを表示する */
   isOwner?: boolean;
+  /** 業態版による呼び方（キャスト / スタッフ） */
+  staffTerm?: string;
 }
 
-export function AppSidebar({ isMember = false, isOwner = false }: AppSidebarProps) {
+export function AppSidebar({
+  isMember = false,
+  isOwner = false,
+  staffTerm = "スタッフ",
+}: AppSidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -170,6 +179,7 @@ export function AppSidebar({ isMember = false, isOwner = false }: AppSidebarProp
         aria-label="サイドバー"
       >
         <SidebarContent
+          staffTerm={staffTerm}
           pathname={pathname}
           isMember={isMember}
           isOwner={isOwner}
@@ -216,6 +226,7 @@ export function AppSidebar({ isMember = false, isOwner = false }: AppSidebarProp
               </Dialog.Close>
             </div>
             <SidebarContent
+              staffTerm={staffTerm}
               pathname={pathname}
               isMember={isMember}
               isOwner={isOwner}

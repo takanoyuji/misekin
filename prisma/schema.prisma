@@ -97,6 +97,10 @@ model Organization {
   country         String   @default("JP")
   dayChangeHour   Int      @default(6)
   dayChangeMinute Int      @default(0)
+  // どの業態版のLPから登録したか。獲得経路の記録であり、あとから変えない
+  vertical        Vertical @default(CONCAFE)
+  // 画面に出す呼び方。運用設定なのでいつでも変えられる（複数業態なら中立語に寄せる）
+  staffTerm       StaffTerm @default(CAST)
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -113,6 +117,8 @@ model Organization {
   shifts              Shift[]
   shiftRules          ShiftRule[]
   shiftSlots          ShiftSlot[]
+  salesTxns           StoreSalesTxn[]
+  salesDaily          StoreSalesDaily[]
 
   @@map("organizations")
 }
@@ -132,6 +138,18 @@ model OrganizationMember {
 
   @@unique([organizationId, userId])
   @@map("organization_members")
+}
+
+/// 業態版。LPのURL（/concafe, /shisha）と1対1で対応する
+enum Vertical {
+  CONCAFE
+  SHISHA
+}
+
+/// 画面上でスタッフをどう呼ぶか
+enum StaffTerm {
+  CAST
+  STAFF
 }
 
 enum OrganizationRole {
@@ -156,11 +174,16 @@ model Store {
   shiftPeriodStartDay Int  @default(1)
   // 業態カテゴリ（ナイト系中心）
   category        StoreCategory @default(OTHER)
+  // 必要人数の提案で立てる上限（1時間あたり）。箱の広さや回し方は店ごとに違うので店舗設定にする。
+  // 提案が上振れしても現実離れした人数を出さないための蓋で、実際のシフトはここを超えて組める。
+  maxStaffPerSlot Int      @default(2)
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   organization     Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  salesTxns        StoreSalesTxn[]
+  salesDaily       StoreSalesDaily[]
   clockUrls        StoreClockUrl[]
   staffStores      StaffStore[]
   attendanceEvents AttendanceEvent[]
@@ -237,6 +260,12 @@ model Staff {
   phone          String?
   employeeCode   String?
   status         StaffStatus @default(INVITED)
+  /// 招待時に付与するロール。null なら受諾時に MEMBER になる（従来どおり）。
+  /// ADMIN を入れられるのはオーナーだけ（src/actions/staff.ts の sendStaffInvitation で検証）。
+  /// 受諾時に反映してクリアする。
+  invitedRole    OrganizationRole?
+  /// 招待時に指定した担当店舗。ADMIN として受諾したときに StoreAdmin へ展開する
+  invitedStoreIds String[] @default([])
   hireDate       DateTime?
   resignDate     DateTime?
   notes          String?
@@ -817,4 +846,73 @@ model ApiAccessLog {
 
   @@index([apiKeyId, createdAt])
   @@map("api_access_logs")
+}
+
+// ============================================================
+// 売上（必要人数の提案に使う）
+// ============================================================
+
+/// 営業日 × 時間帯ごとの売上実績。
+/// 確定した実績を持つだけで、ここからシフトを直接いじることはしない。
+/// 勤怠と同じく「あとから数字が変わると困るデータ」なので、
+/// 取り込み直しは同じキーへの上書き（source を見て判断）に限る。
+/// 取り込んだ生の会計。ここが売上の一次情報で、集計はすべてここから作り直せる。
+/// 滞在時間の仮定や時間帯の区切りを変えても、CSVを探し直さずに再集計できるようにするため
+/// 集計結果ではなく取引そのものを保持する。
+model StoreSalesTxn {
+  id             String   @id @default(cuid())
+  organizationId String
+  storeId        String
+  /// 会計時刻。営業日も時刻バケットもここから導出するので、加工前の値を入れる
+  occurredAt     DateTime
+  /// 税込売上
+  amount         Int
+  /// 客数（取れる場合のみ）
+  customerCount  Int?
+  /// 取り込み元の取引No。再取り込みを冪等にするためのキー
+  externalId     String
+  /// 取り込み元。CSV_AIRREGI / MANUAL
+  source         String   @default("CSV_AIRREGI")
+  createdAt      DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  store        Store        @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@unique([storeId, externalId])
+  @@index([storeId, occurredAt])
+  @@map("store_sales_txns")
+}
+
+/// StoreSalesTxn から生成する派生データ。営業日 × 1時間バケットの売上。
+///
+/// 客は会計時刻の stayMinutes 前から滞在していたとみなし、その区間へ金額を按分する
+/// （人手が要るのは会計の瞬間ではなく滞在中のため）。
+/// 日合計の行は作らない。合計が要るときは SUM で出す。粒度を1種類に保つことで
+/// 二重計上が構造的に起きないようにしている。
+model StoreSalesDaily {
+  id             String   @id @default(cuid())
+  organizationId String
+  storeId        String
+  /// 営業日（店舗の切替時刻を適用済みの YYYY-MM-DD）
+  businessDate   String
+  /// 営業日内の時刻バケット "00"〜"23"。null を使わないので UNIQUE が確実に効き、
+  /// upsert で何度取り込んでも同じ結果になる
+  hourBucket     String
+  /// 税込売上（按分後。円未満は丸める）
+  amount         Int
+  /// 客数（按分後。取れる場合のみ）
+  customerCount  Int?
+  /// 生成元。CSV_AIRREGI / MANUAL
+  source         String   @default("MANUAL")
+  /// 按分に使った滞在時間（分）。仮定を変えたとき再生成が要る行を特定できる
+  stayMinutes    Int      @default(120)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  store        Store        @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@unique([storeId, businessDate, hourBucket])
+  @@index([storeId, businessDate])
+  @@map("store_sales_daily")
 }

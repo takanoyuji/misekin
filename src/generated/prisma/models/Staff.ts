@@ -34,6 +34,7 @@ export type StaffMinAggregateOutputType = {
   phone: string | null
   employeeCode: string | null
   status: $Enums.StaffStatus | null
+  invitedRole: $Enums.OrganizationRole | null
   hireDate: Date | null
   resignDate: Date | null
   notes: string | null
@@ -51,6 +52,7 @@ export type StaffMaxAggregateOutputType = {
   phone: string | null
   employeeCode: string | null
   status: $Enums.StaffStatus | null
+  invitedRole: $Enums.OrganizationRole | null
   hireDate: Date | null
   resignDate: Date | null
   notes: string | null
@@ -68,6 +70,8 @@ export type StaffCountAggregateOutputType = {
   phone: number
   employeeCode: number
   status: number
+  invitedRole: number
+  invitedStoreIds: number
   hireDate: number
   resignDate: number
   notes: number
@@ -87,6 +91,7 @@ export type StaffMinAggregateInputType = {
   phone?: true
   employeeCode?: true
   status?: true
+  invitedRole?: true
   hireDate?: true
   resignDate?: true
   notes?: true
@@ -104,6 +109,7 @@ export type StaffMaxAggregateInputType = {
   phone?: true
   employeeCode?: true
   status?: true
+  invitedRole?: true
   hireDate?: true
   resignDate?: true
   notes?: true
@@ -121,6 +127,8 @@ export type StaffCountAggregateInputType = {
   phone?: true
   employeeCode?: true
   status?: true
+  invitedRole?: true
+  invitedStoreIds?: true
   hireDate?: true
   resignDate?: true
   notes?: true
@@ -211,6 +219,8 @@ export type StaffGroupByOutputType = {
   phone: string | null
   employeeCode: string | null
   status: $Enums.StaffStatus
+  invitedRole: $Enums.OrganizationRole | null
+  invitedStoreIds: string[]
   hireDate: Date | null
   resignDate: Date | null
   notes: string | null
@@ -249,6 +259,8 @@ export type StaffWhereInput = {
   phone?: Prisma.StringNullableFilter<"Staff"> | string | null
   employeeCode?: Prisma.StringNullableFilter<"Staff"> | string | null
   status?: Prisma.EnumStaffStatusFilter<"Staff"> | $Enums.StaffStatus
+  invitedRole?: Prisma.EnumOrganizationRoleNullableFilter<"Staff"> | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StringNullableListFilter<"Staff">
   hireDate?: Prisma.DateTimeNullableFilter<"Staff"> | Date | string | null
   resignDate?: Prisma.DateTimeNullableFilter<"Staff"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"Staff"> | string | null
@@ -277,6 +289,8 @@ export type StaffOrderByWithRelationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   employeeCode?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  invitedRole?: Prisma.SortOrderInput | Prisma.SortOrder
+  invitedStoreIds?: Prisma.SortOrder
   hireDate?: Prisma.SortOrderInput | Prisma.SortOrder
   resignDate?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -309,6 +323,8 @@ export type StaffWhereUniqueInput = Prisma.AtLeast<{
   phone?: Prisma.StringNullableFilter<"Staff"> | string | null
   employeeCode?: Prisma.StringNullableFilter<"Staff"> | string | null
   status?: Prisma.EnumStaffStatusFilter<"Staff"> | $Enums.StaffStatus
+  invitedRole?: Prisma.EnumOrganizationRoleNullableFilter<"Staff"> | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StringNullableListFilter<"Staff">
   hireDate?: Prisma.DateTimeNullableFilter<"Staff"> | Date | string | null
   resignDate?: Prisma.DateTimeNullableFilter<"Staff"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"Staff"> | string | null
@@ -337,6 +353,8 @@ export type StaffOrderByWithAggregationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   employeeCode?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  invitedRole?: Prisma.SortOrderInput | Prisma.SortOrder
+  invitedStoreIds?: Prisma.SortOrder
   hireDate?: Prisma.SortOrderInput | Prisma.SortOrder
   resignDate?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -360,6 +378,8 @@ export type StaffScalarWhereWithAggregatesInput = {
   phone?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
   employeeCode?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
   status?: Prisma.EnumStaffStatusWithAggregatesFilter<"Staff"> | $Enums.StaffStatus
+  invitedRole?: Prisma.EnumOrganizationRoleNullableWithAggregatesFilter<"Staff"> | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StringNullableListFilter<"Staff">
   hireDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Staff"> | Date | string | null
   resignDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Staff"> | Date | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
@@ -375,6 +395,8 @@ export type StaffCreateInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -403,6 +425,8 @@ export type StaffUncheckedCreateInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -427,6 +451,8 @@ export type StaffUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -455,6 +481,8 @@ export type StaffUncheckedUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -481,6 +509,8 @@ export type StaffCreateManyInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -496,6 +526,8 @@ export type StaffUpdateManyMutationInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -513,6 +545,8 @@ export type StaffUncheckedUpdateManyInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -530,6 +564,14 @@ export type StaffOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type StaffOrganizationIdEmailCompoundUniqueInput = {
   organizationId: string
   email: string
@@ -545,6 +587,8 @@ export type StaffCountOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   employeeCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  invitedRole?: Prisma.SortOrder
+  invitedStoreIds?: Prisma.SortOrder
   hireDate?: Prisma.SortOrder
   resignDate?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -562,6 +606,7 @@ export type StaffMaxOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   employeeCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  invitedRole?: Prisma.SortOrder
   hireDate?: Prisma.SortOrder
   resignDate?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -579,6 +624,7 @@ export type StaffMinOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   employeeCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  invitedRole?: Prisma.SortOrder
   hireDate?: Prisma.SortOrder
   resignDate?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -680,8 +726,21 @@ export type StaffUncheckedUpdateManyWithoutOrganizationNestedInput = {
   deleteMany?: Prisma.StaffScalarWhereInput | Prisma.StaffScalarWhereInput[]
 }
 
+export type StaffCreateinvitedStoreIdsInput = {
+  set: string[]
+}
+
 export type EnumStaffStatusFieldUpdateOperationsInput = {
   set?: $Enums.StaffStatus
+}
+
+export type NullableEnumOrganizationRoleFieldUpdateOperationsInput = {
+  set?: $Enums.OrganizationRole | null
+}
+
+export type StaffUpdateinvitedStoreIdsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type StaffCreateNestedOneWithoutStaffStoresInput = {
@@ -822,6 +881,8 @@ export type StaffCreateWithoutUserInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -848,6 +909,8 @@ export type StaffUncheckedCreateWithoutUserInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -903,6 +966,8 @@ export type StaffScalarWhereInput = {
   phone?: Prisma.StringNullableFilter<"Staff"> | string | null
   employeeCode?: Prisma.StringNullableFilter<"Staff"> | string | null
   status?: Prisma.EnumStaffStatusFilter<"Staff"> | $Enums.StaffStatus
+  invitedRole?: Prisma.EnumOrganizationRoleNullableFilter<"Staff"> | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StringNullableListFilter<"Staff">
   hireDate?: Prisma.DateTimeNullableFilter<"Staff"> | Date | string | null
   resignDate?: Prisma.DateTimeNullableFilter<"Staff"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"Staff"> | string | null
@@ -918,6 +983,8 @@ export type StaffCreateWithoutOrganizationInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -944,6 +1011,8 @@ export type StaffUncheckedCreateWithoutOrganizationInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -994,6 +1063,8 @@ export type StaffCreateWithoutStaffStoresInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1021,6 +1092,8 @@ export type StaffUncheckedCreateWithoutStaffStoresInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1060,6 +1133,8 @@ export type StaffUpdateWithoutStaffStoresInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1087,6 +1162,8 @@ export type StaffUncheckedUpdateWithoutStaffStoresInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1110,6 +1187,8 @@ export type StaffCreateWithoutAttendanceEventsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1137,6 +1216,8 @@ export type StaffUncheckedCreateWithoutAttendanceEventsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1176,6 +1257,8 @@ export type StaffUpdateWithoutAttendanceEventsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1203,6 +1286,8 @@ export type StaffUncheckedUpdateWithoutAttendanceEventsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1226,6 +1311,8 @@ export type StaffCreateWithoutAttendancesInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1253,6 +1340,8 @@ export type StaffUncheckedCreateWithoutAttendancesInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1292,6 +1381,8 @@ export type StaffUpdateWithoutAttendancesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1319,6 +1410,8 @@ export type StaffUncheckedUpdateWithoutAttendancesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1342,6 +1435,8 @@ export type StaffCreateWithoutCorrectionRequestsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1369,6 +1464,8 @@ export type StaffUncheckedCreateWithoutCorrectionRequestsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1408,6 +1505,8 @@ export type StaffUpdateWithoutCorrectionRequestsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1435,6 +1534,8 @@ export type StaffUncheckedUpdateWithoutCorrectionRequestsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1458,6 +1559,8 @@ export type StaffCreateWithoutTransportationChangeRequestsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1485,6 +1588,8 @@ export type StaffUncheckedCreateWithoutTransportationChangeRequestsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1524,6 +1629,8 @@ export type StaffUpdateWithoutTransportationChangeRequestsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1551,6 +1658,8 @@ export type StaffUncheckedUpdateWithoutTransportationChangeRequestsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1574,6 +1683,8 @@ export type StaffCreateWithoutShiftAvailabilitiesInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1601,6 +1712,8 @@ export type StaffUncheckedCreateWithoutShiftAvailabilitiesInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1640,6 +1753,8 @@ export type StaffUpdateWithoutShiftAvailabilitiesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1667,6 +1782,8 @@ export type StaffUncheckedUpdateWithoutShiftAvailabilitiesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1690,6 +1807,8 @@ export type StaffCreateWithoutShiftsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1717,6 +1836,8 @@ export type StaffUncheckedCreateWithoutShiftsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1756,6 +1877,8 @@ export type StaffUpdateWithoutShiftsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1783,6 +1906,8 @@ export type StaffUncheckedUpdateWithoutShiftsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1806,6 +1931,8 @@ export type StaffCreateWithoutNotificationsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1833,6 +1960,8 @@ export type StaffUncheckedCreateWithoutNotificationsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1872,6 +2001,8 @@ export type StaffUpdateWithoutNotificationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1899,6 +2030,8 @@ export type StaffUncheckedUpdateWithoutNotificationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1922,6 +2055,8 @@ export type StaffCreateWithoutAuditLogsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1949,6 +2084,8 @@ export type StaffUncheckedCreateWithoutAuditLogsInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -1988,6 +2125,8 @@ export type StaffUpdateWithoutAuditLogsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2015,6 +2154,8 @@ export type StaffUncheckedUpdateWithoutAuditLogsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2039,6 +2180,8 @@ export type StaffCreateManyUserInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -2054,6 +2197,8 @@ export type StaffUpdateWithoutUserInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2080,6 +2225,8 @@ export type StaffUncheckedUpdateWithoutUserInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2105,6 +2252,8 @@ export type StaffUncheckedUpdateManyWithoutUserInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2121,6 +2270,8 @@ export type StaffCreateManyOrganizationInput = {
   phone?: string | null
   employeeCode?: string | null
   status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
   hireDate?: Date | string | null
   resignDate?: Date | string | null
   notes?: string | null
@@ -2136,6 +2287,8 @@ export type StaffUpdateWithoutOrganizationInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2162,6 +2315,8 @@ export type StaffUncheckedUpdateWithoutOrganizationInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2187,6 +2342,8 @@ export type StaffUncheckedUpdateManyWithoutOrganizationInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2307,6 +2464,8 @@ export type StaffSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   phone?: boolean
   employeeCode?: boolean
   status?: boolean
+  invitedRole?: boolean
+  invitedStoreIds?: boolean
   hireDate?: boolean
   resignDate?: boolean
   notes?: boolean
@@ -2336,6 +2495,8 @@ export type StaffSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   phone?: boolean
   employeeCode?: boolean
   status?: boolean
+  invitedRole?: boolean
+  invitedStoreIds?: boolean
   hireDate?: boolean
   resignDate?: boolean
   notes?: boolean
@@ -2355,6 +2516,8 @@ export type StaffSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   phone?: boolean
   employeeCode?: boolean
   status?: boolean
+  invitedRole?: boolean
+  invitedStoreIds?: boolean
   hireDate?: boolean
   resignDate?: boolean
   notes?: boolean
@@ -2374,6 +2537,8 @@ export type StaffSelectScalar = {
   phone?: boolean
   employeeCode?: boolean
   status?: boolean
+  invitedRole?: boolean
+  invitedStoreIds?: boolean
   hireDate?: boolean
   resignDate?: boolean
   notes?: boolean
@@ -2381,7 +2546,7 @@ export type StaffSelectScalar = {
   updatedAt?: boolean
 }
 
-export type StaffOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "userId" | "displayName" | "fullName" | "email" | "phone" | "employeeCode" | "status" | "hireDate" | "resignDate" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["staff"]>
+export type StaffOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "userId" | "displayName" | "fullName" | "email" | "phone" | "employeeCode" | "status" | "invitedRole" | "invitedStoreIds" | "hireDate" | "resignDate" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["staff"]>
 export type StaffInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.Staff$userArgs<ExtArgs>
@@ -2430,6 +2595,16 @@ export type $StaffPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     phone: string | null
     employeeCode: string | null
     status: $Enums.StaffStatus
+    /**
+     * 招待時に付与するロール。null なら受諾時に MEMBER になる（従来どおり）。
+     * ADMIN を入れられるのはオーナーだけ（src/actions/staff.ts の sendStaffInvitation で検証）。
+     * 受諾時に反映してクリアする。
+     */
+    invitedRole: $Enums.OrganizationRole | null
+    /**
+     * 招待時に指定した担当店舗。ADMIN として受諾したときに StoreAdmin へ展開する
+     */
+    invitedStoreIds: string[]
     hireDate: Date | null
     resignDate: Date | null
     notes: string | null
@@ -2878,6 +3053,8 @@ export interface StaffFieldRefs {
   readonly phone: Prisma.FieldRef<"Staff", 'String'>
   readonly employeeCode: Prisma.FieldRef<"Staff", 'String'>
   readonly status: Prisma.FieldRef<"Staff", 'StaffStatus'>
+  readonly invitedRole: Prisma.FieldRef<"Staff", 'OrganizationRole'>
+  readonly invitedStoreIds: Prisma.FieldRef<"Staff", 'String[]'>
   readonly hireDate: Prisma.FieldRef<"Staff", 'DateTime'>
   readonly resignDate: Prisma.FieldRef<"Staff", 'DateTime'>
   readonly notes: Prisma.FieldRef<"Staff", 'String'>

@@ -15,6 +15,7 @@ interface StoreEditFormProps {
     dayChangeHour: number;
     dayChangeMinute: number;
     category: string;
+    maxStaffPerSlot: number;
     isActive: boolean;
   };
   organizationId: string;
@@ -39,6 +40,7 @@ export function StoreEditForm({ store, organizationId }: StoreEditFormProps) {
       timezone: formData.get("timezone") as string,
       dayChangeHour: parseInt(formData.get("dayChangeHour") as string, 10),
       dayChangeMinute: parseInt(formData.get("dayChangeMinute") as string, 10),
+      maxStaffPerSlot: parseInt(formData.get("maxStaffPerSlot") as string, 10),
       category: formData.get("category") as
         | "CONCAFE"
         | "MAID_CAFE"
@@ -191,6 +193,31 @@ export function StoreEditForm({ store, organizationId }: StoreEditFormProps) {
         </div>
         <p className="text-xs text-muted-foreground">
           この時刻以降を翌日の勤務として扱います（例: 06:00 → 深夜6時まで前日扱い）
+        </p>
+      </div>
+
+      {/* 必要人数の提案で立てる上限 */}
+      <div className="space-y-1">
+        <label
+          htmlFor="store-maxStaffPerSlot"
+          className="block text-sm font-medium text-foreground"
+        >
+          必要人数の提案の上限（1時間あたり）
+        </label>
+        <div className="flex items-center gap-2">
+          <input
+            id="store-maxStaffPerSlot"
+            name="maxStaffPerSlot"
+            type="number"
+            min={1}
+            max={20}
+            defaultValue={store.maxStaffPerSlot}
+            className="w-20 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          />
+          <span className="text-sm text-muted-foreground">人まで</span>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          売上から人数を提案するときの上限です。実際のシフトはこの人数を超えて組めます。
         </p>
       </div>
 

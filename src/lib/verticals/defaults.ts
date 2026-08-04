@@ -34,7 +34,9 @@ const CONCAFE_DEFAULTS: VerticalDefaults = {
 };
 
 const SHISHA_DEFAULTS: VerticalDefaults = {
-  dayChangeHour: 5,
+  // 朝まで営業するため切替は10時。5時にすると閉店前（5〜7時）の売上が
+  // 翌営業日に落ちて、一晩が2営業日に割れる（自社Exhaleの実績で確認）
+  dayChangeHour: 10,
   storeCategory: "SHISHA",
   slots: [
     { name: "昼", startTime: "13:00", endTime: "19:00" },

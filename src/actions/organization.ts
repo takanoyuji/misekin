@@ -7,6 +7,8 @@ import { auth, ACTIVE_ORG_COOKIE } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { createAuditLog } from "@/lib/auth/audit";
 import { requireOwner, requireAdmin } from "@/lib/auth/permissions";
+import { verticalSlugToDb } from "@/lib/verticals";
+import { getVerticalFromCookie } from "@/lib/verticals/server";
 import {
   createOrganizationSchema,
   onboardingSchema,
@@ -44,6 +46,9 @@ export async function createOrganizationWithStore(
   const { organizationName, storeName, timezone, dayChangeHour, dayChangeMinute } =
     parsed.data;
 
+  // LPから来た版を引き継ぐ。用語・トンマナ・シフトの初期値がここで決まる
+  const vertical = await getVerticalFromCookie();
+
   try {
     const result = await db.$transaction(async (tx) => {
       // 組織作成
@@ -53,6 +58,8 @@ export async function createOrganizationWithStore(
           timezone,
           dayChangeHour,
           dayChangeMinute,
+          vertical: verticalSlugToDb(vertical.slug) as "CONCAFE" | "SHISHA",
+          staffTerm: vertical.defaultStaffTerm,
         },
       });
 
@@ -65,7 +72,7 @@ export async function createOrganizationWithStore(
         },
       });
 
-      // 最初の店舗作成
+      // 最初の店舗作成。業態は版から決まる（あとから店舗ごとに変えられる）
       const store = await tx.store.create({
         data: {
           organizationId: organization.id,
@@ -73,6 +80,7 @@ export async function createOrganizationWithStore(
           timezone,
           dayChangeHour,
           dayChangeMinute,
+          category: vertical.defaults.storeCategory,
         },
       });
 
@@ -82,6 +90,19 @@ export async function createOrganizationWithStore(
           storeId: store.id,
           token: nanoid(),
         },
+      });
+
+      // 業態に合わせたシフトの時間帯。参照ではなくコピーなので、
+      // あとからテンプレートを直しても既存店には影響しない
+      await tx.shiftSlot.createMany({
+        data: vertical.defaults.slots.map((slot, i) => ({
+          organizationId: organization.id,
+          storeId: store.id,
+          name: slot.name,
+          startTime: slot.startTime,
+          endTime: slot.endTime,
+          sortOrder: i,
+        })),
       });
 
       return { organization, store };

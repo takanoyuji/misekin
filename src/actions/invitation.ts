@@ -135,6 +135,9 @@ export async function acceptStaffInvitation(
       displayName: true,
       status: true,
       userId: true,
+      // オーナーが「管理者として招待」したときの指定（受諾時に反映してクリアする）
+      invitedRole: true,
+      invitedStoreIds: true,
     },
   });
 
@@ -195,6 +198,9 @@ export async function acceptStaffInvitation(
         data: {
           userId: user.id,
           status: staff.status === "INVITED" ? "ACTIVE" : staff.status,
+          // 一度きりの指定なので使ったらクリアする
+          invitedRole: null,
+          invitedStoreIds: [],
         },
       });
 
@@ -204,15 +210,31 @@ export async function acceptStaffInvitation(
         select: { id: true, isActive: true },
       });
 
+      // 招待時にオーナーが指定していればそのロールで参加する。指定が無ければ従来どおり MEMBER。
+      // ロールの妥当性（ADMIN を入れられるのはオーナーだけ）は招待送信時に検証済み。
+      const invitedRole = staff.invitedRole ?? "MEMBER";
+
       if (!existingMember) {
-        await tx.organizationMember.create({
+        const created = await tx.organizationMember.create({
           data: {
             userId: user.id,
             organizationId: staff.organizationId,
-            role: "MEMBER",
+            role: invitedRole,
             isActive: true,
           },
+          select: { id: true },
         });
+
+        // 担当店舗の指定があれば店舗管理者として絞る（未指定なら全店舗）
+        if (invitedRole === "ADMIN" && staff.invitedStoreIds.length > 0) {
+          await tx.storeAdmin.createMany({
+            data: staff.invitedStoreIds.map((storeId) => ({
+              organizationMemberId: created.id,
+              storeId,
+            })),
+            skipDuplicates: true,
+          });
+        }
       } else if (!existingMember.isActive) {
         await tx.organizationMember.update({
           where: { id: existingMember.id },

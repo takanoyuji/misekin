@@ -207,3 +207,94 @@ export async function isLastOwner(
 
   return member?.userId === userId;
 }
+
+/**
+ * 指定された店舗IDがすべて自組織のものか検証する。
+ *
+ * 他組織の店舗IDを混ぜ込まれる（mass-assignment）のを防ぐため、
+ * 担当店舗を受け取る処理では必ずこれを通すこと。
+ */
+export async function validateOrgStoreIds(
+  organizationId: string,
+  storeIds: string[]
+): Promise<string[] | { error: string }> {
+  const unique = Array.from(new Set(storeIds));
+  if (unique.length === 0) return [];
+  const rows = await db.store.findMany({
+    where: { organizationId, id: { in: unique } },
+    select: { id: true },
+  });
+  if (rows.length !== unique.length) {
+    return { error: "指定された店舗の一部が見つかりません" };
+  }
+  return rows.map((r) => r.id);
+}
+
+/* ------------------------------------------------------------------ */
+/* スタッフへのアクセス                                                 */
+/* ------------------------------------------------------------------ */
+
+/**
+ * 店舗管理者が触ってよいスタッフかを確認する。
+ *
+ * 勤怠・締め処理・シフトは店舗スコープで絞られているのに、
+ * スタッフの基本情報と時給だけ組織全体が見えていたため揃えた。
+ *
+ * - OWNER … 組織内のすべて
+ * - ADMIN（スコープ未設定）… 組織内のすべて
+ * - ADMIN（スコープあり）… 担当店舗に1つでも所属しているスタッフのみ
+ * - 本人 … 自分自身
+ *
+ * @throws NOT_FOUND / FORBIDDEN
+ */
+export async function requireStaffAccess(
+  userId: string,
+  organizationId: string,
+  staffId: string
+): Promise<void> {
+  const staff = await db.staff.findFirst({
+    where: { id: staffId, organizationId },
+    select: { userId: true, staffStores: { select: { storeId: true } } },
+  });
+  if (!staff) throw new Error("NOT_FOUND: スタッフが見つかりません");
+
+  if (staff.userId && staff.userId === userId) return;
+
+  const ctx = await requireAdmin(userId, organizationId);
+  const accessible = await getAccessibleStoreIds(
+    ctx.memberId,
+    ctx.role,
+    organizationId
+  );
+  if (accessible === null) return; // 全店舗
+
+  const ok = staff.staffStores.some((s) => accessible.includes(s.storeId));
+  if (!ok) throw new Error("FORBIDDEN: このスタッフを操作する権限がありません");
+}
+
+/**
+ * StaffStore（スタッフの店舗所属）を、組織と担当店舗の両方で検証して取り出す。
+ *
+ * 時給・交通費の登録は staffStoreId を入力から受け取るため、
+ * 検証しないと他組織の staffStore を指定して書き込めてしまう。
+ *
+ * @throws NOT_FOUND / FORBIDDEN
+ */
+export async function requireStaffStoreScope(
+  userId: string,
+  organizationId: string,
+  staffStoreId: string
+): Promise<{ staffId: string; storeId: string }> {
+  const ss = await db.staffStore.findFirst({
+    // 自組織の店舗に紐づくものだけ（他組織のIDを渡されても見つからない）
+    where: { id: staffStoreId, store: { organizationId } },
+    select: { staffId: true, storeId: true },
+  });
+  if (!ss) throw new Error("NOT_FOUND: 対象の所属が見つかりません");
+
+  const ctx = await requireAdmin(userId, organizationId);
+  const ok = await canAccessStore(ctx.memberId, ctx.role, ss.storeId);
+  if (!ok) throw new Error("FORBIDDEN: この店舗を操作する権限がありません");
+
+  return ss;
+}

@@ -8,6 +8,8 @@ import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 import { PageHeader } from "@/components/common/page-header";
 import { ChevronLeft } from "lucide-react";
 import { ShiftRuleManager } from "./shift-rule-manager";
+import { verticalForCategory } from "@/lib/verticals";
+import { getOrgPresentation } from "@/lib/verticals/server";
 
 export const metadata: Metadata = {
   title: "シフトルール",
@@ -51,7 +53,7 @@ export default async function ShiftRulesPage({
       ...(accessibleStoreIds ? { id: { in: accessibleStoreIds } } : {}),
     },
     orderBy: { name: "asc" },
-    select: { id: true, name: true },
+    select: { id: true, name: true, category: true },
   });
 
   if (stores.length === 0) {
@@ -84,6 +86,14 @@ export default async function ShiftRulesPage({
 
   // Claude翻訳が使えるか（APIキーの有無）
   const aiEnabled = !!process.env.ANTHROPIC_API_KEY;
+
+  // その店舗の業態に合わせたルールのテンプレート。押すと入力欄に入る
+  const presentation = await getOrgPresentation(activeOrgId);
+  const selectedStore = stores.find((s) => s.id === storeId);
+  const rulePresets = verticalForCategory(
+    selectedStore?.category ?? "OTHER",
+    presentation.vertical
+  ).defaults.rules;
 
   return (
     <div className="space-y-6">
@@ -126,6 +136,7 @@ export default async function ShiftRulesPage({
         organizationId={activeOrgId}
         storeId={storeId}
         aiEnabled={aiEnabled}
+        presets={rulePresets}
         rules={rules.map((r) => ({
           id: r.id,
           ruleType: r.ruleType,

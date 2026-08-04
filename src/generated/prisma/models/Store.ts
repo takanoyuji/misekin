@@ -30,12 +30,14 @@ export type StoreAvgAggregateOutputType = {
   dayChangeHour: number | null
   dayChangeMinute: number | null
   shiftPeriodStartDay: number | null
+  maxStaffPerSlot: number | null
 }
 
 export type StoreSumAggregateOutputType = {
   dayChangeHour: number | null
   dayChangeMinute: number | null
   shiftPeriodStartDay: number | null
+  maxStaffPerSlot: number | null
 }
 
 export type StoreMinAggregateOutputType = {
@@ -50,6 +52,7 @@ export type StoreMinAggregateOutputType = {
   shiftPeriodUnit: $Enums.ShiftPeriodUnit | null
   shiftPeriodStartDay: number | null
   category: $Enums.StoreCategory | null
+  maxStaffPerSlot: number | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -67,6 +70,7 @@ export type StoreMaxAggregateOutputType = {
   shiftPeriodUnit: $Enums.ShiftPeriodUnit | null
   shiftPeriodStartDay: number | null
   category: $Enums.StoreCategory | null
+  maxStaffPerSlot: number | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -84,6 +88,7 @@ export type StoreCountAggregateOutputType = {
   shiftPeriodUnit: number
   shiftPeriodStartDay: number
   category: number
+  maxStaffPerSlot: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -95,12 +100,14 @@ export type StoreAvgAggregateInputType = {
   dayChangeHour?: true
   dayChangeMinute?: true
   shiftPeriodStartDay?: true
+  maxStaffPerSlot?: true
 }
 
 export type StoreSumAggregateInputType = {
   dayChangeHour?: true
   dayChangeMinute?: true
   shiftPeriodStartDay?: true
+  maxStaffPerSlot?: true
 }
 
 export type StoreMinAggregateInputType = {
@@ -115,6 +122,7 @@ export type StoreMinAggregateInputType = {
   shiftPeriodUnit?: true
   shiftPeriodStartDay?: true
   category?: true
+  maxStaffPerSlot?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -132,6 +140,7 @@ export type StoreMaxAggregateInputType = {
   shiftPeriodUnit?: true
   shiftPeriodStartDay?: true
   category?: true
+  maxStaffPerSlot?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -149,6 +158,7 @@ export type StoreCountAggregateInputType = {
   shiftPeriodUnit?: true
   shiftPeriodStartDay?: true
   category?: true
+  maxStaffPerSlot?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -253,6 +263,7 @@ export type StoreGroupByOutputType = {
   shiftPeriodUnit: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay: number
   category: $Enums.StoreCategory
+  maxStaffPerSlot: number
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -293,10 +304,13 @@ export type StoreWhereInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFilter<"Store"> | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFilter<"Store"> | number
   category?: Prisma.EnumStoreCategoryFilter<"Store"> | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFilter<"Store"> | number
   isActive?: Prisma.BoolFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
+  salesTxns?: Prisma.StoreSalesTxnListRelationFilter
+  salesDaily?: Prisma.StoreSalesDailyListRelationFilter
   clockUrls?: Prisma.StoreClockUrlListRelationFilter
   staffStores?: Prisma.StaffStoreListRelationFilter
   attendanceEvents?: Prisma.AttendanceEventListRelationFilter
@@ -324,10 +338,13 @@ export type StoreOrderByWithRelationInput = {
   shiftPeriodUnit?: Prisma.SortOrder
   shiftPeriodStartDay?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  maxStaffPerSlot?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
+  salesTxns?: Prisma.StoreSalesTxnOrderByRelationAggregateInput
+  salesDaily?: Prisma.StoreSalesDailyOrderByRelationAggregateInput
   clockUrls?: Prisma.StoreClockUrlOrderByRelationAggregateInput
   staffStores?: Prisma.StaffStoreOrderByRelationAggregateInput
   attendanceEvents?: Prisma.AttendanceEventOrderByRelationAggregateInput
@@ -359,10 +376,13 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFilter<"Store"> | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFilter<"Store"> | number
   category?: Prisma.EnumStoreCategoryFilter<"Store"> | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFilter<"Store"> | number
   isActive?: Prisma.BoolFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
+  salesTxns?: Prisma.StoreSalesTxnListRelationFilter
+  salesDaily?: Prisma.StoreSalesDailyListRelationFilter
   clockUrls?: Prisma.StoreClockUrlListRelationFilter
   staffStores?: Prisma.StaffStoreListRelationFilter
   attendanceEvents?: Prisma.AttendanceEventListRelationFilter
@@ -390,6 +410,7 @@ export type StoreOrderByWithAggregationInput = {
   shiftPeriodUnit?: Prisma.SortOrder
   shiftPeriodStartDay?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  maxStaffPerSlot?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -415,6 +436,7 @@ export type StoreScalarWhereWithAggregatesInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitWithAggregatesFilter<"Store"> | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntWithAggregatesFilter<"Store"> | number
   category?: Prisma.EnumStoreCategoryWithAggregatesFilter<"Store"> | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntWithAggregatesFilter<"Store"> | number
   isActive?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Store"> | Date | string
@@ -431,10 +453,13 @@ export type StoreCreateInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -462,9 +487,12 @@ export type StoreUncheckedCreateInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -491,10 +519,13 @@ export type StoreUpdateInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -522,9 +553,12 @@ export type StoreUncheckedUpdateInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
@@ -552,6 +586,7 @@ export type StoreCreateManyInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -568,6 +603,7 @@ export type StoreUpdateManyMutationInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -585,6 +621,7 @@ export type StoreUncheckedUpdateManyInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -617,6 +654,7 @@ export type StoreCountOrderByAggregateInput = {
   shiftPeriodUnit?: Prisma.SortOrder
   shiftPeriodStartDay?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  maxStaffPerSlot?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -626,6 +664,7 @@ export type StoreAvgOrderByAggregateInput = {
   dayChangeHour?: Prisma.SortOrder
   dayChangeMinute?: Prisma.SortOrder
   shiftPeriodStartDay?: Prisma.SortOrder
+  maxStaffPerSlot?: Prisma.SortOrder
 }
 
 export type StoreMaxOrderByAggregateInput = {
@@ -640,6 +679,7 @@ export type StoreMaxOrderByAggregateInput = {
   shiftPeriodUnit?: Prisma.SortOrder
   shiftPeriodStartDay?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  maxStaffPerSlot?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -657,6 +697,7 @@ export type StoreMinOrderByAggregateInput = {
   shiftPeriodUnit?: Prisma.SortOrder
   shiftPeriodStartDay?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  maxStaffPerSlot?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -666,6 +707,7 @@ export type StoreSumOrderByAggregateInput = {
   dayChangeHour?: Prisma.SortOrder
   dayChangeMinute?: Prisma.SortOrder
   shiftPeriodStartDay?: Prisma.SortOrder
+  maxStaffPerSlot?: Prisma.SortOrder
 }
 
 export type StoreScalarRelationFilter = {
@@ -916,6 +958,34 @@ export type StoreUpdateOneWithoutAuditLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutAuditLogsInput, Prisma.StoreUpdateWithoutAuditLogsInput>, Prisma.StoreUncheckedUpdateWithoutAuditLogsInput>
 }
 
+export type StoreCreateNestedOneWithoutSalesTxnsInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutSalesTxnsInput, Prisma.StoreUncheckedCreateWithoutSalesTxnsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutSalesTxnsInput
+  connect?: Prisma.StoreWhereUniqueInput
+}
+
+export type StoreUpdateOneRequiredWithoutSalesTxnsNestedInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutSalesTxnsInput, Prisma.StoreUncheckedCreateWithoutSalesTxnsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutSalesTxnsInput
+  upsert?: Prisma.StoreUpsertWithoutSalesTxnsInput
+  connect?: Prisma.StoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutSalesTxnsInput, Prisma.StoreUpdateWithoutSalesTxnsInput>, Prisma.StoreUncheckedUpdateWithoutSalesTxnsInput>
+}
+
+export type StoreCreateNestedOneWithoutSalesDailyInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutSalesDailyInput, Prisma.StoreUncheckedCreateWithoutSalesDailyInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutSalesDailyInput
+  connect?: Prisma.StoreWhereUniqueInput
+}
+
+export type StoreUpdateOneRequiredWithoutSalesDailyNestedInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutSalesDailyInput, Prisma.StoreUncheckedCreateWithoutSalesDailyInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutSalesDailyInput
+  upsert?: Prisma.StoreUpsertWithoutSalesDailyInput
+  connect?: Prisma.StoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutSalesDailyInput, Prisma.StoreUpdateWithoutSalesDailyInput>, Prisma.StoreUncheckedUpdateWithoutSalesDailyInput>
+}
+
 export type StoreCreateWithoutOrganizationInput = {
   id?: string
   name: string
@@ -927,9 +997,12 @@ export type StoreCreateWithoutOrganizationInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -956,9 +1029,12 @@ export type StoreUncheckedCreateWithoutOrganizationInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -1015,6 +1091,7 @@ export type StoreScalarWhereInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFilter<"Store"> | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFilter<"Store"> | number
   category?: Prisma.EnumStoreCategoryFilter<"Store"> | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFilter<"Store"> | number
   isActive?: Prisma.BoolFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
@@ -1031,10 +1108,13 @@ export type StoreCreateWithoutClockUrlsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStoreInput
@@ -1061,9 +1141,12 @@ export type StoreUncheckedCreateWithoutClockUrlsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStoreInput
@@ -1105,10 +1188,13 @@ export type StoreUpdateWithoutClockUrlsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStoreNestedInput
@@ -1135,9 +1221,12 @@ export type StoreUncheckedUpdateWithoutClockUrlsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStoreNestedInput
@@ -1163,10 +1252,13 @@ export type StoreCreateWithoutStoreAdminsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -1193,9 +1285,12 @@ export type StoreUncheckedCreateWithoutStoreAdminsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -1237,10 +1332,13 @@ export type StoreUpdateWithoutStoreAdminsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -1267,9 +1365,12 @@ export type StoreUncheckedUpdateWithoutStoreAdminsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
@@ -1295,10 +1396,13 @@ export type StoreCreateWithoutStaffStoresInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStoreInput
@@ -1325,9 +1429,12 @@ export type StoreUncheckedCreateWithoutStaffStoresInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStoreInput
@@ -1369,10 +1476,13 @@ export type StoreUpdateWithoutStaffStoresInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStoreNestedInput
@@ -1399,9 +1509,12 @@ export type StoreUncheckedUpdateWithoutStaffStoresInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStoreNestedInput
@@ -1427,10 +1540,13 @@ export type StoreCreateWithoutAttendanceEventsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStoreInput
@@ -1457,9 +1573,12 @@ export type StoreUncheckedCreateWithoutAttendanceEventsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStoreInput
@@ -1501,10 +1620,13 @@ export type StoreUpdateWithoutAttendanceEventsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutStoreNestedInput
@@ -1531,9 +1653,12 @@ export type StoreUncheckedUpdateWithoutAttendanceEventsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStoreNestedInput
@@ -1559,10 +1684,13 @@ export type StoreCreateWithoutAttendancesInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -1589,9 +1717,12 @@ export type StoreUncheckedCreateWithoutAttendancesInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -1633,10 +1764,13 @@ export type StoreUpdateWithoutAttendancesInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -1663,9 +1797,12 @@ export type StoreUncheckedUpdateWithoutAttendancesInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
@@ -1691,10 +1828,13 @@ export type StoreCreateWithoutCorrectionRequestsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -1721,9 +1861,12 @@ export type StoreUncheckedCreateWithoutCorrectionRequestsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -1765,10 +1908,13 @@ export type StoreUpdateWithoutCorrectionRequestsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -1795,9 +1941,12 @@ export type StoreUncheckedUpdateWithoutCorrectionRequestsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
@@ -1823,10 +1972,13 @@ export type StoreCreateWithoutShiftAvailabilitiesInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -1853,9 +2005,12 @@ export type StoreUncheckedCreateWithoutShiftAvailabilitiesInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -1897,10 +2052,13 @@ export type StoreUpdateWithoutShiftAvailabilitiesInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -1927,9 +2085,12 @@ export type StoreUncheckedUpdateWithoutShiftAvailabilitiesInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
@@ -1955,10 +2116,13 @@ export type StoreCreateWithoutShiftRequirementsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -1985,9 +2149,12 @@ export type StoreUncheckedCreateWithoutShiftRequirementsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -2029,10 +2196,13 @@ export type StoreUpdateWithoutShiftRequirementsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -2059,9 +2229,12 @@ export type StoreUncheckedUpdateWithoutShiftRequirementsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
@@ -2087,10 +2260,13 @@ export type StoreCreateWithoutShiftsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -2117,9 +2293,12 @@ export type StoreUncheckedCreateWithoutShiftsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -2161,10 +2340,13 @@ export type StoreUpdateWithoutShiftsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -2191,9 +2373,12 @@ export type StoreUncheckedUpdateWithoutShiftsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
@@ -2219,10 +2404,13 @@ export type StoreCreateWithoutShiftSlotsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -2249,9 +2437,12 @@ export type StoreUncheckedCreateWithoutShiftSlotsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -2293,10 +2484,13 @@ export type StoreUpdateWithoutShiftSlotsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -2323,9 +2517,12 @@ export type StoreUncheckedUpdateWithoutShiftSlotsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
@@ -2351,10 +2548,13 @@ export type StoreCreateWithoutShiftRulesInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -2381,9 +2581,12 @@ export type StoreUncheckedCreateWithoutShiftRulesInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -2425,10 +2628,13 @@ export type StoreUpdateWithoutShiftRulesInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -2455,9 +2661,12 @@ export type StoreUncheckedUpdateWithoutShiftRulesInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
@@ -2483,10 +2692,13 @@ export type StoreCreateWithoutClosingPeriodsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -2513,9 +2725,12 @@ export type StoreUncheckedCreateWithoutClosingPeriodsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -2557,10 +2772,13 @@ export type StoreUpdateWithoutClosingPeriodsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -2587,9 +2805,12 @@ export type StoreUncheckedUpdateWithoutClosingPeriodsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
@@ -2615,10 +2836,13 @@ export type StoreCreateWithoutAuditLogsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
@@ -2645,9 +2869,12 @@ export type StoreUncheckedCreateWithoutAuditLogsInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
   clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
   staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
@@ -2689,10 +2916,13 @@ export type StoreUpdateWithoutAuditLogsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -2719,14 +2949,305 @@ export type StoreUncheckedUpdateWithoutAuditLogsInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStoreNestedInput
   storeAdmins?: Prisma.StoreAdminUncheckedUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
+  shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreCreateWithoutSalesTxnsInput = {
+  id?: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  shiftPeriodUnit?: $Enums.ShiftPeriodUnit
+  shiftPeriodStartDay?: number
+  category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutStoreInput
+  clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
+  shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutStoreInput
+}
+
+export type StoreUncheckedCreateWithoutSalesTxnsInput = {
+  id?: string
+  organizationId: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  shiftPeriodUnit?: $Enums.ShiftPeriodUnit
+  shiftPeriodStartDay?: number
+  category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutStoreInput
+  clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminUncheckedCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
+  shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutStoreInput
+}
+
+export type StoreCreateOrConnectWithoutSalesTxnsInput = {
+  where: Prisma.StoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoreCreateWithoutSalesTxnsInput, Prisma.StoreUncheckedCreateWithoutSalesTxnsInput>
+}
+
+export type StoreUpsertWithoutSalesTxnsInput = {
+  update: Prisma.XOR<Prisma.StoreUpdateWithoutSalesTxnsInput, Prisma.StoreUncheckedUpdateWithoutSalesTxnsInput>
+  create: Prisma.XOR<Prisma.StoreCreateWithoutSalesTxnsInput, Prisma.StoreUncheckedCreateWithoutSalesTxnsInput>
+  where?: Prisma.StoreWhereInput
+}
+
+export type StoreUpdateToOneWithWhereWithoutSalesTxnsInput = {
+  where?: Prisma.StoreWhereInput
+  data: Prisma.XOR<Prisma.StoreUpdateWithoutSalesTxnsInput, Prisma.StoreUncheckedUpdateWithoutSalesTxnsInput>
+}
+
+export type StoreUpdateWithoutSalesTxnsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
+  shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
+  category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
+  clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
+  shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreUncheckedUpdateWithoutSalesTxnsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
+  shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
+  category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
+  clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUncheckedUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutStoreNestedInput
+  shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreCreateWithoutSalesDailyInput = {
+  id?: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  shiftPeriodUnit?: $Enums.ShiftPeriodUnit
+  shiftPeriodStartDay?: number
+  category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutStoresInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutStoreInput
+  clockUrls?: Prisma.StoreClockUrlCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutStoreInput
+  shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutStoreInput
+}
+
+export type StoreUncheckedCreateWithoutSalesDailyInput = {
+  id?: string
+  organizationId: string
+  name: string
+  code?: string | null
+  address?: string | null
+  timezone?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  shiftPeriodUnit?: $Enums.ShiftPeriodUnit
+  shiftPeriodStartDay?: number
+  category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutStoreInput
+  clockUrls?: Prisma.StoreClockUrlUncheckedCreateNestedManyWithoutStoreInput
+  staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStoreInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStoreInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStoreInput
+  storeAdmins?: Prisma.StoreAdminUncheckedCreateNestedManyWithoutStoreInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStoreInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutStoreInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStoreInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStoreInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutStoreInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStoreInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutStoreInput
+  shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutStoreInput
+}
+
+export type StoreCreateOrConnectWithoutSalesDailyInput = {
+  where: Prisma.StoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoreCreateWithoutSalesDailyInput, Prisma.StoreUncheckedCreateWithoutSalesDailyInput>
+}
+
+export type StoreUpsertWithoutSalesDailyInput = {
+  update: Prisma.XOR<Prisma.StoreUpdateWithoutSalesDailyInput, Prisma.StoreUncheckedUpdateWithoutSalesDailyInput>
+  create: Prisma.XOR<Prisma.StoreCreateWithoutSalesDailyInput, Prisma.StoreUncheckedCreateWithoutSalesDailyInput>
+  where?: Prisma.StoreWhereInput
+}
+
+export type StoreUpdateToOneWithWhereWithoutSalesDailyInput = {
+  where?: Prisma.StoreWhereInput
+  data: Prisma.XOR<Prisma.StoreUpdateWithoutSalesDailyInput, Prisma.StoreUncheckedUpdateWithoutSalesDailyInput>
+}
+
+export type StoreUpdateWithoutSalesDailyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
+  shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
+  category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutStoresNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutStoreNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutStoreNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStoreNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStoreNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutStoreNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStoreNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutStoreNestedInput
+  shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreUncheckedUpdateWithoutSalesDailyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
+  shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
+  category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
+  staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStoreNestedInput
+  storeAdmins?: Prisma.StoreAdminUncheckedUpdateManyWithoutStoreNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStoreNestedInput
   closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutStoreNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStoreNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStoreNestedInput
@@ -2747,6 +3268,7 @@ export type StoreCreateManyOrganizationInput = {
   shiftPeriodUnit?: $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
+  maxStaffPerSlot?: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2763,9 +3285,12 @@ export type StoreUpdateWithoutOrganizationInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStoreNestedInput
@@ -2792,9 +3317,12 @@ export type StoreUncheckedUpdateWithoutOrganizationInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutStoreNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutStoreNestedInput
   clockUrls?: Prisma.StoreClockUrlUncheckedUpdateManyWithoutStoreNestedInput
   staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStoreNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStoreNestedInput
@@ -2821,6 +3349,7 @@ export type StoreUncheckedUpdateManyWithoutOrganizationInput = {
   shiftPeriodUnit?: Prisma.EnumShiftPeriodUnitFieldUpdateOperationsInput | $Enums.ShiftPeriodUnit
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
+  maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2832,6 +3361,8 @@ export type StoreUncheckedUpdateManyWithoutOrganizationInput = {
  */
 
 export type StoreCountOutputType = {
+  salesTxns: number
+  salesDaily: number
   clockUrls: number
   staffStores: number
   attendanceEvents: number
@@ -2848,6 +3379,8 @@ export type StoreCountOutputType = {
 }
 
 export type StoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  salesTxns?: boolean | StoreCountOutputTypeCountSalesTxnsArgs
+  salesDaily?: boolean | StoreCountOutputTypeCountSalesDailyArgs
   clockUrls?: boolean | StoreCountOutputTypeCountClockUrlsArgs
   staffStores?: boolean | StoreCountOutputTypeCountStaffStoresArgs
   attendanceEvents?: boolean | StoreCountOutputTypeCountAttendanceEventsArgs
@@ -2871,6 +3404,20 @@ export type StoreCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
    * Select specific fields to fetch from the StoreCountOutputType
    */
   select?: Prisma.StoreCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountSalesTxnsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StoreSalesTxnWhereInput
+}
+
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountSalesDailyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StoreSalesDailyWhereInput
 }
 
 /**
@@ -2977,10 +3524,13 @@ export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   shiftPeriodUnit?: boolean
   shiftPeriodStartDay?: boolean
   category?: boolean
+  maxStaffPerSlot?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  salesTxns?: boolean | Prisma.Store$salesTxnsArgs<ExtArgs>
+  salesDaily?: boolean | Prisma.Store$salesDailyArgs<ExtArgs>
   clockUrls?: boolean | Prisma.Store$clockUrlsArgs<ExtArgs>
   staffStores?: boolean | Prisma.Store$staffStoresArgs<ExtArgs>
   attendanceEvents?: boolean | Prisma.Store$attendanceEventsArgs<ExtArgs>
@@ -3009,6 +3559,7 @@ export type StoreSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   shiftPeriodUnit?: boolean
   shiftPeriodStartDay?: boolean
   category?: boolean
+  maxStaffPerSlot?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3027,6 +3578,7 @@ export type StoreSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   shiftPeriodUnit?: boolean
   shiftPeriodStartDay?: boolean
   category?: boolean
+  maxStaffPerSlot?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3045,14 +3597,17 @@ export type StoreSelectScalar = {
   shiftPeriodUnit?: boolean
   shiftPeriodStartDay?: boolean
   category?: boolean
+  maxStaffPerSlot?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type StoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "name" | "code" | "address" | "timezone" | "dayChangeHour" | "dayChangeMinute" | "shiftPeriodUnit" | "shiftPeriodStartDay" | "category" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
+export type StoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "name" | "code" | "address" | "timezone" | "dayChangeHour" | "dayChangeMinute" | "shiftPeriodUnit" | "shiftPeriodStartDay" | "category" | "maxStaffPerSlot" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
 export type StoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  salesTxns?: boolean | Prisma.Store$salesTxnsArgs<ExtArgs>
+  salesDaily?: boolean | Prisma.Store$salesDailyArgs<ExtArgs>
   clockUrls?: boolean | Prisma.Store$clockUrlsArgs<ExtArgs>
   staffStores?: boolean | Prisma.Store$staffStoresArgs<ExtArgs>
   attendanceEvents?: boolean | Prisma.Store$attendanceEventsArgs<ExtArgs>
@@ -3079,6 +3634,8 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Store"
   objects: {
     organization: Prisma.$OrganizationPayload<ExtArgs>
+    salesTxns: Prisma.$StoreSalesTxnPayload<ExtArgs>[]
+    salesDaily: Prisma.$StoreSalesDailyPayload<ExtArgs>[]
     clockUrls: Prisma.$StoreClockUrlPayload<ExtArgs>[]
     staffStores: Prisma.$StaffStorePayload<ExtArgs>[]
     attendanceEvents: Prisma.$AttendanceEventPayload<ExtArgs>[]
@@ -3105,6 +3662,7 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     shiftPeriodUnit: $Enums.ShiftPeriodUnit
     shiftPeriodStartDay: number
     category: $Enums.StoreCategory
+    maxStaffPerSlot: number
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -3503,6 +4061,8 @@ readonly fields: StoreFieldRefs;
 export interface Prisma__StoreClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  salesTxns<T extends Prisma.Store$salesTxnsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$salesTxnsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoreSalesTxnPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  salesDaily<T extends Prisma.Store$salesDailyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$salesDailyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoreSalesDailyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   clockUrls<T extends Prisma.Store$clockUrlsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$clockUrlsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoreClockUrlPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   staffStores<T extends Prisma.Store$staffStoresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$staffStoresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StaffStorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   attendanceEvents<T extends Prisma.Store$attendanceEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$attendanceEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3556,6 +4116,7 @@ export interface StoreFieldRefs {
   readonly shiftPeriodUnit: Prisma.FieldRef<"Store", 'ShiftPeriodUnit'>
   readonly shiftPeriodStartDay: Prisma.FieldRef<"Store", 'Int'>
   readonly category: Prisma.FieldRef<"Store", 'StoreCategory'>
+  readonly maxStaffPerSlot: Prisma.FieldRef<"Store", 'Int'>
   readonly isActive: Prisma.FieldRef<"Store", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Store", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Store", 'DateTime'>
@@ -3957,6 +4518,54 @@ export type StoreDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Stores to delete.
    */
   limit?: number
+}
+
+/**
+ * Store.salesTxns
+ */
+export type Store$salesTxnsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StoreSalesTxn
+   */
+  select?: Prisma.StoreSalesTxnSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StoreSalesTxn
+   */
+  omit?: Prisma.StoreSalesTxnOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoreSalesTxnInclude<ExtArgs> | null
+  where?: Prisma.StoreSalesTxnWhereInput
+  orderBy?: Prisma.StoreSalesTxnOrderByWithRelationInput | Prisma.StoreSalesTxnOrderByWithRelationInput[]
+  cursor?: Prisma.StoreSalesTxnWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StoreSalesTxnScalarFieldEnum | Prisma.StoreSalesTxnScalarFieldEnum[]
+}
+
+/**
+ * Store.salesDaily
+ */
+export type Store$salesDailyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StoreSalesDaily
+   */
+  select?: Prisma.StoreSalesDailySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StoreSalesDaily
+   */
+  omit?: Prisma.StoreSalesDailyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StoreSalesDailyInclude<ExtArgs> | null
+  where?: Prisma.StoreSalesDailyWhereInput
+  orderBy?: Prisma.StoreSalesDailyOrderByWithRelationInput | Prisma.StoreSalesDailyOrderByWithRelationInput[]
+  cursor?: Prisma.StoreSalesDailyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StoreSalesDailyScalarFieldEnum | Prisma.StoreSalesDailyScalarFieldEnum[]
 }
 
 /**

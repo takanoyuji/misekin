@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { createAuditLog } from "@/lib/auth/audit";
-import { requireOwner } from "@/lib/auth/permissions";
+import { requireOwner, validateOrgStoreIds } from "@/lib/auth/permissions";
 import {
   changeMemberRoleSchema,
   setStoreScopeSchema,
@@ -20,22 +20,6 @@ interface ActionResult {
  * 自組織に属する店舗のうち、指定IDだけを検証して返す。
  * 他組織や存在しない店舗IDが混じっていた場合はエラー。
  */
-async function validateOrgStoreIds(
-  organizationId: string,
-  storeIds: string[]
-): Promise<string[] | { error: string }> {
-  const unique = Array.from(new Set(storeIds));
-  if (unique.length === 0) return [];
-  const rows = await db.store.findMany({
-    where: { organizationId, id: { in: unique } },
-    select: { id: true },
-  });
-  if (rows.length !== unique.length) {
-    return { error: "指定された店舗の一部が見つかりません" };
-  }
-  return rows.map((r) => r.id);
-}
-
 /**
  * 既存ユーザーを管理者(ADMIN)として招待する。
  * storeIds を指定するとその店舗のみ担当する店舗管理者になる（未指定=全店舗）。

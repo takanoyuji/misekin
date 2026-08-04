@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { createAuditLog } from "@/lib/auth/audit";
+import { verticalForCategory, verticalSlugFromDb } from "@/lib/verticals";
 import {
   requireAdmin,
   requireOwner,
@@ -61,6 +62,27 @@ export async function createStore(
           storeId: store.id,
           token: nanoid(),
         },
+      });
+
+      // 業態に合わせたシフトの時間帯を入れておく。
+      // 参照ではなくコピーなので、あとからテンプレートを直しても既存店には影響しない。
+      const org = await tx.organization.findUnique({
+        where: { id: organizationId },
+        select: { vertical: true },
+      });
+      const vertical = verticalForCategory(
+        store.category,
+        verticalSlugFromDb(org?.vertical)
+      );
+      await tx.shiftSlot.createMany({
+        data: vertical.defaults.slots.map((slot, i) => ({
+          organizationId,
+          storeId: store.id,
+          name: slot.name,
+          startTime: slot.startTime,
+          endTime: slot.endTime,
+          sortOrder: i,
+        })),
       });
 
       return store;

@@ -6,6 +6,8 @@ import { db } from "@/lib/db";
 import type { OrganizationRole } from "@/generated/prisma/client";
 import {
   requireAdmin,
+  getAccessibleStoreIds,
+  requireStaffAccess,
   requireStaffEmailEditPermission,
 } from "@/lib/auth/permissions";
 import { PageHeader } from "@/components/common/page-header";
@@ -29,6 +31,7 @@ import {
   UserX,
 } from "lucide-react";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
+import { getOrgPresentation } from "@/lib/verticals/server";
 
 export const metadata: Metadata = {
   title: "スタッフ詳細",
@@ -68,9 +71,12 @@ export default async function StaffDetailPage({ params }: PageProps) {
 
   const orgId = activeOrgId as string;
 
+  const { terms } = await getOrgPresentation(orgId);
+
   let viewerRole: OrganizationRole;
+  let ctx;
   try {
-    const ctx = await requireAdmin(session.user!.id, orgId);
+    ctx = await requireAdmin(session.user!.id, orgId);
     viewerRole = ctx.role;
   } catch {
     redirect("/dashboard");
@@ -94,6 +100,23 @@ export default async function StaffDetailPage({ params }: PageProps) {
 
   if (!staff) notFound();
 
+  // 担当外の店舗のスタッフは開かせない（一覧に出ていなくてもURL直打ちで見られてしまうため）
+  try {
+    await requireStaffAccess(session.user!.id, orgId, staff.id);
+  } catch {
+    notFound();
+  }
+
+  // 時給・時給履歴は担当している店舗のぶんだけ見せる。
+  // 掛け持ちのスタッフでも、担当外の店舗の給与は出さない。
+  const accessibleStoreIds = await getAccessibleStoreIds(
+    ctx.memberId,
+    ctx.role,
+    orgId
+  );
+  const canSeeWageOf = (storeId: string) =>
+    accessibleStoreIds === null || accessibleStoreIds.includes(storeId);
+
   // メールアドレスは基本情報とは権限が異なる（オーナー / 該当店舗の店舗管理者 / 本人のみ）
   let canEditEmail = false;
   try {
@@ -108,6 +131,16 @@ export default async function StaffDetailPage({ params }: PageProps) {
   // 例外として自分自身の権限は見えてよい。
   const isSelf = !!staff.userId && staff.userId === session.user!.id;
   const canViewPermission = viewerRole === "OWNER" || isSelf;
+
+  // 「管理者として招待」で担当店舗を選ばせるための一覧。オーナーのときだけ引く
+  const orgStores =
+    viewerRole === "OWNER"
+      ? await db.store.findMany({
+          where: { organizationId: orgId, isActive: true },
+          orderBy: { name: "asc" },
+          select: { id: true, name: true },
+        })
+      : [];
 
   // ログインアカウントに紐づくメンバー情報。userId が無いスタッフは権限を持ちえない
   const member =
@@ -150,10 +183,10 @@ export default async function StaffDetailPage({ params }: PageProps) {
     <div className="space-y-8">
       <PageHeader
         title={staff.displayName}
-        description="スタッフの基本情報と所属店舗を管理します"
+        description={`${terms.staff}の基本情報と所属店舗を管理します`}
         breadcrumbs={[
           { label: "ホーム", href: "/dashboard" },
-          { label: "スタッフ一覧", href: "/staff" },
+          { label: `${terms.staff}一覧`, href: "/staff" },
           { label: staff.displayName },
         ]}
         actions={
@@ -168,6 +201,9 @@ export default async function StaffDetailPage({ params }: PageProps) {
                 staffId={staff.id}
                 organizationId={orgId}
                 staffEmail={staff.email}
+                canInviteAsAdmin={viewerRole === "OWNER" && !staff.userId}
+                stores={orgStores}
+                staffTerm={terms.staff}
               />
             )}
           </div>
@@ -377,7 +413,10 @@ export default async function StaffDetailPage({ params }: PageProps) {
                 </thead>
                 <tbody className="divide-y divide-border">
                   {staff.staffStores.map((ss) => {
-                    const latestWage = ss.wageHistories[0];
+                    // 担当外の店舗の時給は見せない
+                    const latestWage = canSeeWageOf(ss.storeId)
+                      ? ss.wageHistories[0]
+                      : undefined;
                     return (
                       <tr
                         key={ss.storeId}
@@ -463,7 +502,7 @@ export default async function StaffDetailPage({ params }: PageProps) {
                 className="size-4 shrink-0 text-emerald-600"
                 aria-hidden="true"
               />
-              このスタッフはログインアカウントと連携済みです。
+              この{terms.staff}はログインアカウントと連携済みです。
             </p>
           ) : (
             <div className="space-y-2">
@@ -546,7 +585,9 @@ export default async function StaffDetailPage({ params }: PageProps) {
       )}
 
       {/* 時給履歴 */}
-      {staff.staffStores.some((ss) => ss.wageHistories.length > 0) && (
+      {staff.staffStores.some(
+        (ss) => canSeeWageOf(ss.storeId) && ss.wageHistories.length > 0
+      ) && (
         <section>
           <div className="rounded-xl border border-border bg-card shadow-sm">
             <div className="border-b border-border px-6 py-4">
@@ -572,7 +613,7 @@ export default async function StaffDetailPage({ params }: PageProps) {
                 </thead>
                 <tbody className="divide-y divide-border">
                   {staff.staffStores.flatMap((ss) =>
-                    ss.wageHistories.map((wh) => (
+                    (canSeeWageOf(ss.storeId) ? ss.wageHistories : []).map((wh) => (
                       <tr
                         key={wh.id}
                         className="hover:bg-muted/20 transition-colors"

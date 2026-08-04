@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/common/page-header";
 import { db } from "@/lib/db";
 import { StaffNewForm } from "./staff-new-form";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
+import { getOrgPresentation } from "@/lib/verticals/server";
 
 export const metadata: Metadata = {
   title: "スタッフを追加",
@@ -20,6 +21,7 @@ export default async function StaffNewPage() {
     (session as any).activeOrganizationId as string | null
   );
   if (!activeOrgId) redirect("/dashboard");
+  const { terms } = await getOrgPresentation(activeOrgId);
 
   try {
     await requireAdmin(session.user!.id, activeOrgId);
@@ -36,12 +38,12 @@ export default async function StaffNewPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="スタッフを追加"
-        description="新しいスタッフを追加します"
+        title={`${terms.staff}を追加`}
+        description={`新しい${terms.staff}を追加します`}
         breadcrumbs={[
           { label: "ホーム", href: "/dashboard" },
-          { label: "スタッフ一覧", href: "/staff" },
-          { label: "スタッフを追加" },
+          { label: `${terms.staff}一覧`, href: "/staff" },
+          { label: `${terms.staff}を追加` },
         ]}
       />
       <div className="max-w-md">

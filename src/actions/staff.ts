@@ -6,8 +6,12 @@ import { db } from "@/lib/db";
 import { createAuditLog } from "@/lib/auth/audit";
 import {
   requireAdmin,
+  requireOwner,
   canAccessStore,
+  requireStaffAccess,
+  requireStaffStoreScope,
   requireStaffEmailEditPermission,
+  validateOrgStoreIds,
 } from "@/lib/auth/permissions";
 import {
   createStaffSchema,
@@ -105,15 +109,41 @@ export async function addStaff(
 /**
  * 既存スタッフに招待メールを送る
  */
+/**
+ * スタッフに招待メールを送る。
+ *
+ * `options.role` に "ADMIN" を渡すと、本人が登録した時点で管理者として組織に参加する。
+ * ただし **管理者を生やせるのはオーナーだけ**。ADMIN が別の ADMIN を作れてしまうと
+ * 権限の境界が崩れるため、ロール指定があるときだけ requireOwner に切り替える。
+ *
+ * 招待した時点では相手のアカウントがまだ無いので、意図したロールと担当店舗は
+ * Staff に持たせておき、受諾時（acceptStaffInvitation）に反映してクリアする。
+ */
 export async function sendStaffInvitation(
   organizationId: string,
-  staffId: string
+  staffId: string,
+  options?: { role?: "ADMIN"; storeIds?: string[] }
 ): Promise<ActionResult> {
   const session = await auth();
   if (!session?.user?.id) return { error: "ログインが必要です" };
 
+  const wantsAdmin = options?.role === "ADMIN";
+
   try {
-    await requireAdmin(session.user.id, organizationId);
+    // 通常の招待は管理者でも送れる。管理者として招待する場合だけオーナーに限定する
+    if (wantsAdmin) {
+      await requireOwner(session.user.id, organizationId);
+    } else {
+      await requireAdmin(session.user.id, organizationId);
+    }
+    // 担当外の店舗のスタッフには招待を送らせない
+    await requireStaffAccess(session.user.id, organizationId, staffId);
+
+    // 担当店舗は自組織のものに限る（他組織の店舗IDを混ぜられるのを防ぐ）
+    const validatedStoreIds = wantsAdmin
+      ? await validateOrgStoreIds(organizationId, options?.storeIds ?? [])
+      : [];
+    if ("error" in validatedStoreIds) return { error: validatedStoreIds.error };
 
     const staff = await db.staff.findUnique({
       where: { id: staffId, organizationId },
@@ -137,6 +167,15 @@ export async function sendStaffInvitation(
     if (!staff.email) {
       return { error: "このスタッフにはメールアドレスが登録されていません" };
     }
+
+    // 招待し直したときに前回の指定が残らないよう、毎回上書きする
+    await db.staff.update({
+      where: { id: staffId, organizationId },
+      data: {
+        invitedRole: wantsAdmin ? "ADMIN" : null,
+        invitedStoreIds: wantsAdmin ? validatedStoreIds : [],
+      },
+    });
 
     const inviteToken = nanoid(32);
 
@@ -180,6 +219,24 @@ export async function sendStaffInvitation(
       invitationUrl: `${APP_URL}/invite/staff?token=${inviteToken}&email=${encodeURIComponent(staff.email)}`,
     });
 
+    await createAuditLog({
+      organizationId,
+      actorUserId: session.user.id,
+      action: "MEMBER_INVITE",
+      targetType: "Staff",
+      targetId: staff.id,
+      after: {
+        email: staff.email,
+        role: wantsAdmin ? "ADMIN" : "MEMBER",
+        storeIds: wantsAdmin
+          ? validatedStoreIds.length > 0
+            ? validatedStoreIds
+            : "ALL"
+          : undefined,
+      },
+    });
+
+    revalidatePath("/staff/[id]", "page");
     return { success: true };
   } catch (error: any) {
     return { error: error.message ?? "招待メールの送信に失敗しました" };
@@ -206,6 +263,8 @@ export async function updateStaff(
 
   try {
     await requireAdmin(session.user.id, organizationId);
+    // 担当外の店舗のスタッフは操作させない
+    await requireStaffAccess(session.user.id, organizationId, staffId);
 
     const before = await db.staff.findUnique({ where: { id: staffId } });
     const updated = await db.staff.update({
@@ -381,6 +440,8 @@ export async function updateStaffStatus(
 
   try {
     await requireAdmin(session.user.id, organizationId);
+    // 担当外の店舗のスタッフは操作させない
+    await requireStaffAccess(session.user.id, organizationId, staffId);
 
     const before = await db.staff.findUnique({
       where: { id: staffId },
@@ -550,7 +611,13 @@ export async function addWageHistory(
   }
 
   try {
-    await requireAdmin(session.user.id, organizationId);
+    // staffStoreId は入力から来るので、自組織かつ担当店舗のものか必ず検証する
+    // （検証しないと他組織の所属に時給を書き込めてしまう）
+    await requireStaffStoreScope(
+      session.user.id,
+      organizationId,
+      parsed.data.staffStoreId
+    );
 
     // 既存の有効期限なし時給を終了させる
     if (!parsed.data.effectiveTo) {
@@ -607,7 +674,12 @@ export async function addTransportationHistory(
   }
 
   try {
-    await requireAdmin(session.user.id, organizationId);
+    // 時給と同じく staffStoreId は入力由来なので必ず検証する
+    await requireStaffStoreScope(
+      session.user.id,
+      organizationId,
+      parsed.data.staffStoreId
+    );
 
     // 既存の有効期限なし設定を終了させる
     await db.transportationHistory.updateMany({

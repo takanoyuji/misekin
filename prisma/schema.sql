@@ -5,6 +5,12 @@ CREATE SCHEMA IF NOT EXISTS "public";
 CREATE TYPE "VerificationTokenType" AS ENUM ('EMAIL_VERIFICATION', 'PASSWORD_RESET');
 
 -- CreateEnum
+CREATE TYPE "Vertical" AS ENUM ('CONCAFE', 'SHISHA');
+
+-- CreateEnum
+CREATE TYPE "StaffTerm" AS ENUM ('CAST', 'STAFF');
+
+-- CreateEnum
 CREATE TYPE "OrganizationRole" AS ENUM ('OWNER', 'ADMIN', 'MEMBER');
 
 -- CreateEnum
@@ -85,6 +91,8 @@ CREATE TABLE "organizations" (
     "country" TEXT NOT NULL DEFAULT 'JP',
     "dayChangeHour" INTEGER NOT NULL DEFAULT 6,
     "dayChangeMinute" INTEGER NOT NULL DEFAULT 0,
+    "vertical" "Vertical" NOT NULL DEFAULT 'CONCAFE',
+    "staffTerm" "StaffTerm" NOT NULL DEFAULT 'CAST',
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -155,6 +163,8 @@ CREATE TABLE "staff" (
     "phone" TEXT,
     "employeeCode" TEXT,
     "status" "StaffStatus" NOT NULL DEFAULT 'INVITED',
+    "invitedRole" "OrganizationRole",
+    "invitedStoreIds" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "hireDate" TIMESTAMP(3),
     "resignDate" TIMESTAMP(3),
     "notes" TEXT,
@@ -785,6 +795,9 @@ DO $$ BEGIN
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "category" "StoreCategory" NOT NULL DEFAULT 'OTHER';
 
+-- 必要人数の提案で立てる上限（1時間あたり）。店ごとに箱の広さも回し方も違うため店舗設定にする
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "maxStaffPerSlot" INTEGER NOT NULL DEFAULT 2;
+
 -- ShiftSlot: シフト時間帯（早番・遅番など）
 CREATE TABLE IF NOT EXISTS "shift_slots" (
     "id" TEXT NOT NULL,
@@ -842,3 +855,51 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
     ALTER TABLE "shifts" ADD CONSTRAINT "shifts_slotId_fkey" FOREIGN KEY ("slotId") REFERENCES "shift_slots"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- CreateTable
+CREATE TABLE "store_sales_txns" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "occurredAt" TIMESTAMP(3) NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "customerCount" INTEGER,
+    "externalId" TEXT NOT NULL,
+    "source" TEXT NOT NULL DEFAULT 'CSV_AIRREGI',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "store_sales_txns_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "store_sales_txns_storeId_externalId_key" ON "store_sales_txns"("storeId", "externalId");
+CREATE INDEX "store_sales_txns_storeId_occurredAt_idx" ON "store_sales_txns"("storeId", "occurredAt");
+
+-- AddForeignKey
+ALTER TABLE "store_sales_txns" ADD CONSTRAINT "store_sales_txns_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "store_sales_txns" ADD CONSTRAINT "store_sales_txns_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- CreateTable
+CREATE TABLE "store_sales_daily" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "businessDate" TEXT NOT NULL,
+    "hourBucket" TEXT NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "customerCount" INTEGER,
+    "source" TEXT NOT NULL DEFAULT 'MANUAL',
+    "stayMinutes" INTEGER NOT NULL DEFAULT 120,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "store_sales_daily_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "store_sales_daily_storeId_businessDate_hourBucket_key" ON "store_sales_daily"("storeId", "businessDate", "hourBucket");
+CREATE INDEX "store_sales_daily_storeId_businessDate_idx" ON "store_sales_daily"("storeId", "businessDate");
+
+-- AddForeignKey
+ALTER TABLE "store_sales_daily" ADD CONSTRAINT "store_sales_daily_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "store_sales_daily" ADD CONSTRAINT "store_sales_daily_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
