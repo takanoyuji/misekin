@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { ShiftEditor } from "./shift-editor";
+import { HeadcountPanel } from "./headcount-panel";
+import { getHeadcountGrid } from "@/lib/business/headcount-server";
 
 export const metadata: Metadata = {
   title: "シフト管理",
@@ -75,6 +77,9 @@ export default async function ShiftsPage({
 
   const params = await searchParams;
   const storeId = params.storeId ?? stores[0]?.id ?? "";
+
+  // 取り込んだ売上から必要人数の目安を出す（売上が無ければ null）
+  const headcountGrid = storeId ? await getHeadcountGrid(storeId) : null;
 
   if (stores.length === 0) {
     return (
@@ -338,6 +343,12 @@ export default async function ShiftsPage({
           </p>
         </section>
       )}
+
+      {/* 売上から出した必要人数の目安。シフトを組む前に見る */}
+      <HeadcountPanel
+        grid={headcountGrid}
+        storeName={stores.find((s) => s.id === storeId)?.name ?? ""}
+      />
 
       {/* シフト編集グリッド */}
       {slots.length === 0 ? (

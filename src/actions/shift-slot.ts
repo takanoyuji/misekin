@@ -10,6 +10,12 @@ import {
   type CreateSlotInput,
   type UpdateSlotInput,
 } from "@/lib/validations/shift-slot";
+import { createAuditLog } from "@/lib/auth/audit";
+import {
+  translateShiftSlots,
+  validateSlots,
+  type TranslatedShiftSlot,
+} from "@/lib/ai/shift-slot-translator";
 
 interface ActionResult {
   success?: boolean;
@@ -140,5 +146,99 @@ export async function deleteShiftSlot(
     return { success: true };
   } catch (error: any) {
     return { error: error.message ?? "削除に失敗しました" };
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 日本語で書いた営業時間から時間帯を作る                                 */
+/* ------------------------------------------------------------------ */
+
+/**
+ * 営業時間の文章を時間帯の候補に変換する（保存はしない）。
+ * 保存するかどうかは店長が画面で決める。
+ */
+export async function translateSlotsFromText(
+  organizationId: string,
+  storeId: string,
+  text: string
+): Promise<ActionResult & { slots?: TranslatedShiftSlot[]; summary?: string; caution?: string }> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "ログインが必要です" };
+  if (!text.trim()) return { error: "営業時間を入力してください" };
+  if (text.length > 500) return { error: "入力が長すぎます（500文字まで）" };
+
+  try {
+    await assertStoreAccess(session.user.id, organizationId, storeId);
+    const result = await translateShiftSlots(text);
+    return {
+      success: true,
+      slots: result.slots,
+      summary: result.summary,
+      caution: result.caution,
+    };
+  } catch (error: any) {
+    return { error: error.message ?? "読み取りに失敗しました" };
+  }
+}
+
+/**
+ * 読み取った時間帯をまとめて保存する。
+ *
+ * 既存の時間帯は「使わない」状態にするだけで消さない。
+ * シフト希望・必要人数・確定シフトが紐づいているため、消すと過去がたどれなくなる。
+ */
+export async function replaceShiftSlots(
+  organizationId: string,
+  storeId: string,
+  slots: { name: string; startTime: string; endTime: string }[]
+): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "ログインが必要です" };
+
+  const invalid = validateSlots(
+    slots.map((s) => ({ ...s, note: "" }))
+  );
+  if (invalid) return { error: invalid };
+
+  try {
+    await assertStoreAccess(session.user.id, organizationId, storeId);
+
+    const before = await db.shiftSlot.findMany({
+      where: { storeId, isActive: true },
+      select: { id: true, name: true, startTime: true, endTime: true },
+    });
+
+    await db.$transaction(async (tx) => {
+      // 過去のデータが紐づくので無効化にとどめる
+      await tx.shiftSlot.updateMany({
+        where: { storeId, isActive: true },
+        data: { isActive: false },
+      });
+      await tx.shiftSlot.createMany({
+        data: slots.map((s, i) => ({
+          organizationId,
+          storeId,
+          name: s.name,
+          startTime: s.startTime,
+          endTime: s.endTime,
+          sortOrder: i,
+        })),
+      });
+    });
+
+    await createAuditLog({
+      organizationId,
+      actorUserId: session.user.id,
+      action: "SHIFT_SLOT_REPLACE",
+      targetType: "Store",
+      targetId: storeId,
+      before: { slots: before },
+      after: { slots },
+    });
+
+    revalidatePath(`/stores/${storeId}`);
+    return { success: true };
+  } catch (error: any) {
+    return { error: error.message ?? "保存に失敗しました" };
   }
 }

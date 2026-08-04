@@ -19,6 +19,7 @@ export type AuditAction =
   | "STORE_CREATE"
   | "STORE_UPDATE"
   | "STORE_DEACTIVATE"
+  | "SHIFT_SLOT_REPLACE"
   | "CLOCK_URL_ISSUE"
   | "CLOCK_URL_REVOKE"
   | "API_KEY_ISSUE"

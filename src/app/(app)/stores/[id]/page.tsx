@@ -9,6 +9,7 @@ import { StoreEditForm } from "./store-edit-form";
 import { ClockUrlSection } from "./clock-url-section";
 import { ShiftPeriodForm } from "./shift-period-form";
 import { ShiftSlotManager } from "./shift-slot-manager";
+import { ShiftSlotPrompt } from "./shift-slot-prompt";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 import { ThemeScope } from "@/components/layout/theme-scope";
 import { resolveStoreThemeKey } from "@/lib/verticals";
@@ -156,7 +157,14 @@ export default async function StoreDetailPage({ params }: PageProps) {
         </section>
 
         {/* シフトの時間帯 */}
-        <section>
+        <section className="space-y-4">
+          {/* 営業時間を日本語で書いて時間帯を作る。手で1つずつ足すより早い */}
+          <ShiftSlotPrompt
+            organizationId={orgId}
+            storeId={store.id}
+            aiEnabled={!!process.env.ANTHROPIC_API_KEY}
+            currentCount={store.shiftSlots.length}
+          />
           <div className="rounded-xl border border-border bg-card shadow-sm">
             <div className="p-6">
               <ShiftSlotManager
