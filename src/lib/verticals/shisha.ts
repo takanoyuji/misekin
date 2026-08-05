@@ -6,8 +6,8 @@ import band from "../../../public/lp/shisha/band.jpg";
 import pricing from "../../../public/lp/shisha/pricing.jpg";
 import founderA from "../../../public/lp/shisha/founder-a.jpg";
 import founderB from "../../../public/lp/shisha/founder-b.jpg";
+import cast from "../../../public/lp/shisha/cast.jpg";
 
-import { BRANDS } from "./brands";
 import { VERTICAL_DEFAULTS } from "./defaults";
 import { SHISHA_LP } from "./themes";
 import type { Vertical } from "./types";
@@ -28,15 +28,16 @@ export const SHISHA: Vertical = {
     pricing,
     founderA,
     founderB,
+    cast,
+    castAlt: "自分たちの店のカウンター",
     alt: {
-      pains: "キャンドルの灯りに照らされたシーシャ",
-      pricing: "煙をまとったシーシャのシルエット",
-      founderA: "琥珀色のランプとベルベットのソファが置かれたラウンジ",
-      founderB: "緑の光と立ちのぼる煙",
+      pains: "バックバーに並ぶボトル",
+      pricing: "カウンターに並んだボトルとカクテル",
+      founderA: "ソファ席に置かれたシーシャ",
+      founderB: "煙をまとったカクテル",
     },
   },
 
-  brands: BRANDS,
 
   content: {
     title: "みせ勤 — 売上から逆算する、シーシャ屋のAIシフト",
@@ -51,7 +52,7 @@ export const SHISHA: Vertical = {
       chips: [
         "シーシャ屋専門",
         "ルール12種が最初から",
-        "自社6店舗で毎日稼働",
+        "自分たちの店で毎日稼働",
         "今は無料",
       ],
     },
@@ -131,7 +132,7 @@ export const SHISHA: Vertical = {
     compareColumns: { legacy: "Excel＋LINE", generic: "一般的な勤怠アプリ" },
 
     founderChips: [
-      "自社6店舗で日々稼働中",
+      "自分たちの店で日々稼働中",
       "シーシャ屋を実際に運営",
       "現場の要望から機能を追加",
       "困ったときは開発者に直接届く",

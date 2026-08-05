@@ -8,7 +8,6 @@ import founderA from "../../../public/lp/concafe/founder-a.jpg";
 import founderB from "../../../public/lp/concafe/founder-b.jpg";
 import casts from "../../../public/lp/concafe/casts.jpg";
 
-import { BRANDS } from "./brands";
 import { VERTICAL_DEFAULTS } from "./defaults";
 import { CONCAFE_LP } from "./themes";
 import type { Vertical } from "./types";
@@ -30,7 +29,7 @@ export const CONCAFE: Vertical = {
     founderA,
     founderB,
     cast: casts,
-    castAlt: "星狼のキャスト",
+    castAlt: "自分たちの店のキャスト",
     alt: {
       pains: "ピンクのタイルで統一されたカフェのカウンター",
       pricing: "パステルカラーのカップケーキが並んだ様子",
@@ -39,7 +38,6 @@ export const CONCAFE: Vertical = {
     },
   },
 
-  brands: BRANDS,
 
   content: {
     title: "みせ勤 — 売上から逆算する、コンカフェのAIシフト",
@@ -54,7 +52,7 @@ export const CONCAFE: Vertical = {
       chips: [
         "コンカフェ専門",
         "ルール12種が最初から",
-        "自社6店舗で毎日稼働",
+        "自分たちの店で毎日稼働",
         "今は無料",
       ],
     },
@@ -134,13 +132,17 @@ export const CONCAFE: Vertical = {
     compareColumns: { legacy: "Excel＋LINE", generic: "一般的な勤怠アプリ" },
 
     founderChips: [
-      "自社6店舗で日々稼働中",
+      "自分たちの店で日々稼働中",
       "コンカフェを実際に運営",
       "現場の要望から機能を追加",
       "困ったときは開発者に直接届く",
     ],
 
     extraFaqs: [
+      {
+        q: "キャストのランクが毎月変わるのですが、時給の計算はどうなりますか？",
+        a: "時給は「いつからいくら」を持った履歴として保存します。ランクが上がって7月から時給を変えても、6月ぶんの給与は6月の時給のまま締まります。さかのぼって全部が新しい時給に置き換わることはありません。変更した理由（ランクの昇格など）も一緒に残せます。",
+      },
       {
         q: "「人気の子は同じ日に固めない」のようなルールも入っていますか？",
         a: "入っています。キャストの偏りを避けるルール、新人をひとりにしないルール、相性を避けるルールなど、コンカフェで実際に使われるものを揃えました。数字の部分だけ、自分のお店に合わせて直してください。",

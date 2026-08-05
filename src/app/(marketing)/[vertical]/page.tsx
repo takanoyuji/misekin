@@ -1031,7 +1031,7 @@ function Founder({ v, shared }: { v: Vertical; shared: SharedContent }) {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         <SectionHeading
           eyebrow="作っている人たち"
-          title="自分たちの6店舗で、毎日使っています"
+          title="現場で毎日使っています"
         />
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-center lg:gap-12">
@@ -1056,48 +1056,20 @@ function Founder({ v, shared }: { v: Vertical; shared: SharedContent }) {
             </ul>
           </div>
 
-          {/* フリー素材ではなく、実際に運営している店舗のロゴを出す。
-              「自分たちで使っている」の裏づけはここが一番効く */}
-          <div className="space-y-4">
-            {/* 実際のキャスト。載せる版だけ出す */}
+          {/* 自分たちの現場の写真を出す。フリー素材では「現場で使っている」の裏づけにならない。
+              一方で、運営している店舗の屋号やロゴはここに出さない。
+              運営元も同じ業態なので、店名が並ぶと見込み客からは「競合に数字を見られる」
+              という具体像が立つ。同じ懸念には、店名を伏せることではなくFAQで正面から答える */}
+          <div>
             {v.images.cast && (
               <Image
                 src={v.images.cast}
                 alt={v.images.castAlt ?? ""}
                 placeholder="blur"
                 sizes="(min-width: 1024px) 42vw, 100vw"
-                className="h-52 w-full rounded-[1.5rem] object-cover sm:h-60"
+                className="h-64 w-full rounded-[1.5rem] object-cover sm:h-80"
               />
             )}
-
-          <div className="rounded-[1.5rem] border border-[var(--lp-line)] bg-[var(--lp-card)] p-6">
-            <p className="text-xs font-bold text-[var(--lp-muted)]">
-              運営しているお店
-            </p>
-            <ul className="mt-4 grid grid-cols-2 gap-3">
-              {v.brands.map((b) => (
-                <li
-                  key={b.name}
-                  className="flex flex-col items-center gap-2 rounded-2xl bg-[#0E0E12] p-4"
-                >
-                  <Image
-                    src={b.logo}
-                    alt={`${b.name}のロゴ`}
-                    placeholder="blur"
-                    sizes="160px"
-                    className="h-20 w-auto object-contain"
-                  />
-                  <span className="text-center text-[11px] leading-tight text-white/70">
-                    <span className="block font-bold text-white">{b.name}</span>
-                    {b.kind}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 text-xs leading-relaxed text-[var(--lp-muted)]">
-              みせ勤は、この{v.brands.length}ブランドの店舗で毎日動いています。
-            </p>
-            </div>
           </div>
         </div>
 

@@ -149,14 +149,6 @@ export interface LpImageSet {
   alt: { pains: string; pricing: string; founderA: string; founderB: string };
 }
 
-/** 実際に運営している店舗。「自分たちで使っている」の裏づけとして出す */
-export interface BrandLogo {
-  name: string;
-  /** 業態の補足（男装コンカフェ など） */
-  kind: string;
-  logo: StaticImageData;
-}
-
 /** シフト表モックに出す名前と割り当て（実データではない） */
 export interface MockRoster {
   slotLabel: string;
@@ -227,8 +219,6 @@ export interface Vertical {
   defaultStaffTerm: "CAST" | "STAFF";
   lpTheme: LpTheme;
   images: LpImageSet;
-  /** 運営している実店舗のロゴ。両版で共通 */
-  brands: BrandLogo[];
   content: LpContent;
   defaults: VerticalDefaults;
   /**
