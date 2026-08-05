@@ -1056,27 +1056,51 @@ function Founder({ v, shared }: { v: Vertical; shared: SharedContent }) {
             </ul>
           </div>
 
-          <div className="grid gap-4">
-            <Image
-              src={v.images.founderA}
-              alt={v.images.alt.founderA}
-              placeholder="blur"
-              sizes="(min-width: 1024px) 42vw, 100vw"
-              className="h-56 w-full rounded-[1.5rem] object-cover sm:h-64"
-            />
-            <Image
-              src={v.images.founderB}
-              alt={v.images.alt.founderB}
-              placeholder="blur"
-              sizes="(min-width: 1024px) 42vw, 100vw"
-              className="h-56 w-full rounded-[1.5rem] object-cover sm:h-64"
-            />
+          {/* フリー素材ではなく、実際に運営している店舗のロゴを出す。
+              「自分たちで使っている」の裏づけはここが一番効く */}
+          <div className="space-y-4">
+            {/* 実際のキャスト。載せる版だけ出す */}
+            {v.images.cast && (
+              <Image
+                src={v.images.cast}
+                alt={v.images.castAlt ?? ""}
+                placeholder="blur"
+                sizes="(min-width: 1024px) 42vw, 100vw"
+                className="h-52 w-full rounded-[1.5rem] object-cover sm:h-60"
+              />
+            )}
+
+          <div className="rounded-[1.5rem] border border-[var(--lp-line)] bg-[var(--lp-card)] p-6">
+            <p className="text-xs font-bold text-[var(--lp-muted)]">
+              運営しているお店
+            </p>
+            <ul className="mt-4 grid grid-cols-2 gap-3">
+              {v.brands.map((b) => (
+                <li
+                  key={b.name}
+                  className="flex flex-col items-center gap-2 rounded-2xl bg-[#0E0E12] p-4"
+                >
+                  <Image
+                    src={b.logo}
+                    alt={`${b.name}のロゴ`}
+                    placeholder="blur"
+                    sizes="160px"
+                    className="h-20 w-auto object-contain"
+                  />
+                  <span className="text-center text-[11px] leading-tight text-white/70">
+                    <span className="block font-bold text-white">{b.name}</span>
+                    {b.kind}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-xs leading-relaxed text-[var(--lp-muted)]">
+              みせ勤は、この{v.brands.length}ブランドの店舗で毎日動いています。
+            </p>
+            </div>
           </div>
         </div>
 
-        <p className="mt-6 text-xs leading-relaxed text-[var(--lp-muted)]">
-          {shared.founder.imageNote}
-        </p>
       </div>
     </section>
   );

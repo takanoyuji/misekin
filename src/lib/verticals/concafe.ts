@@ -6,7 +6,9 @@ import band from "../../../public/lp/concafe/band.jpg";
 import pricing from "../../../public/lp/concafe/pricing.jpg";
 import founderA from "../../../public/lp/concafe/founder-a.jpg";
 import founderB from "../../../public/lp/concafe/founder-b.jpg";
+import casts from "../../../public/lp/concafe/casts.jpg";
 
+import { BRANDS } from "./brands";
 import { VERTICAL_DEFAULTS } from "./defaults";
 import { CONCAFE_LP } from "./themes";
 import type { Vertical } from "./types";
@@ -27,6 +29,8 @@ export const CONCAFE: Vertical = {
     pricing,
     founderA,
     founderB,
+    cast: casts,
+    castAlt: "星狼のキャスト",
     alt: {
       pains: "ピンクのタイルで統一されたカフェのカウンター",
       pricing: "パステルカラーのカップケーキが並んだ様子",
@@ -34,6 +38,8 @@ export const CONCAFE: Vertical = {
       founderB: "やわらかい光の入るカフェの店内",
     },
   },
+
+  brands: BRANDS,
 
   content: {
     title: "みせ勤 — 売上から逆算する、コンカフェのAIシフト",

@@ -8,11 +8,14 @@ import {
   VERTICAL_COOKIE_MAX_AGE,
   normalizeVerticalSlug,
 } from "@/lib/verticals/cookie";
+import { LP_GATE_COOKIE, isLpGateUnlocked } from "@/lib/lp-gate";
 
 const PUBLIC_PREFIXES = [
   // 業態版のLP（/concafe, /shisha …）と旧URL
   ...VERTICAL_SLUGS.map((v) => `/${v}`),
   "/lp",
+  // 合言葉の入力ページ自体は当然公開する
+  "/gate",
   // 開発用のトンマナ確認ページ（本番では 404 になる）
   "/theme-preview",
   "/login",
@@ -38,8 +41,28 @@ function detectVertical(request: NextRequest) {
   return fromPath ?? normalizeVerticalSlug(searchParams.get("v"));
 }
 
-export function middleware(request: NextRequest) {
+/** 合言葉で閉じる対象。公開前のLPだけ */
+function isGatedPath(pathname: string) {
+  return (
+    pathname === "/lp" ||
+    VERTICAL_SLUGS.some((v) => pathname === `/${v}` || pathname.startsWith(`/${v}/`))
+  );
+}
+
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // 公開前のLPは合言葉で閉じる（実在するキャストの写真を載せているため）
+  if (isGatedPath(pathname)) {
+    const unlocked = await isLpGateUnlocked(
+      request.cookies.get(LP_GATE_COOKIE)?.value
+    );
+    if (!unlocked) {
+      const gate = new URL(`${request.nextUrl.basePath}/gate`, request.url);
+      gate.searchParams.set("next", pathname);
+      return NextResponse.redirect(gate);
+    }
+  }
 
   const isPublicPath = PUBLIC_PREFIXES.some((p) => pathname.startsWith(p));
 

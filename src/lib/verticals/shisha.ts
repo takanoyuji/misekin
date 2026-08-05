@@ -7,6 +7,7 @@ import pricing from "../../../public/lp/shisha/pricing.jpg";
 import founderA from "../../../public/lp/shisha/founder-a.jpg";
 import founderB from "../../../public/lp/shisha/founder-b.jpg";
 
+import { BRANDS } from "./brands";
 import { VERTICAL_DEFAULTS } from "./defaults";
 import { SHISHA_LP } from "./themes";
 import type { Vertical } from "./types";
@@ -34,6 +35,8 @@ export const SHISHA: Vertical = {
       founderB: "緑の光と立ちのぼる煙",
     },
   },
+
+  brands: BRANDS,
 
   content: {
     title: "みせ勤 — 売上から逆算する、シーシャ屋のAIシフト",
