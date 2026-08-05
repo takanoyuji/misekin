@@ -42,6 +42,9 @@ services:
       SHIFT_SOLVER_URL: http://solver:8000
       # シフトルールのAI翻訳用（未設定なら翻訳機能のみ無効・他は動作）
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      # 公開前LPの合言葉。未設定だとLPが誰でも見える状態になるので、
+      # 公開まではサーバの .env に必ず入れておくこと
+      LP_PASSWORD: ${LP_PASSWORD:-}
       NODE_ENV: production
     depends_on:
       db:
