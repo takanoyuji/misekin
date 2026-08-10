@@ -798,18 +798,6 @@ export async function reviewCorrectionRequest(
             data: { attendanceId: created.id },
           });
         } else {
-          await tx.attendance.update({
-            where: { id: attendanceId },
-            data: {
-              clockInAt: requestedData.clockInAt
-                ? new Date(requestedData.clockInAt)
-                : undefined,
-              clockOutAt: requestedData.clockOutAt
-                ? new Date(requestedData.clockOutAt)
-                : undefined,
-            },
-          });
-
           if (requestedData.breaks) {
             await tx.break.deleteMany({
               where: { attendanceId },
@@ -822,6 +810,44 @@ export async function reviewCorrectionRequest(
               })),
             });
           }
+
+          const clockIn = requestedData.clockInAt
+            ? new Date(requestedData.clockInAt)
+            : request.attendance!.clockInAt;
+          const clockOut = requestedData.clockOutAt
+            ? new Date(requestedData.clockOutAt)
+            : request.attendance!.clockOutAt;
+
+          // 休憩は申請に含まれていればそれ、無ければ既存のまま
+          const effectiveBreaks = requestedData.breaks
+            ? breaksInput
+            : (
+                await tx.break.findMany({ where: { attendanceId } })
+              ).map((b) => ({ startAt: b.startAt, endAt: b.endAt }));
+
+          const anomalyResult = detectAnomalies({
+            clockInAt: clockIn ?? null,
+            clockOutAt: clockOut ?? null,
+            breaks: effectiveBreaks,
+          });
+
+          // 時刻だけ入れ替えて実働時間を据え置くと、承認しても給与が変わらない。
+          // 営業日は打刻時に確定したものを動かさない（管理者修正 correctAttendance と同じ）。
+          await tx.attendance.update({
+            where: { id: attendanceId },
+            data: {
+              clockInAt: clockIn ?? undefined,
+              clockOutAt: clockOut ?? undefined,
+              breakMinutes: calculateBreakMinutes(effectiveBreaks),
+              workMinutes:
+                clockIn && clockOut
+                  ? calculateWorkMinutes(clockIn, clockOut, effectiveBreaks)
+                  : null,
+              hasAnomaly: anomalyResult.hasAnomaly,
+              anomalyReasons: anomalyResult.reasons as any,
+              status: clockIn && clockOut ? "COMPLETED" : "IN_PROGRESS",
+            },
+          });
         }
 
         // 修正履歴
