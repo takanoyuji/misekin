@@ -57,15 +57,34 @@ export async function GET(req: NextRequest) {
     // 店舗スコープチェック
     const storeScope = apiKey.storeScope as string[] | null;
 
+    // storeId と storeScope の両方がある場合、storeScope 内に storeId が含まれるか確認
+    if (storeId && storeScope && !storeScope.includes(storeId)) {
+      return NextResponse.json(
+        { error: { code: "FORBIDDEN", message: "指定された店舗へのアクセス権がありません" } },
+        { status: 403 }
+      );
+    }
+
+    // storeId が指定されている場合は storeScope より優先（上のチェックでスコープ内は保証済み）
+    // from と to は同じ businessDate に載せる（別々に書くと後勝ちで片方が消える）
+    const where = {
+      organizationId: apiKey.organizationId,
+      ...(storeId
+        ? { storeId }
+        : storeScope
+          ? { storeId: { in: storeScope } }
+          : {}),
+      ...(staffId && { staffId }),
+      ...((dateFrom || dateTo) && {
+        businessDate: {
+          ...(dateFrom && { gte: dateFrom }),
+          ...(dateTo && { lte: dateTo }),
+        },
+      }),
+    };
+
     const attendances = await db.attendance.findMany({
-      where: {
-        organizationId: apiKey.organizationId,
-        ...(storeId && { storeId }),
-        ...(staffId && { staffId }),
-        ...(dateFrom && { businessDate: { gte: dateFrom } }),
-        ...(dateTo && { businessDate: { lte: dateTo } }),
-        ...(storeScope && { storeId: { in: storeScope } }),
-      },
+      where,
       include: {
         staff: { select: { displayName: true, employeeCode: true } },
         store: { select: { name: true } },
@@ -112,16 +131,7 @@ export async function GET(req: NextRequest) {
       ])
     );
 
-    const total = await db.attendance.count({
-      where: {
-        organizationId: apiKey.organizationId,
-        ...(storeId && { storeId }),
-        ...(staffId && { staffId }),
-        ...(dateFrom && { businessDate: { gte: dateFrom } }),
-        ...(dateTo && { businessDate: { lte: dateTo } }),
-        ...(storeScope && { storeId: { in: storeScope } }),
-      },
-    });
+    const total = await db.attendance.count({ where });
 
     // 最終使用日時を更新
     await db.apiKey.update({
