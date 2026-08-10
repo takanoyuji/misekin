@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { effectiveOn } from "@/lib/business/effective-period";
 import {
   transportationForAttendance,
   type TransportationType,
@@ -94,7 +95,7 @@ export async function GET(req: NextRequest) {
       skip: (page - 1) * limit,
     });
 
-    // 交通費は (スタッフ, 店舗) ごとの履歴から日付で引き当てる（CSV出力と同じ計算）
+    // 交通費と時給は (スタッフ, 店舗) ごとの履歴から日付で引き当てる（CSV出力と同じ計算）
     const pairs = [
       ...new Map(
         attendances.map((a) => [`${a.staffId}:${a.storeId}`, a])
@@ -116,6 +117,13 @@ export async function GET(req: NextRequest) {
                 effectiveTo: true,
               },
             },
+            wageHistories: {
+              select: {
+                amount: true,
+                effectiveFrom: true,
+                effectiveTo: true,
+              },
+            },
           },
         })
       : [];
@@ -127,6 +135,16 @@ export async function GET(req: NextRequest) {
           amount: Number(t.amount),
           effectiveFrom: t.effectiveFrom,
           effectiveTo: t.effectiveTo,
+        })),
+      ])
+    );
+    const wagesByPair = new Map(
+      staffStores.map((ss) => [
+        `${ss.staffId}:${ss.storeId}`,
+        ss.wageHistories.map((w) => ({
+          amount: Number(w.amount),
+          effectiveFrom: w.effectiveFrom,
+          effectiveTo: w.effectiveTo,
         })),
       ])
     );
@@ -169,6 +187,12 @@ export async function GET(req: NextRequest) {
           settingsByPair.get(`${a.staffId}:${a.storeId}`) ?? [],
           { businessDate: a.businessDate, clockInAt: a.clockInAt }
         ),
+        // その営業日に効いていた時給。未登録なら null（呼び出し側で入力してもらう）
+        hourlyWage:
+          effectiveOn(
+            wagesByPair.get(`${a.staffId}:${a.storeId}`) ?? [],
+            a.businessDate
+          )?.amount ?? null,
         status: a.status,
         hasAnomaly: a.hasAnomaly,
         isLocked: a.isLocked,

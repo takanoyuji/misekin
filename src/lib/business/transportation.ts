@@ -10,6 +10,8 @@
  * monthlyLimit（月の上限）も未対応。どちらも画面に「未対応」と出している。
  */
 
+import { effectiveOn } from "./effective-period";
+
 export type TransportationType = "PER_SHIFT" | "MONTHLY" | "NONE";
 
 export interface TransportationSetting {
@@ -21,34 +23,16 @@ export interface TransportationSetting {
   effectiveTo: Date | null;
 }
 
-/** 日付だけを YYYY-MM-DD で取り出す。effectiveFrom は日付入力由来でUTC0時に入っている */
-function dateKey(d: Date): string {
-  return d.toISOString().slice(0, 10);
-}
-
 /**
  * その営業日に効いている設定を返す。無ければ null。
  *
- * 有効期間は「開始日を含み、終了日を含まない」。
- * 設定を差し替えるとき、古い方の effectiveTo に新しい方の effectiveFrom が入るので、
- * 終了日を含めてしまうと切り替え日に2つ効いて二重に払うことになる。
+ * 引き当ての規則は時給と共通（effective-period.ts）。
  */
 export function settingForDate(
   settings: TransportationSetting[],
   businessDate: string
 ): TransportationSetting | null {
-  const active = settings.filter((s) => {
-    const from = dateKey(s.effectiveFrom);
-    if (businessDate < from) return false;
-    if (s.effectiveTo === null) return true;
-    return businessDate < dateKey(s.effectiveTo);
-  });
-  if (active.length === 0) return null;
-
-  // 期間が重なって登録されていたら、より新しく始まった設定を採る
-  return active.reduce((a, b) =>
-    dateKey(b.effectiveFrom) > dateKey(a.effectiveFrom) ? b : a
-  );
+  return effectiveOn(settings, businessDate);
 }
 
 /**
