@@ -55,9 +55,30 @@ export default async function ExportPage() {
         <ExportForm stores={stores} organizationId={activeOrgId} />
       </div>
 
-      <div className="rounded-lg bg-muted/50 px-4 py-3 text-sm text-muted-foreground">
-        <p className="font-medium text-foreground mb-1">CSVフォーマット</p>
-        <p>勤務日, スタッフ名, 社員コード, 店舗名, 出勤時刻, 退勤時刻, 休憩(分), 実労働(分), ステータス</p>
+      <div className="space-y-3 rounded-lg bg-muted/50 px-4 py-3 text-sm text-muted-foreground">
+        <div>
+          <p className="mb-1 font-medium text-foreground">CSVフォーマット</p>
+          <p>
+            勤務日, スタッフ名, 社員コード, 店舗名, 出勤時刻, 退勤時刻, 休憩(分),
+            実労働(分), 交通費, ステータス
+          </p>
+        </div>
+        {/* 金額の欄は、何が入っていて何が入っていないかを書いておかないと
+            そのまま給与に使われて事故る */}
+        <div>
+          <p className="mb-1 font-medium text-foreground">交通費について</p>
+          <p>
+            「出勤ごと」で登録した金額を、出勤の記録がある日に1回ぶんずつ入れています。
+            退勤を押し忘れた日も、来ている以上は入ります。
+          </p>
+          <p className="mt-1">
+            <strong className="text-foreground">月額と月の上限には未対応です。</strong>
+            どちらで登録していても、この欄は0になります。
+          </p>
+          <p className="mt-1">
+            時給と深夜時間はこのCSVに入っていません。給与額の計算は給与ソフト側で行ってください。
+          </p>
+        </div>
       </div>
     </div>
   );

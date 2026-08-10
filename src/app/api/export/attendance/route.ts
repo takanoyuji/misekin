@@ -4,6 +4,10 @@ import { db } from "@/lib/db";
 import { requireAdmin, getAccessibleStoreIds } from "@/lib/auth/permissions";
 import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
+import {
+  transportationForAttendance,
+  type TransportationType,
+} from "@/lib/business/transportation";
 
 const STATUS_LABEL: Record<string, string> = {
   IN_PROGRESS: "勤務中",
@@ -79,9 +83,50 @@ export async function GET(req: NextRequest) {
     orderBy: [{ businessDate: "asc" }, { clockInAt: "asc" }],
   });
 
-  const header = "勤務日,スタッフ名,社員コード,店舗名,出勤時刻,退勤時刻,休憩(分),実労働(分),ステータス";
+  // 交通費は (スタッフ, 店舗) ごとの履歴から日付で引き当てる。
+  // 勤怠1件ずつ問い合わせると件数ぶんクエリが飛ぶので、出てきた組み合わせだけまとめて取る
+  const pairs = [
+    ...new Map(
+      attendances.map((a) => [`${a.staffId}:${a.storeId}`, a])
+    ).values(),
+  ];
+  const staffStores = pairs.length
+    ? await db.staffStore.findMany({
+        where: { OR: pairs.map((a) => ({ staffId: a.staffId, storeId: a.storeId })) },
+        select: {
+          staffId: true,
+          storeId: true,
+          transportationHistories: {
+            select: {
+              type: true,
+              amount: true,
+              effectiveFrom: true,
+              effectiveTo: true,
+            },
+          },
+        },
+      })
+    : [];
+  const settingsByPair = new Map(
+    staffStores.map((ss) => [
+      `${ss.staffId}:${ss.storeId}`,
+      ss.transportationHistories.map((t) => ({
+        type: t.type as TransportationType,
+        amount: Number(t.amount),
+        effectiveFrom: t.effectiveFrom,
+        effectiveTo: t.effectiveTo,
+      })),
+    ])
+  );
+
+  const header =
+    "勤務日,スタッフ名,社員コード,店舗名,出勤時刻,退勤時刻,休憩(分),実労働(分),交通費,ステータス";
   const rows = attendances.map((a) => {
     const tz = a.store.timezone ?? "Asia/Tokyo";
+    const transportation = transportationForAttendance(
+      settingsByPair.get(`${a.staffId}:${a.storeId}`) ?? [],
+      { businessDate: a.businessDate, clockInAt: a.clockInAt }
+    );
     return [
       a.businessDate,
       a.staff.displayName,
@@ -91,6 +136,7 @@ export async function GET(req: NextRequest) {
       formatDatetime(a.clockOutAt, tz),
       a.breakMinutes?.toString() ?? "",
       a.workMinutes?.toString() ?? "",
+      transportation.toString(),
       STATUS_LABEL[a.status] ?? a.status,
     ].map(escapeCsv).join(",");
   });

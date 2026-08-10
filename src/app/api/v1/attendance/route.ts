@@ -1,4 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+
+import {
+  transportationForAttendance,
+  type TransportationType,
+} from "@/lib/business/transportation";
 import { db } from "@/lib/db";
 import { hashApiKey, extractApiKey } from "@/lib/api/api-key";
 
@@ -70,6 +75,43 @@ export async function GET(req: NextRequest) {
       skip: (page - 1) * limit,
     });
 
+    // 交通費は (スタッフ, 店舗) ごとの履歴から日付で引き当てる（CSV出力と同じ計算）
+    const pairs = [
+      ...new Map(
+        attendances.map((a) => [`${a.staffId}:${a.storeId}`, a])
+      ).values(),
+    ];
+    const staffStores = pairs.length
+      ? await db.staffStore.findMany({
+          where: {
+            OR: pairs.map((a) => ({ staffId: a.staffId, storeId: a.storeId })),
+          },
+          select: {
+            staffId: true,
+            storeId: true,
+            transportationHistories: {
+              select: {
+                type: true,
+                amount: true,
+                effectiveFrom: true,
+                effectiveTo: true,
+              },
+            },
+          },
+        })
+      : [];
+    const settingsByPair = new Map(
+      staffStores.map((ss) => [
+        `${ss.staffId}:${ss.storeId}`,
+        ss.transportationHistories.map((t) => ({
+          type: t.type as TransportationType,
+          amount: Number(t.amount),
+          effectiveFrom: t.effectiveFrom,
+          effectiveTo: t.effectiveTo,
+        })),
+      ])
+    );
+
     const total = await db.attendance.count({
       where: {
         organizationId: apiKey.organizationId,
@@ -112,6 +154,11 @@ export async function GET(req: NextRequest) {
         clockOutAt: a.clockOutAt?.toISOString() ?? null,
         breakMinutes: a.breakMinutes,
         workMinutes: a.workMinutes,
+        // 出勤ごとの交通費。月額と月上限は未対応で常に0（lib/business/transportation.ts）
+        transportationAmount: transportationForAttendance(
+          settingsByPair.get(`${a.staffId}:${a.storeId}`) ?? [],
+          { businessDate: a.businessDate, clockInAt: a.clockInAt }
+        ),
         status: a.status,
         hasAnomaly: a.hasAnomaly,
         isLocked: a.isLocked,
