@@ -1,6 +1,12 @@
 import { z } from "zod";
 
-const hhmm = z.string().regex(/^\d{2}:\d{2}$/, "時刻はHH:mm形式で入力してください");
+// 24:00 や 99:99 を通さない。24:00 は 00:00 と書く（翌日跨ぎは end<=start で表す）
+const hhmm = z
+  .string()
+  .regex(
+    /^([01]\d|2[0-3]):[0-5]\d$/,
+    "時刻は00:00〜23:59のHH:mm形式で入力してください（24:00は00:00と書きます）"
+  );
 
 export const createSlotSchema = z.object({
   storeId: z.string().cuid(),

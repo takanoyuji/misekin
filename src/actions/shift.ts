@@ -17,6 +17,7 @@ import {
   solveShifts,
   type SolverRule,
 } from "@/lib/ai/shift-solver";
+import { slotTimes } from "@/lib/business/shift-slot-time";
 
 interface ActionResult {
   success?: boolean;
@@ -56,7 +57,7 @@ export async function createShift(
   const { storeId, slotId, staffId, businessDate, note } = parsed.data;
 
   try {
-    await assertStoreAccess(session.user.id, organizationId, storeId);
+    const store = await assertStoreAccess(session.user.id, organizationId, storeId);
 
     // スタッフがその店舗に所属しているか
     const staffStore = await db.staffStore.findFirst({
@@ -73,7 +74,12 @@ export async function createShift(
     });
     if (!slot) return { error: "時間帯が見つかりません" };
 
-    const { start, end } = slotTimes(businessDate, slot.startTime, slot.endTime);
+    const { start, end } = slotTimes(
+      businessDate,
+      slot.startTime,
+      slot.endTime,
+      store.timezone
+    );
 
     const shift = await db.shift.create({
       data: {
@@ -96,18 +102,6 @@ export async function createShift(
   } catch (error: any) {
     return { error: error.message ?? "シフトの作成に失敗しました" };
   }
-}
-
-/** 時間帯("HH:mm")と営業日から出退勤 Date を作る（end<=startなら翌日） */
-function slotTimes(
-  businessDate: string,
-  startTime: string,
-  endTime: string
-): { start: Date; end: Date } {
-  const start = new Date(`${businessDate}T${startTime}:00`);
-  let end = new Date(`${businessDate}T${endTime}:00`);
-  if (end <= start) end = new Date(end.getTime() + 24 * 60 * 60 * 1000);
-  return { start, end };
 }
 
 /** シフトの時刻・メモを更新する（公開後は変更回数を数える） */
@@ -250,7 +244,7 @@ export async function generateShifts(
   if (!session?.user?.id) return { error: "ログインが必要です" };
 
   try {
-    await assertStoreAccess(session.user.id, organizationId, storeId);
+    const store = await assertStoreAccess(session.user.id, organizationId, storeId);
 
     // 対象日リスト
     const days: string[] = [];
@@ -384,7 +378,8 @@ export async function generateShifts(
           const { start, end } = slotTimes(
             a.businessDate,
             slot.startTime,
-            slot.endTime
+            slot.endTime,
+            store.timezone
           );
           return {
             organizationId,
