@@ -4,14 +4,17 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { Prisma } from "@/generated/prisma/client";
 import { clockCookieName, verifyClockSession } from "@/lib/clock-session";
 import { requireAdmin, canAccessStore } from "@/lib/auth/permissions";
 import {
   correctAttendanceSchema,
+  createAttendanceSchema,
   correctionRequestSchema,
   missingAttendanceRequestSchema,
   reviewCorrectionRequestSchema,
   type CorrectAttendanceInput,
+  type CreateAttendanceInput,
   type CorrectionRequestInput,
   type MissingAttendanceRequestInput,
   type ReviewCorrectionRequestInput,
@@ -461,6 +464,161 @@ export async function correctAttendance(
     return { success: true };
   } catch (error: any) {
     return { error: error.message ?? "修正に失敗しました" };
+  }
+}
+
+/**
+ * 管理者による勤怠の手入力（打刻漏れの代行）
+ *
+ * 打刻漏れ（その日の記録が無い）は、これまでスタッフ本人の「付け忘れ申請」→管理者承認でしか
+ * 作れなかった。星狼のキャストはログインアカウントを持たない運用なので、店長が代わりに入れる
+ * 入口を足した（2026-09-17）。承認経路と同じく打刻イベントを伴わない勤怠になるため、
+ * 修正履歴と監査ログを残して経緯を追えるようにする。
+ *
+ * 営業日は店舗の日付切替時刻で出勤時刻から計算する（打刻と同じ規則）。
+ * 同じ営業日に勤怠が既にあれば作らず、修正画面へ誘導する。
+ */
+export async function createAttendanceByAdmin(
+  organizationId: string,
+  input: CreateAttendanceInput
+): Promise<ActionResult & { attendanceId?: string }> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "ログインが必要です" };
+
+  const parsed = createAttendanceSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "入力値が不正です" };
+  }
+  const { storeId, staffId, clockInAt, clockOutAt, reason, adminNotes } = parsed.data;
+  const breaksInput = (parsed.data.breaks ?? []).map((b) => ({
+    startAt: b.startAt,
+    endAt: b.endAt ?? null,
+  }));
+
+  try {
+    const ctx = await requireAdmin(session.user.id, organizationId);
+    const hasAccess = await canAccessStore(ctx.memberId, ctx.role, storeId);
+    if (!hasAccess) return { error: "この店舗へのアクセス権がありません" };
+
+    const store = await db.store.findFirst({
+      where: { id: storeId, organizationId },
+      select: { timezone: true, dayChangeHour: true, dayChangeMinute: true },
+    });
+    if (!store) return { error: "店舗が見つかりません" };
+
+    // その店舗に所属しているスタッフだけ
+    const staffStore = await db.staffStore.findFirst({
+      where: { staffId, storeId, isActive: true, staff: { organizationId } },
+      select: { id: true },
+    });
+    if (!staffStore) return { error: "この店舗に所属していないスタッフです" };
+
+    const businessDate = getBusinessDate(
+      clockInAt,
+      store.timezone,
+      store.dayChangeHour,
+      store.dayChangeMinute
+    );
+
+    const existing = await db.attendance.findFirst({
+      where: { staffId, storeId, businessDate },
+      select: { id: true },
+    });
+    if (existing) {
+      return {
+        error: `営業日 ${businessDate} の勤怠は既にあります。勤怠一覧から「修正する」で直してください`,
+        attendanceId: existing.id,
+      };
+    }
+
+    const closed = await db.closingPeriod.findFirst({
+      where: {
+        organizationId,
+        closedAt: { not: null },
+        periodStart: { lte: businessDate },
+        periodEnd: { gte: businessDate },
+        OR: [{ storeId }, { storeId: null }],
+      },
+      select: { id: true },
+    });
+    if (closed) return { error: "締め処理済みの期間には登録できません" };
+
+    const anomalyResult = detectAnomalies({
+      clockInAt,
+      clockOutAt,
+      breaks: breaksInput,
+    });
+
+    const after = {
+      clockInAt,
+      clockOutAt,
+      breaks: breaksInput,
+    };
+
+    const created = await db.$transaction(async (tx) => {
+      const att = await tx.attendance.create({
+        data: {
+          organizationId,
+          storeId,
+          staffId,
+          businessDate,
+          clockInAt,
+          clockOutAt,
+          breakMinutes: calculateBreakMinutes(breaksInput),
+          workMinutes: calculateWorkMinutes(clockInAt, clockOutAt, breaksInput),
+          status: "COMPLETED",
+          hasAnomaly: anomalyResult.reasons.length > 0,
+          anomalyReasons: anomalyResult.reasons as unknown as Prisma.InputJsonValue,
+          // 打刻イベントを伴わない勤怠であることを残す
+          adminNotes: `管理者が手入力で作成 (理由: ${reason})${adminNotes ? `\n${adminNotes}` : ""}`,
+        },
+        select: { id: true },
+      });
+
+      if (breaksInput.length > 0) {
+        await tx.break.createMany({
+          data: breaksInput.map((b) => ({
+            attendanceId: att.id,
+            startAt: b.startAt,
+            endAt: b.endAt,
+          })),
+        });
+      }
+
+      await tx.attendanceCorrection.create({
+        data: {
+          attendanceId: att.id,
+          correctedByUserId: session.user!.id,
+          reason,
+          before: Prisma.JsonNull,
+          after: after as unknown as Prisma.InputJsonValue,
+        },
+      });
+
+      await tx.auditLog.create({
+        data: {
+          organizationId,
+          actorUserId: session.user!.id,
+          action: "ATTENDANCE_CREATE",
+          targetType: "Attendance",
+          targetId: att.id,
+          storeId,
+          staffId,
+          before: Prisma.JsonNull,
+          after: after as unknown as Prisma.InputJsonValue,
+          reason,
+        },
+      });
+
+      return att;
+    });
+
+    revalidatePath("/attendance");
+    revalidatePath(`/attendance/${created.id}`);
+    return { success: true, attendanceId: created.id };
+  } catch (error: unknown) {
+    console.error("createAttendanceByAdmin failed:", error);
+    return { error: error instanceof Error ? error.message : "登録に失敗しました" };
   }
 }
 

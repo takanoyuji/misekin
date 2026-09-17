@@ -10,7 +10,7 @@ import { StatusBadge } from "@/components/common/status-badge";
 import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { cn } from "@/lib/utils";
-import { AlertTriangle, ChevronLeft, ChevronRight } from "lucide-react";
+import { AlertTriangle, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
 
 export const metadata: Metadata = {
@@ -170,7 +170,19 @@ export default async function AttendancePage({
 
   return (
     <div className="space-y-6">
-      <PageHeader title="勤怠一覧" description="スタッフの勤怠記録を確認できます" />
+      <PageHeader
+        title="勤怠一覧"
+        description="スタッフの勤怠記録を確認できます"
+        actions={
+          <Link
+            href="/attendance/new"
+            className="inline-flex items-center gap-1 rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          >
+            <Plus className="size-4" aria-hidden="true" />
+            勤怠を追加
+          </Link>
+        }
+      />
 
       {/* フィルター */}
       <form
