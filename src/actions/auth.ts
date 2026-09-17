@@ -259,10 +259,16 @@ export async function loginUser(formData: FormData) {
       password: formData.get("password"),
       redirectTo: `${BASE_PATH}/dashboard`,
     });
-  } catch (error: any) {
-    if (error.message?.includes("CredentialsSignin")) {
+  } catch (error: unknown) {
+    // 認証NG（authorize が null を返した）は Auth.js が CredentialsSignin を投げる。
+    // 本番ビルドでは message が "…errors.authjs.dev#credentialssignin"（小文字）になり、
+    // クラス名も minify されるので、message の文字列比較では拾えず 500 になっていた（2026-09-10 に発覚）。
+    // Auth.js のエラーは type を持つので、それで判定する
+    const type = (error as { type?: unknown } | null)?.type;
+    if (type === "CredentialsSignin") {
       redirect("/login?error=credentials");
     }
+    // signIn 成功時の NEXT_REDIRECT もここを通る。そのまま投げ直して遷移させる
     throw error;
   }
 }
