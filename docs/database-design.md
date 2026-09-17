@@ -76,6 +76,10 @@ address         String?
 timezone        String   @default("Asia/Tokyo")
 dayChangeHour   Int      @default(6)
 dayChangeMinute Int      @default(0)
+locationTrackingEnabled Boolean @default(false)  // 打刻時に位置を記録するか（既定はしない）
+latitude        Float?            // 店舗の座標
+longitude       Float?
+geofenceRadiusMeters Int?         // 超えたらフラグ。null = 記録のみで判定しない
 isActive        Boolean  @default(true)
 createdAt       DateTime @default(now())
 updatedAt       DateTime @updatedAt
@@ -169,10 +173,11 @@ userAgent        String?
 deviceFingerprint String?
 storeUrlToken    String?         // 店舗URL経由の場合
 createdAt        DateTime        @default(now())
-// 位置情報（将来）
+// 打刻時点の位置（Store.locationTrackingEnabled が true のときだけ記録）
+// 店舗座標からの距離は保存しない。店舗座標を直したときに古い値が残らないよう、都度計算する
 latitude         Float?
 longitude        Float?
-locationAccuracy Float?
+locationAccuracy Float?           // ブラウザが返す測位誤差(m)
 ```
 
 ### Attendance（勤怠集約レコード）

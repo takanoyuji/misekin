@@ -87,7 +87,9 @@ export default async function StaffDetailPage({ params }: PageProps) {
     include: {
       staffStores: {
         include: {
-          store: { select: { id: true, name: true } },
+          store: {
+            select: { id: true, name: true, locationTrackingEnabled: true },
+          },
           wageHistories: {
             orderBy: { effectiveFrom: "desc" },
             take: 5,
@@ -577,6 +579,8 @@ export default async function StaffDetailPage({ params }: PageProps) {
                     storeName={ss.store.name}
                     hasPinSet={!!ss.pinHash}
                     requirePin={ss.requirePin}
+                    locationTrackingEnabled={ss.store.locationTrackingEnabled}
+                    skipLocationCheck={ss.skipLocationCheck}
                   />
                 ))}
             </div>

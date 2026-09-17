@@ -2861,6 +2861,10 @@ export const StoreScalarFieldEnum = {
   shiftPeriodStartDay: 'shiftPeriodStartDay',
   category: 'category',
   maxStaffPerSlot: 'maxStaffPerSlot',
+  locationTrackingEnabled: 'locationTrackingEnabled',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  geofenceRadiusMeters: 'geofenceRadiusMeters',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2925,6 +2929,7 @@ export const StaffStoreScalarFieldEnum = {
   pinLockedUntil: 'pinLockedUntil',
   canClock: 'canClock',
   requirePin: 'requirePin',
+  skipLocationCheck: 'skipLocationCheck',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -3477,6 +3482,20 @@ export type ListEnumStoreCategoryFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
  * Reference to a field of type 'StaffStatus'
  */
 export type EnumStaffStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StaffStatus'>
@@ -3543,20 +3562,6 @@ export type EnumClockSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'ClockSource[]'
  */
 export type ListEnumClockSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClockSource[]'>
-    
-
-
-/**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 

@@ -194,6 +194,10 @@ export const StoreScalarFieldEnum = {
   shiftPeriodStartDay: 'shiftPeriodStartDay',
   category: 'category',
   maxStaffPerSlot: 'maxStaffPerSlot',
+  locationTrackingEnabled: 'locationTrackingEnabled',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  geofenceRadiusMeters: 'geofenceRadiusMeters',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -258,6 +262,7 @@ export const StaffStoreScalarFieldEnum = {
   pinLockedUntil: 'pinLockedUntil',
   canClock: 'canClock',
   requirePin: 'requirePin',
+  skipLocationCheck: 'skipLocationCheck',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

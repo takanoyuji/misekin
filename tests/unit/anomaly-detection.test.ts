@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { detectAnomalies, getAnomalyLabel } from "@/lib/business/anomaly-detection";
+import {
+  detectAnomalies,
+  detectLocationAnomalies,
+  getAnomalyLabel,
+  mergeLocationReasons,
+} from "@/lib/business/anomaly-detection";
 
 describe("detectAnomalies", () => {
   const baseParams = {
@@ -120,5 +125,144 @@ describe("getAnomalyLabel", () => {
     expect(getAnomalyLabel("LONG_SHIFT")).toBe("長時間勤務");
     expect(getAnomalyLabel("CLOCK_OUT_BEFORE_CLOCK_IN")).toBe("退勤時刻が出勤時刻より前");
     expect(getAnomalyLabel("MISSING_BREAK_END")).toBe("休憩終了漏れ");
+  });
+});
+
+describe("detectLocationAnomalies", () => {
+  // 池袋の店舗を想定
+  const store = {
+    locationTrackingEnabled: true,
+    latitude: 35.729503,
+    longitude: 139.71086,
+    geofenceRadiusMeters: 200,
+  };
+
+  /** 店舗から北へ おおよそ meters 離れた地点（緯度1度 ≒ 111km） */
+  const pointAway = (meters: number) => ({
+    latitude: store.latitude + meters / 111000,
+    longitude: store.longitude,
+    locationAccuracy: null as number | null,
+  });
+
+  it("店舗の近くで打刻していれば異常なし", () => {
+    const reasons = detectLocationAnomalies({
+      events: [pointAway(50)],
+      store,
+    });
+    expect(reasons).toEqual([]);
+  });
+
+  it("半径を大きく超えていれば範囲外として検出する", () => {
+    const reasons = detectLocationAnomalies({
+      events: [pointAway(3000)],
+      store,
+    });
+    expect(reasons).toEqual(["LOCATION_OUT_OF_RANGE"]);
+  });
+
+  it("測位誤差が大きいときは範囲外にしない（屋内でのズレを誤検知しないため）", () => {
+    const reasons = detectLocationAnomalies({
+      events: [{ ...pointAway(800), locationAccuracy: 1500 }],
+      store,
+    });
+    expect(reasons).toEqual([]);
+  });
+
+  it("誤差を引いてもなお半径を超えるときは範囲外にする", () => {
+    const reasons = detectLocationAnomalies({
+      events: [{ ...pointAway(3000), locationAccuracy: 500 }],
+      store,
+    });
+    expect(reasons).toEqual(["LOCATION_OUT_OF_RANGE"]);
+  });
+
+  it("位置が取れていない打刻は取得不可として検出する", () => {
+    const reasons = detectLocationAnomalies({
+      events: [{ latitude: null, longitude: null, locationAccuracy: null }],
+      store,
+    });
+    expect(reasons).toEqual(["LOCATION_UNAVAILABLE"]);
+  });
+
+  it("判定距離が未設定なら記録のみで判定しない", () => {
+    const reasons = detectLocationAnomalies({
+      events: [pointAway(3000)],
+      store: { ...store, geofenceRadiusMeters: null },
+    });
+    expect(reasons).toEqual([]);
+  });
+
+  it("店舗座標が未設定なら判定しない", () => {
+    const reasons = detectLocationAnomalies({
+      events: [pointAway(3000)],
+      store: { ...store, latitude: null, longitude: null },
+    });
+    expect(reasons).toEqual([]);
+  });
+
+  it("記録が無効の店舗では判定しない", () => {
+    const reasons = detectLocationAnomalies({
+      events: [pointAway(3000)],
+      store: { ...store, locationTrackingEnabled: false },
+    });
+    expect(reasons).toEqual([]);
+  });
+
+  it("対象外のスタッフ（リモート出勤）は判定しない", () => {
+    const reasons = detectLocationAnomalies({
+      events: [pointAway(3000)],
+      store,
+      skipLocationCheck: true,
+    });
+    expect(reasons).toEqual([]);
+  });
+
+  it("同じ理由は打刻が何件あっても1つにまとめる", () => {
+    const reasons = detectLocationAnomalies({
+      events: [pointAway(3000), pointAway(4000), pointAway(5000)],
+      store,
+    });
+    expect(reasons).toEqual(["LOCATION_OUT_OF_RANGE"]);
+  });
+});
+
+describe("mergeLocationReasons", () => {
+  it("位置以外の理由は残す", () => {
+    expect(mergeLocationReasons(["LONG_SHIFT"], [])).toEqual(["LONG_SHIFT"]);
+  });
+
+  it("古い位置の理由は消して、新しい判定結果に入れ替える", () => {
+    expect(
+      mergeLocationReasons(
+        ["LONG_SHIFT", "LOCATION_OUT_OF_RANGE"],
+        ["LOCATION_UNAVAILABLE"]
+      )
+    ).toEqual(["LONG_SHIFT", "LOCATION_UNAVAILABLE"]);
+  });
+
+  it("判定しなくなったら位置の理由は落ちる", () => {
+    expect(
+      mergeLocationReasons(["LOCATION_OUT_OF_RANGE"], [])
+    ).toEqual([]);
+  });
+
+  it("何度通しても結果は変わらない（重複しない）", () => {
+    const once = mergeLocationReasons(
+      ["LONG_SHIFT"],
+      ["LOCATION_OUT_OF_RANGE"]
+    );
+    const twice = mergeLocationReasons(once, ["LOCATION_OUT_OF_RANGE"]);
+    expect(twice).toEqual(once);
+  });
+});
+
+describe("getAnomalyLabel（位置）", () => {
+  it("位置の理由も日本語で返る", () => {
+    expect(getAnomalyLabel("LOCATION_OUT_OF_RANGE")).toBe(
+      "店舗から離れた場所で打刻"
+    );
+    expect(getAnomalyLabel("LOCATION_UNAVAILABLE")).toBe(
+      "位置情報を取得できなかった打刻"
+    );
   });
 });

@@ -177,6 +177,14 @@ model Store {
   // 必要人数の提案で立てる上限（1時間あたり）。箱の広さや回し方は店ごとに違うので店舗設定にする。
   // 提案が上振れしても現実離れした人数を出さないための蓋で、実際のシフトはここを超えて組める。
   maxStaffPerSlot Int      @default(2)
+  // 打刻時に位置情報を記録するか。既定は false（個人情報なので、店ごとに明示的に有効化する）
+  locationTrackingEnabled Boolean @default(false)
+  // 店舗の座標。未設定なら位置は記録するだけで判定しない
+  latitude        Float?
+  longitude       Float?
+  // この距離(m)を超えた打刻に異常フラグを立てる。null = 判定しない（記録のみ）
+  // 打刻をブロックはしない。判定は締めの前に人が見るための材料。
+  geofenceRadiusMeters Int?
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -308,6 +316,8 @@ model StaffStore {
   pinLockedUntil DateTime?
   canClock       Boolean   @default(true)
   requirePin     Boolean   @default(true)
+  // リモート出勤など、店舗にいないことが正常なスタッフ。位置の異常判定から外す
+  skipLocationCheck Boolean @default(false)
   isActive       Boolean   @default(true)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
@@ -381,7 +391,8 @@ model AttendanceEvent {
   attendanceId      String?
   createdAt         DateTime       @default(now())
 
-  // 将来: 位置情報
+  // 打刻時点の位置。店舗で locationTrackingEnabled が有効なときだけ記録する。
+  // 店舗座標からの距離は保存しない（店舗座標を直したときに古い値が残るため、都度この生データから計算する）
   latitude         Float?
   longitude        Float?
   locationAccuracy Float?

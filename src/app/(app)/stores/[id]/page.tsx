@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/common/page-header";
 import { StoreEditForm } from "./store-edit-form";
 import { ClockUrlSection } from "./clock-url-section";
 import { ShiftPeriodForm } from "./shift-period-form";
+import { LocationSettingsForm } from "./location-settings-form";
 import { ShiftSlotManager } from "./shift-slot-manager";
 import { ShiftSlotPrompt } from "./shift-slot-prompt";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
@@ -151,6 +152,22 @@ export default async function StoreDetailPage({ params }: PageProps) {
                 storeId={store.id}
                 initialUnit={store.shiftPeriodUnit}
                 initialStartDay={store.shiftPeriodStartDay}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* 打刻の位置 */}
+        <section>
+          <div className="rounded-xl border border-border bg-card shadow-sm">
+            <div className="p-6">
+              <LocationSettingsForm
+                organizationId={orgId}
+                storeId={store.id}
+                initialEnabled={store.locationTrackingEnabled}
+                initialLatitude={store.latitude}
+                initialLongitude={store.longitude}
+                initialRadius={store.geofenceRadiusMeters}
               />
             </div>
           </div>

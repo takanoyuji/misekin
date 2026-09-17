@@ -7,6 +7,20 @@ export const clockActionSchema = z.object({
   action: z.enum(["CLOCK_IN", "BREAK_START", "BREAK_END", "CLOCK_OUT"]),
 });
 
+/**
+ * 打刻時にブラウザから送られてくる位置。
+ * クライアントの自己申告値なので、必ずここを通してから保存する。
+ * 不正な値でも打刻自体は止めない（位置なしとして扱う）。
+ */
+export const clockLocationSchema = z.object({
+  latitude: z.number().min(-90).max(90),
+  longitude: z.number().min(-180).max(180),
+  // 測位誤差(m)。屋内では数百m〜数kmになることがあるので上限は緩めに取る
+  accuracy: z.number().min(0).max(100000).nullable().optional(),
+});
+
+export type ClockLocationInput = z.infer<typeof clockLocationSchema>;
+
 export const correctAttendanceSchema = z.object({
   attendanceId: z.string().cuid(),
   clockInAt: z.coerce.date().optional().nullable(),

@@ -13,7 +13,7 @@ import { clockCookieName, verifyClockSession } from "@/lib/clock-session";
 import { StatusActions } from "./status-actions";
 import { toZonedTime } from "date-fns-tz";
 import { format } from "date-fns";
-import { Clock } from "lucide-react";
+import { Clock, MapPin } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ token: string }>;
@@ -159,7 +159,19 @@ export default async function StatusPage({ params, searchParams }: PageProps) {
           staffName={staffStore.staff.displayName}
           currentState={currentState}
           availableActions={availableActions}
+          locationTrackingEnabled={store.locationTrackingEnabled}
         />
+
+        {/* 位置情報の告知。記録する店舗でだけ出す */}
+        {store.locationTrackingEnabled && (
+          <p className="mt-4 flex items-start gap-1.5 text-xs text-gray-400">
+            <MapPin className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+            <span>
+              打刻した瞬間の位置を記録します。常時の追跡はしません。
+              位置が取れなくても打刻はできます。
+            </span>
+          </p>
+        )}
 
         {/* 戻るボタン */}
         <Link

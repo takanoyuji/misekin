@@ -46,6 +46,7 @@ export type StaffStoreMinAggregateOutputType = {
   pinLockedUntil: Date | null
   canClock: boolean | null
   requirePin: boolean | null
+  skipLocationCheck: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -63,6 +64,7 @@ export type StaffStoreMaxAggregateOutputType = {
   pinLockedUntil: Date | null
   canClock: boolean | null
   requirePin: boolean | null
+  skipLocationCheck: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -80,6 +82,7 @@ export type StaffStoreCountAggregateOutputType = {
   pinLockedUntil: number
   canClock: number
   requirePin: number
+  skipLocationCheck: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -107,6 +110,7 @@ export type StaffStoreMinAggregateInputType = {
   pinLockedUntil?: true
   canClock?: true
   requirePin?: true
+  skipLocationCheck?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -124,6 +128,7 @@ export type StaffStoreMaxAggregateInputType = {
   pinLockedUntil?: true
   canClock?: true
   requirePin?: true
+  skipLocationCheck?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -141,6 +146,7 @@ export type StaffStoreCountAggregateInputType = {
   pinLockedUntil?: true
   canClock?: true
   requirePin?: true
+  skipLocationCheck?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -245,6 +251,7 @@ export type StaffStoreGroupByOutputType = {
   pinLockedUntil: Date | null
   canClock: boolean
   requirePin: boolean
+  skipLocationCheck: boolean
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -285,6 +292,7 @@ export type StaffStoreWhereInput = {
   pinLockedUntil?: Prisma.DateTimeNullableFilter<"StaffStore"> | Date | string | null
   canClock?: Prisma.BoolFilter<"StaffStore"> | boolean
   requirePin?: Prisma.BoolFilter<"StaffStore"> | boolean
+  skipLocationCheck?: Prisma.BoolFilter<"StaffStore"> | boolean
   isActive?: Prisma.BoolFilter<"StaffStore"> | boolean
   createdAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
@@ -307,6 +315,7 @@ export type StaffStoreOrderByWithRelationInput = {
   pinLockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder
   canClock?: Prisma.SortOrder
   requirePin?: Prisma.SortOrder
+  skipLocationCheck?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -333,6 +342,7 @@ export type StaffStoreWhereUniqueInput = Prisma.AtLeast<{
   pinLockedUntil?: Prisma.DateTimeNullableFilter<"StaffStore"> | Date | string | null
   canClock?: Prisma.BoolFilter<"StaffStore"> | boolean
   requirePin?: Prisma.BoolFilter<"StaffStore"> | boolean
+  skipLocationCheck?: Prisma.BoolFilter<"StaffStore"> | boolean
   isActive?: Prisma.BoolFilter<"StaffStore"> | boolean
   createdAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
@@ -355,6 +365,7 @@ export type StaffStoreOrderByWithAggregationInput = {
   pinLockedUntil?: Prisma.SortOrderInput | Prisma.SortOrder
   canClock?: Prisma.SortOrder
   requirePin?: Prisma.SortOrder
+  skipLocationCheck?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -380,6 +391,7 @@ export type StaffStoreScalarWhereWithAggregatesInput = {
   pinLockedUntil?: Prisma.DateTimeNullableWithAggregatesFilter<"StaffStore"> | Date | string | null
   canClock?: Prisma.BoolWithAggregatesFilter<"StaffStore"> | boolean
   requirePin?: Prisma.BoolWithAggregatesFilter<"StaffStore"> | boolean
+  skipLocationCheck?: Prisma.BoolWithAggregatesFilter<"StaffStore"> | boolean
   isActive?: Prisma.BoolWithAggregatesFilter<"StaffStore"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"StaffStore"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"StaffStore"> | Date | string
@@ -395,6 +407,7 @@ export type StaffStoreCreateInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -417,6 +430,7 @@ export type StaffStoreUncheckedCreateInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -435,6 +449,7 @@ export type StaffStoreUpdateInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -457,6 +472,7 @@ export type StaffStoreUncheckedUpdateInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -477,6 +493,7 @@ export type StaffStoreCreateManyInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -492,6 +509,7 @@ export type StaffStoreUpdateManyMutationInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -509,6 +527,7 @@ export type StaffStoreUncheckedUpdateManyInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -541,6 +560,7 @@ export type StaffStoreCountOrderByAggregateInput = {
   pinLockedUntil?: Prisma.SortOrder
   canClock?: Prisma.SortOrder
   requirePin?: Prisma.SortOrder
+  skipLocationCheck?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -562,6 +582,7 @@ export type StaffStoreMaxOrderByAggregateInput = {
   pinLockedUntil?: Prisma.SortOrder
   canClock?: Prisma.SortOrder
   requirePin?: Prisma.SortOrder
+  skipLocationCheck?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -579,6 +600,7 @@ export type StaffStoreMinOrderByAggregateInput = {
   pinLockedUntil?: Prisma.SortOrder
   canClock?: Prisma.SortOrder
   requirePin?: Prisma.SortOrder
+  skipLocationCheck?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -729,6 +751,7 @@ export type StaffStoreCreateWithoutStoreInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -749,6 +772,7 @@ export type StaffStoreUncheckedCreateWithoutStoreInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -798,6 +822,7 @@ export type StaffStoreScalarWhereInput = {
   pinLockedUntil?: Prisma.DateTimeNullableFilter<"StaffStore"> | Date | string | null
   canClock?: Prisma.BoolFilter<"StaffStore"> | boolean
   requirePin?: Prisma.BoolFilter<"StaffStore"> | boolean
+  skipLocationCheck?: Prisma.BoolFilter<"StaffStore"> | boolean
   isActive?: Prisma.BoolFilter<"StaffStore"> | boolean
   createdAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StaffStore"> | Date | string
@@ -813,6 +838,7 @@ export type StaffStoreCreateWithoutStaffInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -833,6 +859,7 @@ export type StaffStoreUncheckedCreateWithoutStaffInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -877,6 +904,7 @@ export type StaffStoreCreateWithoutWageHistoriesInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -898,6 +926,7 @@ export type StaffStoreUncheckedCreateWithoutWageHistoriesInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -931,6 +960,7 @@ export type StaffStoreUpdateWithoutWageHistoriesInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -952,6 +982,7 @@ export type StaffStoreUncheckedUpdateWithoutWageHistoriesInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -969,6 +1000,7 @@ export type StaffStoreCreateWithoutTransportationHistoriesInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -990,6 +1022,7 @@ export type StaffStoreUncheckedCreateWithoutTransportationHistoriesInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1023,6 +1056,7 @@ export type StaffStoreUpdateWithoutTransportationHistoriesInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1044,6 +1078,7 @@ export type StaffStoreUncheckedUpdateWithoutTransportationHistoriesInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1061,6 +1096,7 @@ export type StaffStoreCreateWithoutTransportationChangeRequestsInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1082,6 +1118,7 @@ export type StaffStoreUncheckedCreateWithoutTransportationChangeRequestsInput = 
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1115,6 +1152,7 @@ export type StaffStoreUpdateWithoutTransportationChangeRequestsInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1136,6 +1174,7 @@ export type StaffStoreUncheckedUpdateWithoutTransportationChangeRequestsInput = 
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1154,6 +1193,7 @@ export type StaffStoreCreateManyStoreInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1169,6 +1209,7 @@ export type StaffStoreUpdateWithoutStoreInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1189,6 +1230,7 @@ export type StaffStoreUncheckedUpdateWithoutStoreInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1208,6 +1250,7 @@ export type StaffStoreUncheckedUpdateManyWithoutStoreInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1224,6 +1267,7 @@ export type StaffStoreCreateManyStaffInput = {
   pinLockedUntil?: Date | string | null
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1239,6 +1283,7 @@ export type StaffStoreUpdateWithoutStaffInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1259,6 +1304,7 @@ export type StaffStoreUncheckedUpdateWithoutStaffInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1278,6 +1324,7 @@ export type StaffStoreUncheckedUpdateManyWithoutStaffInput = {
   pinLockedUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   canClock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requirePin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  skipLocationCheck?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1344,6 +1391,7 @@ export type StaffStoreSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   pinLockedUntil?: boolean
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1367,6 +1415,7 @@ export type StaffStoreSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   pinLockedUntil?: boolean
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1386,6 +1435,7 @@ export type StaffStoreSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   pinLockedUntil?: boolean
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1405,12 +1455,13 @@ export type StaffStoreSelectScalar = {
   pinLockedUntil?: boolean
   canClock?: boolean
   requirePin?: boolean
+  skipLocationCheck?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type StaffStoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffId" | "storeId" | "startDate" | "endDate" | "isPrimary" | "pinHash" | "pinFailCount" | "pinLockedUntil" | "canClock" | "requirePin" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["staffStore"]>
+export type StaffStoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffId" | "storeId" | "startDate" | "endDate" | "isPrimary" | "pinHash" | "pinFailCount" | "pinLockedUntil" | "canClock" | "requirePin" | "skipLocationCheck" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["staffStore"]>
 export type StaffStoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
@@ -1449,6 +1500,7 @@ export type $StaffStorePayload<ExtArgs extends runtime.Types.Extensions.Internal
     pinLockedUntil: Date | null
     canClock: boolean
     requirePin: boolean
+    skipLocationCheck: boolean
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1891,6 +1943,7 @@ export interface StaffStoreFieldRefs {
   readonly pinLockedUntil: Prisma.FieldRef<"StaffStore", 'DateTime'>
   readonly canClock: Prisma.FieldRef<"StaffStore", 'Boolean'>
   readonly requirePin: Prisma.FieldRef<"StaffStore", 'Boolean'>
+  readonly skipLocationCheck: Prisma.FieldRef<"StaffStore", 'Boolean'>
   readonly isActive: Prisma.FieldRef<"StaffStore", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"StaffStore", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"StaffStore", 'DateTime'>

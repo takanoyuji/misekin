@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { clockAction } from "@/actions/attendance";
 import type { ClockState, ClockAction } from "@/lib/business/time-clock";
+import type { ClockLocationInput } from "@/lib/validations/attendance";
 
 const actionConfig: Record<
   ClockAction,
@@ -37,6 +38,55 @@ interface StatusActionsProps {
   staffName: string;
   currentState: ClockState;
   availableActions: ClockAction[];
+  /** 店舗で位置情報の記録が有効か。false のときは取得も要求もしない */
+  locationTrackingEnabled: boolean;
+}
+
+/** 位置の取得を待つ上限。深夜の打刻を待たせないため短く切る */
+const LOCATION_TIMEOUT_MS = 5000;
+
+/**
+ * 打刻時の位置を取れるだけ取る。
+ *
+ * **取れなくても打刻は必ず通す。** 拒否・タイムアウト・非対応はすべて null を返す。
+ * ビル内では測位が数秒かかったり大きくずれたりするので、ここで待たせない・止めないことを優先する。
+ */
+function getClockLocation(): Promise<ClockLocationInput | null> {
+  if (typeof navigator === "undefined" || !navigator.geolocation) {
+    return Promise.resolve(null);
+  }
+
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = (value: ClockLocationInput | null) => {
+      if (settled) return;
+      settled = true;
+      resolve(value);
+    };
+
+    // ブラウザ側の timeout が効かないケースの保険
+    const timer = setTimeout(() => finish(null), LOCATION_TIMEOUT_MS + 500);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        clearTimeout(timer);
+        finish({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          accuracy: position.coords.accuracy ?? null,
+        });
+      },
+      () => {
+        clearTimeout(timer);
+        finish(null);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: LOCATION_TIMEOUT_MS,
+        maximumAge: 120000,
+      }
+    );
+  });
 }
 
 export function StatusActions({
@@ -45,6 +95,7 @@ export function StatusActions({
   staffName,
   currentState,
   availableActions,
+  locationTrackingEnabled,
 }: StatusActionsProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -57,11 +108,16 @@ export function StatusActions({
   const executeAction = (action: ClockAction, memoText?: string) => {
     setError(null);
     startTransition(async () => {
+      const location = locationTrackingEnabled
+        ? await getClockLocation()
+        : null;
+
       const result = await clockAction({
         token,
         staffId,
         action,
         memo: memoText || undefined,
+        location,
       });
 
       if (result.error) {

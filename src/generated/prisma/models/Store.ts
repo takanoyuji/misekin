@@ -31,6 +31,9 @@ export type StoreAvgAggregateOutputType = {
   dayChangeMinute: number | null
   shiftPeriodStartDay: number | null
   maxStaffPerSlot: number | null
+  latitude: number | null
+  longitude: number | null
+  geofenceRadiusMeters: number | null
 }
 
 export type StoreSumAggregateOutputType = {
@@ -38,6 +41,9 @@ export type StoreSumAggregateOutputType = {
   dayChangeMinute: number | null
   shiftPeriodStartDay: number | null
   maxStaffPerSlot: number | null
+  latitude: number | null
+  longitude: number | null
+  geofenceRadiusMeters: number | null
 }
 
 export type StoreMinAggregateOutputType = {
@@ -53,6 +59,10 @@ export type StoreMinAggregateOutputType = {
   shiftPeriodStartDay: number | null
   category: $Enums.StoreCategory | null
   maxStaffPerSlot: number | null
+  locationTrackingEnabled: boolean | null
+  latitude: number | null
+  longitude: number | null
+  geofenceRadiusMeters: number | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -71,6 +81,10 @@ export type StoreMaxAggregateOutputType = {
   shiftPeriodStartDay: number | null
   category: $Enums.StoreCategory | null
   maxStaffPerSlot: number | null
+  locationTrackingEnabled: boolean | null
+  latitude: number | null
+  longitude: number | null
+  geofenceRadiusMeters: number | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -89,6 +103,10 @@ export type StoreCountAggregateOutputType = {
   shiftPeriodStartDay: number
   category: number
   maxStaffPerSlot: number
+  locationTrackingEnabled: number
+  latitude: number
+  longitude: number
+  geofenceRadiusMeters: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -101,6 +119,9 @@ export type StoreAvgAggregateInputType = {
   dayChangeMinute?: true
   shiftPeriodStartDay?: true
   maxStaffPerSlot?: true
+  latitude?: true
+  longitude?: true
+  geofenceRadiusMeters?: true
 }
 
 export type StoreSumAggregateInputType = {
@@ -108,6 +129,9 @@ export type StoreSumAggregateInputType = {
   dayChangeMinute?: true
   shiftPeriodStartDay?: true
   maxStaffPerSlot?: true
+  latitude?: true
+  longitude?: true
+  geofenceRadiusMeters?: true
 }
 
 export type StoreMinAggregateInputType = {
@@ -123,6 +147,10 @@ export type StoreMinAggregateInputType = {
   shiftPeriodStartDay?: true
   category?: true
   maxStaffPerSlot?: true
+  locationTrackingEnabled?: true
+  latitude?: true
+  longitude?: true
+  geofenceRadiusMeters?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -141,6 +169,10 @@ export type StoreMaxAggregateInputType = {
   shiftPeriodStartDay?: true
   category?: true
   maxStaffPerSlot?: true
+  locationTrackingEnabled?: true
+  latitude?: true
+  longitude?: true
+  geofenceRadiusMeters?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -159,6 +191,10 @@ export type StoreCountAggregateInputType = {
   shiftPeriodStartDay?: true
   category?: true
   maxStaffPerSlot?: true
+  locationTrackingEnabled?: true
+  latitude?: true
+  longitude?: true
+  geofenceRadiusMeters?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -264,6 +300,10 @@ export type StoreGroupByOutputType = {
   shiftPeriodStartDay: number
   category: $Enums.StoreCategory
   maxStaffPerSlot: number
+  locationTrackingEnabled: boolean
+  latitude: number | null
+  longitude: number | null
+  geofenceRadiusMeters: number | null
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -305,6 +345,10 @@ export type StoreWhereInput = {
   shiftPeriodStartDay?: Prisma.IntFilter<"Store"> | number
   category?: Prisma.EnumStoreCategoryFilter<"Store"> | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFilter<"Store"> | number
+  locationTrackingEnabled?: Prisma.BoolFilter<"Store"> | boolean
+  latitude?: Prisma.FloatNullableFilter<"Store"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"Store"> | number | null
+  geofenceRadiusMeters?: Prisma.IntNullableFilter<"Store"> | number | null
   isActive?: Prisma.BoolFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
@@ -339,6 +383,10 @@ export type StoreOrderByWithRelationInput = {
   shiftPeriodStartDay?: Prisma.SortOrder
   category?: Prisma.SortOrder
   maxStaffPerSlot?: Prisma.SortOrder
+  locationTrackingEnabled?: Prisma.SortOrder
+  latitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  geofenceRadiusMeters?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -377,6 +425,10 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   shiftPeriodStartDay?: Prisma.IntFilter<"Store"> | number
   category?: Prisma.EnumStoreCategoryFilter<"Store"> | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFilter<"Store"> | number
+  locationTrackingEnabled?: Prisma.BoolFilter<"Store"> | boolean
+  latitude?: Prisma.FloatNullableFilter<"Store"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"Store"> | number | null
+  geofenceRadiusMeters?: Prisma.IntNullableFilter<"Store"> | number | null
   isActive?: Prisma.BoolFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
@@ -411,6 +463,10 @@ export type StoreOrderByWithAggregationInput = {
   shiftPeriodStartDay?: Prisma.SortOrder
   category?: Prisma.SortOrder
   maxStaffPerSlot?: Prisma.SortOrder
+  locationTrackingEnabled?: Prisma.SortOrder
+  latitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  geofenceRadiusMeters?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -437,6 +493,10 @@ export type StoreScalarWhereWithAggregatesInput = {
   shiftPeriodStartDay?: Prisma.IntWithAggregatesFilter<"Store"> | number
   category?: Prisma.EnumStoreCategoryWithAggregatesFilter<"Store"> | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntWithAggregatesFilter<"Store"> | number
+  locationTrackingEnabled?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
+  latitude?: Prisma.FloatNullableWithAggregatesFilter<"Store"> | number | null
+  longitude?: Prisma.FloatNullableWithAggregatesFilter<"Store"> | number | null
+  geofenceRadiusMeters?: Prisma.IntNullableWithAggregatesFilter<"Store"> | number | null
   isActive?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Store"> | Date | string
@@ -454,6 +514,10 @@ export type StoreCreateInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -488,6 +552,10 @@ export type StoreUncheckedCreateInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -520,6 +588,10 @@ export type StoreUpdateInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -554,6 +626,10 @@ export type StoreUncheckedUpdateInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -587,6 +663,10 @@ export type StoreCreateManyInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -604,6 +684,10 @@ export type StoreUpdateManyMutationInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -622,6 +706,10 @@ export type StoreUncheckedUpdateManyInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -655,6 +743,10 @@ export type StoreCountOrderByAggregateInput = {
   shiftPeriodStartDay?: Prisma.SortOrder
   category?: Prisma.SortOrder
   maxStaffPerSlot?: Prisma.SortOrder
+  locationTrackingEnabled?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+  geofenceRadiusMeters?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -665,6 +757,9 @@ export type StoreAvgOrderByAggregateInput = {
   dayChangeMinute?: Prisma.SortOrder
   shiftPeriodStartDay?: Prisma.SortOrder
   maxStaffPerSlot?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+  geofenceRadiusMeters?: Prisma.SortOrder
 }
 
 export type StoreMaxOrderByAggregateInput = {
@@ -680,6 +775,10 @@ export type StoreMaxOrderByAggregateInput = {
   shiftPeriodStartDay?: Prisma.SortOrder
   category?: Prisma.SortOrder
   maxStaffPerSlot?: Prisma.SortOrder
+  locationTrackingEnabled?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+  geofenceRadiusMeters?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -698,6 +797,10 @@ export type StoreMinOrderByAggregateInput = {
   shiftPeriodStartDay?: Prisma.SortOrder
   category?: Prisma.SortOrder
   maxStaffPerSlot?: Prisma.SortOrder
+  locationTrackingEnabled?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+  geofenceRadiusMeters?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -708,6 +811,9 @@ export type StoreSumOrderByAggregateInput = {
   dayChangeMinute?: Prisma.SortOrder
   shiftPeriodStartDay?: Prisma.SortOrder
   maxStaffPerSlot?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+  geofenceRadiusMeters?: Prisma.SortOrder
 }
 
 export type StoreScalarRelationFilter = {
@@ -768,6 +874,14 @@ export type EnumShiftPeriodUnitFieldUpdateOperationsInput = {
 
 export type EnumStoreCategoryFieldUpdateOperationsInput = {
   set?: $Enums.StoreCategory
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type StoreCreateNestedOneWithoutClockUrlsInput = {
@@ -998,6 +1112,10 @@ export type StoreCreateWithoutOrganizationInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1030,6 +1148,10 @@ export type StoreUncheckedCreateWithoutOrganizationInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1092,6 +1214,10 @@ export type StoreScalarWhereInput = {
   shiftPeriodStartDay?: Prisma.IntFilter<"Store"> | number
   category?: Prisma.EnumStoreCategoryFilter<"Store"> | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFilter<"Store"> | number
+  locationTrackingEnabled?: Prisma.BoolFilter<"Store"> | boolean
+  latitude?: Prisma.FloatNullableFilter<"Store"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"Store"> | number | null
+  geofenceRadiusMeters?: Prisma.IntNullableFilter<"Store"> | number | null
   isActive?: Prisma.BoolFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
@@ -1109,6 +1235,10 @@ export type StoreCreateWithoutClockUrlsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1142,6 +1272,10 @@ export type StoreUncheckedCreateWithoutClockUrlsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1189,6 +1323,10 @@ export type StoreUpdateWithoutClockUrlsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1222,6 +1360,10 @@ export type StoreUncheckedUpdateWithoutClockUrlsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1253,6 +1395,10 @@ export type StoreCreateWithoutStoreAdminsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1286,6 +1432,10 @@ export type StoreUncheckedCreateWithoutStoreAdminsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1333,6 +1483,10 @@ export type StoreUpdateWithoutStoreAdminsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1366,6 +1520,10 @@ export type StoreUncheckedUpdateWithoutStoreAdminsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1397,6 +1555,10 @@ export type StoreCreateWithoutStaffStoresInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1430,6 +1592,10 @@ export type StoreUncheckedCreateWithoutStaffStoresInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1477,6 +1643,10 @@ export type StoreUpdateWithoutStaffStoresInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1510,6 +1680,10 @@ export type StoreUncheckedUpdateWithoutStaffStoresInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1541,6 +1715,10 @@ export type StoreCreateWithoutAttendanceEventsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1574,6 +1752,10 @@ export type StoreUncheckedCreateWithoutAttendanceEventsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1621,6 +1803,10 @@ export type StoreUpdateWithoutAttendanceEventsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1654,6 +1840,10 @@ export type StoreUncheckedUpdateWithoutAttendanceEventsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1685,6 +1875,10 @@ export type StoreCreateWithoutAttendancesInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1718,6 +1912,10 @@ export type StoreUncheckedCreateWithoutAttendancesInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1765,6 +1963,10 @@ export type StoreUpdateWithoutAttendancesInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1798,6 +2000,10 @@ export type StoreUncheckedUpdateWithoutAttendancesInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1829,6 +2035,10 @@ export type StoreCreateWithoutCorrectionRequestsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1862,6 +2072,10 @@ export type StoreUncheckedCreateWithoutCorrectionRequestsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1909,6 +2123,10 @@ export type StoreUpdateWithoutCorrectionRequestsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1942,6 +2160,10 @@ export type StoreUncheckedUpdateWithoutCorrectionRequestsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1973,6 +2195,10 @@ export type StoreCreateWithoutShiftAvailabilitiesInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2006,6 +2232,10 @@ export type StoreUncheckedCreateWithoutShiftAvailabilitiesInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2053,6 +2283,10 @@ export type StoreUpdateWithoutShiftAvailabilitiesInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2086,6 +2320,10 @@ export type StoreUncheckedUpdateWithoutShiftAvailabilitiesInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2117,6 +2355,10 @@ export type StoreCreateWithoutShiftRequirementsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2150,6 +2392,10 @@ export type StoreUncheckedCreateWithoutShiftRequirementsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2197,6 +2443,10 @@ export type StoreUpdateWithoutShiftRequirementsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2230,6 +2480,10 @@ export type StoreUncheckedUpdateWithoutShiftRequirementsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2261,6 +2515,10 @@ export type StoreCreateWithoutShiftsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2294,6 +2552,10 @@ export type StoreUncheckedCreateWithoutShiftsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2341,6 +2603,10 @@ export type StoreUpdateWithoutShiftsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2374,6 +2640,10 @@ export type StoreUncheckedUpdateWithoutShiftsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2405,6 +2675,10 @@ export type StoreCreateWithoutShiftSlotsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2438,6 +2712,10 @@ export type StoreUncheckedCreateWithoutShiftSlotsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2485,6 +2763,10 @@ export type StoreUpdateWithoutShiftSlotsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2518,6 +2800,10 @@ export type StoreUncheckedUpdateWithoutShiftSlotsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2549,6 +2835,10 @@ export type StoreCreateWithoutShiftRulesInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2582,6 +2872,10 @@ export type StoreUncheckedCreateWithoutShiftRulesInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2629,6 +2923,10 @@ export type StoreUpdateWithoutShiftRulesInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2662,6 +2960,10 @@ export type StoreUncheckedUpdateWithoutShiftRulesInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2693,6 +2995,10 @@ export type StoreCreateWithoutClosingPeriodsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2726,6 +3032,10 @@ export type StoreUncheckedCreateWithoutClosingPeriodsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2773,6 +3083,10 @@ export type StoreUpdateWithoutClosingPeriodsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2806,6 +3120,10 @@ export type StoreUncheckedUpdateWithoutClosingPeriodsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2837,6 +3155,10 @@ export type StoreCreateWithoutAuditLogsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2870,6 +3192,10 @@ export type StoreUncheckedCreateWithoutAuditLogsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2917,6 +3243,10 @@ export type StoreUpdateWithoutAuditLogsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2950,6 +3280,10 @@ export type StoreUncheckedUpdateWithoutAuditLogsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2981,6 +3315,10 @@ export type StoreCreateWithoutSalesTxnsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3014,6 +3352,10 @@ export type StoreUncheckedCreateWithoutSalesTxnsInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3061,6 +3403,10 @@ export type StoreUpdateWithoutSalesTxnsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3094,6 +3440,10 @@ export type StoreUncheckedUpdateWithoutSalesTxnsInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3125,6 +3475,10 @@ export type StoreCreateWithoutSalesDailyInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3158,6 +3512,10 @@ export type StoreUncheckedCreateWithoutSalesDailyInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3205,6 +3563,10 @@ export type StoreUpdateWithoutSalesDailyInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3238,6 +3600,10 @@ export type StoreUncheckedUpdateWithoutSalesDailyInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3269,6 +3635,10 @@ export type StoreCreateManyOrganizationInput = {
   shiftPeriodStartDay?: number
   category?: $Enums.StoreCategory
   maxStaffPerSlot?: number
+  locationTrackingEnabled?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  geofenceRadiusMeters?: number | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3286,6 +3656,10 @@ export type StoreUpdateWithoutOrganizationInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3318,6 +3692,10 @@ export type StoreUncheckedUpdateWithoutOrganizationInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3350,6 +3728,10 @@ export type StoreUncheckedUpdateManyWithoutOrganizationInput = {
   shiftPeriodStartDay?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumStoreCategoryFieldUpdateOperationsInput | $Enums.StoreCategory
   maxStaffPerSlot?: Prisma.IntFieldUpdateOperationsInput | number
+  locationTrackingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  geofenceRadiusMeters?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3525,6 +3907,10 @@ export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   shiftPeriodStartDay?: boolean
   category?: boolean
   maxStaffPerSlot?: boolean
+  locationTrackingEnabled?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  geofenceRadiusMeters?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3560,6 +3946,10 @@ export type StoreSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   shiftPeriodStartDay?: boolean
   category?: boolean
   maxStaffPerSlot?: boolean
+  locationTrackingEnabled?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  geofenceRadiusMeters?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3579,6 +3969,10 @@ export type StoreSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   shiftPeriodStartDay?: boolean
   category?: boolean
   maxStaffPerSlot?: boolean
+  locationTrackingEnabled?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  geofenceRadiusMeters?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3598,12 +3992,16 @@ export type StoreSelectScalar = {
   shiftPeriodStartDay?: boolean
   category?: boolean
   maxStaffPerSlot?: boolean
+  locationTrackingEnabled?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  geofenceRadiusMeters?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type StoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "name" | "code" | "address" | "timezone" | "dayChangeHour" | "dayChangeMinute" | "shiftPeriodUnit" | "shiftPeriodStartDay" | "category" | "maxStaffPerSlot" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
+export type StoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "name" | "code" | "address" | "timezone" | "dayChangeHour" | "dayChangeMinute" | "shiftPeriodUnit" | "shiftPeriodStartDay" | "category" | "maxStaffPerSlot" | "locationTrackingEnabled" | "latitude" | "longitude" | "geofenceRadiusMeters" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
 export type StoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   salesTxns?: boolean | Prisma.Store$salesTxnsArgs<ExtArgs>
@@ -3663,6 +4061,10 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     shiftPeriodStartDay: number
     category: $Enums.StoreCategory
     maxStaffPerSlot: number
+    locationTrackingEnabled: boolean
+    latitude: number | null
+    longitude: number | null
+    geofenceRadiusMeters: number | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -4117,6 +4519,10 @@ export interface StoreFieldRefs {
   readonly shiftPeriodStartDay: Prisma.FieldRef<"Store", 'Int'>
   readonly category: Prisma.FieldRef<"Store", 'StoreCategory'>
   readonly maxStaffPerSlot: Prisma.FieldRef<"Store", 'Int'>
+  readonly locationTrackingEnabled: Prisma.FieldRef<"Store", 'Boolean'>
+  readonly latitude: Prisma.FieldRef<"Store", 'Float'>
+  readonly longitude: Prisma.FieldRef<"Store", 'Float'>
+  readonly geofenceRadiusMeters: Prisma.FieldRef<"Store", 'Int'>
   readonly isActive: Prisma.FieldRef<"Store", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Store", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Store", 'DateTime'>

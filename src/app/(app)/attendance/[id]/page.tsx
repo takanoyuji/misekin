@@ -11,6 +11,11 @@ import { toZonedTime } from "date-fns-tz";
 import { cn } from "@/lib/utils";
 import { AlertTriangle, Edit, Lock } from "lucide-react";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
+import {
+  getAnomalyLabel,
+  type AnomalyReason,
+} from "@/lib/business/anomaly-detection";
+import { haversineMeters } from "@/lib/business/geo";
 
 export const metadata: Metadata = {
   title: "勤怠詳細",
@@ -81,7 +86,14 @@ export default async function AttendanceDetailPage({
         },
       },
       store: {
-        select: { id: true, name: true, timezone: true },
+        select: {
+          id: true,
+          name: true,
+          timezone: true,
+          latitude: true,
+          longitude: true,
+          geofenceRadiusMeters: true,
+        },
       },
       breaks: { orderBy: { startAt: "asc" } },
       attendanceEvents: { orderBy: { clockedAt: "asc" } },
@@ -108,6 +120,37 @@ export default async function AttendanceDetailPage({
 
   const timezone = attendance.store.timezone ?? "Asia/Tokyo";
   const anomalyReasons = attendance.anomalyReasons as string[];
+
+  // 店舗座標からの距離は保存せず、打刻の生の緯度経度からその場で出す
+  // （店舗座標を直したときに古い距離が残らないようにするため）
+  const storePoint =
+    attendance.store.latitude != null && attendance.store.longitude != null
+      ? {
+          latitude: attendance.store.latitude,
+          longitude: attendance.store.longitude,
+        }
+      : null;
+
+  const describeLocation = (event: {
+    latitude: number | null;
+    longitude: number | null;
+    locationAccuracy: number | null;
+  }): string => {
+    if (event.latitude == null || event.longitude == null) return "—";
+    if (!storePoint) return "記録あり（店舗座標が未設定）";
+
+    const distance = Math.round(
+      haversineMeters(storePoint, {
+        latitude: event.latitude,
+        longitude: event.longitude,
+      })
+    );
+    const accuracy =
+      event.locationAccuracy != null
+        ? `（誤差 ±${Math.round(event.locationAccuracy)}m）`
+        : "";
+    return `店舗から ${distance}m${accuracy}`;
+  };
 
   return (
     <div className="space-y-6">
@@ -235,7 +278,7 @@ export default async function AttendanceDetailPage({
             {anomalyReasons.map((reason, i) => (
               <li key={i} className="flex items-start gap-2">
                 <span aria-hidden="true">・</span>
-                <span>{reason}</span>
+                <span>{getAnomalyLabel(reason as AnomalyReason)}</span>
               </li>
             ))}
           </ul>
@@ -266,6 +309,9 @@ export default async function AttendanceDetailPage({
                     記録元
                   </th>
                   <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                    位置
+                  </th>
+                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">
                     IPアドレス
                   </th>
                 </tr>
@@ -281,6 +327,9 @@ export default async function AttendanceDetailPage({
                     </td>
                     <td className="px-4 py-3 text-muted-foreground">
                       {CLOCK_SOURCE_LABEL[event.source] ?? event.source}
+                    </td>
+                    <td className="px-4 py-3 text-xs text-muted-foreground">
+                      {describeLocation(event)}
                     </td>
                     <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
                       {event.ipAddress ?? "—"}

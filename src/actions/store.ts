@@ -14,8 +14,10 @@ import {
   createStoreSchema,
   updateStoreSchema,
   shiftPeriodSettingsSchema,
+  storeLocationSettingsSchema,
   type CreateStoreInput,
   type ShiftPeriodSettingsInput,
+  type StoreLocationSettingsInput,
 } from "@/lib/validations/store";
 import { customAlphabet } from "nanoid";
 
@@ -115,6 +117,14 @@ export async function updateStore(
   const session = await auth();
   if (!session?.user?.id) return { error: "ログインが必要です" };
 
+  // 受け取った値をそのまま data に渡さない。
+  // 位置設定など、この画面から変えてはいけない列まで書けてしまうため
+  // （UIで隠してもリクエストは手で組める）。
+  const parsed = updateStoreSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "入力値が不正です" };
+  }
+
   try {
     const ctx = await requireAdmin(session.user.id, organizationId);
     const hasAccess = await canAccessStore(ctx.memberId, ctx.role, storeId);
@@ -123,7 +133,7 @@ export async function updateStore(
     const before = await db.store.findUnique({ where: { id: storeId } });
     const updated = await db.store.update({
       where: { id: storeId, organizationId },
-      data: input,
+      data: parsed.data,
     });
 
     await createAuditLog({
@@ -195,6 +205,73 @@ export async function updateShiftPeriodSettings(
 
     revalidatePath(`/stores/${storeId}`);
     revalidatePath("/shifts");
+    return { success: true };
+  } catch (error: any) {
+    return { error: error.message ?? "更新に失敗しました" };
+  }
+}
+
+/**
+ * 打刻の位置設定を更新する
+ * （通常の店舗編集とは分けた専用経路。全スタッフの勤怠フラグに効くので、
+ *   他項目のついで操作で変わらないようにする）
+ *
+ * 位置は個人情報なので、既定は記録しない。ここで明示的に有効にした店舗だけが記録する。
+ * 判定距離を空のままにすると「記録のみ」で、異常フラグは立たない。
+ */
+export async function updateLocationSettings(
+  organizationId: string,
+  storeId: string,
+  input: StoreLocationSettingsInput
+): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "ログインが必要です" };
+
+  const parsed = storeLocationSettingsSchema.safeParse(input);
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "入力値が不正です" };
+  }
+
+  try {
+    const ctx = await requireAdmin(session.user.id, organizationId);
+    if (!(await canAccessStore(ctx.memberId, ctx.role, storeId))) {
+      return { error: "この店舗へのアクセス権がありません" };
+    }
+
+    const before = await db.store.findFirst({
+      where: { id: storeId, organizationId },
+      select: {
+        locationTrackingEnabled: true,
+        latitude: true,
+        longitude: true,
+        geofenceRadiusMeters: true,
+      },
+    });
+    if (!before) return { error: "店舗が見つかりません" };
+
+    await db.store.update({
+      where: { id: storeId, organizationId },
+      data: {
+        locationTrackingEnabled: parsed.data.locationTrackingEnabled,
+        latitude: parsed.data.latitude,
+        longitude: parsed.data.longitude,
+        geofenceRadiusMeters: parsed.data.geofenceRadiusMeters,
+      },
+    });
+
+    await createAuditLog({
+      organizationId,
+      actorUserId: session.user.id,
+      action: "STORE_UPDATE",
+      targetType: "Store",
+      targetId: storeId,
+      storeId,
+      before,
+      after: parsed.data,
+      reason: "打刻の位置設定を変更",
+    });
+
+    revalidatePath(`/stores/${storeId}`);
     return { success: true };
   } catch (error: any) {
     return { error: error.message ?? "更新に失敗しました" };

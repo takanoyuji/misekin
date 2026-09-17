@@ -4,9 +4,11 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import type { Prisma } from "@/generated/prisma/client";
 import { clockCookieName, verifyClockSession } from "@/lib/clock-session";
 import { requireAdmin, canAccessStore } from "@/lib/auth/permissions";
 import {
+  clockLocationSchema,
   correctAttendanceSchema,
   correctionRequestSchema,
   missingAttendanceRequestSchema,
@@ -15,6 +17,7 @@ import {
   type CorrectionRequestInput,
   type MissingAttendanceRequestInput,
   type ReviewCorrectionRequestInput,
+  type ClockLocationInput,
 } from "@/lib/validations/attendance";
 import { getBusinessDate } from "@/lib/business/business-day";
 import {
@@ -25,7 +28,13 @@ import {
   calculateBreakMinutes,
   calculateWorkMinutes,
 } from "@/lib/business/attendance";
-import { detectAnomalies } from "@/lib/business/anomaly-detection";
+import {
+  detectAnomalies,
+  detectLocationAnomalies,
+  isLocationAnomalyReason,
+  mergeLocationReasons,
+  type AnomalyReason,
+} from "@/lib/business/anomaly-detection";
 
 interface ActionResult {
   success?: boolean;
@@ -41,6 +50,42 @@ interface ClockActionParams {
   ipAddress?: string;
   userAgent?: string;
   deviceFingerprint?: string;
+  /** 打刻時の位置。取得できなければ未指定。値が不正でも打刻は止めない */
+  location?: ClockLocationInput | null;
+}
+
+/**
+ * この勤怠の打刻イベントから、位置に由来する異常理由を導出する。
+ *
+ * 距離は保存せず毎回この生データから計算する。店舗の座標を後から直したとき、
+ * 保存済みの距離が古いままになるのを避けるため。
+ * 判定しない設定（記録のみ / 対象外スタッフ）のときはクエリも投げない。
+ */
+async function locationReasonsFromEvents(
+  tx: Prisma.TransactionClient,
+  attendanceId: string,
+  store: {
+    locationTrackingEnabled: boolean;
+    latitude: number | null;
+    longitude: number | null;
+    geofenceRadiusMeters: number | null;
+  },
+  skipLocationCheck: boolean
+): Promise<AnomalyReason[]> {
+  const judging =
+    store.locationTrackingEnabled &&
+    store.latitude != null &&
+    store.longitude != null &&
+    store.geofenceRadiusMeters != null &&
+    !skipLocationCheck;
+  if (!judging) return [];
+
+  const events = await tx.attendanceEvent.findMany({
+    where: { attendanceId },
+    select: { latitude: true, longitude: true, locationAccuracy: true },
+  });
+
+  return detectLocationAnomalies({ events, store, skipLocationCheck });
 }
 
 /**
@@ -73,6 +118,19 @@ export async function clockAction(
 
   const store = clockUrl.store;
   const organization = store.organization;
+
+  // 位置はクライアントの自己申告値。店舗で記録を有効にしているときだけ保存し、
+  // 値が壊れていても打刻自体は止めない（位置なしとして扱う）。
+  const parsedLocation =
+    store.locationTrackingEnabled && params.location
+      ? clockLocationSchema.safeParse(params.location)
+      : null;
+  const location = parsedLocation?.success ? parsedLocation.data : null;
+  const locationFields = {
+    latitude: location?.latitude ?? null,
+    longitude: location?.longitude ?? null,
+    locationAccuracy: location?.accuracy ?? null,
+  };
 
   // スタッフの存在確認と組織確認
   const staffStore = await db.staffStore.findFirst({
@@ -201,6 +259,7 @@ export async function clockAction(
             deviceFingerprint,
             storeUrlToken: token,
             attendanceId: attendance.id,
+            ...locationFields,
           },
         });
       }
@@ -221,6 +280,7 @@ export async function clockAction(
           deviceFingerprint,
           storeUrlToken: token,
           attendanceId: attendance.id,
+          ...locationFields,
         },
       });
 
@@ -278,6 +338,18 @@ export async function clockAction(
           now,
         });
 
+        // 位置の異常は打刻イベントから導出する（この勤怠の全打刻を見る）
+        const locationReasons = await locationReasonsFromEvents(
+          tx,
+          attendance.id,
+          store,
+          staffStore.skipLocationCheck
+        );
+        const reasons = mergeLocationReasons(
+          anomalyResult.reasons,
+          locationReasons
+        );
+
         await tx.attendance.update({
           where: { id: attendance.id },
           data: {
@@ -285,9 +357,29 @@ export async function clockAction(
             breakMinutes,
             workMinutes,
             status: "COMPLETED",
-            hasAnomaly: anomalyResult.hasAnomaly,
-            anomalyReasons: anomalyResult.reasons as any,
+            hasAnomaly: reasons.length > 0,
+            anomalyReasons: reasons as any,
             clockOutMemo: memo ?? null,
+          },
+        });
+      } else {
+        // 退勤以外でも位置のフラグは立てる。
+        // 出勤したきり退勤しない打刻を取りこぼさないため。
+        const locationReasons = await locationReasonsFromEvents(
+          tx,
+          attendance.id,
+          store,
+          staffStore.skipLocationCheck
+        );
+        const reasons = mergeLocationReasons(
+          (attendance.anomalyReasons as string[]) ?? [],
+          locationReasons
+        );
+        await tx.attendance.update({
+          where: { id: attendance.id },
+          data: {
+            hasAnomaly: reasons.length > 0,
+            anomalyReasons: reasons as any,
           },
         });
       }
@@ -402,6 +494,15 @@ export async function correctAttendance(
         })),
       });
 
+      // 時刻の修正では打刻の位置は変わらない。既にあるフラグをそのまま持ち越す
+      // （detectAnomalies は reasons を作り直すので、混ぜないと位置の理由が消える）
+      const reasons = mergeLocationReasons(
+        anomalyResult.reasons,
+        ((attendance.anomalyReasons as string[]) ?? []).filter(
+          isLocationAnomalyReason
+        ) as AnomalyReason[]
+      );
+
       await tx.attendance.update({
         where: { id: attendance.id },
         data: {
@@ -410,8 +511,8 @@ export async function correctAttendance(
           breakMinutes,
           workMinutes,
           adminNotes: parsed.data.adminNotes ?? attendance.adminNotes,
-          hasAnomaly: anomalyResult.hasAnomaly,
-          anomalyReasons: anomalyResult.reasons as any,
+          hasAnomaly: reasons.length > 0,
+          anomalyReasons: reasons as any,
           status:
             clockIn && clockOut
               ? "COMPLETED"
@@ -831,6 +932,14 @@ export async function reviewCorrectionRequest(
             breaks: effectiveBreaks,
           });
 
+          // 承認で変わるのは時刻だけ。位置のフラグは持ち越す
+          const reasons = mergeLocationReasons(
+            anomalyResult.reasons,
+            ((request.attendance?.anomalyReasons as string[]) ?? []).filter(
+              isLocationAnomalyReason
+            ) as AnomalyReason[]
+          );
+
           // 時刻だけ入れ替えて実働時間を据え置くと、承認しても給与が変わらない。
           // 営業日は打刻時に確定したものを動かさない（管理者修正 correctAttendance と同じ）。
           await tx.attendance.update({
@@ -843,8 +952,8 @@ export async function reviewCorrectionRequest(
                 clockIn && clockOut
                   ? calculateWorkMinutes(clockIn, clockOut, effectiveBreaks)
                   : null,
-              hasAnomaly: anomalyResult.hasAnomaly,
-              anomalyReasons: anomalyResult.reasons as any,
+              hasAnomaly: reasons.length > 0,
+              anomalyReasons: reasons as any,
               status: clockIn && clockOut ? "COMPLETED" : "IN_PROGRESS",
             },
           });

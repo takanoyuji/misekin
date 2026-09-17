@@ -903,3 +903,14 @@ CREATE INDEX "store_sales_daily_storeId_businessDate_idx" ON "store_sales_daily"
 -- AddForeignKey
 ALTER TABLE "store_sales_daily" ADD CONSTRAINT "store_sales_daily_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "store_sales_daily" ADD CONSTRAINT "store_sales_daily_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddClockLocation: 打刻の位置情報（記録とフラグ。打刻のブロックはしない）
+-- 店舗ごとに明示的に有効化する。既定は false で、有効にするまで位置は一切記録しない。
+-- geofenceRadiusMeters が null のうちは「記録のみ」で異常判定はしない（まず実分布を観測するため）。
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "locationTrackingEnabled" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "latitude" DOUBLE PRECISION;
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "longitude" DOUBLE PRECISION;
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "geofenceRadiusMeters" INTEGER;
+
+-- リモート出勤など、店舗にいないことが正常なスタッフを判定から外す
+ALTER TABLE "staff_stores" ADD COLUMN IF NOT EXISTS "skipLocationCheck" BOOLEAN NOT NULL DEFAULT false;

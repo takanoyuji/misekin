@@ -596,6 +596,39 @@ export async function updateStaffStoreRequirePin(
 }
 
 /**
+ * スタッフを打刻の位置チェックから外す設定を更新する
+ *
+ * リモート出勤（在宅のキャスト等）は店舗にいないことが正常なので、
+ * 位置が離れていることを異常として扱わない。
+ * 打刻をブロックする仕組みではないため、これは「フラグを立てない」設定。
+ */
+export async function updateStaffStoreSkipLocationCheck(
+  organizationId: string,
+  staffId: string,
+  storeId: string,
+  skipLocationCheck: boolean
+): Promise<ActionResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "ログインが必要です" };
+
+  try {
+    const ctx = await requireAdmin(session.user.id, organizationId);
+    const hasAccess = await canAccessStore(ctx.memberId, ctx.role, storeId);
+    if (!hasAccess) return { error: "この店舗へのアクセス権がありません" };
+
+    await db.staffStore.update({
+      where: { staffId_storeId: { staffId, storeId } },
+      data: { skipLocationCheck },
+    });
+
+    revalidatePath(`/staff/${staffId}`);
+    return { success: true };
+  } catch (error: any) {
+    return { error: error.message ?? "位置チェック設定の変更に失敗しました" };
+  }
+}
+
+/**
  * 時給履歴を追加する
  */
 export async function addWageHistory(

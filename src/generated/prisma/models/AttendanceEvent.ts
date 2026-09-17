@@ -755,14 +755,6 @@ export type EnumClockSourceFieldUpdateOperationsInput = {
   set?: $Enums.ClockSource
 }
 
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type AttendanceEventCreateNestedManyWithoutAttendanceInput = {
   create?: Prisma.XOR<Prisma.AttendanceEventCreateWithoutAttendanceInput, Prisma.AttendanceEventUncheckedCreateWithoutAttendanceInput> | Prisma.AttendanceEventCreateWithoutAttendanceInput[] | Prisma.AttendanceEventUncheckedCreateWithoutAttendanceInput[]
   connectOrCreate?: Prisma.AttendanceEventCreateOrConnectWithoutAttendanceInput | Prisma.AttendanceEventCreateOrConnectWithoutAttendanceInput[]

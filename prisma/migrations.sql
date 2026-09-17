@@ -334,3 +334,14 @@ ALTER TABLE "staff" ADD COLUMN IF NOT EXISTS "invitedStoreIds" TEXT[] DEFAULT AR
 
 -- AddMaxStaffPerSlot: 必要人数の提案で立てる上限（1時間あたり）を店舗ごとに持つ
 ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "maxStaffPerSlot" INTEGER NOT NULL DEFAULT 2;
+
+-- AddClockLocation: 打刻の位置情報（記録とフラグ。打刻のブロックはしない）
+-- 店舗ごとに明示的に有効化する。既定は false で、有効にするまで位置は一切記録しない。
+-- geofenceRadiusMeters が null のうちは「記録のみ」で異常判定はしない（まず実分布を観測するため）。
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "locationTrackingEnabled" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "latitude" DOUBLE PRECISION;
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "longitude" DOUBLE PRECISION;
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "geofenceRadiusMeters" INTEGER;
+
+-- リモート出勤など、店舗にいないことが正常なスタッフを判定から外す
+ALTER TABLE "staff_stores" ADD COLUMN IF NOT EXISTS "skipLocationCheck" BOOLEAN NOT NULL DEFAULT false;
