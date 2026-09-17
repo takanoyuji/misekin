@@ -24,7 +24,7 @@
 | nginx アクセスログ 11:47 | `POST /login` が2回とも **500** |
 | app ログ | 同時刻に `CredentialsSignin`（認証NG）をそのまま throw |
 
-### 500になる理由（未修正のバグ）
+### 500になる理由（**2026-09-17 に修正・本番反映済み** `5f87c17`）
 
 `src/actions/auth.ts:263`
 
@@ -138,6 +138,6 @@ docker compose exec -T db psql -U misekin -d misekin -c 'select email, "emailVer
 
 | 期日 | やること | 担当 |
 |---|---|---|
-| みせ勤の作業ツリーが片付いたら | `src/actions/auth.ts:263` の判定を `error.type === "CredentialsSignin"` に直してデプロイ（パスワード違いが500で無言になるバグ） | Claude |
+| ~~みせ勤の作業ツリーが片付いたら~~ | ~~`src/actions/auth.ts:263` の判定を `error.type === "CredentialsSignin"` に直してデプロイ~~ **2026-09-17 完了。本番でパスワード違いを送り 303 → `/login?error=credentials` を確認** | Claude |
 | 任意 | みせ勤の管理画面で旧APIキー `stagegate-accounting`（`mk_live_CSs4Esep…`）を失効 | 高野 |
 | 8月分を発行するとき | 実データで「発行 → v1 保存 → 読み込み → 一致」が動くか一度見る | 高野 |
