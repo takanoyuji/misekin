@@ -20,7 +20,7 @@ export default async function AttendanceNewPage({
   searchParams: Promise<{ storeId?: string; staffId?: string; date?: string }>;
 }) {
   const session = await auth();
-  if (!session) redirect("/login");
+  if (!session?.user?.id) redirect("/login");
 
   const activeOrgId = await resolveActiveOrganizationId(
     session.user?.id,

@@ -38,7 +38,7 @@ export default async function AuditLogsPage({
   const params = await searchParams;
 
   const session = await auth();
-  if (!session) redirect("/login");
+  if (!session?.user?.id) redirect("/login");
 
   const activeOrgId = await resolveActiveOrganizationId(
     session.user?.id,

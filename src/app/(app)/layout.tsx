@@ -17,7 +17,7 @@ export default async function AppLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  if (!session) redirect("/login");
+  if (!session?.user?.id) redirect("/login");
 
   // アクティブ組織の名前を取得
   // クッキー未設定 (招待で参加したスタッフ等) でも所属組織に解決する

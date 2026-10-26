@@ -16,7 +16,7 @@ export default async function AttendanceEditPage({
   params: Promise<{ id: string }>;
 }) {
   const session = await auth();
-  if (!session) redirect("/login");
+  if (!session?.user?.id) redirect("/login");
 
   const activeOrgId = await resolveActiveOrganizationId(
     session.user?.id,

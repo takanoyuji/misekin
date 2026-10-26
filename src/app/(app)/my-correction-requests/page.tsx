@@ -21,7 +21,7 @@ function formatDateTime(date: Date, timezone = "Asia/Tokyo"): string {
 
 export default async function MyCorrectionRequestsPage() {
   const session = await auth();
-  if (!session) redirect("/login");
+  if (!session?.user?.id) redirect("/login");
 
   const activeOrgId = await resolveActiveOrganizationId(
     session.user?.id,

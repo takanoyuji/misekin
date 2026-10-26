@@ -28,7 +28,7 @@ export default async function StoreDetailPage({ params }: PageProps) {
   const { id } = await params;
 
   const session = await auth();
-  if (!session) redirect("/login");
+  if (!session?.user?.id) redirect("/login");
 
   const activeOrgId = await resolveActiveOrganizationId(
     session.user?.id,

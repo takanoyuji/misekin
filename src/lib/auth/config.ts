@@ -12,7 +12,7 @@ export const authConfig = {
   providers: [],
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth;
+      const isLoggedIn = !!auth?.user?.id;
 
       const isPublicPath =
         nextUrl.pathname.startsWith("/clock") ||

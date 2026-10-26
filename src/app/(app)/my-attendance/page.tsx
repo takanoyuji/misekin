@@ -38,7 +38,7 @@ export default async function MyAttendancePage({
   searchParams: Promise<SearchParams>;
 }) {
   const session = await auth();
-  if (!session) redirect("/login");
+  if (!session?.user?.id) redirect("/login");
 
   const activeOrgId = await resolveActiveOrganizationId(
     session.user?.id,

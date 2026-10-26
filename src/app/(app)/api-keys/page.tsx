@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default async function ApiKeysPage() {
   const session = await auth();
-  if (!session) redirect("/login");
+  if (!session?.user?.id) redirect("/login");
 
   const activeOrgId = await resolveActiveOrganizationId(
     session.user?.id,
