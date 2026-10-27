@@ -76,6 +76,7 @@ address         String?
 timezone        String   @default("Asia/Tokyo")
 dayChangeHour   Int      @default(6)
 dayChangeMinute Int      @default(0)
+allowMultipleClockIns Boolean @default(false) // 退勤後に同じ営業日でもう一度出勤できるか（VLLの遠隔推し活。2026-10-27）
 isActive        Boolean  @default(true)
 createdAt       DateTime @default(now())
 updatedAt       DateTime @updatedAt
@@ -196,8 +197,14 @@ lockedByUserId   String?
 closingPeriodId  String?
 createdAt        DateTime         @default(now())
 updatedAt        DateTime         @updatedAt
-@@unique([staffId, storeId, businessDate])
+@@index([staffId, storeId, businessDate])
 ```
+
+1営業日に1件とは限らない（2026-10-27〜）。`Store.allowMultipleClockIns` の店舗では、退勤後の再出勤で同じ営業日に2件目以降ができる。
+- 退勤していない勤怠（`clockOutAt IS NULL`）は1人1店舗1営業日に1件まで。Prisma で書けない部分インデックス `attendances_one_open_per_day` で守る（schema.sql / migrations.sql）。出勤の二度押し対策
+- 同じ日の勤怠どうしは時間帯が重ならない（アプリ側で検証。`lib/business/same-day-attendance.ts`）
+- 交通費はその日の最初の勤怠にだけ付く（勤怠API・CSV）
+- 再出勤できない店舗は従来どおり1営業日1件（アプリ側で検証）
 
 ### Break（休憩区間）
 ```

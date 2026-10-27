@@ -3,11 +3,12 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import {
-  calculateClockState,
+  calculateDayClockState,
   getClockStateLabel,
   getAvailableActions,
   type ClockState,
 } from "@/lib/business/time-clock";
+import { pickCurrentAttendance } from "@/lib/business/same-day-attendance";
 import { getBusinessDate } from "@/lib/business/business-day";
 import { clockCookieName, verifyClockSession } from "@/lib/clock-session";
 import { StatusActions } from "./status-actions";
@@ -96,19 +97,21 @@ export default async function StatusPage({ params, searchParams }: PageProps) {
     store.dayChangeMinute
   );
 
-  const todayAttendance = await db.attendance.findFirst({
+  // 再出勤できる店舗では同じ営業日に複数件ありうる。いま打刻の対象になる1件で状態を決める
+  const sameDayAttendances = await db.attendance.findMany({
     where: { staffId, storeId: store.id, businessDate },
     include: {
       attendanceEvents: { orderBy: { clockedAt: "asc" } },
       breaks: { orderBy: { startAt: "asc" } },
     },
   });
+  const todayAttendance = pickCurrentAttendance(sameDayAttendances);
 
-  const currentState = calculateClockState(
-    todayAttendance?.attendanceEvents ?? []
-  );
+  const currentState = calculateDayClockState(todayAttendance);
   const stateLabel = getClockStateLabel(currentState);
-  const availableActions = getAvailableActions(currentState);
+  const availableActions = getAvailableActions(currentState, {
+    allowMultipleClockIns: store.allowMultipleClockIns,
+  });
 
   const zonedNow = toZonedTime(now, timezone);
   const displayTime = format(zonedNow, "HH:mm");
@@ -159,6 +162,7 @@ export default async function StatusPage({ params, searchParams }: PageProps) {
           staffName={staffStore.staff.displayName}
           currentState={currentState}
           availableActions={availableActions}
+          shiftsToday={sameDayAttendances.length}
         />
 
         {/* 戻るボタン */}

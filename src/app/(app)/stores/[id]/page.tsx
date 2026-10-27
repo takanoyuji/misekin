@@ -123,6 +123,7 @@ export default async function StoreDetailPage({ params }: PageProps) {
                   dayChangeMinute: store.dayChangeMinute,
                   category: store.category,
                   maxStaffPerSlot: store.maxStaffPerSlot,
+                  allowMultipleClockIns: store.allowMultipleClockIns,
                   isActive: store.isActive,
                 }}
                 organizationId={orgId}

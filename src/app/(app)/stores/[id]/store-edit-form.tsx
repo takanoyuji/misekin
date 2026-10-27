@@ -16,6 +16,7 @@ interface StoreEditFormProps {
     dayChangeMinute: number;
     category: string;
     maxStaffPerSlot: number;
+    allowMultipleClockIns: boolean;
     isActive: boolean;
   };
   organizationId: string;
@@ -41,6 +42,7 @@ export function StoreEditForm({ store, organizationId }: StoreEditFormProps) {
       dayChangeHour: parseInt(formData.get("dayChangeHour") as string, 10),
       dayChangeMinute: parseInt(formData.get("dayChangeMinute") as string, 10),
       maxStaffPerSlot: parseInt(formData.get("maxStaffPerSlot") as string, 10),
+      allowMultipleClockIns: formData.get("allowMultipleClockIns") === "on",
       category: formData.get("category") as
         | "CONCAFE"
         | "MAID_CAFE"
@@ -218,6 +220,22 @@ export function StoreEditForm({ store, organizationId }: StoreEditFormProps) {
         </div>
         <p className="text-xs text-muted-foreground">
           売上から人数を提案するときの上限です。実際のシフトはこの人数を超えて組めます。
+        </p>
+      </div>
+
+      {/* 退勤後の再出勤 */}
+      <div className="space-y-1">
+        <label className="flex items-center gap-2 text-sm font-medium text-foreground">
+          <input
+            name="allowMultipleClockIns"
+            type="checkbox"
+            defaultChecked={store.allowMultipleClockIns}
+            className="size-4 rounded border-input"
+          />
+          同じ日に退勤後もう一度出勤できるようにする
+        </label>
+        <p className="text-xs text-muted-foreground">
+          退勤したあと、同じ営業日にもう一度出勤すると別の勤務として記録します（例: 店舗勤務のあとの在宅での配信）。時間帯が重なる勤務は登録できません。交通費はその日の最初の勤務にだけ付きます。
         </p>
       </div>
 

@@ -12,10 +12,18 @@ export type ClockAction =
   | "BREAK_END"
   | "CLOCK_OUT";
 
+export interface ClockOptions {
+  /** 退勤後に同じ営業日でもう一度出勤できるか（Store.allowMultipleClockIns） */
+  allowMultipleClockIns?: boolean;
+}
+
 /**
  * 現在の勤務状態から実行可能なアクションを返す
  */
-export function getAvailableActions(state: ClockState): ClockAction[] {
+export function getAvailableActions(
+  state: ClockState,
+  options: ClockOptions = {}
+): ClockAction[] {
   switch (state) {
     case "NOT_CLOCKED_IN":
       return ["CLOCK_IN"];
@@ -24,7 +32,8 @@ export function getAvailableActions(state: ClockState): ClockAction[] {
     case "ON_BREAK":
       return ["BREAK_END", "CLOCK_OUT"]; // 休憩中退勤は確認ダイアログが必要
     case "CLOCKED_OUT":
-      return [];
+      // 再出勤できる店舗では、退勤後にもう一度出勤できる（同じ営業日の2件目の勤怠になる）
+      return options.allowMultipleClockIns ? ["CLOCK_IN"] : [];
   }
 }
 
@@ -34,9 +43,10 @@ export function getAvailableActions(state: ClockState): ClockAction[] {
  */
 export function validateClockTransition(
   currentState: ClockState,
-  action: ClockAction
+  action: ClockAction,
+  options: ClockOptions = {}
 ): string | null {
-  const available = getAvailableActions(currentState);
+  const available = getAvailableActions(currentState, options);
   if (!available.includes(action)) {
     return getTransitionError(currentState, action);
   }
@@ -128,4 +138,24 @@ export function getClockActionLabel(action: ClockAction): string {
     case "CLOCK_OUT":
       return "退勤";
   }
+}
+
+/**
+ * その営業日の勤怠（打刻の対象の1件）から勤務状態を決める。
+ *
+ * 打刻イベントだけで決めると、管理者の手入力や付け忘れ申請で作った勤怠（イベントが無い）が
+ * 「未出勤」に見え、同じ日にもう一度出勤できてしまう。勤怠の出勤・退勤を先に見る。
+ */
+export function calculateDayClockState(
+  current: {
+    clockInAt: Date | null;
+    clockOutAt: Date | null;
+    attendanceEvents: { eventType: ClockEventType }[];
+  } | null
+): ClockState {
+  if (!current || !current.clockInAt) return "NOT_CLOCKED_IN";
+  if (current.clockOutAt) return "CLOCKED_OUT";
+  const state = calculateClockState(current.attendanceEvents);
+  // 退勤していない勤怠なので、イベントが無い・食い違うときは勤務中として扱う
+  return state === "ON_BREAK" ? "ON_BREAK" : "WORKING";
 }

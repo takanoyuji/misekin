@@ -379,7 +379,6 @@ export type AttendanceOrderByWithRelationInput = {
 
 export type AttendanceWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  staffId_storeId_businessDate?: Prisma.AttendanceStaffIdStoreIdBusinessDateCompoundUniqueInput
   AND?: Prisma.AttendanceWhereInput | Prisma.AttendanceWhereInput[]
   OR?: Prisma.AttendanceWhereInput[]
   NOT?: Prisma.AttendanceWhereInput | Prisma.AttendanceWhereInput[]
@@ -410,7 +409,7 @@ export type AttendanceWhereUniqueInput = Prisma.AtLeast<{
   attendanceEvents?: Prisma.AttendanceEventListRelationFilter
   corrections?: Prisma.AttendanceCorrectionListRelationFilter
   correctionRequests?: Prisma.CorrectionRequestListRelationFilter
-}, "id" | "staffId_storeId_businessDate">
+}, "id">
 
 export type AttendanceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -652,12 +651,6 @@ export type AttendanceOrderByRelationAggregateInput = {
 export type AttendanceNullableScalarRelationFilter = {
   is?: Prisma.AttendanceWhereInput | null
   isNot?: Prisma.AttendanceWhereInput | null
-}
-
-export type AttendanceStaffIdStoreIdBusinessDateCompoundUniqueInput = {
-  staffId: string
-  storeId: string
-  businessDate: string
 }
 
 export type AttendanceCountOrderByAggregateInput = {

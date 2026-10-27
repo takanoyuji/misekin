@@ -37,6 +37,8 @@ interface StatusActionsProps {
   staffName: string;
   currentState: ClockState;
   availableActions: ClockAction[];
+  /** この営業日の勤怠の件数（退勤後の再出勤の確認に使う） */
+  shiftsToday: number;
 }
 
 export function StatusActions({
@@ -45,6 +47,7 @@ export function StatusActions({
   staffName,
   currentState,
   availableActions,
+  shiftsToday,
 }: StatusActionsProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -84,6 +87,11 @@ export function StatusActions({
     if (action === "CLOCK_OUT") {
       setMemo("");
       setMemoStep(true);
+      return;
+    }
+    // 退勤後の再出勤は、押し間違いで勤怠が増えないよう確認を挟む
+    if (action === "CLOCK_IN" && currentState === "CLOCKED_OUT") {
+      setConfirmAction(action);
       return;
     }
     const config = actionConfig[action];
@@ -205,7 +213,7 @@ export function StatusActions({
         </div>
       )}
 
-      {/* 確認ダイアログ（休憩中退勤） */}
+      {/* 確認ダイアログ（休憩中退勤 / 退勤後の再出勤） */}
       {confirmAction && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
@@ -219,10 +227,14 @@ export function StatusActions({
               id="confirm-title"
               className="text-xl font-bold text-gray-900 mb-3"
             >
-              休憩中に退勤しますか？
+              {confirmAction === "CLOCK_IN"
+                ? `本日${shiftsToday + 1}回目の出勤です`
+                : "休憩中に退勤しますか？"}
             </h2>
             <p id="confirm-desc" className="text-gray-600 text-sm mb-6">
-              休憩中のまま退勤すると、休憩は自動的に終了します。
+              {confirmAction === "CLOCK_IN"
+                ? "今日はすでに退勤しています。もう一度出勤すると、別の勤務として記録されます。"
+                : "休憩中のまま退勤すると、休憩は自動的に終了します。"}
             </p>
             <div className="flex gap-3">
               <button
@@ -238,7 +250,11 @@ export function StatusActions({
                 disabled={isPending}
                 className="flex-1 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-bold transition-colors disabled:opacity-60 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-400"
               >
-                {isPending ? "処理中…" : "退勤する"}
+                {isPending
+                  ? "処理中…"
+                  : confirmAction === "CLOCK_IN"
+                    ? "出勤する"
+                    : "退勤する"}
               </button>
             </div>
           </div>

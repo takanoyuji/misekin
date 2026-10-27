@@ -454,7 +454,7 @@ CREATE INDEX "attendances_organizationId_hasAnomaly_idx" ON "attendances"("organ
 CREATE INDEX "attendances_organizationId_status_idx" ON "attendances"("organizationId", "status");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "attendances_staffId_storeId_businessDate_key" ON "attendances"("staffId", "storeId", "businessDate");
+CREATE INDEX "attendances_staffId_storeId_businessDate_idx" ON "attendances"("staffId", "storeId", "businessDate");
 
 -- CreateIndex
 CREATE INDEX "correction_requests_status_idx" ON "correction_requests"("status");
@@ -903,3 +903,9 @@ CREATE INDEX "store_sales_daily_storeId_businessDate_idx" ON "store_sales_daily"
 -- AddForeignKey
 ALTER TABLE "store_sales_daily" ADD CONSTRAINT "store_sales_daily_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "store_sales_daily" ADD CONSTRAINT "store_sales_daily_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AllowMultipleClockIns: 同じ営業日に退勤後もう一度出勤できる店舗（VLLの遠隔推し活）
+-- 勤怠は1営業日に複数件ありうるので (staffId, storeId, businessDate) の一意制約は持たない。
+-- 代わりに「退勤していない勤怠は1件まで」を部分インデックスで守る（出勤ボタンの二度押し対策）。
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "allowMultipleClockIns" BOOLEAN NOT NULL DEFAULT false;
+CREATE UNIQUE INDEX IF NOT EXISTS "attendances_one_open_per_day" ON "attendances"("staffId", "storeId", "businessDate") WHERE "clockOutAt" IS NULL;

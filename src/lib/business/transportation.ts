@@ -41,12 +41,21 @@ export function settingForDate(
  * 出勤の記録（clockInAt）が無い日は0。来ていないなら交通費は発生しない。
  * 逆に、退勤を押し忘れた日や実労働が0分の日でも、来ている以上は払う。
  * 押し忘れやテスト打刻を集計側で黙って落とすと、金額の理由が追えなくなる。
+ *
+ * 再出勤できる店舗では同じ営業日に勤怠が複数件ある。交通費は「その日に来たか」なので
+ * その日の最初の勤怠にだけ付け、2件目以降（isFirstOfDay: false）は0にする
+ * （same-day-attendance.ts の firstAttendanceIdsOfDay）。
  */
 export function transportationForAttendance(
   settings: TransportationSetting[],
-  attendance: { businessDate: string; clockInAt: Date | null }
+  attendance: {
+    businessDate: string;
+    clockInAt: Date | null;
+    isFirstOfDay?: boolean;
+  }
 ): number {
   if (!attendance.clockInAt) return 0;
+  if (attendance.isFirstOfDay === false) return 0;
   const s = settingForDate(settings, attendance.businessDate);
   if (!s || s.type !== "PER_SHIFT") return 0;
   return s.amount;

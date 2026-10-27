@@ -5,6 +5,7 @@ import {
   transportationForAttendance,
   type TransportationType,
 } from "@/lib/business/transportation";
+import { firstAttendanceIdsOfDay } from "@/lib/business/same-day-attendance";
 import { db } from "@/lib/db";
 import { hashApiKey, extractApiKey } from "@/lib/api/api-key";
 
@@ -149,6 +150,33 @@ export async function GET(req: NextRequest) {
       ])
     );
 
+    // 同じ営業日に勤怠が複数件ある店舗（再出勤あり）は、交通費をその日の最初の1件にだけ付ける。
+    // ページの外に同じ日の勤怠があることもあるので、出てきた日の勤怠をまとめて取り直して決める
+    const dayKeys = [
+      ...new Map(
+        attendances.map((a) => [`${a.staffId}:${a.storeId}:${a.businessDate}`, a])
+      ).values(),
+    ];
+    const sameDayRows = dayKeys.length
+      ? await db.attendance.findMany({
+          where: {
+            OR: dayKeys.map((a) => ({
+              staffId: a.staffId,
+              storeId: a.storeId,
+              businessDate: a.businessDate,
+            })),
+          },
+          select: {
+            id: true,
+            staffId: true,
+            storeId: true,
+            businessDate: true,
+            clockInAt: true,
+          },
+        })
+      : [];
+    const firstOfDay = firstAttendanceIdsOfDay(sameDayRows);
+
     const total = await db.attendance.count({ where });
 
     // 最終使用日時を更新
@@ -185,7 +213,11 @@ export async function GET(req: NextRequest) {
         // 出勤ごとの交通費。月額と月上限は未対応で常に0（lib/business/transportation.ts）
         transportationAmount: transportationForAttendance(
           settingsByPair.get(`${a.staffId}:${a.storeId}`) ?? [],
-          { businessDate: a.businessDate, clockInAt: a.clockInAt }
+          {
+            businessDate: a.businessDate,
+            clockInAt: a.clockInAt,
+            isFirstOfDay: firstOfDay.has(a.id),
+          }
         ),
         // その営業日に効いていた時給。未登録なら null（呼び出し側で入力してもらう）
         hourlyWage:

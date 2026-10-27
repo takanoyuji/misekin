@@ -27,6 +27,8 @@ export const createStoreSchema = z.object({
     .min(1, "1人以上にしてください")
     .max(20, "20人以下にしてください")
     .optional(),
+  /** 同じ営業日に退勤後もう一度出勤できるか（VLLの遠隔推し活） */
+  allowMultipleClockIns: z.boolean().optional(),
 });
 
 export const updateStoreSchema = createStoreSchema.partial();

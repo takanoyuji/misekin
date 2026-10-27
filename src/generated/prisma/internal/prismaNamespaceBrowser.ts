@@ -194,6 +194,7 @@ export const StoreScalarFieldEnum = {
   shiftPeriodStartDay: 'shiftPeriodStartDay',
   category: 'category',
   maxStaffPerSlot: 'maxStaffPerSlot',
+  allowMultipleClockIns: 'allowMultipleClockIns',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

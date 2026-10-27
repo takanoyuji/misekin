@@ -8,6 +8,7 @@ import {
   transportationForAttendance,
   type TransportationType,
 } from "@/lib/business/transportation";
+import { firstAttendanceIdsOfDay } from "@/lib/business/same-day-attendance";
 
 const STATUS_LABEL: Record<string, string> = {
   IN_PROGRESS: "勤務中",
@@ -119,13 +120,20 @@ export async function GET(req: NextRequest) {
     ])
   );
 
+  // 同じ営業日に勤怠が複数件ある店舗（再出勤あり）は、交通費をその日の最初の1件にだけ付ける
+  const firstOfDay = firstAttendanceIdsOfDay(attendances);
+
   const header =
     "勤務日,スタッフ名,社員コード,店舗名,出勤時刻,退勤時刻,休憩(分),実労働(分),交通費,ステータス";
   const rows = attendances.map((a) => {
     const tz = a.store.timezone ?? "Asia/Tokyo";
     const transportation = transportationForAttendance(
       settingsByPair.get(`${a.staffId}:${a.storeId}`) ?? [],
-      { businessDate: a.businessDate, clockInAt: a.clockInAt }
+      {
+        businessDate: a.businessDate,
+        clockInAt: a.clockInAt,
+        isFirstOfDay: firstOfDay.has(a.id),
+      }
     );
     return [
       a.businessDate,

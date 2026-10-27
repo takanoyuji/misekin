@@ -177,6 +177,9 @@ model Store {
   // 必要人数の提案で立てる上限（1時間あたり）。箱の広さや回し方は店ごとに違うので店舗設定にする。
   // 提案が上振れしても現実離れした人数を出さないための蓋で、実際のシフトはここを超えて組める。
   maxStaffPerSlot Int      @default(2)
+  // 同じ営業日に退勤後もう一度出勤できるか。VLLの遠隔推し活（通常勤務の退勤後に在宅で再出勤）用。
+  // 既定はオフで、オフの店舗は従来どおり1営業日1件。
+  allowMultipleClockIns Boolean @default(false)
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -440,7 +443,10 @@ model Attendance {
   corrections   AttendanceCorrection[]
   correctionRequests CorrectionRequest[]
 
-  @@unique([staffId, storeId, businessDate])
+  // 1営業日に複数件ありうる（Store.allowMultipleClockIns の店舗）。
+  // 「退勤していない勤怠は1人1店舗1営業日に1件まで」は Prisma で書けない部分インデックスで守る
+  // （schema.sql / migrations.sql の attendances_one_open_per_day）。
+  @@index([staffId, storeId, businessDate])
   @@index([organizationId, businessDate])
   @@index([storeId, businessDate])
   @@index([organizationId, hasAnomaly])

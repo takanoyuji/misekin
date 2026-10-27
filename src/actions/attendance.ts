@@ -21,9 +21,13 @@ import {
 } from "@/lib/validations/attendance";
 import { getBusinessDate } from "@/lib/business/business-day";
 import {
-  calculateClockState,
+  calculateDayClockState,
   validateClockTransition,
 } from "@/lib/business/time-clock";
+import {
+  findOverlappingAttendance,
+  pickCurrentAttendance,
+} from "@/lib/business/same-day-attendance";
 import {
   calculateBreakMinutes,
   calculateWorkMinutes,
@@ -44,6 +48,57 @@ interface ClockActionParams {
   ipAddress?: string;
   userAgent?: string;
   deviceFingerprint?: string;
+}
+
+/**
+ * 同じ営業日の勤怠と衝突しないか確かめる。問題なければ null。
+ *
+ * 再出勤できない店舗は従来どおり1営業日1件で、既にあれば existsMessage を返す。
+ * 再出勤できる店舗（VLL）は、時間帯が重ならなければ2件目を許す。
+ * excludeId は修正中の勤怠自身を比較から外すため。
+ */
+async function findSameDayConflict(
+  params: {
+    staffId: string;
+    storeId: string;
+    businessDate: string;
+    clockInAt: Date | null;
+    clockOutAt: Date | null;
+    excludeId?: string;
+  },
+  existsMessage: string
+): Promise<{ error: string; attendanceId: string } | null> {
+  const { staffId, storeId, businessDate, excludeId } = params;
+  const [store, sameDay] = await Promise.all([
+    db.store.findUnique({
+      where: { id: storeId },
+      select: { allowMultipleClockIns: true },
+    }),
+    db.attendance.findMany({
+      where: {
+        staffId,
+        storeId,
+        businessDate,
+        ...(excludeId && { NOT: { id: excludeId } }),
+      },
+      select: { id: true, clockInAt: true, clockOutAt: true },
+      orderBy: { clockInAt: "asc" },
+    }),
+  ]);
+  if (sameDay.length === 0) return null;
+
+  if (!store?.allowMultipleClockIns) {
+    return { error: existsMessage, attendanceId: sameDay[0].id };
+  }
+
+  const overlap = findOverlappingAttendance(sameDay, params);
+  if (overlap) {
+    return {
+      error: "同じ営業日の別の勤怠と時間帯が重なっています。勤怠一覧で確認してください",
+      attendanceId: overlap.id,
+    };
+  }
+  return null;
 }
 
 /**
@@ -114,8 +169,8 @@ export async function clockAction(
     store.dayChangeMinute
   );
 
-  // 現在の勤怠状態を取得
-  const todayAttendance = await db.attendance.findFirst({
+  // 現在の勤怠状態を取得（再出勤できる店舗では同じ営業日に複数件ありうる）
+  const sameDayAttendances = await db.attendance.findMany({
     where: {
       staffId,
       storeId: store.id,
@@ -126,10 +181,9 @@ export async function clockAction(
       attendanceEvents: { orderBy: { clockedAt: "asc" } },
     },
   });
+  const todayAttendance = pickCurrentAttendance(sameDayAttendances);
 
-  const currentState = calculateClockState(
-    todayAttendance?.attendanceEvents ?? []
-  );
+  const currentState = calculateDayClockState(todayAttendance);
 
   // 別店舗で勤務中のチェック（CLOCK_IN の場合のみ）
   if (action === "CLOCK_IN") {
@@ -147,7 +201,9 @@ export async function clockAction(
   }
 
   // 状態遷移バリデーション
-  const transitionError = validateClockTransition(currentState, action);
+  const transitionError = validateClockTransition(currentState, action, {
+    allowMultipleClockIns: store.allowMultipleClockIns,
+  });
   if (transitionError) {
     return { error: transitionError };
   }
@@ -314,6 +370,13 @@ export async function clockAction(
 
     return { success: true, clockedAt: now };
   } catch (error: any) {
+    // 出勤の二度押しで、退勤していない勤怠が同時に2件作られかけた（attendances_one_open_per_day）
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return { error: "すでに出勤済みです" };
+    }
     console.error("Clock action failed:", error);
     return { error: error.message ?? "打刻処理に失敗しました" };
   }
@@ -350,6 +413,23 @@ export async function correctAttendance(
     if (attendance.isLocked) {
       return { error: "この勤怠は締め処理済みのため修正できません" };
     }
+
+    // 同じ営業日に別の勤怠がある店舗（再出勤あり）では、直した結果が重ならないか確かめる
+    const conflict = await findSameDayConflict(
+      {
+        staffId: attendance.staffId,
+        storeId: attendance.storeId,
+        businessDate: attendance.businessDate,
+        clockInAt: parsed.data.clockInAt ?? attendance.clockInAt,
+        clockOutAt:
+          parsed.data.clockOutAt !== undefined
+            ? parsed.data.clockOutAt
+            : attendance.clockOutAt,
+        excludeId: attendance.id,
+      },
+      "同じ営業日に別の勤怠があります"
+    );
+    if (conflict) return { error: conflict.error };
 
     // スナップショット（変更前）
     const before = {
@@ -477,6 +557,7 @@ export async function correctAttendance(
  *
  * 営業日は店舗の日付切替時刻で出勤時刻から計算する（打刻と同じ規則）。
  * 同じ営業日に勤怠が既にあれば作らず、修正画面へ誘導する。
+ * ただし再出勤できる店舗（VLL）では、時間帯が重ならなければ2件目として作る（2026-10-27）。
  */
 export async function createAttendanceByAdmin(
   organizationId: string,
@@ -520,16 +601,11 @@ export async function createAttendanceByAdmin(
       store.dayChangeMinute
     );
 
-    const existing = await db.attendance.findFirst({
-      where: { staffId, storeId, businessDate },
-      select: { id: true },
-    });
-    if (existing) {
-      return {
-        error: `営業日 ${businessDate} の勤怠は既にあります。勤怠一覧から「修正する」で直してください`,
-        attendanceId: existing.id,
-      };
-    }
+    const conflict = await findSameDayConflict(
+      { staffId, storeId, businessDate, clockInAt, clockOutAt },
+      `営業日 ${businessDate} の勤怠は既にあります。勤怠一覧から「修正する」で直してください`
+    );
+    if (conflict) return conflict;
 
     const closed = await db.closingPeriod.findFirst({
       where: {
@@ -736,17 +812,19 @@ export async function createMissingAttendanceRequest(
       return { error: "所属していない店舗の申請はできません" };
     }
 
-    // 既に勤怠がある日は「付け忘れ」ではないので通常の修正申請を使ってもらう
-    const existing = await db.attendance.findFirst({
-      where: { staffId: staff.id, storeId, businessDate },
-      select: { id: true, isLocked: true },
-    });
-    if (existing) {
-      return {
-        error:
-          "この日の勤怠は既に登録されています。勤怠一覧から修正申請してください",
-      };
-    }
+    // 既に勤怠がある日は「付け忘れ」ではないので通常の修正申請を使ってもらう。
+    // 再出勤できる店舗では、時間帯が重ならなければ同じ日の2件目として申請できる。
+    const conflict = await findSameDayConflict(
+      {
+        staffId: staff.id,
+        storeId,
+        businessDate,
+        clockInAt: requestedClockInAt,
+        clockOutAt: requestedClockOutAt,
+      },
+      "この日の勤怠は既に登録されています。勤怠一覧から修正申請してください"
+    );
+    if (conflict) return { error: conflict.error };
 
     // 締め済み期間には申請できない
     const closed = await db.closingPeriod.findFirst({
@@ -866,21 +944,24 @@ export async function reviewCorrectionRequest(
     if (!hasAccess) return { error: "この店舗へのアクセス権がありません" };
 
     // 承認までの間に打刻されて勤怠が作られている場合は二重登録を防ぐ
-    if (isMissingAttendanceRequest && parsed.data.action === "APPROVE") {
-      const existing = await db.attendance.findFirst({
-        where: {
+    // （再出勤できる店舗では、時間帯が重なる場合だけ止める）
+    if (parsed.data.action === "APPROVE") {
+      const requested = request.requestedData as {
+        clockInAt?: string | null;
+        clockOutAt?: string | null;
+      } | null;
+      const conflict = await findSameDayConflict(
+        {
           staffId: request.staffId,
           storeId: targetStoreId,
           businessDate: targetBusinessDate,
+          clockInAt: requested?.clockInAt ? new Date(requested.clockInAt) : null,
+          clockOutAt: requested?.clockOutAt ? new Date(requested.clockOutAt) : null,
+          excludeId: request.attendanceId ?? undefined,
         },
-        select: { id: true },
-      });
-      if (existing) {
-        return {
-          error:
-            "この日の勤怠は既に登録されています。申請を却下し、勤怠一覧から直接修正してください",
-        };
-      }
+        "この日の勤怠は既に登録されています。申請を却下し、勤怠一覧から直接修正してください"
+      );
+      if (conflict) return { error: conflict.error };
     }
 
     await db.$transaction(async (tx) => {

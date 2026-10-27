@@ -334,3 +334,13 @@ ALTER TABLE "staff" ADD COLUMN IF NOT EXISTS "invitedStoreIds" TEXT[] DEFAULT AR
 
 -- AddMaxStaffPerSlot: 必要人数の提案で立てる上限（1時間あたり）を店舗ごとに持つ
 ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "maxStaffPerSlot" INTEGER NOT NULL DEFAULT 2;
+
+-- AllowMultipleClockIns: 同じ営業日に退勤後もう一度出勤できる店舗（VLLの遠隔推し活）
+-- 勤怠は1営業日に複数件ありうるので (staffId, storeId, businessDate) の一意制約を外す。
+-- 代わりに「退勤していない勤怠は1件まで」を部分インデックスで守る（出勤ボタンの二度押し対策）。
+-- 部分インデックスを先に作ってから一意制約を外す（間に二重の出勤が入らないように）。
+-- ⚠️ 一意制約は、同じ日に2件目が入った時点で元に戻せなくなる。本番反映の前にDBのバックアップを取る。
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "allowMultipleClockIns" BOOLEAN NOT NULL DEFAULT false;
+CREATE UNIQUE INDEX IF NOT EXISTS "attendances_one_open_per_day" ON "attendances"("staffId", "storeId", "businessDate") WHERE "clockOutAt" IS NULL;
+CREATE INDEX IF NOT EXISTS "attendances_staffId_storeId_businessDate_idx" ON "attendances"("staffId", "storeId", "businessDate");
+DROP INDEX IF EXISTS "attendances_staffId_storeId_businessDate_key";
