@@ -68,7 +68,7 @@ export default async function CorrectionRequestDetailPage({
           store: { select: { name: true, timezone: true } },
         },
       },
-      store: { select: { id: true, name: true, timezone: true } },
+      store: { select: { id: true, name: true, timezone: true, organizationId: true } },
       reviewedBy: { select: { name: true, email: true } },
     },
   });
@@ -83,6 +83,10 @@ export default async function CorrectionRequestDetailPage({
     request.attendance?.businessDate ?? request.businessDate ?? "—";
 
   if (request.attendance && request.attendance.organizationId !== activeOrgId) {
+    notFound();
+  }
+  // 付け忘れ申請は申請自身の店舗で組織を確かめる（別組織の OWNER が ID 指定で開けないように）
+  if (!request.attendance && request.store?.organizationId !== activeOrgId) {
     notFound();
   }
   if (!targetStoreId) notFound();

@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/common/status-badge";
 import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
+import { correctionRequestScopeWhere } from "@/lib/business/correction-request-scope";
 
 export const metadata: Metadata = {
   title: "修正申請一覧",
@@ -62,17 +63,12 @@ export default async function CorrectionRequestsPage({
   const statusFilter = params.status || "PENDING";
   const page = Math.max(1, parseInt(params.page ?? "1", 10));
 
-  const storeFilter =
-    accessibleStoreIds !== null
-      ? { storeId: { in: accessibleStoreIds } }
-      : {};
+  // 付け忘れ申請（勤怠なし）も含めて、組織・担当店舗で絞る
+  const scopeWhere = correctionRequestScopeWhere(activeOrgId, accessibleStoreIds);
 
   const whereBase = {
     ...(statusFilter !== "ALL" ? { status: statusFilter as any } : {}),
-    attendance: {
-      organizationId: activeOrgId,
-      ...storeFilter,
-    },
+    ...scopeWhere,
   };
 
   const [requests, total, pendingCount] = await Promise.all([
@@ -101,7 +97,7 @@ export default async function CorrectionRequestsPage({
     db.correctionRequest.count({
       where: {
         status: "PENDING",
-        attendance: { organizationId: activeOrgId, ...storeFilter },
+        ...scopeWhere,
       },
     }),
   ]);

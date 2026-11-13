@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MemberDashboard } from "./member-dashboard";
+import { getAccessibleStoreIds } from "@/lib/auth/permissions";
+import { correctionRequestScopeWhere } from "@/lib/business/correction-request-scope";
 
 export const metadata: Metadata = {
   title: "ホーム",
@@ -94,7 +96,7 @@ export default async function DashboardPage() {
       organizationId: activeOrgId,
       isActive: true,
     },
-    select: { role: true },
+    select: { id: true, role: true },
   });
 
   if (membership?.role === "MEMBER") {
@@ -195,13 +197,17 @@ export default async function DashboardPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type CorrectionRow = any;
 
-  // 未処理修正申請 (最新5件)
+  // 未処理修正申請 (最新5件)。付け忘れ申請（勤怠なし）も含め、担当店舗で絞る
+  const correctionScope = correctionRequestScopeWhere(
+    activeOrgId,
+    membership
+      ? await getAccessibleStoreIds(membership.id, membership.role, activeOrgId)
+      : []
+  );
   const pendingCorrections = await db.correctionRequest.findMany({
     where: {
       status: "PENDING",
-      attendance: {
-        organizationId: activeOrgId,
-      },
+      ...correctionScope,
     },
     include: {
       staff: {
@@ -217,6 +223,8 @@ export default async function DashboardPage() {
           },
         },
       },
+      // 付け忘れ申請は勤怠が無いので、申請自身の店舗を出す
+      store: { select: { name: true } },
     },
     orderBy: { createdAt: "desc" },
     take: 5,
@@ -225,9 +233,7 @@ export default async function DashboardPage() {
   const pendingCorrectionCount = await db.correctionRequest.count({
     where: {
       status: "PENDING",
-      attendance: {
-        organizationId: activeOrgId,
-      },
+      ...correctionScope,
     },
   });
 
@@ -464,10 +470,10 @@ export default async function DashboardPage() {
                         {req.staff.displayName}
                       </td>
                       <td className="px-4 py-3 text-muted-foreground">
-                        {req.attendance.store.name}
+                        {req.attendance?.store.name ?? req.store?.name ?? "—"}
                       </td>
                       <td className="px-4 py-3 font-numeric text-muted-foreground">
-                        {req.attendance.businessDate}
+                        {req.attendance?.businessDate ?? req.businessDate ?? "—"}
                       </td>
                       <td className="max-w-[200px] truncate px-4 py-3 text-muted-foreground">
                         {req.reason}
