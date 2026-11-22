@@ -11,6 +11,10 @@ interface PageProps {
     action?: string;
     staffName?: string;
     clockedAt?: string;
+    /** 日報を送って退勤したときの合計（表示だけ。正はDB） */
+    reportSales?: string;
+    reportBack?: string;
+    reportNoSales?: string;
   }>;
 }
 
@@ -26,7 +30,17 @@ export default async function CompletePage({
   searchParams,
 }: PageProps) {
   const { token } = await params;
-  const { action, staffName, clockedAt } = await searchParams;
+  const { action, staffName, clockedAt, reportSales, reportBack, reportNoSales } =
+    await searchParams;
+  const toYen = (v?: string) => (v && /^\d+$/.test(v) ? Number(v) : null);
+  const report =
+    action === "CLOCK_OUT" && reportNoSales !== undefined
+      ? {
+          noSales: reportNoSales === "1",
+          sales: toYen(reportSales) ?? 0,
+          back: toYen(reportBack) ?? 0,
+        }
+      : null;
 
   const actionInfo = action ? actionLabelMap[action] : null;
 
@@ -37,6 +51,7 @@ export default async function CompletePage({
       clockedAt={clockedAt ?? new Date().toISOString()}
       verb={actionInfo?.verb ?? "打刻が完了しました"}
       statusLabel={actionInfo?.status ?? ""}
+      report={report}
     />
   );
 }

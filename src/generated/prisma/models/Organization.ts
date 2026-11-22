@@ -282,6 +282,8 @@ export type OrganizationWhereInput = {
   shiftSlots?: Prisma.ShiftSlotListRelationFilter
   salesTxns?: Prisma.StoreSalesTxnListRelationFilter
   salesDaily?: Prisma.StoreSalesDailyListRelationFilter
+  customers?: Prisma.CustomerListRelationFilter
+  dailyReports?: Prisma.DailyReportListRelationFilter
 }
 
 export type OrganizationOrderByWithRelationInput = {
@@ -310,6 +312,8 @@ export type OrganizationOrderByWithRelationInput = {
   shiftSlots?: Prisma.ShiftSlotOrderByRelationAggregateInput
   salesTxns?: Prisma.StoreSalesTxnOrderByRelationAggregateInput
   salesDaily?: Prisma.StoreSalesDailyOrderByRelationAggregateInput
+  customers?: Prisma.CustomerOrderByRelationAggregateInput
+  dailyReports?: Prisma.DailyReportOrderByRelationAggregateInput
 }
 
 export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
@@ -341,6 +345,8 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   shiftSlots?: Prisma.ShiftSlotListRelationFilter
   salesTxns?: Prisma.StoreSalesTxnListRelationFilter
   salesDaily?: Prisma.StoreSalesDailyListRelationFilter
+  customers?: Prisma.CustomerListRelationFilter
+  dailyReports?: Prisma.DailyReportListRelationFilter
 }, "id">
 
 export type OrganizationOrderByWithAggregationInput = {
@@ -405,6 +411,8 @@ export type OrganizationCreateInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateInput = {
@@ -433,6 +441,8 @@ export type OrganizationUncheckedCreateInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUpdateInput = {
@@ -461,6 +471,8 @@ export type OrganizationUpdateInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateInput = {
@@ -489,6 +501,8 @@ export type OrganizationUncheckedUpdateInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateManyInput = {
@@ -806,6 +820,34 @@ export type OrganizationUpdateOneRequiredWithoutSalesDailyNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutSalesDailyInput, Prisma.OrganizationUpdateWithoutSalesDailyInput>, Prisma.OrganizationUncheckedUpdateWithoutSalesDailyInput>
 }
 
+export type OrganizationCreateNestedOneWithoutCustomersInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutCustomersInput, Prisma.OrganizationUncheckedCreateWithoutCustomersInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutCustomersInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+}
+
+export type OrganizationUpdateOneRequiredWithoutCustomersNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutCustomersInput, Prisma.OrganizationUncheckedCreateWithoutCustomersInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutCustomersInput
+  upsert?: Prisma.OrganizationUpsertWithoutCustomersInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutCustomersInput, Prisma.OrganizationUpdateWithoutCustomersInput>, Prisma.OrganizationUncheckedUpdateWithoutCustomersInput>
+}
+
+export type OrganizationCreateNestedOneWithoutDailyReportsInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutDailyReportsInput, Prisma.OrganizationUncheckedCreateWithoutDailyReportsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutDailyReportsInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+}
+
+export type OrganizationUpdateOneRequiredWithoutDailyReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutDailyReportsInput, Prisma.OrganizationUncheckedCreateWithoutDailyReportsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutDailyReportsInput
+  upsert?: Prisma.OrganizationUpsertWithoutDailyReportsInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutDailyReportsInput, Prisma.OrganizationUpdateWithoutDailyReportsInput>, Prisma.OrganizationUncheckedUpdateWithoutDailyReportsInput>
+}
+
 export type OrganizationCreateWithoutMembersInput = {
   id?: string
   name: string
@@ -831,6 +873,8 @@ export type OrganizationCreateWithoutMembersInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutMembersInput = {
@@ -858,6 +902,8 @@ export type OrganizationUncheckedCreateWithoutMembersInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutMembersInput = {
@@ -901,6 +947,8 @@ export type OrganizationUpdateWithoutMembersInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutMembersInput = {
@@ -928,6 +976,8 @@ export type OrganizationUncheckedUpdateWithoutMembersInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutStoresInput = {
@@ -955,6 +1005,8 @@ export type OrganizationCreateWithoutStoresInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutStoresInput = {
@@ -982,6 +1034,8 @@ export type OrganizationUncheckedCreateWithoutStoresInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutStoresInput = {
@@ -1025,6 +1079,8 @@ export type OrganizationUpdateWithoutStoresInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutStoresInput = {
@@ -1052,6 +1108,8 @@ export type OrganizationUncheckedUpdateWithoutStoresInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutStaffInput = {
@@ -1079,6 +1137,8 @@ export type OrganizationCreateWithoutStaffInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutStaffInput = {
@@ -1106,6 +1166,8 @@ export type OrganizationUncheckedCreateWithoutStaffInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutStaffInput = {
@@ -1149,6 +1211,8 @@ export type OrganizationUpdateWithoutStaffInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutStaffInput = {
@@ -1176,6 +1240,8 @@ export type OrganizationUncheckedUpdateWithoutStaffInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutShiftAvailabilitiesInput = {
@@ -1203,6 +1269,8 @@ export type OrganizationCreateWithoutShiftAvailabilitiesInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutShiftAvailabilitiesInput = {
@@ -1230,6 +1298,8 @@ export type OrganizationUncheckedCreateWithoutShiftAvailabilitiesInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutShiftAvailabilitiesInput = {
@@ -1273,6 +1343,8 @@ export type OrganizationUpdateWithoutShiftAvailabilitiesInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutShiftAvailabilitiesInput = {
@@ -1300,6 +1372,8 @@ export type OrganizationUncheckedUpdateWithoutShiftAvailabilitiesInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutShiftRequirementsInput = {
@@ -1327,6 +1401,8 @@ export type OrganizationCreateWithoutShiftRequirementsInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutShiftRequirementsInput = {
@@ -1354,6 +1430,8 @@ export type OrganizationUncheckedCreateWithoutShiftRequirementsInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutShiftRequirementsInput = {
@@ -1397,6 +1475,8 @@ export type OrganizationUpdateWithoutShiftRequirementsInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutShiftRequirementsInput = {
@@ -1424,6 +1504,8 @@ export type OrganizationUncheckedUpdateWithoutShiftRequirementsInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutShiftsInput = {
@@ -1451,6 +1533,8 @@ export type OrganizationCreateWithoutShiftsInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutShiftsInput = {
@@ -1478,6 +1562,8 @@ export type OrganizationUncheckedCreateWithoutShiftsInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutShiftsInput = {
@@ -1521,6 +1607,8 @@ export type OrganizationUpdateWithoutShiftsInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutShiftsInput = {
@@ -1548,6 +1636,8 @@ export type OrganizationUncheckedUpdateWithoutShiftsInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutShiftSlotsInput = {
@@ -1575,6 +1665,8 @@ export type OrganizationCreateWithoutShiftSlotsInput = {
   shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutShiftSlotsInput = {
@@ -1602,6 +1694,8 @@ export type OrganizationUncheckedCreateWithoutShiftSlotsInput = {
   shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutShiftSlotsInput = {
@@ -1645,6 +1739,8 @@ export type OrganizationUpdateWithoutShiftSlotsInput = {
   shiftRules?: Prisma.ShiftRuleUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutShiftSlotsInput = {
@@ -1672,6 +1768,8 @@ export type OrganizationUncheckedUpdateWithoutShiftSlotsInput = {
   shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutShiftRulesInput = {
@@ -1699,6 +1797,8 @@ export type OrganizationCreateWithoutShiftRulesInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutShiftRulesInput = {
@@ -1726,6 +1826,8 @@ export type OrganizationUncheckedCreateWithoutShiftRulesInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutShiftRulesInput = {
@@ -1769,6 +1871,8 @@ export type OrganizationUpdateWithoutShiftRulesInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutShiftRulesInput = {
@@ -1796,6 +1900,8 @@ export type OrganizationUncheckedUpdateWithoutShiftRulesInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutClosingPeriodsInput = {
@@ -1823,6 +1929,8 @@ export type OrganizationCreateWithoutClosingPeriodsInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutClosingPeriodsInput = {
@@ -1850,6 +1958,8 @@ export type OrganizationUncheckedCreateWithoutClosingPeriodsInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutClosingPeriodsInput = {
@@ -1893,6 +2003,8 @@ export type OrganizationUpdateWithoutClosingPeriodsInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutClosingPeriodsInput = {
@@ -1920,6 +2032,8 @@ export type OrganizationUncheckedUpdateWithoutClosingPeriodsInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutNotificationsInput = {
@@ -1947,6 +2061,8 @@ export type OrganizationCreateWithoutNotificationsInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutNotificationsInput = {
@@ -1974,6 +2090,8 @@ export type OrganizationUncheckedCreateWithoutNotificationsInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutNotificationsInput = {
@@ -2017,6 +2135,8 @@ export type OrganizationUpdateWithoutNotificationsInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutNotificationsInput = {
@@ -2044,6 +2164,8 @@ export type OrganizationUncheckedUpdateWithoutNotificationsInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAuditLogsInput = {
@@ -2071,6 +2193,8 @@ export type OrganizationCreateWithoutAuditLogsInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAuditLogsInput = {
@@ -2098,6 +2222,8 @@ export type OrganizationUncheckedCreateWithoutAuditLogsInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAuditLogsInput = {
@@ -2141,6 +2267,8 @@ export type OrganizationUpdateWithoutAuditLogsInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAuditLogsInput = {
@@ -2168,6 +2296,8 @@ export type OrganizationUncheckedUpdateWithoutAuditLogsInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutApiKeysInput = {
@@ -2195,6 +2325,8 @@ export type OrganizationCreateWithoutApiKeysInput = {
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutApiKeysInput = {
@@ -2222,6 +2354,8 @@ export type OrganizationUncheckedCreateWithoutApiKeysInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutApiKeysInput = {
@@ -2265,6 +2399,8 @@ export type OrganizationUpdateWithoutApiKeysInput = {
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutApiKeysInput = {
@@ -2292,6 +2428,8 @@ export type OrganizationUncheckedUpdateWithoutApiKeysInput = {
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutSalesTxnsInput = {
@@ -2319,6 +2457,8 @@ export type OrganizationCreateWithoutSalesTxnsInput = {
   shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutOrganizationInput
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutSalesTxnsInput = {
@@ -2346,6 +2486,8 @@ export type OrganizationUncheckedCreateWithoutSalesTxnsInput = {
   shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutOrganizationInput
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutSalesTxnsInput = {
@@ -2389,6 +2531,8 @@ export type OrganizationUpdateWithoutSalesTxnsInput = {
   shiftRules?: Prisma.ShiftRuleUpdateManyWithoutOrganizationNestedInput
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutSalesTxnsInput = {
@@ -2416,6 +2560,8 @@ export type OrganizationUncheckedUpdateWithoutSalesTxnsInput = {
   shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutOrganizationNestedInput
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutSalesDailyInput = {
@@ -2443,6 +2589,8 @@ export type OrganizationCreateWithoutSalesDailyInput = {
   shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutOrganizationInput
   shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutSalesDailyInput = {
@@ -2470,6 +2618,8 @@ export type OrganizationUncheckedCreateWithoutSalesDailyInput = {
   shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutOrganizationInput
   shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutSalesDailyInput = {
@@ -2513,6 +2663,8 @@ export type OrganizationUpdateWithoutSalesDailyInput = {
   shiftRules?: Prisma.ShiftRuleUpdateManyWithoutOrganizationNestedInput
   shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutSalesDailyInput = {
@@ -2540,6 +2692,272 @@ export type OrganizationUncheckedUpdateWithoutSalesDailyInput = {
   shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutOrganizationNestedInput
   shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
   salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationCreateWithoutCustomersInput = {
+  id?: string
+  name: string
+  timezone?: string
+  country?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  vertical?: $Enums.Vertical
+  staffTerm?: $Enums.StaffTerm
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.OrganizationMemberCreateNestedManyWithoutOrganizationInput
+  stores?: Prisma.StoreCreateNestedManyWithoutOrganizationInput
+  staff?: Prisma.StaffCreateNestedManyWithoutOrganizationInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
+  closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutOrganizationInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutOrganizationInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutOrganizationInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutOrganizationInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutOrganizationInput
+  shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationUncheckedCreateWithoutCustomersInput = {
+  id?: string
+  name: string
+  timezone?: string
+  country?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  vertical?: $Enums.Vertical
+  staffTerm?: $Enums.StaffTerm
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutOrganizationInput
+  stores?: Prisma.StoreUncheckedCreateNestedManyWithoutOrganizationInput
+  staff?: Prisma.StaffUncheckedCreateNestedManyWithoutOrganizationInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutOrganizationInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutOrganizationInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutOrganizationInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutOrganizationInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  dailyReports?: Prisma.DailyReportUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationCreateOrConnectWithoutCustomersInput = {
+  where: Prisma.OrganizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutCustomersInput, Prisma.OrganizationUncheckedCreateWithoutCustomersInput>
+}
+
+export type OrganizationUpsertWithoutCustomersInput = {
+  update: Prisma.XOR<Prisma.OrganizationUpdateWithoutCustomersInput, Prisma.OrganizationUncheckedUpdateWithoutCustomersInput>
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutCustomersInput, Prisma.OrganizationUncheckedCreateWithoutCustomersInput>
+  where?: Prisma.OrganizationWhereInput
+}
+
+export type OrganizationUpdateToOneWithWhereWithoutCustomersInput = {
+  where?: Prisma.OrganizationWhereInput
+  data: Prisma.XOR<Prisma.OrganizationUpdateWithoutCustomersInput, Prisma.OrganizationUncheckedUpdateWithoutCustomersInput>
+}
+
+export type OrganizationUpdateWithoutCustomersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  vertical?: Prisma.EnumVerticalFieldUpdateOperationsInput | $Enums.Vertical
+  staffTerm?: Prisma.EnumStaffTermFieldUpdateOperationsInput | $Enums.StaffTerm
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.OrganizationMemberUpdateManyWithoutOrganizationNestedInput
+  stores?: Prisma.StoreUpdateManyWithoutOrganizationNestedInput
+  staff?: Prisma.StaffUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutOrganizationNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutOrganizationNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutOrganizationNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutOrganizationNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutOrganizationNestedInput
+  shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationUncheckedUpdateWithoutCustomersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  vertical?: Prisma.EnumVerticalFieldUpdateOperationsInput | $Enums.Vertical
+  staffTerm?: Prisma.EnumStaffTermFieldUpdateOperationsInput | $Enums.StaffTerm
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutOrganizationNestedInput
+  stores?: Prisma.StoreUncheckedUpdateManyWithoutOrganizationNestedInput
+  staff?: Prisma.StaffUncheckedUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutOrganizationNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutOrganizationNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutOrganizationNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  dailyReports?: Prisma.DailyReportUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationCreateWithoutDailyReportsInput = {
+  id?: string
+  name: string
+  timezone?: string
+  country?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  vertical?: $Enums.Vertical
+  staffTerm?: $Enums.StaffTerm
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.OrganizationMemberCreateNestedManyWithoutOrganizationInput
+  stores?: Prisma.StoreCreateNestedManyWithoutOrganizationInput
+  staff?: Prisma.StaffCreateNestedManyWithoutOrganizationInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
+  closingPeriods?: Prisma.ClosingPeriodCreateNestedManyWithoutOrganizationInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutOrganizationInput
+  shiftRequirements?: Prisma.ShiftRequirementCreateNestedManyWithoutOrganizationInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutOrganizationInput
+  shiftRules?: Prisma.ShiftRuleCreateNestedManyWithoutOrganizationInput
+  shiftSlots?: Prisma.ShiftSlotCreateNestedManyWithoutOrganizationInput
+  salesTxns?: Prisma.StoreSalesTxnCreateNestedManyWithoutOrganizationInput
+  salesDaily?: Prisma.StoreSalesDailyCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationUncheckedCreateWithoutDailyReportsInput = {
+  id?: string
+  name: string
+  timezone?: string
+  country?: string
+  dayChangeHour?: number
+  dayChangeMinute?: number
+  vertical?: $Enums.Vertical
+  staffTerm?: $Enums.StaffTerm
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.OrganizationMemberUncheckedCreateNestedManyWithoutOrganizationInput
+  stores?: Prisma.StoreUncheckedCreateNestedManyWithoutOrganizationInput
+  staff?: Prisma.StaffUncheckedCreateNestedManyWithoutOrganizationInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedCreateNestedManyWithoutOrganizationInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutOrganizationInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedCreateNestedManyWithoutOrganizationInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutOrganizationInput
+  shiftRules?: Prisma.ShiftRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  shiftSlots?: Prisma.ShiftSlotUncheckedCreateNestedManyWithoutOrganizationInput
+  salesTxns?: Prisma.StoreSalesTxnUncheckedCreateNestedManyWithoutOrganizationInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationCreateOrConnectWithoutDailyReportsInput = {
+  where: Prisma.OrganizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutDailyReportsInput, Prisma.OrganizationUncheckedCreateWithoutDailyReportsInput>
+}
+
+export type OrganizationUpsertWithoutDailyReportsInput = {
+  update: Prisma.XOR<Prisma.OrganizationUpdateWithoutDailyReportsInput, Prisma.OrganizationUncheckedUpdateWithoutDailyReportsInput>
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutDailyReportsInput, Prisma.OrganizationUncheckedCreateWithoutDailyReportsInput>
+  where?: Prisma.OrganizationWhereInput
+}
+
+export type OrganizationUpdateToOneWithWhereWithoutDailyReportsInput = {
+  where?: Prisma.OrganizationWhereInput
+  data: Prisma.XOR<Prisma.OrganizationUpdateWithoutDailyReportsInput, Prisma.OrganizationUncheckedUpdateWithoutDailyReportsInput>
+}
+
+export type OrganizationUpdateWithoutDailyReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  vertical?: Prisma.EnumVerticalFieldUpdateOperationsInput | $Enums.Vertical
+  staffTerm?: Prisma.EnumStaffTermFieldUpdateOperationsInput | $Enums.StaffTerm
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.OrganizationMemberUpdateManyWithoutOrganizationNestedInput
+  stores?: Prisma.StoreUpdateManyWithoutOrganizationNestedInput
+  staff?: Prisma.StaffUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUpdateManyWithoutOrganizationNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutOrganizationNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUpdateManyWithoutOrganizationNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutOrganizationNestedInput
+  shiftRules?: Prisma.ShiftRuleUpdateManyWithoutOrganizationNestedInput
+  shiftSlots?: Prisma.ShiftSlotUpdateManyWithoutOrganizationNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUpdateManyWithoutOrganizationNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationUncheckedUpdateWithoutDailyReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  dayChangeHour?: Prisma.IntFieldUpdateOperationsInput | number
+  dayChangeMinute?: Prisma.IntFieldUpdateOperationsInput | number
+  vertical?: Prisma.EnumVerticalFieldUpdateOperationsInput | $Enums.Vertical
+  staffTerm?: Prisma.EnumStaffTermFieldUpdateOperationsInput | $Enums.StaffTerm
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.OrganizationMemberUncheckedUpdateManyWithoutOrganizationNestedInput
+  stores?: Prisma.StoreUncheckedUpdateManyWithoutOrganizationNestedInput
+  staff?: Prisma.StaffUncheckedUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
+  closingPeriods?: Prisma.ClosingPeriodUncheckedUpdateManyWithoutOrganizationNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutOrganizationNestedInput
+  shiftRequirements?: Prisma.ShiftRequirementUncheckedUpdateManyWithoutOrganizationNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutOrganizationNestedInput
+  shiftRules?: Prisma.ShiftRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  shiftSlots?: Prisma.ShiftSlotUncheckedUpdateManyWithoutOrganizationNestedInput
+  salesTxns?: Prisma.StoreSalesTxnUncheckedUpdateManyWithoutOrganizationNestedInput
+  salesDaily?: Prisma.StoreSalesDailyUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 
@@ -2562,6 +2980,8 @@ export type OrganizationCountOutputType = {
   shiftSlots: number
   salesTxns: number
   salesDaily: number
+  customers: number
+  dailyReports: number
 }
 
 export type OrganizationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2579,6 +2999,8 @@ export type OrganizationCountOutputTypeSelect<ExtArgs extends runtime.Types.Exte
   shiftSlots?: boolean | OrganizationCountOutputTypeCountShiftSlotsArgs
   salesTxns?: boolean | OrganizationCountOutputTypeCountSalesTxnsArgs
   salesDaily?: boolean | OrganizationCountOutputTypeCountSalesDailyArgs
+  customers?: boolean | OrganizationCountOutputTypeCountCustomersArgs
+  dailyReports?: boolean | OrganizationCountOutputTypeCountDailyReportsArgs
 }
 
 /**
@@ -2689,6 +3111,20 @@ export type OrganizationCountOutputTypeCountSalesDailyArgs<ExtArgs extends runti
   where?: Prisma.StoreSalesDailyWhereInput
 }
 
+/**
+ * OrganizationCountOutputType without action
+ */
+export type OrganizationCountOutputTypeCountCustomersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CustomerWhereInput
+}
+
+/**
+ * OrganizationCountOutputType without action
+ */
+export type OrganizationCountOutputTypeCountDailyReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DailyReportWhereInput
+}
+
 
 export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2716,6 +3152,8 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   shiftSlots?: boolean | Prisma.Organization$shiftSlotsArgs<ExtArgs>
   salesTxns?: boolean | Prisma.Organization$salesTxnsArgs<ExtArgs>
   salesDaily?: boolean | Prisma.Organization$salesDailyArgs<ExtArgs>
+  customers?: boolean | Prisma.Organization$customersArgs<ExtArgs>
+  dailyReports?: boolean | Prisma.Organization$dailyReportsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["organization"]>
 
@@ -2777,6 +3215,8 @@ export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.Interna
   shiftSlots?: boolean | Prisma.Organization$shiftSlotsArgs<ExtArgs>
   salesTxns?: boolean | Prisma.Organization$salesTxnsArgs<ExtArgs>
   salesDaily?: boolean | Prisma.Organization$salesDailyArgs<ExtArgs>
+  customers?: boolean | Prisma.Organization$customersArgs<ExtArgs>
+  dailyReports?: boolean | Prisma.Organization$dailyReportsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrganizationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2799,6 +3239,8 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     shiftSlots: Prisma.$ShiftSlotPayload<ExtArgs>[]
     salesTxns: Prisma.$StoreSalesTxnPayload<ExtArgs>[]
     salesDaily: Prisma.$StoreSalesDailyPayload<ExtArgs>[]
+    customers: Prisma.$CustomerPayload<ExtArgs>[]
+    dailyReports: Prisma.$DailyReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3220,6 +3662,8 @@ export interface Prisma__OrganizationClient<T, Null = never, ExtArgs extends run
   shiftSlots<T extends Prisma.Organization$shiftSlotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$shiftSlotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   salesTxns<T extends Prisma.Organization$salesTxnsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$salesTxnsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoreSalesTxnPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   salesDaily<T extends Prisma.Organization$salesDailyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$salesDailyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StoreSalesDailyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  customers<T extends Prisma.Organization$customersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$customersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dailyReports<T extends Prisma.Organization$dailyReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$dailyReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3986,6 +4430,54 @@ export type Organization$salesDailyArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.StoreSalesDailyScalarFieldEnum | Prisma.StoreSalesDailyScalarFieldEnum[]
+}
+
+/**
+ * Organization.customers
+ */
+export type Organization$customersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Customer
+   */
+  select?: Prisma.CustomerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Customer
+   */
+  omit?: Prisma.CustomerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CustomerInclude<ExtArgs> | null
+  where?: Prisma.CustomerWhereInput
+  orderBy?: Prisma.CustomerOrderByWithRelationInput | Prisma.CustomerOrderByWithRelationInput[]
+  cursor?: Prisma.CustomerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CustomerScalarFieldEnum | Prisma.CustomerScalarFieldEnum[]
+}
+
+/**
+ * Organization.dailyReports
+ */
+export type Organization$dailyReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailyReport
+   */
+  select?: Prisma.DailyReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DailyReport
+   */
+  omit?: Prisma.DailyReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DailyReportInclude<ExtArgs> | null
+  where?: Prisma.DailyReportWhereInput
+  orderBy?: Prisma.DailyReportOrderByWithRelationInput | Prisma.DailyReportOrderByWithRelationInput[]
+  cursor?: Prisma.DailyReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DailyReportScalarFieldEnum | Prisma.DailyReportScalarFieldEnum[]
 }
 
 /**

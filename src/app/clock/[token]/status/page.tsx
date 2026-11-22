@@ -12,6 +12,8 @@ import { pickCurrentAttendance } from "@/lib/business/same-day-attendance";
 import { getBusinessDate } from "@/lib/business/business-day";
 import { clockCookieName, verifyClockSession } from "@/lib/clock-session";
 import { StatusActions } from "./status-actions";
+import type { DailyReportConfig } from "./daily-report-form";
+import { parseDailyReportProducts } from "@/lib/validations/daily-report";
 import { toZonedTime } from "date-fns-tz";
 import { format } from "date-fns";
 import { Clock } from "lucide-react";
@@ -123,6 +125,24 @@ export default async function StatusPage({ params, searchParams }: PageProps) {
     clockInDisplay = format(zonedClockIn, "HH:mm");
   }
 
+  // 日報が要る店舗（VLL）は、退勤のときに日報の画面を出す
+  let dailyReport: DailyReportConfig | null = null;
+  if (store.requireDailyReport && availableActions.includes("CLOCK_OUT")) {
+    const customers = await db.customer.findMany({
+      where: { storeId: store.id, mergedIntoId: null },
+      select: { name: true },
+      orderBy: { createdAt: "desc" },
+      take: 500,
+    });
+    const [, m, d] = businessDate.split("-");
+    dailyReport = {
+      products: parseDailyReportProducts(store.dailyReportProducts),
+      customerNames: customers.map((c) => c.name),
+      headline: `${Number(m)}月${Number(d)}日${clockInDisplay ? ` ${clockInDisplay}〜` : ""}`,
+      draftKey: `misekin-daily-report:${store.id}:${staffId}:${todayAttendance?.id ?? businessDate}`,
+    };
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-sm">
@@ -163,6 +183,7 @@ export default async function StatusPage({ params, searchParams }: PageProps) {
           currentState={currentState}
           availableActions={availableActions}
           shiftsToday={sameDayAttendances.length}
+          dailyReport={dailyReport}
         />
 
         {/* 戻るボタン */}

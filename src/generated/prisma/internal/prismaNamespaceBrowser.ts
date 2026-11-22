@@ -81,7 +81,11 @@ export const ModelName = {
   ApiKey: 'ApiKey',
   ApiAccessLog: 'ApiAccessLog',
   StoreSalesTxn: 'StoreSalesTxn',
-  StoreSalesDaily: 'StoreSalesDaily'
+  StoreSalesDaily: 'StoreSalesDaily',
+  Customer: 'Customer',
+  DailyReport: 'DailyReport',
+  DailyReportSale: 'DailyReportSale',
+  DailyReportBackItem: 'DailyReportBackItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -195,6 +199,8 @@ export const StoreScalarFieldEnum = {
   category: 'category',
   maxStaffPerSlot: 'maxStaffPerSlot',
   allowMultipleClockIns: 'allowMultipleClockIns',
+  requireDailyReport: 'requireDailyReport',
+  dailyReportProducts: 'dailyReportProducts',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -621,6 +627,65 @@ export const StoreSalesDailyScalarFieldEnum = {
 } as const
 
 export type StoreSalesDailyScalarFieldEnum = (typeof StoreSalesDailyScalarFieldEnum)[keyof typeof StoreSalesDailyScalarFieldEnum]
+
+
+export const CustomerScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  name: 'name',
+  normalizedName: 'normalizedName',
+  mergedIntoId: 'mergedIntoId',
+  mergedAt: 'mergedAt',
+  mergedByUserId: 'mergedByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const DailyReportScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  staffId: 'staffId',
+  attendanceId: 'attendanceId',
+  businessDate: 'businessDate',
+  noSales: 'noSales',
+  submittedAt: 'submittedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyReportScalarFieldEnum = (typeof DailyReportScalarFieldEnum)[keyof typeof DailyReportScalarFieldEnum]
+
+
+export const DailyReportSaleScalarFieldEnum = {
+  id: 'id',
+  reportId: 'reportId',
+  customerId: 'customerId',
+  customerName: 'customerName',
+  amount: 'amount',
+  sortOrder: 'sortOrder',
+  duplicateDecision: 'duplicateDecision',
+  decidedByUserId: 'decidedByUserId',
+  decidedAt: 'decidedAt'
+} as const
+
+export type DailyReportSaleScalarFieldEnum = (typeof DailyReportSaleScalarFieldEnum)[keyof typeof DailyReportSaleScalarFieldEnum]
+
+
+export const DailyReportBackItemScalarFieldEnum = {
+  id: 'id',
+  reportId: 'reportId',
+  productName: 'productName',
+  unitPrice: 'unitPrice',
+  quantity: 'quantity',
+  sortOrder: 'sortOrder'
+} as const
+
+export type DailyReportBackItemScalarFieldEnum = (typeof DailyReportBackItemScalarFieldEnum)[keyof typeof DailyReportBackItemScalarFieldEnum]
 
 
 export const SortOrder = {

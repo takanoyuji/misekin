@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { clockAction } from "@/actions/attendance";
 import type { ClockState, ClockAction } from "@/lib/business/time-clock";
+import { DailyReportForm, type DailyReportConfig } from "./daily-report-form";
 
 const actionConfig: Record<
   ClockAction,
@@ -39,6 +40,8 @@ interface StatusActionsProps {
   availableActions: ClockAction[];
   /** この営業日の勤怠の件数（退勤後の再出勤の確認に使う） */
   shiftsToday: number;
+  /** 退勤のときに日報を書かせる店舗（VLL）だけ渡す */
+  dailyReport?: DailyReportConfig | null;
 }
 
 export function StatusActions({
@@ -48,6 +51,7 @@ export function StatusActions({
   currentState,
   availableActions,
   shiftsToday,
+  dailyReport,
 }: StatusActionsProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -56,6 +60,7 @@ export function StatusActions({
   // メモ入力ステップ
   const [memoStep, setMemoStep] = useState(false);
   const [memo, setMemo] = useState("");
+  const [reportOpen, setReportOpen] = useState(false);
 
   const executeAction = (action: ClockAction, memoText?: string) => {
     setError(null);
@@ -83,6 +88,11 @@ export function StatusActions({
   };
 
   const handleActionClick = (action: ClockAction) => {
+    // 日報が要る店舗の退勤は日報の画面へ（申し送りメモも日報の画面で書く）
+    if (action === "CLOCK_OUT" && dailyReport) {
+      setReportOpen(true);
+      return;
+    }
     // 退勤の場合はメモ入力ステップへ
     if (action === "CLOCK_OUT") {
       setMemo("");
@@ -135,6 +145,16 @@ export function StatusActions({
 
   return (
     <>
+      {reportOpen && dailyReport && (
+        <DailyReportForm
+          token={token}
+          staffId={staffId}
+          staffName={staffName}
+          config={dailyReport}
+          onBreak={currentState === "ON_BREAK"}
+          onClose={() => setReportOpen(false)}
+        />
+      )}
       {/* エラー */}
       {error && (
         <div

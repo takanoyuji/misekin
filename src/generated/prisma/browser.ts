@@ -188,3 +188,26 @@ export type StoreSalesTxn = Prisma.StoreSalesTxnModel
  * 二重計上が構造的に起きないようにしている。
  */
 export type StoreSalesDaily = Prisma.StoreSalesDailyModel
+/**
+ * Model Customer
+ * 店舗ごとのお客様。日報の売上の行はここに紐づく。
+ * 表記ゆれは「まとめる」（mergedIntoId に統合先を入れる）で吸収し、行は消さない。分けるときは null に戻す。
+ */
+export type Customer = Prisma.CustomerModel
+/**
+ * Model DailyReport
+ * 退勤のときの日報。勤怠1件に1件。
+ * 勤怠・スタッフを手で消しても日報（売上）が道連れで消えないよう、両方 Restrict にしている
+ */
+export type DailyReport = Prisma.DailyReportModel
+/**
+ * Model DailyReportSale
+ * 日報の売上の1行（お客様ごと）。キャストが書いたまま残す。
+ * 売上は「同じお客様はどちらか1人が書く」運用。2人とも書いたときは店長が duplicateDecision で決める
+ */
+export type DailyReportSale = Prisma.DailyReportSaleModel
+/**
+ * Model DailyReportBackItem
+ * 日報のバック発生商品の1行
+ */
+export type DailyReportBackItem = Prisma.DailyReportBackItemModel

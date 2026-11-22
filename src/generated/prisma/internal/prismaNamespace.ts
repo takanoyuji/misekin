@@ -414,7 +414,11 @@ export const ModelName = {
   ApiKey: 'ApiKey',
   ApiAccessLog: 'ApiAccessLog',
   StoreSalesTxn: 'StoreSalesTxn',
-  StoreSalesDaily: 'StoreSalesDaily'
+  StoreSalesDaily: 'StoreSalesDaily',
+  Customer: 'Customer',
+  DailyReport: 'DailyReport',
+  DailyReportSale: 'DailyReportSale',
+  DailyReportBackItem: 'DailyReportBackItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -430,7 +434,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "store" | "storeClockUrl" | "storeAdmin" | "staff" | "staffStore" | "wageHistory" | "transportationHistory" | "attendanceEvent" | "attendance" | "break" | "attendanceCorrection" | "correctionRequest" | "transportationChangeRequest" | "shiftAvailability" | "shiftRequirement" | "shift" | "shiftSlot" | "shiftRule" | "closingPeriod" | "notification" | "auditLog" | "apiKey" | "apiAccessLog" | "storeSalesTxn" | "storeSalesDaily"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "store" | "storeClockUrl" | "storeAdmin" | "staff" | "staffStore" | "wageHistory" | "transportationHistory" | "attendanceEvent" | "attendance" | "break" | "attendanceCorrection" | "correctionRequest" | "transportationChangeRequest" | "shiftAvailability" | "shiftRequirement" | "shift" | "shiftSlot" | "shiftRule" | "closingPeriod" | "notification" | "auditLog" | "apiKey" | "apiAccessLog" | "storeSalesTxn" | "storeSalesDaily" | "customer" | "dailyReport" | "dailyReportSale" | "dailyReportBackItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2728,6 +2732,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Customer: {
+      payload: Prisma.$CustomerPayload<ExtArgs>
+      fields: Prisma.CustomerFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CustomerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CustomerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
+        }
+        findFirst: {
+          args: Prisma.CustomerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CustomerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
+        }
+        findMany: {
+          args: Prisma.CustomerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>[]
+        }
+        create: {
+          args: Prisma.CustomerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
+        }
+        createMany: {
+          args: Prisma.CustomerCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CustomerCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>[]
+        }
+        delete: {
+          args: Prisma.CustomerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
+        }
+        update: {
+          args: Prisma.CustomerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
+        }
+        deleteMany: {
+          args: Prisma.CustomerDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CustomerUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CustomerUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>[]
+        }
+        upsert: {
+          args: Prisma.CustomerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerPayload>
+        }
+        aggregate: {
+          args: Prisma.CustomerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCustomer>
+        }
+        groupBy: {
+          args: Prisma.CustomerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CustomerGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CustomerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CustomerCountAggregateOutputType> | number
+        }
+      }
+    }
+    DailyReport: {
+      payload: Prisma.$DailyReportPayload<ExtArgs>
+      fields: Prisma.DailyReportFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyReportFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyReportFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
+        }
+        findFirst: {
+          args: Prisma.DailyReportFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyReportFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
+        }
+        findMany: {
+          args: Prisma.DailyReportFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>[]
+        }
+        create: {
+          args: Prisma.DailyReportCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
+        }
+        createMany: {
+          args: Prisma.DailyReportCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyReportCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>[]
+        }
+        delete: {
+          args: Prisma.DailyReportDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
+        }
+        update: {
+          args: Prisma.DailyReportUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyReportDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyReportUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyReportUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyReportUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportPayload>
+        }
+        aggregate: {
+          args: Prisma.DailyReportAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyReport>
+        }
+        groupBy: {
+          args: Prisma.DailyReportGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyReportGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyReportCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyReportCountAggregateOutputType> | number
+        }
+      }
+    }
+    DailyReportSale: {
+      payload: Prisma.$DailyReportSalePayload<ExtArgs>
+      fields: Prisma.DailyReportSaleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyReportSaleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportSalePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyReportSaleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportSalePayload>
+        }
+        findFirst: {
+          args: Prisma.DailyReportSaleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportSalePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyReportSaleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportSalePayload>
+        }
+        findMany: {
+          args: Prisma.DailyReportSaleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportSalePayload>[]
+        }
+        create: {
+          args: Prisma.DailyReportSaleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportSalePayload>
+        }
+        createMany: {
+          args: Prisma.DailyReportSaleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyReportSaleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportSalePayload>[]
+        }
+        delete: {
+          args: Prisma.DailyReportSaleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportSalePayload>
+        }
+        update: {
+          args: Prisma.DailyReportSaleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportSalePayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyReportSaleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyReportSaleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyReportSaleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportSalePayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyReportSaleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportSalePayload>
+        }
+        aggregate: {
+          args: Prisma.DailyReportSaleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyReportSale>
+        }
+        groupBy: {
+          args: Prisma.DailyReportSaleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyReportSaleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyReportSaleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyReportSaleCountAggregateOutputType> | number
+        }
+      }
+    }
+    DailyReportBackItem: {
+      payload: Prisma.$DailyReportBackItemPayload<ExtArgs>
+      fields: Prisma.DailyReportBackItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyReportBackItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportBackItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyReportBackItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportBackItemPayload>
+        }
+        findFirst: {
+          args: Prisma.DailyReportBackItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportBackItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyReportBackItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportBackItemPayload>
+        }
+        findMany: {
+          args: Prisma.DailyReportBackItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportBackItemPayload>[]
+        }
+        create: {
+          args: Prisma.DailyReportBackItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportBackItemPayload>
+        }
+        createMany: {
+          args: Prisma.DailyReportBackItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyReportBackItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportBackItemPayload>[]
+        }
+        delete: {
+          args: Prisma.DailyReportBackItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportBackItemPayload>
+        }
+        update: {
+          args: Prisma.DailyReportBackItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportBackItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyReportBackItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyReportBackItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyReportBackItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportBackItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyReportBackItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReportBackItemPayload>
+        }
+        aggregate: {
+          args: Prisma.DailyReportBackItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyReportBackItem>
+        }
+        groupBy: {
+          args: Prisma.DailyReportBackItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyReportBackItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyReportBackItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyReportBackItemCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2862,6 +3162,8 @@ export const StoreScalarFieldEnum = {
   category: 'category',
   maxStaffPerSlot: 'maxStaffPerSlot',
   allowMultipleClockIns: 'allowMultipleClockIns',
+  requireDailyReport: 'requireDailyReport',
+  dailyReportProducts: 'dailyReportProducts',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -3290,6 +3592,65 @@ export const StoreSalesDailyScalarFieldEnum = {
 export type StoreSalesDailyScalarFieldEnum = (typeof StoreSalesDailyScalarFieldEnum)[keyof typeof StoreSalesDailyScalarFieldEnum]
 
 
+export const CustomerScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  name: 'name',
+  normalizedName: 'normalizedName',
+  mergedIntoId: 'mergedIntoId',
+  mergedAt: 'mergedAt',
+  mergedByUserId: 'mergedByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const DailyReportScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  storeId: 'storeId',
+  staffId: 'staffId',
+  attendanceId: 'attendanceId',
+  businessDate: 'businessDate',
+  noSales: 'noSales',
+  submittedAt: 'submittedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyReportScalarFieldEnum = (typeof DailyReportScalarFieldEnum)[keyof typeof DailyReportScalarFieldEnum]
+
+
+export const DailyReportSaleScalarFieldEnum = {
+  id: 'id',
+  reportId: 'reportId',
+  customerId: 'customerId',
+  customerName: 'customerName',
+  amount: 'amount',
+  sortOrder: 'sortOrder',
+  duplicateDecision: 'duplicateDecision',
+  decidedByUserId: 'decidedByUserId',
+  decidedAt: 'decidedAt'
+} as const
+
+export type DailyReportSaleScalarFieldEnum = (typeof DailyReportSaleScalarFieldEnum)[keyof typeof DailyReportSaleScalarFieldEnum]
+
+
+export const DailyReportBackItemScalarFieldEnum = {
+  id: 'id',
+  reportId: 'reportId',
+  productName: 'productName',
+  unitPrice: 'unitPrice',
+  quantity: 'quantity',
+  sortOrder: 'sortOrder'
+} as const
+
+export type DailyReportBackItemScalarFieldEnum = (typeof DailyReportBackItemScalarFieldEnum)[keyof typeof DailyReportBackItemScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3478,6 +3839,20 @@ export type ListEnumStoreCategoryFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
  * Reference to a field of type 'StaffStatus'
  */
 export type EnumStaffStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StaffStatus'>
@@ -3576,20 +3951,6 @@ export type ListEnumAttendanceStatusFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-/**
  * Reference to a field of type 'CorrectionRequestStatus'
  */
 export type EnumCorrectionRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CorrectionRequestStatus'>
@@ -3656,6 +4017,20 @@ export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
  * Reference to a field of type 'NotificationType[]'
  */
 export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SaleDuplicateDecision'
+ */
+export type EnumSaleDuplicateDecisionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SaleDuplicateDecision'>
+    
+
+
+/**
+ * Reference to a field of type 'SaleDuplicateDecision[]'
+ */
+export type ListEnumSaleDuplicateDecisionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SaleDuplicateDecision[]'>
     
 
 /**
@@ -3799,6 +4174,10 @@ export type GlobalOmitConfig = {
   apiAccessLog?: Prisma.ApiAccessLogOmit
   storeSalesTxn?: Prisma.StoreSalesTxnOmit
   storeSalesDaily?: Prisma.StoreSalesDailyOmit
+  customer?: Prisma.CustomerOmit
+  dailyReport?: Prisma.DailyReportOmit
+  dailyReportSale?: Prisma.DailyReportSaleOmit
+  dailyReportBackItem?: Prisma.DailyReportBackItemOmit
 }
 
 /* Types for Logging */

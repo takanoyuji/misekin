@@ -11,6 +11,8 @@ interface CompleteClientProps {
   token: string;
   staffName: string;
   clockedAt: string;
+  /** 日報を送って退勤したときの合計 */
+  report?: { noSales: boolean; sales: number; back: number } | null;
   verb: string;
   statusLabel: string;
 }
@@ -19,6 +21,7 @@ export function CompleteClient({
   token,
   staffName,
   clockedAt,
+  report,
   verb,
   statusLabel,
 }: CompleteClientProps) {
@@ -84,6 +87,26 @@ export function CompleteClient({
               <span className="text-base font-semibold text-blue-600">
                 {statusLabel}
               </span>
+            </div>
+          )}
+          {report && (
+            <div className="border-t border-dashed border-gray-200 pt-3 space-y-1 text-left">
+              <p className="text-xs text-gray-500">送った日報</p>
+              {report.noSales ? (
+                <p className="text-sm text-gray-700">今日は売上なし</p>
+              ) : (
+                <>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">売上合計</span>
+                    <span className="font-bold tabular-nums">¥{report.sales.toLocaleString("ja-JP")}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">バック対象合計</span>
+                    <span className="font-bold tabular-nums">¥{report.back.toLocaleString("ja-JP")}</span>
+                  </div>
+                </>
+              )}
+              <p className="text-xs text-gray-400 pt-1">間違いに気づいたら店長に伝えてください</p>
             </div>
           )}
         </div>

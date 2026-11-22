@@ -32,6 +32,8 @@ export default async function AppLayout({
   // 業態が1種類ならその版の配色、複数業態ならどれにも寄らない中立の配色
   let themeKey: ThemeKey = "neutral";
   let staffTerm = "スタッフ";
+  // 退勤の日報を使う店舗がある組織だけ、管理メニューに「日報」を出す
+  let showDailyReports = false;
   if (activeOrgId) {
     const org = await db.organization.findUnique({
       where: { id: activeOrgId },
@@ -39,7 +41,10 @@ export default async function AppLayout({
         name: true,
         vertical: true,
         staffTerm: true,
-        stores: { where: { isActive: true }, select: { category: true } },
+        stores: {
+          where: { isActive: true },
+          select: { category: true, requireDailyReport: true },
+        },
       },
     });
     organizationName = org?.name ?? null;
@@ -47,6 +52,7 @@ export default async function AppLayout({
       const presentation = buildPresentation(org);
       themeKey = presentation.themeKey;
       staffTerm = presentation.terms.staff;
+      showDailyReports = org.stores.some((s) => s.requireDailyReport);
     }
 
     // MEMBER は管理メニューを表示しない / OWNER のみ権限管理を表示
@@ -74,6 +80,7 @@ export default async function AppLayout({
         isMember={isMember}
         isOwner={isOwner}
         staffTerm={staffTerm}
+        showDailyReports={showDailyReports}
       />
       <div className="flex flex-col flex-1 overflow-hidden">
         <AppHeader

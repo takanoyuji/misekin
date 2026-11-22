@@ -33,6 +33,8 @@ import {
   calculateWorkMinutes,
 } from "@/lib/business/attendance";
 import { detectAnomalies } from "@/lib/business/anomaly-detection";
+import { dailyReportInputSchema, type DailyReportInput } from "@/lib/validations/daily-report";
+import { createDailyReportInTx, findOrCreateCustomers } from "@/lib/daily-report/server";
 
 interface ActionResult {
   success?: boolean;
@@ -45,6 +47,8 @@ interface ClockActionParams {
   staffId: string;
   action: "CLOCK_IN" | "BREAK_START" | "BREAK_END" | "CLOCK_OUT";
   memo?: string;
+  /** 退勤の日報。店舗設定 requireDailyReport の店舗では退勤に必須 */
+  dailyReport?: unknown;
   ipAddress?: string;
   userAgent?: string;
   deviceFingerprint?: string;
@@ -208,6 +212,27 @@ export async function clockAction(
     return { error: transitionError };
   }
 
+  // 日報が要る店舗の退勤は、日報が正しく書けているときだけ通す（退勤と日報は同じトランザクションで保存）
+  let dailyReport: DailyReportInput | null = null;
+  let customerIds = new Map<string, string>();
+  if (action === "CLOCK_OUT" && store.requireDailyReport) {
+    const parsed = dailyReportInputSchema.safeParse(params.dailyReport);
+    if (!parsed.success) {
+      return {
+        error:
+          params.dailyReport === undefined
+            ? "この店舗では退勤のときに日報が必要です。画面を開き直してください"
+            : parsed.error.issues[0]?.message ?? "日報の内容を確かめてください",
+      };
+    }
+    dailyReport = parsed.data;
+    customerIds = await findOrCreateCustomers(
+      organization.id,
+      store.id,
+      dailyReport.sales.map((s) => s.customerName)
+    );
+  }
+
   // 休憩中に退勤する場合は自動的に休憩終了を記録
   const isBreakingAndClockOut = currentState === "ON_BREAK" && action === "CLOCK_OUT";
 
@@ -349,6 +374,19 @@ export async function clockAction(
             clockOutMemo: memo ?? null,
           },
         });
+
+        if (dailyReport) {
+          await createDailyReportInTx(tx, {
+            organizationId: organization.id,
+            storeId: store.id,
+            staffId,
+            attendanceId: attendance.id,
+            businessDate: attendance.businessDate,
+            submittedAt: now,
+            input: dailyReport,
+            customerIds,
+          });
+        }
       }
 
       // 監査ログ
@@ -363,7 +401,17 @@ export async function clockAction(
           staffId,
           ipAddress,
           userAgent,
-          after: { action, clockedAt: now },
+          after: {
+            action,
+            clockedAt: now,
+            ...(dailyReport && {
+              dailyReport: {
+                noSales: dailyReport.noSales,
+                sales: dailyReport.sales.length,
+                backItems: dailyReport.backItems.length,
+              },
+            }),
+          },
         },
       });
     });
@@ -375,7 +423,8 @@ export async function clockAction(
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2002"
     ) {
-      return { error: "すでに出勤済みです" };
+      // 退勤の二度押しで、同じ勤怠に日報が2件作られかけた（daily_reports.attendanceId）
+      return { error: action === "CLOCK_OUT" ? "すでに退勤しています" : "すでに出勤済みです" };
     }
     console.error("Clock action failed:", error);
     return { error: error.message ?? "打刻処理に失敗しました" };

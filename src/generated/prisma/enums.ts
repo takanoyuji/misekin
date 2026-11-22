@@ -164,3 +164,12 @@ export const NotificationType = {
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const SaleDuplicateDecision = {
+  ADOPTED: 'ADOPTED',
+  EXCLUDED: 'EXCLUDED',
+  SEPARATE: 'SEPARATE'
+} as const
+
+export type SaleDuplicateDecision = (typeof SaleDuplicateDecision)[keyof typeof SaleDuplicateDecision]

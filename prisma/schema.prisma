@@ -119,6 +119,8 @@ model Organization {
   shiftSlots          ShiftSlot[]
   salesTxns           StoreSalesTxn[]
   salesDaily          StoreSalesDaily[]
+  customers           Customer[]
+  dailyReports        DailyReport[]
 
   @@map("organizations")
 }
@@ -180,6 +182,10 @@ model Store {
   // 同じ営業日に退勤後もう一度出勤できるか。VLLの遠隔推し活（通常勤務の退勤後に在宅で再出勤）用。
   // 既定はオフで、オフの店舗は従来どおり1営業日1件。
   allowMultipleClockIns Boolean @default(false)
+  // 退勤のときに日報（売上・バック発生商品）を書かせるか。VLL用。既定はオフ
+  requireDailyReport Boolean @default(false)
+  // 日報の「よく出る商品」ボタン。[{ name: string, price: number }]。単価はキャストが直せる
+  dailyReportProducts Json  @default("[]")
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -200,6 +206,8 @@ model Store {
   shifts              Shift[]
   shiftRules          ShiftRule[]
   shiftSlots          ShiftSlot[]
+  customers           Customer[]
+  dailyReports        DailyReport[]
 
   @@unique([organizationId, code])
   @@map("stores")
@@ -286,6 +294,7 @@ model Staff {
   notifications      Notification[]
   shiftAvailabilities ShiftAvailability[]
   shifts             Shift[]
+  dailyReports       DailyReport[]
 
   @@unique([organizationId, email])
   @@map("staff")
@@ -442,6 +451,7 @@ model Attendance {
   attendanceEvents AttendanceEvent[]
   corrections   AttendanceCorrection[]
   correctionRequests CorrectionRequest[]
+  dailyReport   DailyReport?
 
   // 1営業日に複数件ありうる（Store.allowMultipleClockIns の店舗）。
   // 「退勤していない勤怠は1人1店舗1営業日に1件まで」は Prisma で書けない部分インデックスで守る
@@ -921,4 +931,106 @@ model StoreSalesDaily {
   @@unique([storeId, businessDate, hourBucket])
   @@index([storeId, businessDate])
   @@map("store_sales_daily")
+}
+
+// ============================================================
+// 日報（VLL: 退勤のときに売上とバック発生商品を書く）
+// ============================================================
+
+/// 店舗ごとのお客様。日報の売上の行はここに紐づく。
+/// 表記ゆれは「まとめる」（mergedIntoId に統合先を入れる）で吸収し、行は消さない。分けるときは null に戻す。
+model Customer {
+  id             String    @id @default(cuid())
+  organizationId String
+  storeId        String
+  /// 最初に書かれたときの名前（表示用）
+  name           String
+  /// 照合用。NFKC・カタカナ→ひらがな・空白と敬称（さん/様/ちゃん等）を除いたもの
+  normalizedName String
+  /// 同じ人としてまとめた先。null なら自分が代表
+  mergedIntoId   String?
+  mergedAt       DateTime?
+  mergedByUserId String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  store        Store             @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  mergedInto   Customer?         @relation("CustomerMerge", fields: [mergedIntoId], references: [id], onDelete: SetNull)
+  mergedFrom   Customer[]        @relation("CustomerMerge")
+  sales        DailyReportSale[]
+
+  @@unique([storeId, normalizedName])
+  @@index([storeId, mergedIntoId])
+  @@map("customers")
+}
+
+/// 退勤のときの日報。勤怠1件に1件。
+/// 勤怠・スタッフを手で消しても日報（売上）が道連れで消えないよう、両方 Restrict にしている
+model DailyReport {
+  id             String   @id @default(cuid())
+  organizationId String
+  storeId        String
+  staffId        String
+  attendanceId   String   @unique
+  businessDate   String
+  /// 「今日は売上なし」。入れ忘れと区別するため明示させる
+  noSales        Boolean  @default(false)
+  submittedAt    DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  store        Store                 @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  staff        Staff                 @relation(fields: [staffId], references: [id], onDelete: Restrict)
+  attendance   Attendance            @relation(fields: [attendanceId], references: [id], onDelete: Restrict)
+  sales        DailyReportSale[]
+  backItems    DailyReportBackItem[]
+
+  @@index([storeId, businessDate])
+  @@index([staffId, businessDate])
+  @@map("daily_reports")
+}
+
+/// 日報の売上の1行（お客様ごと）。キャストが書いたまま残す。
+/// 売上は「同じお客様はどちらか1人が書く」運用。2人とも書いたときは店長が duplicateDecision で決める
+model DailyReportSale {
+  id                String                 @id @default(cuid())
+  reportId          String
+  customerId        String
+  /// キャストが書いたとおりの名前
+  customerName      String
+  amount            Int
+  sortOrder         Int                    @default(0)
+  duplicateDecision SaleDuplicateDecision?
+  decidedByUserId   String?
+  decidedAt         DateTime?
+
+  report   DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  customer Customer    @relation(fields: [customerId], references: [id])
+
+  @@index([reportId])
+  @@index([customerId])
+  @@map("daily_report_sales")
+}
+
+enum SaleDuplicateDecision {
+  ADOPTED  // 重複のうち、これを店の売上に数える
+  EXCLUDED // 重複のうち、これは数えない（もう1人が書いた分と同じ会計）
+  SEPARATE // 別の会計なので、重複ではない（全部数える）
+}
+
+/// 日報のバック発生商品の1行
+model DailyReportBackItem {
+  id          String @id @default(cuid())
+  reportId    String
+  productName String
+  unitPrice   Int
+  quantity    Int
+  sortOrder   Int    @default(0)
+
+  report DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+  @@map("daily_report_back_items")
 }

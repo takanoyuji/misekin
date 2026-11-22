@@ -120,10 +120,19 @@ export async function updateStore(
     const hasAccess = await canAccessStore(ctx.memberId, ctx.role, storeId);
     if (!hasAccess) return { error: "この店舗へのアクセス権がありません" };
 
+    // 日報の設定は専用の経路（updateDailyReportSettings）でだけ変える
+    const {
+      requireDailyReport: _r,
+      dailyReportProducts: _p,
+      ...data
+    } = input as Partial<CreateStoreInput> & {
+      requireDailyReport?: unknown;
+      dailyReportProducts?: unknown;
+    };
     const before = await db.store.findUnique({ where: { id: storeId } });
     const updated = await db.store.update({
       where: { id: storeId, organizationId },
-      data: input,
+      data,
     });
 
     await createAuditLog({

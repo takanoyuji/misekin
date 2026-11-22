@@ -23,6 +23,7 @@ import {
   Wallet,
   CalendarDays,
   ShieldCheck,
+  NotebookPen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -33,9 +34,12 @@ interface NavItem {
 }
 
 /** 管理者(OWNER / ADMIN)向けメニュー。staffTerm は業態版によって変わる */
-const buildAdminNavItems = (staffTerm: string): NavItem[] => [
+const buildAdminNavItems = (staffTerm: string, showDailyReports = false): NavItem[] => [
   { label: "ホーム", href: "/dashboard", icon: LayoutDashboard },
   { label: "勤怠管理", href: "/attendance", icon: Clock },
+  ...(showDailyReports
+    ? [{ label: "日報", href: "/daily-reports", icon: NotebookPen }]
+    : []),
   { label: "シフト管理", href: "/shifts", icon: CalendarDays },
   { label: staffTerm, href: "/staff", icon: Users },
   { label: "店舗", href: "/stores", icon: Store },
@@ -105,6 +109,7 @@ interface SidebarContentProps {
   isMember: boolean;
   isOwner: boolean;
   staffTerm: string;
+  showDailyReports: boolean;
   onNavClick?: () => void;
 }
 
@@ -113,9 +118,10 @@ function SidebarContent({
   isMember,
   isOwner,
   staffTerm,
+  showDailyReports,
   onNavClick,
 }: SidebarContentProps) {
-  const adminNavItems = buildAdminNavItems(staffTerm);
+  const adminNavItems = buildAdminNavItems(staffTerm, showDailyReports);
   const navItems = isMember
     ? memberNavItems
     : isOwner
@@ -161,12 +167,14 @@ interface AppSidebarProps {
   isOwner?: boolean;
   /** 業態版による呼び方（キャスト / スタッフ） */
   staffTerm?: string;
+  showDailyReports?: boolean;
 }
 
 export function AppSidebar({
   isMember = false,
   isOwner = false,
   staffTerm = "スタッフ",
+  showDailyReports = false,
 }: AppSidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -180,6 +188,7 @@ export function AppSidebar({
       >
         <SidebarContent
           staffTerm={staffTerm}
+          showDailyReports={showDailyReports}
           pathname={pathname}
           isMember={isMember}
           isOwner={isOwner}
@@ -227,6 +236,7 @@ export function AppSidebar({
             </div>
             <SidebarContent
               staffTerm={staffTerm}
+              showDailyReports={showDailyReports}
               pathname={pathname}
               isMember={isMember}
               isOwner={isOwner}

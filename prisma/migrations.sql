@@ -344,3 +344,105 @@ ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "allowMultipleClockIns" BOOLEAN NO
 CREATE UNIQUE INDEX IF NOT EXISTS "attendances_one_open_per_day" ON "attendances"("staffId", "storeId", "businessDate") WHERE "clockOutAt" IS NULL;
 CREATE INDEX IF NOT EXISTS "attendances_staffId_storeId_businessDate_idx" ON "attendances"("staffId", "storeId", "businessDate");
 DROP INDEX IF EXISTS "attendances_staffId_storeId_businessDate_key";
+
+-- AddDailyReport: VLLの退勤日報（売上・バック発生商品）とお客様の台帳
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "requireDailyReport" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "dailyReportProducts" JSONB NOT NULL DEFAULT '[]';
+DO $$ BEGIN
+    CREATE TYPE "SaleDuplicateDecision" AS ENUM ('ADOPTED', 'EXCLUDED', 'SEPARATE');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+CREATE TABLE IF NOT EXISTS "customers" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "normalizedName" TEXT NOT NULL,
+    "mergedIntoId" TEXT,
+    "mergedAt" TIMESTAMP(3),
+    "mergedByUserId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "customers_pkey" PRIMARY KEY ("id")
+);
+
+CREATE TABLE IF NOT EXISTS "daily_reports" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "staffId" TEXT NOT NULL,
+    "attendanceId" TEXT NOT NULL,
+    "businessDate" TEXT NOT NULL,
+    "noSales" BOOLEAN NOT NULL DEFAULT false,
+    "submittedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "daily_reports_pkey" PRIMARY KEY ("id")
+);
+
+CREATE TABLE IF NOT EXISTS "daily_report_sales" (
+    "id" TEXT NOT NULL,
+    "reportId" TEXT NOT NULL,
+    "customerId" TEXT NOT NULL,
+    "customerName" TEXT NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "sortOrder" INTEGER NOT NULL DEFAULT 0,
+    "duplicateDecision" "SaleDuplicateDecision",
+    "decidedByUserId" TEXT,
+    "decidedAt" TIMESTAMP(3),
+
+    CONSTRAINT "daily_report_sales_pkey" PRIMARY KEY ("id")
+);
+
+CREATE TABLE IF NOT EXISTS "daily_report_back_items" (
+    "id" TEXT NOT NULL,
+    "reportId" TEXT NOT NULL,
+    "productName" TEXT NOT NULL,
+    "unitPrice" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "sortOrder" INTEGER NOT NULL DEFAULT 0,
+
+    CONSTRAINT "daily_report_back_items_pkey" PRIMARY KEY ("id")
+);
+
+CREATE INDEX IF NOT EXISTS "customers_storeId_mergedIntoId_idx" ON "customers"("storeId", "mergedIntoId");
+CREATE UNIQUE INDEX IF NOT EXISTS "customers_storeId_normalizedName_key" ON "customers"("storeId", "normalizedName");
+CREATE UNIQUE INDEX IF NOT EXISTS "daily_reports_attendanceId_key" ON "daily_reports"("attendanceId");
+CREATE INDEX IF NOT EXISTS "daily_reports_storeId_businessDate_idx" ON "daily_reports"("storeId", "businessDate");
+CREATE INDEX IF NOT EXISTS "daily_reports_staffId_businessDate_idx" ON "daily_reports"("staffId", "businessDate");
+CREATE INDEX IF NOT EXISTS "daily_report_sales_reportId_idx" ON "daily_report_sales"("reportId");
+CREATE INDEX IF NOT EXISTS "daily_report_sales_customerId_idx" ON "daily_report_sales"("customerId");
+CREATE INDEX IF NOT EXISTS "daily_report_back_items_reportId_idx" ON "daily_report_back_items"("reportId");
+
+DO $$ BEGIN
+    ALTER TABLE "customers" ADD CONSTRAINT "customers_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "customers" ADD CONSTRAINT "customers_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "customers" ADD CONSTRAINT "customers_mergedIntoId_fkey" FOREIGN KEY ("mergedIntoId") REFERENCES "customers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "daily_reports" ADD CONSTRAINT "daily_reports_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "daily_reports" ADD CONSTRAINT "daily_reports_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "daily_reports" ADD CONSTRAINT "daily_reports_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "daily_reports" ADD CONSTRAINT "daily_reports_attendanceId_fkey" FOREIGN KEY ("attendanceId") REFERENCES "attendances"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "daily_report_sales" ADD CONSTRAINT "daily_report_sales_reportId_fkey" FOREIGN KEY ("reportId") REFERENCES "daily_reports"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "daily_report_sales" ADD CONSTRAINT "daily_report_sales_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "daily_report_back_items" ADD CONSTRAINT "daily_report_back_items_reportId_fkey" FOREIGN KEY ("reportId") REFERENCES "daily_reports"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;

@@ -33,7 +33,11 @@ export type AuditAction =
   | "CLOCK_IN"
   | "BREAK_START"
   | "BREAK_END"
-  | "CLOCK_OUT";
+  | "CLOCK_OUT"
+  | "STORE_DAILY_REPORT_SETTINGS_UPDATE"
+  | "DAILY_REPORT_DUPLICATE_DECIDE"
+  | "CUSTOMER_MERGE"
+  | "CUSTOMER_UNMERGE";
 
 export interface AuditLogInput {
   organizationId: string;
