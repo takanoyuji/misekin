@@ -96,6 +96,7 @@ export type StoreCountAggregateOutputType = {
   allowMultipleClockIns: number
   requireDailyReport: number
   dailyReportProducts: number
+  dailyReportLocations: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -173,6 +174,7 @@ export type StoreCountAggregateInputType = {
   allowMultipleClockIns?: true
   requireDailyReport?: true
   dailyReportProducts?: true
+  dailyReportLocations?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -281,6 +283,7 @@ export type StoreGroupByOutputType = {
   allowMultipleClockIns: boolean
   requireDailyReport: boolean
   dailyReportProducts: runtime.JsonValue
+  dailyReportLocations: runtime.JsonValue
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -325,6 +328,7 @@ export type StoreWhereInput = {
   allowMultipleClockIns?: Prisma.BoolFilter<"Store"> | boolean
   requireDailyReport?: Prisma.BoolFilter<"Store"> | boolean
   dailyReportProducts?: Prisma.JsonFilter<"Store">
+  dailyReportLocations?: Prisma.JsonFilter<"Store">
   isActive?: Prisma.BoolFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
@@ -364,6 +368,7 @@ export type StoreOrderByWithRelationInput = {
   allowMultipleClockIns?: Prisma.SortOrder
   requireDailyReport?: Prisma.SortOrder
   dailyReportProducts?: Prisma.SortOrder
+  dailyReportLocations?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -407,6 +412,7 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   allowMultipleClockIns?: Prisma.BoolFilter<"Store"> | boolean
   requireDailyReport?: Prisma.BoolFilter<"Store"> | boolean
   dailyReportProducts?: Prisma.JsonFilter<"Store">
+  dailyReportLocations?: Prisma.JsonFilter<"Store">
   isActive?: Prisma.BoolFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
@@ -446,6 +452,7 @@ export type StoreOrderByWithAggregationInput = {
   allowMultipleClockIns?: Prisma.SortOrder
   requireDailyReport?: Prisma.SortOrder
   dailyReportProducts?: Prisma.SortOrder
+  dailyReportLocations?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -475,6 +482,7 @@ export type StoreScalarWhereWithAggregatesInput = {
   allowMultipleClockIns?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
   requireDailyReport?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
   dailyReportProducts?: Prisma.JsonWithAggregatesFilter<"Store">
+  dailyReportLocations?: Prisma.JsonWithAggregatesFilter<"Store">
   isActive?: Prisma.BoolWithAggregatesFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Store"> | Date | string
@@ -495,6 +503,7 @@ export type StoreCreateInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -534,6 +543,7 @@ export type StoreUncheckedCreateInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -571,6 +581,7 @@ export type StoreUpdateInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -610,6 +621,7 @@ export type StoreUncheckedUpdateInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -648,6 +660,7 @@ export type StoreCreateManyInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -668,6 +681,7 @@ export type StoreUpdateManyMutationInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -689,6 +703,7 @@ export type StoreUncheckedUpdateManyInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -725,6 +740,7 @@ export type StoreCountOrderByAggregateInput = {
   allowMultipleClockIns?: Prisma.SortOrder
   requireDailyReport?: Prisma.SortOrder
   dailyReportProducts?: Prisma.SortOrder
+  dailyReportLocations?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -1103,6 +1119,7 @@ export type StoreCreateWithoutOrganizationInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1140,6 +1157,7 @@ export type StoreUncheckedCreateWithoutOrganizationInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1207,6 +1225,7 @@ export type StoreScalarWhereInput = {
   allowMultipleClockIns?: Prisma.BoolFilter<"Store"> | boolean
   requireDailyReport?: Prisma.BoolFilter<"Store"> | boolean
   dailyReportProducts?: Prisma.JsonFilter<"Store">
+  dailyReportLocations?: Prisma.JsonFilter<"Store">
   isActive?: Prisma.BoolFilter<"Store"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
@@ -1227,6 +1246,7 @@ export type StoreCreateWithoutClockUrlsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1265,6 +1285,7 @@ export type StoreUncheckedCreateWithoutClockUrlsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1317,6 +1338,7 @@ export type StoreUpdateWithoutClockUrlsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1355,6 +1377,7 @@ export type StoreUncheckedUpdateWithoutClockUrlsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1391,6 +1414,7 @@ export type StoreCreateWithoutStoreAdminsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1429,6 +1453,7 @@ export type StoreUncheckedCreateWithoutStoreAdminsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1481,6 +1506,7 @@ export type StoreUpdateWithoutStoreAdminsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1519,6 +1545,7 @@ export type StoreUncheckedUpdateWithoutStoreAdminsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1555,6 +1582,7 @@ export type StoreCreateWithoutStaffStoresInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1593,6 +1621,7 @@ export type StoreUncheckedCreateWithoutStaffStoresInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1645,6 +1674,7 @@ export type StoreUpdateWithoutStaffStoresInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1683,6 +1713,7 @@ export type StoreUncheckedUpdateWithoutStaffStoresInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1719,6 +1750,7 @@ export type StoreCreateWithoutAttendanceEventsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1757,6 +1789,7 @@ export type StoreUncheckedCreateWithoutAttendanceEventsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1809,6 +1842,7 @@ export type StoreUpdateWithoutAttendanceEventsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1847,6 +1881,7 @@ export type StoreUncheckedUpdateWithoutAttendanceEventsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1883,6 +1918,7 @@ export type StoreCreateWithoutAttendancesInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1921,6 +1957,7 @@ export type StoreUncheckedCreateWithoutAttendancesInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1973,6 +2010,7 @@ export type StoreUpdateWithoutAttendancesInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2011,6 +2049,7 @@ export type StoreUncheckedUpdateWithoutAttendancesInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2047,6 +2086,7 @@ export type StoreCreateWithoutCorrectionRequestsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2085,6 +2125,7 @@ export type StoreUncheckedCreateWithoutCorrectionRequestsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2137,6 +2178,7 @@ export type StoreUpdateWithoutCorrectionRequestsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2175,6 +2217,7 @@ export type StoreUncheckedUpdateWithoutCorrectionRequestsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2211,6 +2254,7 @@ export type StoreCreateWithoutShiftAvailabilitiesInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2249,6 +2293,7 @@ export type StoreUncheckedCreateWithoutShiftAvailabilitiesInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2301,6 +2346,7 @@ export type StoreUpdateWithoutShiftAvailabilitiesInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2339,6 +2385,7 @@ export type StoreUncheckedUpdateWithoutShiftAvailabilitiesInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2375,6 +2422,7 @@ export type StoreCreateWithoutShiftRequirementsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2413,6 +2461,7 @@ export type StoreUncheckedCreateWithoutShiftRequirementsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2465,6 +2514,7 @@ export type StoreUpdateWithoutShiftRequirementsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2503,6 +2553,7 @@ export type StoreUncheckedUpdateWithoutShiftRequirementsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2539,6 +2590,7 @@ export type StoreCreateWithoutShiftsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2577,6 +2629,7 @@ export type StoreUncheckedCreateWithoutShiftsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2629,6 +2682,7 @@ export type StoreUpdateWithoutShiftsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2667,6 +2721,7 @@ export type StoreUncheckedUpdateWithoutShiftsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2703,6 +2758,7 @@ export type StoreCreateWithoutShiftSlotsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2741,6 +2797,7 @@ export type StoreUncheckedCreateWithoutShiftSlotsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2793,6 +2850,7 @@ export type StoreUpdateWithoutShiftSlotsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2831,6 +2889,7 @@ export type StoreUncheckedUpdateWithoutShiftSlotsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2867,6 +2926,7 @@ export type StoreCreateWithoutShiftRulesInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2905,6 +2965,7 @@ export type StoreUncheckedCreateWithoutShiftRulesInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2957,6 +3018,7 @@ export type StoreUpdateWithoutShiftRulesInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2995,6 +3057,7 @@ export type StoreUncheckedUpdateWithoutShiftRulesInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3031,6 +3094,7 @@ export type StoreCreateWithoutClosingPeriodsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3069,6 +3133,7 @@ export type StoreUncheckedCreateWithoutClosingPeriodsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3121,6 +3186,7 @@ export type StoreUpdateWithoutClosingPeriodsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3159,6 +3225,7 @@ export type StoreUncheckedUpdateWithoutClosingPeriodsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3195,6 +3262,7 @@ export type StoreCreateWithoutAuditLogsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3233,6 +3301,7 @@ export type StoreUncheckedCreateWithoutAuditLogsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3285,6 +3354,7 @@ export type StoreUpdateWithoutAuditLogsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3323,6 +3393,7 @@ export type StoreUncheckedUpdateWithoutAuditLogsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3359,6 +3430,7 @@ export type StoreCreateWithoutSalesTxnsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3397,6 +3469,7 @@ export type StoreUncheckedCreateWithoutSalesTxnsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3449,6 +3522,7 @@ export type StoreUpdateWithoutSalesTxnsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3487,6 +3561,7 @@ export type StoreUncheckedUpdateWithoutSalesTxnsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3523,6 +3598,7 @@ export type StoreCreateWithoutSalesDailyInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3561,6 +3637,7 @@ export type StoreUncheckedCreateWithoutSalesDailyInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3613,6 +3690,7 @@ export type StoreUpdateWithoutSalesDailyInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3651,6 +3729,7 @@ export type StoreUncheckedUpdateWithoutSalesDailyInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3687,6 +3766,7 @@ export type StoreCreateWithoutCustomersInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3725,6 +3805,7 @@ export type StoreUncheckedCreateWithoutCustomersInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3777,6 +3858,7 @@ export type StoreUpdateWithoutCustomersInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3815,6 +3897,7 @@ export type StoreUncheckedUpdateWithoutCustomersInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3851,6 +3934,7 @@ export type StoreCreateWithoutDailyReportsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3889,6 +3973,7 @@ export type StoreUncheckedCreateWithoutDailyReportsInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3941,6 +4026,7 @@ export type StoreUpdateWithoutDailyReportsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3979,6 +4065,7 @@ export type StoreUncheckedUpdateWithoutDailyReportsInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4015,6 +4102,7 @@ export type StoreCreateManyOrganizationInput = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4035,6 +4123,7 @@ export type StoreUpdateWithoutOrganizationInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4072,6 +4161,7 @@ export type StoreUncheckedUpdateWithoutOrganizationInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4109,6 +4199,7 @@ export type StoreUncheckedUpdateManyWithoutOrganizationInput = {
   allowMultipleClockIns?: Prisma.BoolFieldUpdateOperationsInput | boolean
   requireDailyReport?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dailyReportProducts?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  dailyReportLocations?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4305,6 +4396,7 @@ export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: boolean
+  dailyReportLocations?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -4345,6 +4437,7 @@ export type StoreSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: boolean
+  dailyReportLocations?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -4367,6 +4460,7 @@ export type StoreSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: boolean
+  dailyReportLocations?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -4389,12 +4483,13 @@ export type StoreSelectScalar = {
   allowMultipleClockIns?: boolean
   requireDailyReport?: boolean
   dailyReportProducts?: boolean
+  dailyReportLocations?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type StoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "name" | "code" | "address" | "timezone" | "dayChangeHour" | "dayChangeMinute" | "shiftPeriodUnit" | "shiftPeriodStartDay" | "category" | "maxStaffPerSlot" | "allowMultipleClockIns" | "requireDailyReport" | "dailyReportProducts" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
+export type StoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "name" | "code" | "address" | "timezone" | "dayChangeHour" | "dayChangeMinute" | "shiftPeriodUnit" | "shiftPeriodStartDay" | "category" | "maxStaffPerSlot" | "allowMultipleClockIns" | "requireDailyReport" | "dailyReportProducts" | "dailyReportLocations" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
 export type StoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   salesTxns?: boolean | Prisma.Store$salesTxnsArgs<ExtArgs>
@@ -4461,6 +4556,7 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     allowMultipleClockIns: boolean
     requireDailyReport: boolean
     dailyReportProducts: runtime.JsonValue
+    dailyReportLocations: runtime.JsonValue
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -4920,6 +5016,7 @@ export interface StoreFieldRefs {
   readonly allowMultipleClockIns: Prisma.FieldRef<"Store", 'Boolean'>
   readonly requireDailyReport: Prisma.FieldRef<"Store", 'Boolean'>
   readonly dailyReportProducts: Prisma.FieldRef<"Store", 'Json'>
+  readonly dailyReportLocations: Prisma.FieldRef<"Store", 'Json'>
   readonly isActive: Prisma.FieldRef<"Store", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Store", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Store", 'DateTime'>

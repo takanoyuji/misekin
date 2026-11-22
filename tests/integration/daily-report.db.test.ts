@@ -77,14 +77,14 @@ describe.skipIf(!HAS_DB)("退勤の日報（実DB）", () => {
 
   beforeEach(async () => {
     await clear();
-    await db.store.update({ where: { id: storeId }, data: { requireDailyReport: true } });
+    await db.store.update({ where: { id: storeId }, data: { requireDailyReport: true, dailyReportLocations: [] } });
   });
 
   afterAll(async () => {
     await clear();
     await db.store.update({
       where: { id: storeId },
-      data: { requireDailyReport: false, dailyReportProducts: [] },
+      data: { requireDailyReport: false, dailyReportProducts: [], dailyReportLocations: [] },
     });
   });
 
@@ -250,16 +250,67 @@ describe.skipIf(!HAS_DB)("退勤の日報（実DB）", () => {
       (await updateDailyReportSettings(organizationId, storeId, {
         requireDailyReport: true,
         products: [{ name: "チェキ", price: -1 }],
+        locations: [],
       })).error
     ).toBeTruthy();
     const ok = await updateDailyReportSettings(organizationId, storeId, {
       requireDailyReport: true,
       products: [{ name: "チェキ", price: 1000 }],
+      locations: ["池袋", "札幌"],
     });
     expect(ok.error).toBeUndefined();
     s = await db.store.findUniqueOrThrow({ where: { id: storeId } });
     expect(s.requireDailyReport).toBe(true);
     expect(s.dailyReportProducts).toEqual([{ name: "チェキ", price: 1000 }]);
+    expect(s.dailyReportLocations).toEqual(["池袋", "札幌"]);
+
+    // 通常の店舗編集からは店の一覧も変えられない
+    await updateStore(organizationId, storeId, { dailyReportLocations: ["x"] } as never);
+    s = await db.store.findUniqueOrThrow({ where: { id: storeId } });
+    expect(s.dailyReportLocations).toEqual(["池袋", "札幌"]);
+  });
+
+  it("店を選ばせる店舗は、行ごとに店が要り、選んだ店を保存する", async () => {
+    await db.store.update({ where: { id: storeId }, data: { dailyReportLocations: ["池袋", "札幌"] } });
+    await clock(staffA, "CLOCK_IN");
+    expect(
+      (await clock(staffA, "CLOCK_OUT", {
+        noSales: false,
+        sales: [{ customerName: "たけし", amount: 8000 }],
+        backItems: [],
+      })).error
+    ).toMatch(/どこの店の分か/);
+    expect(
+      (await clock(staffA, "CLOCK_OUT", {
+        noSales: false,
+        sales: [{ customerName: "たけし", amount: 8000, location: "大阪" }],
+        backItems: [],
+      })).error
+    ).toMatch(/どこの店の分か/);
+    const r = await clock(staffA, "CLOCK_OUT", {
+      noSales: false,
+      sales: [{ customerName: "たけし", amount: 8000, location: "札幌" }],
+      backItems: [{ productName: "オリカク", unitPrice: 1500, quantity: 2, location: "池袋" }],
+    });
+    expect(r.error).toBeUndefined();
+    const report = await db.dailyReport.findFirstOrThrow({
+      where: { storeId, staffId: staffA },
+      include: { sales: true, backItems: true },
+    });
+    expect(report.sales[0].location).toBe("札幌");
+    expect(report.backItems[0].location).toBe("池袋");
+  });
+
+  it("店を選ばせない店舗は、送られてきた店を保存しない", async () => {
+    await clock(staffA, "CLOCK_IN");
+    const r = await clock(staffA, "CLOCK_OUT", {
+      noSales: false,
+      sales: [{ customerName: "たけし", amount: 8000, location: "札幌" }],
+      backItems: [],
+    });
+    expect(r.error).toBeUndefined();
+    const sale = await db.dailyReportSale.findFirstOrThrow({ where: { report: { storeId, staffId: staffA } } });
+    expect(sale.location).toBeNull();
   });
 
   it("退勤の二度押しが同時に届いても、日報は1件だけ", async () => {

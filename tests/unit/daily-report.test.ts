@@ -9,7 +9,12 @@ import {
   type SaleRow,
   type ReportForSummary,
 } from "@/lib/business/daily-report";
-import { dailyReportInputSchema } from "@/lib/validations/daily-report";
+import {
+  dailyReportInputSchema,
+  dailyReportSettingsSchema,
+  checkReportLocations,
+  normalizeReportLocation,
+} from "@/lib/validations/daily-report";
 
 describe("normalizeCustomerName（表記ゆれの吸収）", () => {
   it("敬称・カタカナ/ひらがな・全角半角・空白の違いを同じキーにする", () => {
@@ -267,5 +272,59 @@ describe("dailyReportInputSchema（日報の入力）", () => {
       backItems: [{ productName: "チェキ", unitPrice: 1000, quantity: 2 }],
     });
     expect(r.success).toBe(true);
+  });
+});
+
+describe("どこの店の分か（池袋 / 札幌）", () => {
+  const input = (sl?: string, bl?: string) =>
+    dailyReportInputSchema.parse({
+      noSales: false,
+      sales: [{ customerName: "たけし", amount: 1000, ...(sl ? { location: sl } : {}) }],
+      backItems: [{ productName: "オリカク", unitPrice: 1500, quantity: 1, ...(bl ? { location: bl } : {}) }],
+    });
+  const locs = ["池袋", "札幌"];
+
+  it("店が2つ以上なら、売上・商品のどの行にも店が要る", () => {
+    expect(checkReportLocations(input(), locs)).toMatch(/売上/);
+    expect(checkReportLocations(input("札幌"), locs)).toMatch(/商品/);
+    expect(checkReportLocations(input("札幌", "大阪"), locs)).toMatch(/商品/);
+    expect(checkReportLocations(input("札幌", "池袋"), locs)).toBeNull();
+  });
+  it("店が1つ以下なら選ばせない", () => {
+    expect(checkReportLocations(input(), [])).toBeNull();
+    expect(checkReportLocations(input(), ["池袋"])).toBeNull();
+  });
+  it("保存する店: 0なら null、1ならその店、2以上なら選んだ店", () => {
+    expect(normalizeReportLocation("札幌", [])).toBeNull();
+    expect(normalizeReportLocation(undefined, ["池袋"])).toBe("池袋");
+    expect(normalizeReportLocation("札幌", locs)).toBe("札幌");
+  });
+  it("設定: 同じ名前・空の店は通さない", () => {
+    const base = { requireDailyReport: true, products: [] };
+    expect(dailyReportSettingsSchema.safeParse({ ...base, locations: ["池袋", "池袋"] }).success).toBe(false);
+    expect(dailyReportSettingsSchema.safeParse({ ...base, locations: [" "] }).success).toBe(false);
+    expect(dailyReportSettingsSchema.safeParse({ ...base, locations: locs }).success).toBe(true);
+  });
+  it("集計は店ごとにも分ける（重複を除いた額で）", () => {
+    const sum = summarizeDailyReports([
+      {
+        id: "r1", staffId: "a", staffName: "a", businessDate: "2026-11-22", noSales: false, submittedAt: t(13),
+        sales: [
+          { id: "s1", customerRootId: "c1", customerRootName: "たけし", amount: 8000, decision: null, location: "札幌" },
+          { id: "s2", customerRootId: "c2", customerRootName: "ゆうと", amount: 5000, decision: null, location: "池袋" },
+        ],
+        backItems: [{ productName: "オリカク", unitPrice: 1500, quantity: 2, location: "札幌" }],
+      },
+      {
+        id: "r2", staffId: "b", staffName: "b", businessDate: "2026-11-22", noSales: false, submittedAt: t(14),
+        sales: [{ id: "s3", customerRootId: "c1", customerRootName: "たけし", amount: 8000, decision: null, location: "札幌" }],
+        backItems: [],
+      },
+    ]);
+    const sap = sum.byLocation.find((l) => l.location === "札幌")!;
+    expect(sap.storeSales).toBe(8000);
+    expect(sap.writtenSales).toBe(16000);
+    expect(sap.backTotal).toBe(3000);
+    expect(sum.byLocation.find((l) => l.location === "池袋")!.storeSales).toBe(5000);
   });
 });

@@ -446,3 +446,8 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
     ALTER TABLE "daily_report_back_items" ADD CONSTRAINT "daily_report_back_items_reportId_fkey" FOREIGN KEY ("reportId") REFERENCES "daily_reports"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- 日報の行ごとの「どこの店の分か」（VLL: 池袋 / 札幌。2026-11-22）
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "dailyReportLocations" JSONB NOT NULL DEFAULT '[]';
+ALTER TABLE "daily_report_sales" ADD COLUMN IF NOT EXISTS "location" TEXT;
+ALTER TABLE "daily_report_back_items" ADD COLUMN IF NOT EXISTS "location" TEXT;

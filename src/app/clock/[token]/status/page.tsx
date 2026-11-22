@@ -13,7 +13,7 @@ import { getBusinessDate } from "@/lib/business/business-day";
 import { clockCookieName, verifyClockSession } from "@/lib/clock-session";
 import { StatusActions } from "./status-actions";
 import type { DailyReportConfig } from "./daily-report-form";
-import { parseDailyReportProducts } from "@/lib/validations/daily-report";
+import { parseDailyReportProducts, parseDailyReportLocations } from "@/lib/validations/daily-report";
 import { toZonedTime } from "date-fns-tz";
 import { format } from "date-fns";
 import { Clock } from "lucide-react";
@@ -137,6 +137,7 @@ export default async function StatusPage({ params, searchParams }: PageProps) {
     const [, m, d] = businessDate.split("-");
     dailyReport = {
       products: parseDailyReportProducts(store.dailyReportProducts),
+      locations: parseDailyReportLocations(store.dailyReportLocations),
       customerNames: customers.map((c) => c.name),
       headline: `${Number(m)}月${Number(d)}日${clockInDisplay ? ` ${clockInDisplay}〜` : ""}`,
       draftKey: `misekin-daily-report:${store.id}:${staffId}:${todayAttendance?.id ?? businessDate}`,

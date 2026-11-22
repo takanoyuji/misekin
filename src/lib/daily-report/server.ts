@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { Prisma } from "@/generated/prisma/client";
 import { normalizeCustomerName } from "@/lib/business/daily-report";
-import type { DailyReportInput } from "@/lib/validations/daily-report";
+import { normalizeReportLocation, type DailyReportInput } from "@/lib/validations/daily-report";
 
 type Tx = Prisma.TransactionClient;
 
@@ -65,9 +65,11 @@ export async function createDailyReportInTx(
     submittedAt: Date;
     input: DailyReportInput;
     customerIds: Map<string, string>;
+    /** 店舗設定の「どこの店の分か」。checkReportLocations を通してから渡す */
+    locations: string[];
   }
 ): Promise<string> {
-  const { input, customerIds } = params;
+  const { input, customerIds, locations } = params;
   const report = await tx.dailyReport.create({
     data: {
       organizationId: params.organizationId,
@@ -82,6 +84,7 @@ export async function createDailyReportInTx(
           customerId: customerIds.get(s.customerName)!,
           customerName: s.customerName.trim(),
           amount: s.amount,
+          location: normalizeReportLocation(s.location, locations),
           sortOrder: i,
         })),
       },
@@ -90,6 +93,7 @@ export async function createDailyReportInTx(
           productName: b.productName.trim(),
           unitPrice: b.unitPrice,
           quantity: b.quantity,
+          location: normalizeReportLocation(b.location, locations),
           sortOrder: i,
         })),
       },

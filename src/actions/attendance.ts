@@ -33,7 +33,12 @@ import {
   calculateWorkMinutes,
 } from "@/lib/business/attendance";
 import { detectAnomalies } from "@/lib/business/anomaly-detection";
-import { dailyReportInputSchema, type DailyReportInput } from "@/lib/validations/daily-report";
+import {
+  dailyReportInputSchema,
+  checkReportLocations,
+  parseDailyReportLocations,
+  type DailyReportInput,
+} from "@/lib/validations/daily-report";
 import { createDailyReportInTx, findOrCreateCustomers } from "@/lib/daily-report/server";
 
 interface ActionResult {
@@ -215,6 +220,7 @@ export async function clockAction(
   // 日報が要る店舗の退勤は、日報が正しく書けているときだけ通す（退勤と日報は同じトランザクションで保存）
   let dailyReport: DailyReportInput | null = null;
   let customerIds = new Map<string, string>();
+  const reportLocations = parseDailyReportLocations(store.dailyReportLocations);
   if (action === "CLOCK_OUT" && store.requireDailyReport) {
     const parsed = dailyReportInputSchema.safeParse(params.dailyReport);
     if (!parsed.success) {
@@ -225,6 +231,8 @@ export async function clockAction(
             : parsed.error.issues[0]?.message ?? "日報の内容を確かめてください",
       };
     }
+    const locationError = checkReportLocations(parsed.data, reportLocations);
+    if (locationError) return { error: locationError };
     dailyReport = parsed.data;
     customerIds = await findOrCreateCustomers(
       organization.id,
@@ -385,6 +393,7 @@ export async function clockAction(
             submittedAt: now,
             input: dailyReport,
             customerIds,
+            locations: reportLocations,
           });
         }
       }

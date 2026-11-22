@@ -247,8 +247,10 @@ export interface ReportForSummary {
     customerRootName: string;
     amount: number;
     decision: DuplicateDecision | null;
+    /** どこの店の分か（店舗設定で選ばせていない店舗は null） */
+    location?: string | null;
   }[];
-  backItems: { productName: string; unitPrice: number; quantity: number }[];
+  backItems: { productName: string; unitPrice: number; quantity: number; location?: string | null }[];
 }
 
 export interface DailyReportSummary {
@@ -287,6 +289,15 @@ export interface DailyReportSummary {
     backTotal: number;
     staffNames: string[];
   }[];
+  /** どこの店の分か別（null は店を選ばせていなかった行） */
+  byLocation: {
+    location: string | null;
+    storeSales: number;
+    writtenSales: number;
+    backTotal: number;
+    backQuantity: number;
+    customerCount: number;
+  }[];
 }
 
 /** 商品名の集計キー（全角半角・前後の空白の違いだけ吸収する） */
@@ -313,6 +324,19 @@ export function summarizeDailyReports(reports: ReportForSummary[]): DailyReportS
   const itemMap = new Map<string, { productName: string; quantity: number; amount: number; staff: Set<string> }>();
   const custMap = new Map<string, { name: string; amount: number; days: Set<string>; staff: Set<string> }>();
   const dayMap = new Map<string, { reportCount: number; sales: number; backTotal: number; staff: Set<string> }>();
+  const locMap = new Map<
+    string | null,
+    { storeSales: number; writtenSales: number; backTotal: number; backQuantity: number; customers: Set<string> }
+  >();
+  const locOf = (l: string | null | undefined) => {
+    const k = l ?? null;
+    return (
+      locMap.get(k) ??
+      locMap
+        .set(k, { storeSales: 0, writtenSales: 0, backTotal: 0, backQuantity: 0, customers: new Set() })
+        .get(k)!
+    );
+  };
 
   let writtenSales = 0;
   let storeSales = 0;
@@ -351,6 +375,10 @@ export function summarizeDailyReports(reports: ReportForSummary[]): DailyReportS
       cast.countedSales += c;
       cast.customers.add(s.customerRootId);
       day.sales += c;
+      const lo = locOf(s.location);
+      lo.writtenSales += s.amount;
+      lo.storeSales += c;
+      lo.customers.add(s.customerRootId);
       const cu =
         custMap.get(s.customerRootId) ??
         custMap
@@ -366,6 +394,9 @@ export function summarizeDailyReports(reports: ReportForSummary[]): DailyReportS
       backQuantity += b.quantity;
       cast.backTotal += amt;
       day.backTotal += amt;
+      const lb = locOf(b.location);
+      lb.backTotal += amt;
+      lb.backQuantity += b.quantity;
       const k = productKey(b.productName);
       const it =
         itemMap.get(k) ??
@@ -410,5 +441,8 @@ export function summarizeDailyReports(reports: ReportForSummary[]): DailyReportS
         staffNames: [...v.staff],
       }))
       .sort((a, b) => b.businessDate.localeCompare(a.businessDate)),
+    byLocation: [...locMap.entries()]
+      .map(([location, { customers, ...v }]) => ({ location, ...v, customerCount: customers.size }))
+      .sort((a, b) => b.storeSales + b.backTotal - (a.storeSales + a.backTotal)),
   };
 }

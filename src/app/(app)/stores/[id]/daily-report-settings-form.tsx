@@ -10,6 +10,7 @@ interface Props {
   storeId: string;
   initialRequire: boolean;
   initialProducts: { name: string; price: number }[];
+  initialLocations: string[];
 }
 
 type Row = { name: string; price: string };
@@ -19,12 +20,14 @@ export function DailyReportSettingsForm({
   storeId,
   initialRequire,
   initialProducts,
+  initialLocations,
 }: Props) {
   const router = useRouter();
   const [requireReport, setRequireReport] = useState(initialRequire);
   const [rows, setRows] = useState<Row[]>(
     initialProducts.map((p) => ({ name: p.name, price: String(p.price) }))
   );
+  const [locationsText, setLocationsText] = useState(initialLocations.join("、"));
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -41,10 +44,15 @@ export function DailyReportSettingsForm({
       setMessage({ type: "error", text: "単価が空の商品があります" });
       return;
     }
+    const locations = locationsText
+      .split(/[、,，\n]/)
+      .map((l) => l.trim())
+      .filter(Boolean);
     startTransition(async () => {
       const result = await updateDailyReportSettings(organizationId, storeId, {
         requireDailyReport: requireReport,
         products,
+        locations,
       });
       if (result.error) {
         setMessage({ type: "error", text: result.error });
@@ -129,6 +137,23 @@ export function DailyReportSettingsForm({
           商品を追加
         </button>
       </fieldset>
+
+      <div className="space-y-1">
+        <label htmlFor="daily-report-locations" className="text-sm font-medium">
+          どこの店の分か
+        </label>
+        <p className="text-xs text-muted-foreground">
+          「、」で区切って2つ以上入れると、日報の売上・商品の行ごとに店を選んでもらい、管理画面で店ごとに集計します（例: 池袋、札幌）。勤怠は分けません。空なら選ばせません。
+        </p>
+        <input
+          id="daily-report-locations"
+          value={locationsText}
+          maxLength={200}
+          placeholder="例: 池袋、札幌"
+          onChange={(e) => setLocationsText(e.target.value)}
+          className={`${inputCls} w-full`}
+        />
+      </div>
 
       {message && (
         <p

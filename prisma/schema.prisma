@@ -186,6 +186,9 @@ model Store {
   requireDailyReport Boolean @default(false)
   // 日報の「よく出る商品」ボタン。[{ name: string, price: number }]。単価はキャストが直せる
   dailyReportProducts Json  @default("[]")
+  // 日報の行ごとに選ぶ「どこの店の分か」（VLL: 池袋 / 札幌）。[string]。空なら選ばせない。
+  // 勤怠は店舗を分けず（キャストは遠隔で、どの店にも出られる）、売上と商品だけを分けて集計する
+  dailyReportLocations Json @default("[]")
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -1001,6 +1004,8 @@ model DailyReportSale {
   /// キャストが書いたとおりの名前
   customerName      String
   amount            Int
+  /// どこの店の分か（店舗設定 dailyReportLocations のどれか。設定が空の店舗は null）
+  location          String?
   sortOrder         Int                    @default(0)
   duplicateDecision SaleDuplicateDecision?
   decidedByUserId   String?
@@ -1027,6 +1032,8 @@ model DailyReportBackItem {
   productName String
   unitPrice   Int
   quantity    Int
+  /// どこの店の分か（DailyReportSale.location と同じ）
+  location    String?
   sortOrder   Int    @default(0)
 
   report DailyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)

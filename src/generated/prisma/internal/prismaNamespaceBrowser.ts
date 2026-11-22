@@ -201,6 +201,7 @@ export const StoreScalarFieldEnum = {
   allowMultipleClockIns: 'allowMultipleClockIns',
   requireDailyReport: 'requireDailyReport',
   dailyReportProducts: 'dailyReportProducts',
+  dailyReportLocations: 'dailyReportLocations',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -667,6 +668,7 @@ export const DailyReportSaleScalarFieldEnum = {
   customerId: 'customerId',
   customerName: 'customerName',
   amount: 'amount',
+  location: 'location',
   sortOrder: 'sortOrder',
   duplicateDecision: 'duplicateDecision',
   decidedByUserId: 'decidedByUserId',
@@ -682,6 +684,7 @@ export const DailyReportBackItemScalarFieldEnum = {
   productName: 'productName',
   unitPrice: 'unitPrice',
   quantity: 'quantity',
+  location: 'location',
   sortOrder: 'sortOrder'
 } as const
 

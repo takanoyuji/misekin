@@ -989,3 +989,8 @@ ALTER TABLE "daily_reports" ADD CONSTRAINT "daily_reports_attendanceId_fkey" FOR
 ALTER TABLE "daily_report_sales" ADD CONSTRAINT "daily_report_sales_reportId_fkey" FOREIGN KEY ("reportId") REFERENCES "daily_reports"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "daily_report_sales" ADD CONSTRAINT "daily_report_sales_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 ALTER TABLE "daily_report_back_items" ADD CONSTRAINT "daily_report_back_items_reportId_fkey" FOREIGN KEY ("reportId") REFERENCES "daily_reports"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- 日報の行ごとの「どこの店の分か」（VLL: 池袋 / 札幌。2026-11-22）
+ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "dailyReportLocations" JSONB NOT NULL DEFAULT '[]';
+ALTER TABLE "daily_report_sales" ADD COLUMN IF NOT EXISTS "location" TEXT;
+ALTER TABLE "daily_report_back_items" ADD COLUMN IF NOT EXISTS "location" TEXT;

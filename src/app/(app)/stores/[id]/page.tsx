@@ -9,7 +9,7 @@ import { StoreEditForm } from "./store-edit-form";
 import { ClockUrlSection } from "./clock-url-section";
 import { ShiftPeriodForm } from "./shift-period-form";
 import { DailyReportSettingsForm } from "./daily-report-settings-form";
-import { parseDailyReportProducts } from "@/lib/validations/daily-report";
+import { parseDailyReportProducts, parseDailyReportLocations } from "@/lib/validations/daily-report";
 import { ShiftSlotManager } from "./shift-slot-manager";
 import { ShiftSlotPrompt } from "./shift-slot-prompt";
 import { resolveActiveOrganizationId } from "@/lib/auth/active-org";
@@ -168,6 +168,7 @@ export default async function StoreDetailPage({ params }: PageProps) {
                 storeId={store.id}
                 initialRequire={store.requireDailyReport}
                 initialProducts={parseDailyReportProducts(store.dailyReportProducts)}
+                initialLocations={parseDailyReportLocations(store.dailyReportLocations)}
               />
             </div>
           </div>

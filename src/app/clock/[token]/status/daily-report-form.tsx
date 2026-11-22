@@ -6,11 +6,14 @@ import { clockAction } from "@/actions/attendance";
 import { checkSameDayCustomers, type SameDayCustomerHit } from "@/actions/daily-report";
 import {
   dailyReportInputSchema,
+  checkReportLocations,
   type DailyReportProduct,
 } from "@/lib/validations/daily-report";
 
 export interface DailyReportConfig {
   products: DailyReportProduct[];
+  /** 行ごとに選ぶ「どこの店の分か」。2つ以上のときだけ選ばせる */
+  locations: string[];
   /** この店のお客様（入力候補） */
   customerNames: string[];
   /** 見出しに出す「11月22日 19:02〜」 */
@@ -22,25 +25,67 @@ export interface DailyReportConfig {
 interface SaleRow {
   customerName: string;
   amount: string;
+  /** どこの店の分か。"" は未選択 */
+  location?: string;
 }
 interface BackRow {
   productName: string;
   unitPrice: string;
   quantity: number;
+  location?: string;
 }
 interface Draft {
   sales: SaleRow[];
   backs: BackRow[];
   noSales: boolean;
   memo: string;
+  /** 最後に選んだ店。足した行の初期値にする（1行目は自分で選ぶ） */
+  lastLocation?: string;
 }
 
 const emptyDraft = (): Draft => ({
-  sales: [{ customerName: "", amount: "" }],
+  sales: [{ customerName: "", amount: "", location: "" }],
   backs: [],
   noSales: false,
   memo: "",
+  lastLocation: "",
 });
+
+/** 行の「どこの店の分か」を選ぶボタン */
+function LocationPicker({
+  locations,
+  value,
+  onChange,
+  label,
+}: {
+  locations: string[];
+  value: string;
+  onChange: (l: string) => void;
+  label: string;
+}) {
+  return (
+    <div className="mt-2 flex items-center gap-1.5" role="radiogroup" aria-label={label}>
+      <span className="text-[11px] text-gray-500">店</span>
+      {locations.map((l) => (
+        <button
+          key={l}
+          type="button"
+          role="radio"
+          aria-checked={value === l}
+          onClick={() => onChange(l)}
+          className={`rounded-full border px-3 py-1 text-xs ${
+            value === l
+              ? "border-blue-500 bg-blue-500 font-bold text-white"
+              : "border-gray-300 bg-white text-gray-700"
+          }`}
+        >
+          {l}
+        </button>
+      ))}
+      {!value && <span className="text-[11px] text-red-500">選んでください</span>}
+    </div>
+  );
+}
 
 const yen = (n: number) => "¥" + n.toLocaleString("ja-JP");
 const digits = (s: string) => s.normalize("NFKC").replace(/[^\d]/g, "").slice(0, 8);
@@ -105,6 +150,9 @@ export function DailyReportForm({
     }
   });
 
+  const pickLocations = config.locations.length >= 2;
+  const defaultLocation = draft.lastLocation ?? "";
+
   const update = (fn: (d: Draft) => Draft) => {
     setError(null);
     setDraft((d) => fn(structuredClone(d)));
@@ -130,11 +178,12 @@ export function DailyReportForm({
 
   const addPreset = (p: DailyReportProduct) =>
     update((d) => {
-      const ex = d.backs.find((b) => b.productName === p.name);
+      const loc = pickLocations ? d.lastLocation ?? "" : "";
+      const ex = d.backs.find((b) => b.productName === p.name && (b.location ?? "") === loc);
       if (ex) ex.quantity = Math.min(999, ex.quantity + 1);
       else {
         d.backs = d.backs.filter((b) => !isBlankBack(b));
-        d.backs.push({ productName: p.name, unitPrice: String(p.price), quantity: 1 });
+        d.backs.push({ productName: p.name, unitPrice: String(p.price), quantity: 1, location: loc });
       }
       return d;
     });
@@ -159,6 +208,7 @@ export function DailyReportForm({
             .map((r) => ({
               customerName: r.customerName.trim(),
               amount: Number(r.amount),
+              ...(pickLocations && r.location ? { location: r.location } : {}),
             })),
           backItems: draft.backs
             .filter((r) => !isBlankBack(r))
@@ -166,11 +216,17 @@ export function DailyReportForm({
               productName: r.productName.trim(),
               unitPrice: Number(r.unitPrice),
               quantity: r.quantity,
+              ...(pickLocations && r.location ? { location: r.location } : {}),
             })),
         };
     const parsed = dailyReportInputSchema.safeParse(input);
     if (!parsed.success) {
       setError(parsed.error.issues[0]?.message ?? "日報の内容を確かめてください");
+      return;
+    }
+    const locationError = checkReportLocations(parsed.data, config.locations);
+    if (locationError) {
+      setError(locationError);
       return;
     }
 
@@ -313,6 +369,20 @@ export function DailyReportForm({
                         />
                       </div>
                     </div>
+                    {pickLocations && (
+                      <LocationPicker
+                        locations={config.locations}
+                        value={r.location ?? ""}
+                        label={`${i + 1}行目の売上の店`}
+                        onChange={(l) =>
+                          update((d) => {
+                            d.sales[i].location = l;
+                            d.lastLocation = l;
+                            return d;
+                          })
+                        }
+                      />
+                    )}
                     {rowHits.length > 0 && (
                       <p className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800" role="status">
                         {rowHits
@@ -328,7 +398,10 @@ export function DailyReportForm({
                 type="button"
                 onClick={() => {
                   lastFocus.current = `sale-name-${draft.sales.length}`;
-                  update((d) => ({ ...d, sales: [...d.sales, { customerName: "", amount: "" }] }));
+                  update((d) => ({
+                    ...d,
+                    sales: [...d.sales, { customerName: "", amount: "", location: defaultLocation }],
+                  }));
                 }}
                 className="w-full rounded-xl border-2 border-dashed border-blue-200 bg-blue-50 py-2.5 text-sm font-bold text-blue-600"
               >
@@ -460,6 +533,20 @@ export function DailyReportForm({
                       </div>
                     </div>
                   </div>
+                  {pickLocations && (
+                    <LocationPicker
+                      locations={config.locations}
+                      value={r.location ?? ""}
+                      label={`${i + 1}行目の商品の店`}
+                      onChange={(l) =>
+                        update((d) => {
+                          d.backs[i].location = l;
+                          d.lastLocation = l;
+                          return d;
+                        })
+                      }
+                    />
+                  )}
                   <p className="mt-1 text-right text-xs text-gray-500">
                     小計{" "}
                     <b className="tabular-nums text-gray-900">
@@ -474,7 +561,7 @@ export function DailyReportForm({
                   lastFocus.current = `back-name-${draft.backs.length}`;
                   update((d) => ({
                     ...d,
-                    backs: [...d.backs, { productName: "", unitPrice: "", quantity: 1 }],
+                    backs: [...d.backs, { productName: "", unitPrice: "", quantity: 1, location: defaultLocation }],
                   }));
                 }}
                 className="w-full rounded-xl border-2 border-dashed border-blue-200 bg-blue-50 py-2.5 text-sm font-bold text-blue-600"

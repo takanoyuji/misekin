@@ -43,6 +43,7 @@ export type DailyReportSaleMinAggregateOutputType = {
   customerId: string | null
   customerName: string | null
   amount: number | null
+  location: string | null
   sortOrder: number | null
   duplicateDecision: $Enums.SaleDuplicateDecision | null
   decidedByUserId: string | null
@@ -55,6 +56,7 @@ export type DailyReportSaleMaxAggregateOutputType = {
   customerId: string | null
   customerName: string | null
   amount: number | null
+  location: string | null
   sortOrder: number | null
   duplicateDecision: $Enums.SaleDuplicateDecision | null
   decidedByUserId: string | null
@@ -67,6 +69,7 @@ export type DailyReportSaleCountAggregateOutputType = {
   customerId: number
   customerName: number
   amount: number
+  location: number
   sortOrder: number
   duplicateDecision: number
   decidedByUserId: number
@@ -91,6 +94,7 @@ export type DailyReportSaleMinAggregateInputType = {
   customerId?: true
   customerName?: true
   amount?: true
+  location?: true
   sortOrder?: true
   duplicateDecision?: true
   decidedByUserId?: true
@@ -103,6 +107,7 @@ export type DailyReportSaleMaxAggregateInputType = {
   customerId?: true
   customerName?: true
   amount?: true
+  location?: true
   sortOrder?: true
   duplicateDecision?: true
   decidedByUserId?: true
@@ -115,6 +120,7 @@ export type DailyReportSaleCountAggregateInputType = {
   customerId?: true
   customerName?: true
   amount?: true
+  location?: true
   sortOrder?: true
   duplicateDecision?: true
   decidedByUserId?: true
@@ -214,6 +220,7 @@ export type DailyReportSaleGroupByOutputType = {
   customerId: string
   customerName: string
   amount: number
+  location: string | null
   sortOrder: number
   duplicateDecision: $Enums.SaleDuplicateDecision | null
   decidedByUserId: string | null
@@ -249,6 +256,7 @@ export type DailyReportSaleWhereInput = {
   customerId?: Prisma.StringFilter<"DailyReportSale"> | string
   customerName?: Prisma.StringFilter<"DailyReportSale"> | string
   amount?: Prisma.IntFilter<"DailyReportSale"> | number
+  location?: Prisma.StringNullableFilter<"DailyReportSale"> | string | null
   sortOrder?: Prisma.IntFilter<"DailyReportSale"> | number
   duplicateDecision?: Prisma.EnumSaleDuplicateDecisionNullableFilter<"DailyReportSale"> | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.StringNullableFilter<"DailyReportSale"> | string | null
@@ -263,6 +271,7 @@ export type DailyReportSaleOrderByWithRelationInput = {
   customerId?: Prisma.SortOrder
   customerName?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   duplicateDecision?: Prisma.SortOrderInput | Prisma.SortOrder
   decidedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -280,6 +289,7 @@ export type DailyReportSaleWhereUniqueInput = Prisma.AtLeast<{
   customerId?: Prisma.StringFilter<"DailyReportSale"> | string
   customerName?: Prisma.StringFilter<"DailyReportSale"> | string
   amount?: Prisma.IntFilter<"DailyReportSale"> | number
+  location?: Prisma.StringNullableFilter<"DailyReportSale"> | string | null
   sortOrder?: Prisma.IntFilter<"DailyReportSale"> | number
   duplicateDecision?: Prisma.EnumSaleDuplicateDecisionNullableFilter<"DailyReportSale"> | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.StringNullableFilter<"DailyReportSale"> | string | null
@@ -294,6 +304,7 @@ export type DailyReportSaleOrderByWithAggregationInput = {
   customerId?: Prisma.SortOrder
   customerName?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   duplicateDecision?: Prisma.SortOrderInput | Prisma.SortOrder
   decidedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -314,6 +325,7 @@ export type DailyReportSaleScalarWhereWithAggregatesInput = {
   customerId?: Prisma.StringWithAggregatesFilter<"DailyReportSale"> | string
   customerName?: Prisma.StringWithAggregatesFilter<"DailyReportSale"> | string
   amount?: Prisma.IntWithAggregatesFilter<"DailyReportSale"> | number
+  location?: Prisma.StringNullableWithAggregatesFilter<"DailyReportSale"> | string | null
   sortOrder?: Prisma.IntWithAggregatesFilter<"DailyReportSale"> | number
   duplicateDecision?: Prisma.EnumSaleDuplicateDecisionNullableWithAggregatesFilter<"DailyReportSale"> | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.StringNullableWithAggregatesFilter<"DailyReportSale"> | string | null
@@ -324,6 +336,7 @@ export type DailyReportSaleCreateInput = {
   id?: string
   customerName: string
   amount: number
+  location?: string | null
   sortOrder?: number
   duplicateDecision?: $Enums.SaleDuplicateDecision | null
   decidedByUserId?: string | null
@@ -338,6 +351,7 @@ export type DailyReportSaleUncheckedCreateInput = {
   customerId: string
   customerName: string
   amount: number
+  location?: string | null
   sortOrder?: number
   duplicateDecision?: $Enums.SaleDuplicateDecision | null
   decidedByUserId?: string | null
@@ -348,6 +362,7 @@ export type DailyReportSaleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   duplicateDecision?: Prisma.NullableEnumSaleDuplicateDecisionFieldUpdateOperationsInput | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -362,6 +377,7 @@ export type DailyReportSaleUncheckedUpdateInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   duplicateDecision?: Prisma.NullableEnumSaleDuplicateDecisionFieldUpdateOperationsInput | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -374,6 +390,7 @@ export type DailyReportSaleCreateManyInput = {
   customerId: string
   customerName: string
   amount: number
+  location?: string | null
   sortOrder?: number
   duplicateDecision?: $Enums.SaleDuplicateDecision | null
   decidedByUserId?: string | null
@@ -384,6 +401,7 @@ export type DailyReportSaleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   duplicateDecision?: Prisma.NullableEnumSaleDuplicateDecisionFieldUpdateOperationsInput | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -396,6 +414,7 @@ export type DailyReportSaleUncheckedUpdateManyInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   duplicateDecision?: Prisma.NullableEnumSaleDuplicateDecisionFieldUpdateOperationsInput | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -418,6 +437,7 @@ export type DailyReportSaleCountOrderByAggregateInput = {
   customerId?: Prisma.SortOrder
   customerName?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  location?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   duplicateDecision?: Prisma.SortOrder
   decidedByUserId?: Prisma.SortOrder
@@ -435,6 +455,7 @@ export type DailyReportSaleMaxOrderByAggregateInput = {
   customerId?: Prisma.SortOrder
   customerName?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  location?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   duplicateDecision?: Prisma.SortOrder
   decidedByUserId?: Prisma.SortOrder
@@ -447,6 +468,7 @@ export type DailyReportSaleMinOrderByAggregateInput = {
   customerId?: Prisma.SortOrder
   customerName?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  location?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   duplicateDecision?: Prisma.SortOrder
   decidedByUserId?: Prisma.SortOrder
@@ -550,6 +572,7 @@ export type DailyReportSaleCreateWithoutCustomerInput = {
   id?: string
   customerName: string
   amount: number
+  location?: string | null
   sortOrder?: number
   duplicateDecision?: $Enums.SaleDuplicateDecision | null
   decidedByUserId?: string | null
@@ -562,6 +585,7 @@ export type DailyReportSaleUncheckedCreateWithoutCustomerInput = {
   reportId: string
   customerName: string
   amount: number
+  location?: string | null
   sortOrder?: number
   duplicateDecision?: $Enums.SaleDuplicateDecision | null
   decidedByUserId?: string | null
@@ -603,6 +627,7 @@ export type DailyReportSaleScalarWhereInput = {
   customerId?: Prisma.StringFilter<"DailyReportSale"> | string
   customerName?: Prisma.StringFilter<"DailyReportSale"> | string
   amount?: Prisma.IntFilter<"DailyReportSale"> | number
+  location?: Prisma.StringNullableFilter<"DailyReportSale"> | string | null
   sortOrder?: Prisma.IntFilter<"DailyReportSale"> | number
   duplicateDecision?: Prisma.EnumSaleDuplicateDecisionNullableFilter<"DailyReportSale"> | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.StringNullableFilter<"DailyReportSale"> | string | null
@@ -613,6 +638,7 @@ export type DailyReportSaleCreateWithoutReportInput = {
   id?: string
   customerName: string
   amount: number
+  location?: string | null
   sortOrder?: number
   duplicateDecision?: $Enums.SaleDuplicateDecision | null
   decidedByUserId?: string | null
@@ -625,6 +651,7 @@ export type DailyReportSaleUncheckedCreateWithoutReportInput = {
   customerId: string
   customerName: string
   amount: number
+  location?: string | null
   sortOrder?: number
   duplicateDecision?: $Enums.SaleDuplicateDecision | null
   decidedByUserId?: string | null
@@ -662,6 +689,7 @@ export type DailyReportSaleCreateManyCustomerInput = {
   reportId: string
   customerName: string
   amount: number
+  location?: string | null
   sortOrder?: number
   duplicateDecision?: $Enums.SaleDuplicateDecision | null
   decidedByUserId?: string | null
@@ -672,6 +700,7 @@ export type DailyReportSaleUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   duplicateDecision?: Prisma.NullableEnumSaleDuplicateDecisionFieldUpdateOperationsInput | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -684,6 +713,7 @@ export type DailyReportSaleUncheckedUpdateWithoutCustomerInput = {
   reportId?: Prisma.StringFieldUpdateOperationsInput | string
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   duplicateDecision?: Prisma.NullableEnumSaleDuplicateDecisionFieldUpdateOperationsInput | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -695,6 +725,7 @@ export type DailyReportSaleUncheckedUpdateManyWithoutCustomerInput = {
   reportId?: Prisma.StringFieldUpdateOperationsInput | string
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   duplicateDecision?: Prisma.NullableEnumSaleDuplicateDecisionFieldUpdateOperationsInput | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -706,6 +737,7 @@ export type DailyReportSaleCreateManyReportInput = {
   customerId: string
   customerName: string
   amount: number
+  location?: string | null
   sortOrder?: number
   duplicateDecision?: $Enums.SaleDuplicateDecision | null
   decidedByUserId?: string | null
@@ -716,6 +748,7 @@ export type DailyReportSaleUpdateWithoutReportInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   duplicateDecision?: Prisma.NullableEnumSaleDuplicateDecisionFieldUpdateOperationsInput | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -728,6 +761,7 @@ export type DailyReportSaleUncheckedUpdateWithoutReportInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   duplicateDecision?: Prisma.NullableEnumSaleDuplicateDecisionFieldUpdateOperationsInput | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -739,6 +773,7 @@ export type DailyReportSaleUncheckedUpdateManyWithoutReportInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   duplicateDecision?: Prisma.NullableEnumSaleDuplicateDecisionFieldUpdateOperationsInput | $Enums.SaleDuplicateDecision | null
   decidedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -753,6 +788,7 @@ export type DailyReportSaleSelect<ExtArgs extends runtime.Types.Extensions.Inter
   customerId?: boolean
   customerName?: boolean
   amount?: boolean
+  location?: boolean
   sortOrder?: boolean
   duplicateDecision?: boolean
   decidedByUserId?: boolean
@@ -767,6 +803,7 @@ export type DailyReportSaleSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   customerId?: boolean
   customerName?: boolean
   amount?: boolean
+  location?: boolean
   sortOrder?: boolean
   duplicateDecision?: boolean
   decidedByUserId?: boolean
@@ -781,6 +818,7 @@ export type DailyReportSaleSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   customerId?: boolean
   customerName?: boolean
   amount?: boolean
+  location?: boolean
   sortOrder?: boolean
   duplicateDecision?: boolean
   decidedByUserId?: boolean
@@ -795,13 +833,14 @@ export type DailyReportSaleSelectScalar = {
   customerId?: boolean
   customerName?: boolean
   amount?: boolean
+  location?: boolean
   sortOrder?: boolean
   duplicateDecision?: boolean
   decidedByUserId?: boolean
   decidedAt?: boolean
 }
 
-export type DailyReportSaleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reportId" | "customerId" | "customerName" | "amount" | "sortOrder" | "duplicateDecision" | "decidedByUserId" | "decidedAt", ExtArgs["result"]["dailyReportSale"]>
+export type DailyReportSaleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reportId" | "customerId" | "customerName" | "amount" | "location" | "sortOrder" | "duplicateDecision" | "decidedByUserId" | "decidedAt", ExtArgs["result"]["dailyReportSale"]>
 export type DailyReportSaleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   report?: boolean | Prisma.DailyReportDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -830,6 +869,10 @@ export type $DailyReportSalePayload<ExtArgs extends runtime.Types.Extensions.Int
      */
     customerName: string
     amount: number
+    /**
+     * どこの店の分か（店舗設定 dailyReportLocations のどれか。設定が空の店舗は null）
+     */
+    location: string | null
     sortOrder: number
     duplicateDecision: $Enums.SaleDuplicateDecision | null
     decidedByUserId: string | null
@@ -1264,6 +1307,7 @@ export interface DailyReportSaleFieldRefs {
   readonly customerId: Prisma.FieldRef<"DailyReportSale", 'String'>
   readonly customerName: Prisma.FieldRef<"DailyReportSale", 'String'>
   readonly amount: Prisma.FieldRef<"DailyReportSale", 'Int'>
+  readonly location: Prisma.FieldRef<"DailyReportSale", 'String'>
   readonly sortOrder: Prisma.FieldRef<"DailyReportSale", 'Int'>
   readonly duplicateDecision: Prisma.FieldRef<"DailyReportSale", 'SaleDuplicateDecision'>
   readonly decidedByUserId: Prisma.FieldRef<"DailyReportSale", 'String'>

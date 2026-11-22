@@ -124,10 +124,12 @@ export async function updateStore(
     const {
       requireDailyReport: _r,
       dailyReportProducts: _p,
+      dailyReportLocations: _l,
       ...data
     } = input as Partial<CreateStoreInput> & {
       requireDailyReport?: unknown;
       dailyReportProducts?: unknown;
+      dailyReportLocations?: unknown;
     };
     const before = await db.store.findUnique({ where: { id: storeId } });
     const updated = await db.store.update({

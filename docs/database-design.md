@@ -83,6 +83,7 @@ dayChangeMinute Int      @default(0)
 allowMultipleClockIns Boolean @default(false) // 退勤後に同じ営業日でもう一度出勤できるか（VLLの遠隔推し活。2026-10-27）
 requireDailyReport  Boolean @default(false) // 退勤のときに日報を書かせるか（VLL。2026-11-22）
 dailyReportProducts Json    @default("[]")  // 日報の「よく出る商品」[{name, price}]。専用の経路 updateDailyReportSettings でだけ変える
+dailyReportLocations Json   @default("[]")  // 日報の行ごとに選ぶ店 [string]（VLL: 池袋 / 札幌）。2つ以上で選ばせる。同じく専用の経路でだけ変える
 isActive        Boolean  @default(true)
 createdAt       DateTime @default(now())
 updatedAt       DateTime @updatedAt
@@ -339,8 +340,8 @@ Customer            id / organizationId / storeId / name（最初に書かれた
 DailyReport         id / organizationId / storeId / staffId / attendanceId @unique / businessDate / noSales / submittedAt
                     勤怠・スタッフは onDelete: Restrict（手で消しても売上が道連れで消えない）
 DailyReportSale     id / reportId / customerId（書いた名前のお客様。まとめても付け替えない）/ customerName（書いたまま）
-                    amount / sortOrder / duplicateDecision?（ADOPTED / EXCLUDED / SEPARATE）/ decidedByUserId / decidedAt
-DailyReportBackItem id / reportId / productName / unitPrice / quantity / sortOrder
+                    amount / location?（どこの店の分か）/ sortOrder / duplicateDecision?（ADOPTED / EXCLUDED / SEPARATE）/ decidedByUserId / decidedAt
+DailyReportBackItem id / reportId / productName / unitPrice / quantity / location? / sortOrder
 ```
 - 照合キー: NFKC → 小文字 → 空白を除く → カタカナをひらがな → 末尾の敬称（さん/様/ちゃん/くん/君/氏 等）を外す。括弧の中は外さない（`src/lib/business/daily-report.ts`）
 - 重複の疑い: 同じ営業日・同じ代表のお客様の行が2つ以上の日報にまたがる組。全部の行に判断があれば ADOPTED と SEPARATE を数え、1行でも未判断なら日報ごとの合計が一番大きい日報（同額なら先に送った方）だけを店の売上に数える

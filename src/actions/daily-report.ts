@@ -152,11 +152,12 @@ export async function updateDailyReportSettings(
 
     const before = await db.store.findUnique({
       where: { id: storeId },
-      select: { requireDailyReport: true, dailyReportProducts: true },
+      select: { requireDailyReport: true, dailyReportProducts: true, dailyReportLocations: true },
     });
     const after = {
       requireDailyReport: parsed.data.requireDailyReport,
       dailyReportProducts: parsed.data.products,
+      dailyReportLocations: parsed.data.locations,
     };
     await db.store.update({ where: { id: storeId, organizationId }, data: after });
     await createAuditLog({
