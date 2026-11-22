@@ -78,13 +78,13 @@ export async function createDailyReportInTx(
       attendanceId: params.attendanceId,
       businessDate: params.businessDate,
       noSales: input.noSales,
+      location: normalizeReportLocation(input.location, locations),
       submittedAt: params.submittedAt,
       sales: {
         create: input.sales.map((s, i) => ({
           customerId: customerIds.get(s.customerName)!,
           customerName: s.customerName.trim(),
           amount: s.amount,
-          location: normalizeReportLocation(s.location, locations),
           sortOrder: i,
         })),
       },
@@ -93,7 +93,6 @@ export async function createDailyReportInTx(
           productName: b.productName.trim(),
           unitPrice: b.unitPrice,
           quantity: b.quantity,
-          location: normalizeReportLocation(b.location, locations),
           sortOrder: i,
         })),
       },

@@ -241,16 +241,16 @@ export interface ReportForSummary {
   businessDate: string;
   noSales: boolean;
   submittedAt: Date;
+  /** どこの店の分か（店舗設定で選ばせていない店舗は null） */
+  location?: string | null;
   sales: {
     id: string;
     customerRootId: string;
     customerRootName: string;
     amount: number;
     decision: DuplicateDecision | null;
-    /** どこの店の分か（店舗設定で選ばせていない店舗は null） */
-    location?: string | null;
   }[];
-  backItems: { productName: string; unitPrice: number; quantity: number; location?: string | null }[];
+  backItems: { productName: string; unitPrice: number; quantity: number }[];
 }
 
 export interface DailyReportSummary {
@@ -289,9 +289,10 @@ export interface DailyReportSummary {
     backTotal: number;
     staffNames: string[];
   }[];
-  /** どこの店の分か別（null は店を選ばせていなかった行） */
+  /** どこの店の分か別（null は店を選ばせていなかった日報） */
   byLocation: {
     location: string | null;
+    reportCount: number;
     storeSales: number;
     writtenSales: number;
     backTotal: number;
@@ -326,14 +327,14 @@ export function summarizeDailyReports(reports: ReportForSummary[]): DailyReportS
   const dayMap = new Map<string, { reportCount: number; sales: number; backTotal: number; staff: Set<string> }>();
   const locMap = new Map<
     string | null,
-    { storeSales: number; writtenSales: number; backTotal: number; backQuantity: number; customers: Set<string> }
+    { reportCount: number; storeSales: number; writtenSales: number; backTotal: number; backQuantity: number; customers: Set<string> }
   >();
   const locOf = (l: string | null | undefined) => {
     const k = l ?? null;
     return (
       locMap.get(k) ??
       locMap
-        .set(k, { storeSales: 0, writtenSales: 0, backTotal: 0, backQuantity: 0, customers: new Set() })
+        .set(k, { reportCount: 0, storeSales: 0, writtenSales: 0, backTotal: 0, backQuantity: 0, customers: new Set() })
         .get(k)!
     );
   };
@@ -364,6 +365,8 @@ export function summarizeDailyReports(reports: ReportForSummary[]): DailyReportS
         .set(r.businessDate, { reportCount: 0, sales: 0, backTotal: 0, staff: new Set() })
         .get(r.businessDate)!;
     cast.reportCount++;
+    const lo = locOf(r.location);
+    lo.reportCount++;
     day.reportCount++;
     day.staff.add(r.staffName);
 
@@ -375,7 +378,6 @@ export function summarizeDailyReports(reports: ReportForSummary[]): DailyReportS
       cast.countedSales += c;
       cast.customers.add(s.customerRootId);
       day.sales += c;
-      const lo = locOf(s.location);
       lo.writtenSales += s.amount;
       lo.storeSales += c;
       lo.customers.add(s.customerRootId);
@@ -394,9 +396,8 @@ export function summarizeDailyReports(reports: ReportForSummary[]): DailyReportS
       backQuantity += b.quantity;
       cast.backTotal += amt;
       day.backTotal += amt;
-      const lb = locOf(b.location);
-      lb.backTotal += amt;
-      lb.backQuantity += b.quantity;
+      lo.backTotal += amt;
+      lo.backQuantity += b.quantity;
       const k = productKey(b.productName);
       const it =
         itemMap.get(k) ??

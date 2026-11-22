@@ -276,19 +276,19 @@ describe("dailyReportInputSchema（日報の入力）", () => {
 });
 
 describe("どこの店の分か（池袋 / 札幌）", () => {
-  const input = (sl?: string, bl?: string) =>
+  const input = (location?: string) =>
     dailyReportInputSchema.parse({
       noSales: false,
-      sales: [{ customerName: "たけし", amount: 1000, ...(sl ? { location: sl } : {}) }],
-      backItems: [{ productName: "オリカク", unitPrice: 1500, quantity: 1, ...(bl ? { location: bl } : {}) }],
+      sales: [{ customerName: "たけし", amount: 1000 }],
+      backItems: [{ productName: "オリカク", unitPrice: 1500, quantity: 1 }],
+      ...(location ? { location } : {}),
     });
   const locs = ["池袋", "札幌"];
 
-  it("店が2つ以上なら、売上・商品のどの行にも店が要る", () => {
-    expect(checkReportLocations(input(), locs)).toMatch(/売上/);
-    expect(checkReportLocations(input("札幌"), locs)).toMatch(/商品/);
-    expect(checkReportLocations(input("札幌", "大阪"), locs)).toMatch(/商品/);
-    expect(checkReportLocations(input("札幌", "池袋"), locs)).toBeNull();
+  it("店が2つ以上なら、設定にある店を1つ選ぶ", () => {
+    expect(checkReportLocations(input(), locs)).toMatch(/どこの店/);
+    expect(checkReportLocations(input("大阪"), locs)).toMatch(/どこの店/);
+    expect(checkReportLocations(input("札幌"), locs)).toBeNull();
   });
   it("店が1つ以下なら選ばせない", () => {
     expect(checkReportLocations(input(), [])).toBeNull();
@@ -308,20 +308,23 @@ describe("どこの店の分か（池袋 / 札幌）", () => {
   it("集計は店ごとにも分ける（重複を除いた額で）", () => {
     const sum = summarizeDailyReports([
       {
-        id: "r1", staffId: "a", staffName: "a", businessDate: "2026-11-22", noSales: false, submittedAt: t(13),
-        sales: [
-          { id: "s1", customerRootId: "c1", customerRootName: "たけし", amount: 8000, decision: null, location: "札幌" },
-          { id: "s2", customerRootId: "c2", customerRootName: "ゆうと", amount: 5000, decision: null, location: "池袋" },
-        ],
-        backItems: [{ productName: "オリカク", unitPrice: 1500, quantity: 2, location: "札幌" }],
+        id: "r1", staffId: "a", staffName: "a", businessDate: "2026-11-22", noSales: false, submittedAt: t(13), location: "札幌",
+        sales: [{ id: "s1", customerRootId: "c1", customerRootName: "たけし", amount: 8000, decision: null }],
+        backItems: [{ productName: "オリカク", unitPrice: 1500, quantity: 2 }],
       },
       {
-        id: "r2", staffId: "b", staffName: "b", businessDate: "2026-11-22", noSales: false, submittedAt: t(14),
-        sales: [{ id: "s3", customerRootId: "c1", customerRootName: "たけし", amount: 8000, decision: null, location: "札幌" }],
+        id: "r2", staffId: "b", staffName: "b", businessDate: "2026-11-22", noSales: false, submittedAt: t(14), location: "札幌",
+        sales: [{ id: "s3", customerRootId: "c1", customerRootName: "たけし", amount: 8000, decision: null }],
+        backItems: [],
+      },
+      {
+        id: "r3", staffId: "c", staffName: "c", businessDate: "2026-11-22", noSales: false, submittedAt: t(15), location: "池袋",
+        sales: [{ id: "s4", customerRootId: "c2", customerRootName: "ゆうと", amount: 5000, decision: null }],
         backItems: [],
       },
     ]);
     const sap = sum.byLocation.find((l) => l.location === "札幌")!;
+    expect(sap.reportCount).toBe(2);
     expect(sap.storeSales).toBe(8000);
     expect(sap.writtenSales).toBe(16000);
     expect(sap.backTotal).toBe(3000);

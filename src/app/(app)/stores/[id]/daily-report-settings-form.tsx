@@ -143,7 +143,7 @@ export function DailyReportSettingsForm({
           どこの店の分か
         </label>
         <p className="text-xs text-muted-foreground">
-          「、」で区切って2つ以上入れると、日報の売上・商品の行ごとに店を選んでもらい、管理画面で店ごとに集計します（例: 池袋、札幌）。勤怠は分けません。空なら選ばせません。
+          「、」で区切って2つ以上入れると、日報ごとにどこの店の分かを1つ選んでもらい、管理画面で店ごとに集計します（例: 池袋、札幌）。勤怠は分けません。空なら選ばせません。
         </p>
         <input
           id="daily-report-locations"

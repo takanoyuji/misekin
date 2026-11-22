@@ -3617,6 +3617,7 @@ export const DailyReportScalarFieldEnum = {
   attendanceId: 'attendanceId',
   businessDate: 'businessDate',
   noSales: 'noSales',
+  location: 'location',
   submittedAt: 'submittedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -3631,7 +3632,6 @@ export const DailyReportSaleScalarFieldEnum = {
   customerId: 'customerId',
   customerName: 'customerName',
   amount: 'amount',
-  location: 'location',
   sortOrder: 'sortOrder',
   duplicateDecision: 'duplicateDecision',
   decidedByUserId: 'decidedByUserId',
@@ -3647,7 +3647,6 @@ export const DailyReportBackItemScalarFieldEnum = {
   productName: 'productName',
   unitPrice: 'unitPrice',
   quantity: 'quantity',
-  location: 'location',
   sortOrder: 'sortOrder'
 } as const
 

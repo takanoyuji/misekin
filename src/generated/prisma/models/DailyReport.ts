@@ -33,6 +33,7 @@ export type DailyReportMinAggregateOutputType = {
   attendanceId: string | null
   businessDate: string | null
   noSales: boolean | null
+  location: string | null
   submittedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -46,6 +47,7 @@ export type DailyReportMaxAggregateOutputType = {
   attendanceId: string | null
   businessDate: string | null
   noSales: boolean | null
+  location: string | null
   submittedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -59,6 +61,7 @@ export type DailyReportCountAggregateOutputType = {
   attendanceId: number
   businessDate: number
   noSales: number
+  location: number
   submittedAt: number
   createdAt: number
   updatedAt: number
@@ -74,6 +77,7 @@ export type DailyReportMinAggregateInputType = {
   attendanceId?: true
   businessDate?: true
   noSales?: true
+  location?: true
   submittedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -87,6 +91,7 @@ export type DailyReportMaxAggregateInputType = {
   attendanceId?: true
   businessDate?: true
   noSales?: true
+  location?: true
   submittedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -100,6 +105,7 @@ export type DailyReportCountAggregateInputType = {
   attendanceId?: true
   businessDate?: true
   noSales?: true
+  location?: true
   submittedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -186,6 +192,7 @@ export type DailyReportGroupByOutputType = {
   attendanceId: string
   businessDate: string
   noSales: boolean
+  location: string | null
   submittedAt: Date
   createdAt: Date
   updatedAt: Date
@@ -220,6 +227,7 @@ export type DailyReportWhereInput = {
   attendanceId?: Prisma.StringFilter<"DailyReport"> | string
   businessDate?: Prisma.StringFilter<"DailyReport"> | string
   noSales?: Prisma.BoolFilter<"DailyReport"> | boolean
+  location?: Prisma.StringNullableFilter<"DailyReport"> | string | null
   submittedAt?: Prisma.DateTimeFilter<"DailyReport"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"DailyReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DailyReport"> | Date | string
@@ -239,6 +247,7 @@ export type DailyReportOrderByWithRelationInput = {
   attendanceId?: Prisma.SortOrder
   businessDate?: Prisma.SortOrder
   noSales?: Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -261,6 +270,7 @@ export type DailyReportWhereUniqueInput = Prisma.AtLeast<{
   staffId?: Prisma.StringFilter<"DailyReport"> | string
   businessDate?: Prisma.StringFilter<"DailyReport"> | string
   noSales?: Prisma.BoolFilter<"DailyReport"> | boolean
+  location?: Prisma.StringNullableFilter<"DailyReport"> | string | null
   submittedAt?: Prisma.DateTimeFilter<"DailyReport"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"DailyReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DailyReport"> | Date | string
@@ -280,6 +290,7 @@ export type DailyReportOrderByWithAggregationInput = {
   attendanceId?: Prisma.SortOrder
   businessDate?: Prisma.SortOrder
   noSales?: Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -299,6 +310,7 @@ export type DailyReportScalarWhereWithAggregatesInput = {
   attendanceId?: Prisma.StringWithAggregatesFilter<"DailyReport"> | string
   businessDate?: Prisma.StringWithAggregatesFilter<"DailyReport"> | string
   noSales?: Prisma.BoolWithAggregatesFilter<"DailyReport"> | boolean
+  location?: Prisma.StringNullableWithAggregatesFilter<"DailyReport"> | string | null
   submittedAt?: Prisma.DateTimeWithAggregatesFilter<"DailyReport"> | Date | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DailyReport"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"DailyReport"> | Date | string
@@ -308,6 +320,7 @@ export type DailyReportCreateInput = {
   id?: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -327,6 +340,7 @@ export type DailyReportUncheckedCreateInput = {
   attendanceId: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -338,6 +352,7 @@ export type DailyReportUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -357,6 +372,7 @@ export type DailyReportUncheckedUpdateInput = {
   attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -372,6 +388,7 @@ export type DailyReportCreateManyInput = {
   attendanceId: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -381,6 +398,7 @@ export type DailyReportUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -394,6 +412,7 @@ export type DailyReportUncheckedUpdateManyInput = {
   attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -422,6 +441,7 @@ export type DailyReportCountOrderByAggregateInput = {
   attendanceId?: Prisma.SortOrder
   businessDate?: Prisma.SortOrder
   noSales?: Prisma.SortOrder
+  location?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -435,6 +455,7 @@ export type DailyReportMaxOrderByAggregateInput = {
   attendanceId?: Prisma.SortOrder
   businessDate?: Prisma.SortOrder
   noSales?: Prisma.SortOrder
+  location?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -448,6 +469,7 @@ export type DailyReportMinOrderByAggregateInput = {
   attendanceId?: Prisma.SortOrder
   businessDate?: Prisma.SortOrder
   noSales?: Prisma.SortOrder
+  location?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -648,6 +670,7 @@ export type DailyReportCreateWithoutOrganizationInput = {
   id?: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -665,6 +688,7 @@ export type DailyReportUncheckedCreateWithoutOrganizationInput = {
   attendanceId: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -709,6 +733,7 @@ export type DailyReportScalarWhereInput = {
   attendanceId?: Prisma.StringFilter<"DailyReport"> | string
   businessDate?: Prisma.StringFilter<"DailyReport"> | string
   noSales?: Prisma.BoolFilter<"DailyReport"> | boolean
+  location?: Prisma.StringNullableFilter<"DailyReport"> | string | null
   submittedAt?: Prisma.DateTimeFilter<"DailyReport"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"DailyReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DailyReport"> | Date | string
@@ -718,6 +743,7 @@ export type DailyReportCreateWithoutStoreInput = {
   id?: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -735,6 +761,7 @@ export type DailyReportUncheckedCreateWithoutStoreInput = {
   attendanceId: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -772,6 +799,7 @@ export type DailyReportCreateWithoutStaffInput = {
   id?: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -789,6 +817,7 @@ export type DailyReportUncheckedCreateWithoutStaffInput = {
   attendanceId: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -826,6 +855,7 @@ export type DailyReportCreateWithoutAttendanceInput = {
   id?: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -843,6 +873,7 @@ export type DailyReportUncheckedCreateWithoutAttendanceInput = {
   staffId: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -870,6 +901,7 @@ export type DailyReportUpdateWithoutAttendanceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -887,6 +919,7 @@ export type DailyReportUncheckedUpdateWithoutAttendanceInput = {
   staffId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -898,6 +931,7 @@ export type DailyReportCreateWithoutSalesInput = {
   id?: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -916,6 +950,7 @@ export type DailyReportUncheckedCreateWithoutSalesInput = {
   attendanceId: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -942,6 +977,7 @@ export type DailyReportUpdateWithoutSalesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -960,6 +996,7 @@ export type DailyReportUncheckedUpdateWithoutSalesInput = {
   attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -970,6 +1007,7 @@ export type DailyReportCreateWithoutBackItemsInput = {
   id?: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -988,6 +1026,7 @@ export type DailyReportUncheckedCreateWithoutBackItemsInput = {
   attendanceId: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1014,6 +1053,7 @@ export type DailyReportUpdateWithoutBackItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1032,6 +1072,7 @@ export type DailyReportUncheckedUpdateWithoutBackItemsInput = {
   attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1045,6 +1086,7 @@ export type DailyReportCreateManyOrganizationInput = {
   attendanceId: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1054,6 +1096,7 @@ export type DailyReportUpdateWithoutOrganizationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1071,6 +1114,7 @@ export type DailyReportUncheckedUpdateWithoutOrganizationInput = {
   attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1085,6 +1129,7 @@ export type DailyReportUncheckedUpdateManyWithoutOrganizationInput = {
   attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1097,6 +1142,7 @@ export type DailyReportCreateManyStoreInput = {
   attendanceId: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1106,6 +1152,7 @@ export type DailyReportUpdateWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1123,6 +1170,7 @@ export type DailyReportUncheckedUpdateWithoutStoreInput = {
   attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1137,6 +1185,7 @@ export type DailyReportUncheckedUpdateManyWithoutStoreInput = {
   attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1149,6 +1198,7 @@ export type DailyReportCreateManyStaffInput = {
   attendanceId: string
   businessDate: string
   noSales?: boolean
+  location?: string | null
   submittedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1158,6 +1208,7 @@ export type DailyReportUpdateWithoutStaffInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1175,6 +1226,7 @@ export type DailyReportUncheckedUpdateWithoutStaffInput = {
   attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1189,6 +1241,7 @@ export type DailyReportUncheckedUpdateManyWithoutStaffInput = {
   attendanceId?: Prisma.StringFieldUpdateOperationsInput | string
   businessDate?: Prisma.StringFieldUpdateOperationsInput | string
   noSales?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1242,6 +1295,7 @@ export type DailyReportSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   attendanceId?: boolean
   businessDate?: boolean
   noSales?: boolean
+  location?: boolean
   submittedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1262,6 +1316,7 @@ export type DailyReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   attendanceId?: boolean
   businessDate?: boolean
   noSales?: boolean
+  location?: boolean
   submittedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1279,6 +1334,7 @@ export type DailyReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   attendanceId?: boolean
   businessDate?: boolean
   noSales?: boolean
+  location?: boolean
   submittedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1296,12 +1352,13 @@ export type DailyReportSelectScalar = {
   attendanceId?: boolean
   businessDate?: boolean
   noSales?: boolean
+  location?: boolean
   submittedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DailyReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "storeId" | "staffId" | "attendanceId" | "businessDate" | "noSales" | "submittedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["dailyReport"]>
+export type DailyReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "storeId" | "staffId" | "attendanceId" | "businessDate" | "noSales" | "location" | "submittedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["dailyReport"]>
 export type DailyReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
@@ -1345,6 +1402,10 @@ export type $DailyReportPayload<ExtArgs extends runtime.Types.Extensions.Interna
      * 「今日は売上なし」。入れ忘れと区別するため明示させる
      */
     noSales: boolean
+    /**
+     * どこの店の分か（店舗設定 dailyReportLocations のどれか。選ばせない店舗は1つならその店、0なら null）
+     */
+    location: string | null
     submittedAt: Date
     createdAt: Date
     updatedAt: Date
@@ -1784,6 +1845,7 @@ export interface DailyReportFieldRefs {
   readonly attendanceId: Prisma.FieldRef<"DailyReport", 'String'>
   readonly businessDate: Prisma.FieldRef<"DailyReport", 'String'>
   readonly noSales: Prisma.FieldRef<"DailyReport", 'Boolean'>
+  readonly location: Prisma.FieldRef<"DailyReport", 'String'>
   readonly submittedAt: Prisma.FieldRef<"DailyReport", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"DailyReport", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"DailyReport", 'DateTime'>

@@ -70,13 +70,13 @@ export default async function DailyReportsPage({
     businessDate: r.businessDate,
     noSales: r.noSales,
     submittedAt: r.submittedAt,
+    location: r.location,
     sales: r.sales.map((s) => ({
       id: s.id,
       customerRootId: rootCustomerId(s.customer),
       customerRootName: s.customer.mergedInto?.name ?? s.customer.name,
       amount: s.amount,
       decision: s.duplicateDecision,
-      location: s.location,
     })),
     backItems: r.backItems,
   }));
@@ -245,18 +245,19 @@ export default async function DailyReportsPage({
         <section className="rounded-xl border border-border bg-card shadow-sm">
           <div className="border-b border-border px-4 py-3">
             <h2 className="text-base font-semibold">店ごと</h2>
-            <p className="text-xs text-muted-foreground">日報の行ごとにキャストが選んだ店で分けています。勤怠は分けていません。</p>
+            <p className="text-xs text-muted-foreground">日報ごとにキャストが選んだ店で分けています。勤怠は分けていません。</p>
           </div>
           <div className="overflow-x-auto p-2">
             <table className="w-full min-w-[560px] text-sm">
               <thead><tr className="border-b border-border">
-                <th className={th}>店</th><th className={cn(th, "text-right")}>店の売上</th><th className={cn(th, "text-right")}>お客様</th>
+                <th className={th}>店</th><th className={cn(th, "text-right")}>日報</th><th className={cn(th, "text-right")}>店の売上</th><th className={cn(th, "text-right")}>お客様</th>
                 <th className={cn(th, "text-right")}>バック対象</th><th className={cn(th, "text-right")}>商品</th>
               </tr></thead>
               <tbody>
                 {sum.byLocation.map((l) => (
                   <tr key={l.location ?? "__none"} className="border-b border-border">
                     <td className={td}>{l.location ?? <span className="text-muted-foreground">店の指定なし</span>}</td>
+                    <td className={cn(td, num)}>{l.reportCount}件</td>
                     <td className={cn(td, num)}>{yen(l.storeSales)}</td>
                     <td className={cn(td, num)}>{l.customerCount}人</td>
                     <td className={cn(td, num)}>{yen(l.backTotal)}</td>
@@ -409,7 +410,10 @@ export default async function DailyReportsPage({
                 {reports.map((r) => (
                   <tr key={r.id} className="border-b border-border">
                     <td className={cn(td, "tabular-nums")}>{md(r.businessDate)}</td>
-                    <td className={td}>{r.staff.displayName}</td>
+                    <td className={td}>
+                      {r.staff.displayName}
+                      {r.location && <span className="ml-1 rounded bg-muted px-1.5 py-0.5 text-[11px]">{r.location}</span>}
+                    </td>
                     <td className={cn(td, "text-xs leading-relaxed")}>
                       {r.noSales ? (
                         <span className="rounded-full bg-green-100 px-2 py-0.5 text-green-800">売上なし</span>
@@ -418,7 +422,6 @@ export default async function DailyReportsPage({
                           <div key={s.id}>
                             <span className="font-medium">{s.customerName}</span>{" "}
                             <span className="tabular-nums text-muted-foreground">{yen(s.amount)}</span>
-                            {s.location && <span className="ml-1 rounded bg-muted px-1 text-[11px]">{s.location}</span>}
                             {s.duplicateDecision === "EXCLUDED" && (
                               <span className="ml-1 text-amber-700">（重複のため数えない）</span>
                             )}
@@ -430,7 +433,6 @@ export default async function DailyReportsPage({
                       {r.backItems.map((b) => (
                         <div key={b.id}>
                           {b.productName} {yen(b.unitPrice)}×{b.quantity}
-                          {b.location && <span className="ml-1 rounded bg-muted px-1 text-[11px] text-foreground">{b.location}</span>}
                         </div>
                       ))}
                     </td>

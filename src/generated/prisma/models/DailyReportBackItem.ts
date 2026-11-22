@@ -44,7 +44,6 @@ export type DailyReportBackItemMinAggregateOutputType = {
   productName: string | null
   unitPrice: number | null
   quantity: number | null
-  location: string | null
   sortOrder: number | null
 }
 
@@ -54,7 +53,6 @@ export type DailyReportBackItemMaxAggregateOutputType = {
   productName: string | null
   unitPrice: number | null
   quantity: number | null
-  location: string | null
   sortOrder: number | null
 }
 
@@ -64,7 +62,6 @@ export type DailyReportBackItemCountAggregateOutputType = {
   productName: number
   unitPrice: number
   quantity: number
-  location: number
   sortOrder: number
   _all: number
 }
@@ -88,7 +85,6 @@ export type DailyReportBackItemMinAggregateInputType = {
   productName?: true
   unitPrice?: true
   quantity?: true
-  location?: true
   sortOrder?: true
 }
 
@@ -98,7 +94,6 @@ export type DailyReportBackItemMaxAggregateInputType = {
   productName?: true
   unitPrice?: true
   quantity?: true
-  location?: true
   sortOrder?: true
 }
 
@@ -108,7 +103,6 @@ export type DailyReportBackItemCountAggregateInputType = {
   productName?: true
   unitPrice?: true
   quantity?: true
-  location?: true
   sortOrder?: true
   _all?: true
 }
@@ -205,7 +199,6 @@ export type DailyReportBackItemGroupByOutputType = {
   productName: string
   unitPrice: number
   quantity: number
-  location: string | null
   sortOrder: number
   _count: DailyReportBackItemCountAggregateOutputType | null
   _avg: DailyReportBackItemAvgAggregateOutputType | null
@@ -238,7 +231,6 @@ export type DailyReportBackItemWhereInput = {
   productName?: Prisma.StringFilter<"DailyReportBackItem"> | string
   unitPrice?: Prisma.IntFilter<"DailyReportBackItem"> | number
   quantity?: Prisma.IntFilter<"DailyReportBackItem"> | number
-  location?: Prisma.StringNullableFilter<"DailyReportBackItem"> | string | null
   sortOrder?: Prisma.IntFilter<"DailyReportBackItem"> | number
   report?: Prisma.XOR<Prisma.DailyReportScalarRelationFilter, Prisma.DailyReportWhereInput>
 }
@@ -249,7 +241,6 @@ export type DailyReportBackItemOrderByWithRelationInput = {
   productName?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  location?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   report?: Prisma.DailyReportOrderByWithRelationInput
 }
@@ -263,7 +254,6 @@ export type DailyReportBackItemWhereUniqueInput = Prisma.AtLeast<{
   productName?: Prisma.StringFilter<"DailyReportBackItem"> | string
   unitPrice?: Prisma.IntFilter<"DailyReportBackItem"> | number
   quantity?: Prisma.IntFilter<"DailyReportBackItem"> | number
-  location?: Prisma.StringNullableFilter<"DailyReportBackItem"> | string | null
   sortOrder?: Prisma.IntFilter<"DailyReportBackItem"> | number
   report?: Prisma.XOR<Prisma.DailyReportScalarRelationFilter, Prisma.DailyReportWhereInput>
 }, "id">
@@ -274,7 +264,6 @@ export type DailyReportBackItemOrderByWithAggregationInput = {
   productName?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  location?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   _count?: Prisma.DailyReportBackItemCountOrderByAggregateInput
   _avg?: Prisma.DailyReportBackItemAvgOrderByAggregateInput
@@ -292,7 +281,6 @@ export type DailyReportBackItemScalarWhereWithAggregatesInput = {
   productName?: Prisma.StringWithAggregatesFilter<"DailyReportBackItem"> | string
   unitPrice?: Prisma.IntWithAggregatesFilter<"DailyReportBackItem"> | number
   quantity?: Prisma.IntWithAggregatesFilter<"DailyReportBackItem"> | number
-  location?: Prisma.StringNullableWithAggregatesFilter<"DailyReportBackItem"> | string | null
   sortOrder?: Prisma.IntWithAggregatesFilter<"DailyReportBackItem"> | number
 }
 
@@ -301,7 +289,6 @@ export type DailyReportBackItemCreateInput = {
   productName: string
   unitPrice: number
   quantity: number
-  location?: string | null
   sortOrder?: number
   report: Prisma.DailyReportCreateNestedOneWithoutBackItemsInput
 }
@@ -312,7 +299,6 @@ export type DailyReportBackItemUncheckedCreateInput = {
   productName: string
   unitPrice: number
   quantity: number
-  location?: string | null
   sortOrder?: number
 }
 
@@ -321,7 +307,6 @@ export type DailyReportBackItemUpdateInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   report?: Prisma.DailyReportUpdateOneRequiredWithoutBackItemsNestedInput
 }
@@ -332,7 +317,6 @@ export type DailyReportBackItemUncheckedUpdateInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -342,7 +326,6 @@ export type DailyReportBackItemCreateManyInput = {
   productName: string
   unitPrice: number
   quantity: number
-  location?: string | null
   sortOrder?: number
 }
 
@@ -351,7 +334,6 @@ export type DailyReportBackItemUpdateManyMutationInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -361,7 +343,6 @@ export type DailyReportBackItemUncheckedUpdateManyInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -381,7 +362,6 @@ export type DailyReportBackItemCountOrderByAggregateInput = {
   productName?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  location?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -397,7 +377,6 @@ export type DailyReportBackItemMaxOrderByAggregateInput = {
   productName?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  location?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -407,7 +386,6 @@ export type DailyReportBackItemMinOrderByAggregateInput = {
   productName?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  location?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -464,7 +442,6 @@ export type DailyReportBackItemCreateWithoutReportInput = {
   productName: string
   unitPrice: number
   quantity: number
-  location?: string | null
   sortOrder?: number
 }
 
@@ -473,7 +450,6 @@ export type DailyReportBackItemUncheckedCreateWithoutReportInput = {
   productName: string
   unitPrice: number
   quantity: number
-  location?: string | null
   sortOrder?: number
 }
 
@@ -512,7 +488,6 @@ export type DailyReportBackItemScalarWhereInput = {
   productName?: Prisma.StringFilter<"DailyReportBackItem"> | string
   unitPrice?: Prisma.IntFilter<"DailyReportBackItem"> | number
   quantity?: Prisma.IntFilter<"DailyReportBackItem"> | number
-  location?: Prisma.StringNullableFilter<"DailyReportBackItem"> | string | null
   sortOrder?: Prisma.IntFilter<"DailyReportBackItem"> | number
 }
 
@@ -521,7 +496,6 @@ export type DailyReportBackItemCreateManyReportInput = {
   productName: string
   unitPrice: number
   quantity: number
-  location?: string | null
   sortOrder?: number
 }
 
@@ -530,7 +504,6 @@ export type DailyReportBackItemUpdateWithoutReportInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -539,7 +512,6 @@ export type DailyReportBackItemUncheckedUpdateWithoutReportInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -548,7 +520,6 @@ export type DailyReportBackItemUncheckedUpdateManyWithoutReportInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
   unitPrice?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -560,7 +531,6 @@ export type DailyReportBackItemSelect<ExtArgs extends runtime.Types.Extensions.I
   productName?: boolean
   unitPrice?: boolean
   quantity?: boolean
-  location?: boolean
   sortOrder?: boolean
   report?: boolean | Prisma.DailyReportDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dailyReportBackItem"]>
@@ -571,7 +541,6 @@ export type DailyReportBackItemSelectCreateManyAndReturn<ExtArgs extends runtime
   productName?: boolean
   unitPrice?: boolean
   quantity?: boolean
-  location?: boolean
   sortOrder?: boolean
   report?: boolean | Prisma.DailyReportDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dailyReportBackItem"]>
@@ -582,7 +551,6 @@ export type DailyReportBackItemSelectUpdateManyAndReturn<ExtArgs extends runtime
   productName?: boolean
   unitPrice?: boolean
   quantity?: boolean
-  location?: boolean
   sortOrder?: boolean
   report?: boolean | Prisma.DailyReportDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dailyReportBackItem"]>
@@ -593,11 +561,10 @@ export type DailyReportBackItemSelectScalar = {
   productName?: boolean
   unitPrice?: boolean
   quantity?: boolean
-  location?: boolean
   sortOrder?: boolean
 }
 
-export type DailyReportBackItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reportId" | "productName" | "unitPrice" | "quantity" | "location" | "sortOrder", ExtArgs["result"]["dailyReportBackItem"]>
+export type DailyReportBackItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reportId" | "productName" | "unitPrice" | "quantity" | "sortOrder", ExtArgs["result"]["dailyReportBackItem"]>
 export type DailyReportBackItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   report?: boolean | Prisma.DailyReportDefaultArgs<ExtArgs>
 }
@@ -619,10 +586,6 @@ export type $DailyReportBackItemPayload<ExtArgs extends runtime.Types.Extensions
     productName: string
     unitPrice: number
     quantity: number
-    /**
-     * どこの店の分か（DailyReportSale.location と同じ）
-     */
-    location: string | null
     sortOrder: number
   }, ExtArgs["result"]["dailyReportBackItem"]>
   composites: {}
@@ -1053,7 +1016,6 @@ export interface DailyReportBackItemFieldRefs {
   readonly productName: Prisma.FieldRef<"DailyReportBackItem", 'String'>
   readonly unitPrice: Prisma.FieldRef<"DailyReportBackItem", 'Int'>
   readonly quantity: Prisma.FieldRef<"DailyReportBackItem", 'Int'>
-  readonly location: Prisma.FieldRef<"DailyReportBackItem", 'String'>
   readonly sortOrder: Prisma.FieldRef<"DailyReportBackItem", 'Int'>
 }
     
