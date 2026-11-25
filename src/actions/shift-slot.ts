@@ -60,6 +60,7 @@ export async function createShiftSlot(
         name: parsed.data.name,
         startTime: parsed.data.startTime,
         endTime: parsed.data.endTime,
+        daysOfWeek: parsed.data.daysOfWeek,
         sortOrder: parsed.data.sortOrder,
       },
     });
@@ -98,11 +99,15 @@ export async function updateShiftSlot(
         name: parsed.data.name,
         startTime: parsed.data.startTime,
         endTime: parsed.data.endTime,
+        ...(parsed.data.daysOfWeek !== undefined && {
+          daysOfWeek: parsed.data.daysOfWeek,
+        }),
         sortOrder: parsed.data.sortOrder,
       },
     });
     revalidatePath(`/stores/${slot.storeId}`);
     revalidatePath("/shifts");
+    revalidatePath("/my-shifts");
     return { success: true };
   } catch (error: any) {
     return { error: error.message ?? "更新に失敗しました" };

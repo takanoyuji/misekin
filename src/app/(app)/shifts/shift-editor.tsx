@@ -10,6 +10,7 @@ import {
   generateShifts,
 } from "@/actions/shift";
 import { Loader2, Plus, Send, Sparkles, Trash2, X } from "lucide-react";
+import { describeDaysOfWeek, slotAppliesOn } from "@/lib/business/slot-days";
 
 type ShiftStatus = "DRAFT" | "PUBLISHED" | "CANCELLED";
 type AvailabilityType = "AVAILABLE" | "UNAVAILABLE" | "PREFERRED";
@@ -17,6 +18,7 @@ type AvailabilityType = "AVAILABLE" | "UNAVAILABLE" | "PREFERRED";
 interface DayLabel {
   date: string;
   label: string;
+  isHoliday: boolean;
 }
 interface StaffOption {
   id: string;
@@ -27,6 +29,8 @@ interface SlotDef {
   name: string;
   startTime: string;
   endTime: string;
+  /** 0=日〜6=土、7=祝日。空 = 毎日 */
+  daysOfWeek: number[];
 }
 interface ShiftCell {
   id: string;
@@ -65,7 +69,7 @@ interface Props {
 
 const AVAIL_BG: Record<AvailabilityType, string> = {
   AVAILABLE: "bg-green-50",
-  PREFERRED: "bg-primary/5",
+  PREFERRED: "bg-blue-50", // 業態テーマに依らず固定の青（希望画面のボタンと同じ色系）
   UNAVAILABLE: "bg-red-50",
 };
 
@@ -88,6 +92,9 @@ export function ShiftEditor({
   // 表示中の時間帯
   const [activeSlotId, setActiveSlotId] = useState(slots[0]?.id ?? "");
   const activeSlot = slots.find((s) => s.id === activeSlotId) ?? slots[0];
+  // 選択中の時間帯を出す日か（平日だけ・土日祝だけ等）
+  const isOpen = (d: DayLabel) =>
+    slotAppliesOn(activeSlot?.daysOfWeek, d.date, d.isHoliday);
 
   // 自動生成ダイアログ
   const [genOpen, setGenOpen] = useState(false);
@@ -235,6 +242,8 @@ export function ShiftEditor({
             {slot.name}
             <span className="ml-1 font-numeric text-xs text-muted-foreground">
               {slot.startTime}–{slot.endTime}
+              {slot.daysOfWeek.length > 0 &&
+                ` ${describeDaysOfWeek(slot.daysOfWeek)}`}
             </span>
           </button>
         ))}
@@ -243,7 +252,7 @@ export function ShiftEditor({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs text-muted-foreground">
           背景色は希望（
-          <span className="rounded bg-primary/5 px-1">青=希望</span>{" "}
+          <span className="rounded bg-blue-50 px-1">青=希望</span>{" "}
           <span className="rounded bg-green-50 px-1">緑=可</span>{" "}
           <span className="rounded bg-red-50 px-1">赤=不可</span>
           ）。空きセルの＋で「{activeSlot?.name}」に追加します。
@@ -291,7 +300,9 @@ export function ShiftEditor({
               {days.map((d) => (
                 <th
                   key={d.date}
-                  className="px-2 py-2 text-center font-medium text-muted-foreground"
+                  className={`px-2 py-2 text-center font-medium ${
+                    isOpen(d) ? "text-muted-foreground" : "text-muted-foreground/40"
+                  }`}
                 >
                   <div className="font-numeric">{d.label}</div>
                 </th>
@@ -306,6 +317,16 @@ export function ShiftEditor({
                 const req = reqByDate.get(d.date) ?? 0;
                 const assigned = assignedByDate.get(d.date) ?? 0;
                 const short = req > 0 && assigned < req;
+                if (!isOpen(d)) {
+                  return (
+                    <td
+                      key={d.date}
+                      className="bg-muted/40 px-2 py-1.5 text-center text-muted-foreground"
+                    >
+                      対象外
+                    </td>
+                  );
+                }
                 return (
                   <td key={d.date} className="px-2 py-1.5 text-center">
                     <div className="flex items-center justify-center gap-1">
@@ -339,10 +360,22 @@ export function ShiftEditor({
                   const key = `${st.id}_${d.date}`;
                   const shift = shiftAt.get(key);
                   const avail = availAt.get(key);
+                  const open = isOpen(d);
+                  // 対象外の日でも、既にあるシフトは消せるように出す
+                  if (!open && !shift) {
+                    return (
+                      <td
+                        key={d.date}
+                        className="bg-muted/40 px-1.5 py-1.5 text-center align-middle text-muted-foreground/40"
+                      >
+                        <span aria-label="この日は対象外">—</span>
+                      </td>
+                    );
+                  }
                   return (
                     <td
                       key={d.date}
-                      className={`px-1.5 py-1.5 text-center align-middle ${avail ? AVAIL_BG[avail] : ""}`}
+                      className={`px-1.5 py-1.5 text-center align-middle ${open && avail ? AVAIL_BG[avail] : ""}`}
                     >
                       {shift ? (
                         <div className="inline-flex flex-col items-center gap-0.5">

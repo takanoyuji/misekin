@@ -334,3 +334,7 @@ ALTER TABLE "staff" ADD COLUMN IF NOT EXISTS "invitedStoreIds" TEXT[] DEFAULT AR
 
 -- AddMaxStaffPerSlot: 必要人数の提案で立てる上限（1時間あたり）を店舗ごとに持つ
 ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "maxStaffPerSlot" INTEGER NOT NULL DEFAULT 2;
+
+-- AddShiftSlotDaysOfWeek: 時間帯を出す曜日（0=日〜6=土、7=祝日。空 = 毎日）
+-- 既存の時間帯は空配列になり、これまでどおり毎日出る。
+ALTER TABLE "shift_slots" ADD COLUMN IF NOT EXISTS "daysOfWeek" INTEGER[] NOT NULL DEFAULT ARRAY[]::INTEGER[];

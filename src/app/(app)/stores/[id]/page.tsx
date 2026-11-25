@@ -71,6 +71,7 @@ export default async function StoreDetailPage({ params }: PageProps) {
           name: true,
           startTime: true,
           endTime: true,
+          daysOfWeek: true,
           sortOrder: true,
         },
       },

@@ -7,12 +7,14 @@ import {
   deleteAvailability,
 } from "@/actions/shift-availability";
 import { Check, CircleSlash, Loader2, Star } from "lucide-react";
+import { slotAppliesOn } from "@/lib/business/slot-days";
 
 type AvailabilityType = "AVAILABLE" | "UNAVAILABLE" | "PREFERRED";
 
 interface DayLabel {
   date: string;
   label: string;
+  isHoliday: boolean;
 }
 interface PeriodLabel {
   label: string;
@@ -24,6 +26,8 @@ interface SlotDef {
   name: string;
   startTime: string;
   endTime: string;
+  /** 0=日〜6=土、7=祝日。空 = 毎日 */
+  daysOfWeek: number[];
 }
 interface StoreOption {
   id: string;
@@ -66,8 +70,9 @@ const TYPE_META: Record<
   PREFERRED: {
     label: "希望",
     icon: Star,
-    cls: "border-primary/40 text-primary hover:bg-primary/5",
-    activeCls: "bg-primary border-primary text-primary-foreground",
+    // 業態テーマの primary（ピンク等）だと「不可」の赤と見分けにくいので固定の青にする
+    cls: "border-blue-300 text-blue-700 hover:bg-blue-50",
+    activeCls: "bg-blue-600 border-blue-600 text-white",
   },
   UNAVAILABLE: {
     label: "不可",
@@ -190,13 +195,23 @@ export function AvailabilityBoard({
             <section key={g.period.start}>
               <h2 className="mb-2 text-sm font-semibold">{g.period.label}</h2>
               <ul className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-                {g.days.map(({ date, label }) => (
+                {g.days.map(({ date, label, isHoliday }) => {
+                  // 平日だけ・土日祝だけ等の時間帯は、その日に出るものだけ並べる
+                  const daySlots = slots.filter((slot) =>
+                    slotAppliesOn(slot.daysOfWeek, date, isHoliday)
+                  );
+                  return (
                   <li key={date} className="px-4 py-3">
                     <div className="mb-2 font-numeric text-sm font-medium">
                       {label}
                     </div>
+                    {daySlots.length === 0 && (
+                      <p className="text-xs text-muted-foreground">
+                        この日は募集する時間帯がありません
+                      </p>
+                    )}
                     <div className="space-y-2">
-                      {slots.map((slot) => {
+                      {daySlots.map((slot) => {
                         const key = `${date}_${slot.id}`;
                         const chosen = current.get(key);
                         const shift = shiftAt.get(key);
@@ -259,7 +274,8 @@ export function AvailabilityBoard({
                       })}
                     </div>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             </section>
           ))}

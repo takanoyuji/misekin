@@ -27,10 +27,12 @@ export type AggregateShiftSlot = {
 }
 
 export type ShiftSlotAvgAggregateOutputType = {
+  daysOfWeek: number | null
   sortOrder: number | null
 }
 
 export type ShiftSlotSumAggregateOutputType = {
+  daysOfWeek: number[]
   sortOrder: number | null
 }
 
@@ -67,6 +69,7 @@ export type ShiftSlotCountAggregateOutputType = {
   name: number
   startTime: number
   endTime: number
+  daysOfWeek: number
   sortOrder: number
   isActive: number
   createdAt: number
@@ -76,10 +79,12 @@ export type ShiftSlotCountAggregateOutputType = {
 
 
 export type ShiftSlotAvgAggregateInputType = {
+  daysOfWeek?: true
   sortOrder?: true
 }
 
 export type ShiftSlotSumAggregateInputType = {
+  daysOfWeek?: true
   sortOrder?: true
 }
 
@@ -116,6 +121,7 @@ export type ShiftSlotCountAggregateInputType = {
   name?: true
   startTime?: true
   endTime?: true
+  daysOfWeek?: true
   sortOrder?: true
   isActive?: true
   createdAt?: true
@@ -216,6 +222,7 @@ export type ShiftSlotGroupByOutputType = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek: number[]
   sortOrder: number
   isActive: boolean
   createdAt: Date
@@ -252,6 +259,7 @@ export type ShiftSlotWhereInput = {
   name?: Prisma.StringFilter<"ShiftSlot"> | string
   startTime?: Prisma.StringFilter<"ShiftSlot"> | string
   endTime?: Prisma.StringFilter<"ShiftSlot"> | string
+  daysOfWeek?: Prisma.IntNullableListFilter<"ShiftSlot">
   sortOrder?: Prisma.IntFilter<"ShiftSlot"> | number
   isActive?: Prisma.BoolFilter<"ShiftSlot"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ShiftSlot"> | Date | string
@@ -270,6 +278,7 @@ export type ShiftSlotOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  daysOfWeek?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -291,6 +300,7 @@ export type ShiftSlotWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"ShiftSlot"> | string
   startTime?: Prisma.StringFilter<"ShiftSlot"> | string
   endTime?: Prisma.StringFilter<"ShiftSlot"> | string
+  daysOfWeek?: Prisma.IntNullableListFilter<"ShiftSlot">
   sortOrder?: Prisma.IntFilter<"ShiftSlot"> | number
   isActive?: Prisma.BoolFilter<"ShiftSlot"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ShiftSlot"> | Date | string
@@ -309,6 +319,7 @@ export type ShiftSlotOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  daysOfWeek?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -330,6 +341,7 @@ export type ShiftSlotScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"ShiftSlot"> | string
   startTime?: Prisma.StringWithAggregatesFilter<"ShiftSlot"> | string
   endTime?: Prisma.StringWithAggregatesFilter<"ShiftSlot"> | string
+  daysOfWeek?: Prisma.IntNullableListFilter<"ShiftSlot">
   sortOrder?: Prisma.IntWithAggregatesFilter<"ShiftSlot"> | number
   isActive?: Prisma.BoolWithAggregatesFilter<"ShiftSlot"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ShiftSlot"> | Date | string
@@ -341,6 +353,7 @@ export type ShiftSlotCreateInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -359,6 +372,7 @@ export type ShiftSlotUncheckedCreateInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -373,6 +387,7 @@ export type ShiftSlotUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -391,6 +406,7 @@ export type ShiftSlotUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -407,6 +423,7 @@ export type ShiftSlotCreateManyInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -418,6 +435,7 @@ export type ShiftSlotUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -431,6 +449,7 @@ export type ShiftSlotUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -457,6 +476,14 @@ export type ShiftSlotNullableScalarRelationFilter = {
   isNot?: Prisma.ShiftSlotWhereInput | null
 }
 
+export type IntNullableListFilter<$PrismaModel = never> = {
+  equals?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  has?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
+  hasEvery?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  hasSome?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type ShiftSlotCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
@@ -464,6 +491,7 @@ export type ShiftSlotCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  daysOfWeek?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -471,6 +499,7 @@ export type ShiftSlotCountOrderByAggregateInput = {
 }
 
 export type ShiftSlotAvgOrderByAggregateInput = {
+  daysOfWeek?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -501,6 +530,7 @@ export type ShiftSlotMinOrderByAggregateInput = {
 }
 
 export type ShiftSlotSumOrderByAggregateInput = {
+  daysOfWeek?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -632,11 +662,21 @@ export type ShiftSlotUpdateOneWithoutShiftsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ShiftSlotUpdateToOneWithWhereWithoutShiftsInput, Prisma.ShiftSlotUpdateWithoutShiftsInput>, Prisma.ShiftSlotUncheckedUpdateWithoutShiftsInput>
 }
 
+export type ShiftSlotCreatedaysOfWeekInput = {
+  set: number[]
+}
+
+export type ShiftSlotUpdatedaysOfWeekInput = {
+  set?: number[]
+  push?: number | number[]
+}
+
 export type ShiftSlotCreateWithoutOrganizationInput = {
   id?: string
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -653,6 +693,7 @@ export type ShiftSlotUncheckedCreateWithoutOrganizationInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -698,6 +739,7 @@ export type ShiftSlotScalarWhereInput = {
   name?: Prisma.StringFilter<"ShiftSlot"> | string
   startTime?: Prisma.StringFilter<"ShiftSlot"> | string
   endTime?: Prisma.StringFilter<"ShiftSlot"> | string
+  daysOfWeek?: Prisma.IntNullableListFilter<"ShiftSlot">
   sortOrder?: Prisma.IntFilter<"ShiftSlot"> | number
   isActive?: Prisma.BoolFilter<"ShiftSlot"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ShiftSlot"> | Date | string
@@ -709,6 +751,7 @@ export type ShiftSlotCreateWithoutStoreInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -725,6 +768,7 @@ export type ShiftSlotUncheckedCreateWithoutStoreInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -765,6 +809,7 @@ export type ShiftSlotCreateWithoutAvailabilitiesInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -782,6 +827,7 @@ export type ShiftSlotUncheckedCreateWithoutAvailabilitiesInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -811,6 +857,7 @@ export type ShiftSlotUpdateWithoutAvailabilitiesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -828,6 +875,7 @@ export type ShiftSlotUncheckedUpdateWithoutAvailabilitiesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -841,6 +889,7 @@ export type ShiftSlotCreateWithoutRequirementsInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -858,6 +907,7 @@ export type ShiftSlotUncheckedCreateWithoutRequirementsInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -887,6 +937,7 @@ export type ShiftSlotUpdateWithoutRequirementsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -904,6 +955,7 @@ export type ShiftSlotUncheckedUpdateWithoutRequirementsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -917,6 +969,7 @@ export type ShiftSlotCreateWithoutShiftsInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -934,6 +987,7 @@ export type ShiftSlotUncheckedCreateWithoutShiftsInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -963,6 +1017,7 @@ export type ShiftSlotUpdateWithoutShiftsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -980,6 +1035,7 @@ export type ShiftSlotUncheckedUpdateWithoutShiftsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -994,6 +1050,7 @@ export type ShiftSlotCreateManyOrganizationInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -1005,6 +1062,7 @@ export type ShiftSlotUpdateWithoutOrganizationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1021,6 +1079,7 @@ export type ShiftSlotUncheckedUpdateWithoutOrganizationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1036,6 +1095,7 @@ export type ShiftSlotUncheckedUpdateManyWithoutOrganizationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1048,6 +1108,7 @@ export type ShiftSlotCreateManyStoreInput = {
   name: string
   startTime: string
   endTime: string
+  daysOfWeek?: Prisma.ShiftSlotCreatedaysOfWeekInput | number[]
   sortOrder?: number
   isActive?: boolean
   createdAt?: Date | string
@@ -1059,6 +1120,7 @@ export type ShiftSlotUpdateWithoutStoreInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1075,6 +1137,7 @@ export type ShiftSlotUncheckedUpdateWithoutStoreInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1090,6 +1153,7 @@ export type ShiftSlotUncheckedUpdateManyWithoutStoreInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  daysOfWeek?: Prisma.ShiftSlotUpdatedaysOfWeekInput | number[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1152,6 +1216,7 @@ export type ShiftSlotSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   name?: boolean
   startTime?: boolean
   endTime?: boolean
+  daysOfWeek?: boolean
   sortOrder?: boolean
   isActive?: boolean
   createdAt?: boolean
@@ -1171,6 +1236,7 @@ export type ShiftSlotSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   name?: boolean
   startTime?: boolean
   endTime?: boolean
+  daysOfWeek?: boolean
   sortOrder?: boolean
   isActive?: boolean
   createdAt?: boolean
@@ -1186,6 +1252,7 @@ export type ShiftSlotSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   name?: boolean
   startTime?: boolean
   endTime?: boolean
+  daysOfWeek?: boolean
   sortOrder?: boolean
   isActive?: boolean
   createdAt?: boolean
@@ -1201,13 +1268,14 @@ export type ShiftSlotSelectScalar = {
   name?: boolean
   startTime?: boolean
   endTime?: boolean
+  daysOfWeek?: boolean
   sortOrder?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ShiftSlotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "storeId" | "name" | "startTime" | "endTime" | "sortOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["shiftSlot"]>
+export type ShiftSlotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "storeId" | "name" | "startTime" | "endTime" | "daysOfWeek" | "sortOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["shiftSlot"]>
 export type ShiftSlotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
@@ -1241,6 +1309,11 @@ export type $ShiftSlotPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     name: string
     startTime: string
     endTime: string
+    /**
+     * この時間帯を出す曜日。0=日〜6=土、7=祝日。空 = 毎日（祝日も含む）。
+     * 祝日は曜日より優先し、7 を含む時間帯だけを出す（判定は src/lib/business/slot-days.ts）
+     */
+    daysOfWeek: number[]
     sortOrder: number
     isActive: boolean
     createdAt: Date
@@ -1679,6 +1752,7 @@ export interface ShiftSlotFieldRefs {
   readonly name: Prisma.FieldRef<"ShiftSlot", 'String'>
   readonly startTime: Prisma.FieldRef<"ShiftSlot", 'String'>
   readonly endTime: Prisma.FieldRef<"ShiftSlot", 'String'>
+  readonly daysOfWeek: Prisma.FieldRef<"ShiftSlot", 'Int[]'>
   readonly sortOrder: Prisma.FieldRef<"ShiftSlot", 'Int'>
   readonly isActive: Prisma.FieldRef<"ShiftSlot", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"ShiftSlot", 'DateTime'>

@@ -17,6 +17,7 @@ import {
   TriangleAlert,
 } from "lucide-react";
 import Link from "next/link";
+import { isJapaneseHoliday } from "@/lib/business/jp-holiday";
 import { ShiftEditor } from "./shift-editor";
 import { HeadcountPanel } from "./headcount-panel";
 import { getHeadcountGrid } from "@/lib/business/headcount-server";
@@ -109,7 +110,13 @@ export default async function ShiftsPage({
       db.shiftSlot.findMany({
         where: { storeId, isActive: true },
         orderBy: { sortOrder: "asc" },
-        select: { id: true, name: true, startTime: true, endTime: true },
+        select: {
+          id: true,
+          name: true,
+          startTime: true,
+          endTime: true,
+          daysOfWeek: true,
+        },
       }),
       db.shiftAvailability.findMany({
         where: { storeId, businessDate: { gte: weekStart, lte: weekEnd } },
@@ -189,12 +196,18 @@ export default async function ShiftsPage({
     return `/shifts?${sp.toString()}`;
   };
 
-  const dayLabels = days.map((d) => ({
-    date: d,
-    label: format(toZonedTime(new Date(`${d}T00:00:00`), TZ), "M/d(E)", {
-      locale: ja,
-    }),
-  }));
+  const dayLabels = days.map((d) => {
+    const isHoliday = isJapaneseHoliday(d);
+    return {
+      date: d,
+      label: format(
+        toZonedTime(new Date(`${d}T00:00:00`), TZ),
+        isHoliday ? "M/d(E・祝)" : "M/d(E)",
+        { locale: ja }
+      ),
+      isHoliday,
+    };
+  });
 
   return (
     <div className="space-y-6">
