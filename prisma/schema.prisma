@@ -678,6 +678,9 @@ model ShiftSlot {
   name           String // 早番 / 遅番 など
   startTime      String // "HH:mm"
   endTime        String // "HH:mm"（end <= start なら翌日跨ぎ）
+  /// この時間帯を出す曜日。0=日〜6=土、7=祝日。空 = 毎日（祝日も含む）。
+  /// 祝日は曜日より優先し、7 を含む時間帯だけを出す（判定は src/lib/business/slot-days.ts）
+  daysOfWeek     Int[]    @default([])
   sortOrder      Int      @default(0)
   isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())

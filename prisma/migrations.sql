@@ -450,3 +450,7 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 -- 日報ごとの「どこの店の分か」（VLL: 池袋 / 札幌。2026-11-22）
 ALTER TABLE "stores" ADD COLUMN IF NOT EXISTS "dailyReportLocations" JSONB NOT NULL DEFAULT '[]';
 ALTER TABLE "daily_reports" ADD COLUMN IF NOT EXISTS "location" TEXT;
+
+-- AddShiftSlotDaysOfWeek: 時間帯を出す曜日（0=日〜6=土、7=祝日。空 = 毎日）
+-- 既存の時間帯は空配列になり、これまでどおり毎日出る。
+ALTER TABLE "shift_slots" ADD COLUMN IF NOT EXISTS "daysOfWeek" INTEGER[] NOT NULL DEFAULT ARRAY[]::INTEGER[];

@@ -8,13 +8,60 @@ import {
   deleteShiftSlot,
 } from "@/actions/shift-slot";
 import { Clock, Loader2, Plus, Trash2 } from "lucide-react";
+import { DAY_OPTIONS } from "@/lib/business/slot-days";
 
 interface SlotRow {
   id: string;
   name: string;
   startTime: string;
   endTime: string;
+  /** 0=日〜6=土、7=祝日。空 = 毎日 */
+  daysOfWeek: number[];
   sortOrder: number;
+}
+
+/** 曜日のチェック。何も選ばなければ毎日出る */
+function DayPicker({
+  value,
+  onChange,
+  disabled,
+  label,
+}: {
+  value: number[];
+  onChange: (next: number[]) => void;
+  disabled?: boolean;
+  label: string;
+}) {
+  return (
+    <div role="group" aria-label={label} className="flex flex-wrap items-center gap-1">
+      {DAY_OPTIONS.map((o) => {
+        const on = value.includes(o.value);
+        return (
+          <button
+            key={o.value}
+            type="button"
+            aria-pressed={on}
+            disabled={disabled}
+            onClick={() =>
+              onChange(
+                on ? value.filter((v) => v !== o.value) : [...value, o.value]
+              )
+            }
+            className={`inline-flex size-8 items-center justify-center rounded-md border text-xs font-medium transition-colors disabled:opacity-50 ${
+              on
+                ? "border-foreground bg-foreground text-background"
+                : "border-input bg-background text-muted-foreground hover:bg-muted"
+            }`}
+          >
+            {o.label}
+          </button>
+        );
+      })}
+      {value.length === 0 && (
+        <span className="ml-1 text-xs text-muted-foreground">毎日</span>
+      )}
+    </div>
+  );
 }
 
 interface Props {
@@ -32,6 +79,7 @@ export function ShiftSlotManager({ organizationId, storeId, slots }: Props) {
   const [name, setName] = useState("");
   const [startTime, setStartTime] = useState("17:00");
   const [endTime, setEndTime] = useState("22:00");
+  const [daysOfWeek, setDaysOfWeek] = useState<number[]>([]);
 
   function handleAdd() {
     setError(null);
@@ -45,6 +93,7 @@ export function ShiftSlotManager({ organizationId, storeId, slots }: Props) {
         name: name.trim(),
         startTime,
         endTime,
+        daysOfWeek,
         sortOrder: slots.length,
       });
       if (result.error) {
@@ -52,6 +101,7 @@ export function ShiftSlotManager({ organizationId, storeId, slots }: Props) {
         return;
       }
       setName("");
+      setDaysOfWeek([]);
       router.refresh();
     });
   }
@@ -64,6 +114,7 @@ export function ShiftSlotManager({ organizationId, storeId, slots }: Props) {
         name: patch.name ?? slot.name,
         startTime: patch.startTime ?? slot.startTime,
         endTime: patch.endTime ?? slot.endTime,
+        daysOfWeek: patch.daysOfWeek ?? slot.daysOfWeek,
         sortOrder: patch.sortOrder ?? slot.sortOrder,
       });
       if (result.error) {
@@ -94,6 +145,7 @@ export function ShiftSlotManager({ organizationId, storeId, slots }: Props) {
       </div>
       <p className="text-sm text-muted-foreground">
         早番・遅番などの時間帯を定義します。スタッフはこの時間帯ごとに希望を出し、シフトも時間帯ごとに組みます。
+        平日だけ・土日祝だけの時間帯は曜日を選ぶと、ほかの日には出なくなります（何も選ばなければ毎日）。祝日は「祝」を選んだ時間帯だけが出ます。
       </p>
 
       {/* 既存の時間帯 */}
@@ -144,6 +196,14 @@ export function ShiftSlotManager({ organizationId, storeId, slots }: Props) {
             >
               <Trash2 className="size-4" aria-hidden="true" />
             </button>
+            <div className="basis-full">
+              <DayPicker
+                label={`${slot.name}を出す曜日`}
+                value={slot.daysOfWeek}
+                disabled={isPending}
+                onChange={(next) => handleUpdate(slot, { daysOfWeek: next })}
+              />
+            </div>
           </li>
         ))}
       </ul>
@@ -192,6 +252,14 @@ export function ShiftSlotManager({ organizationId, storeId, slots }: Props) {
           )}
           追加
         </button>
+        <div className="basis-full space-y-1 text-xs">
+          <span className="font-medium">曜日</span>
+          <DayPicker
+            label="追加する時間帯を出す曜日"
+            value={daysOfWeek}
+            onChange={setDaysOfWeek}
+          />
+        </div>
       </div>
 
       {error && (
