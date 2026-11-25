@@ -18,6 +18,8 @@ import {
   type SolverRule,
 } from "@/lib/ai/shift-solver";
 import { slotTimes } from "@/lib/business/shift-slot-time";
+import { slotAppliesOn } from "@/lib/business/slot-days";
+import { isJapaneseHoliday } from "@/lib/business/jp-holiday";
 
 interface ActionResult {
   success?: boolean;
@@ -267,7 +269,7 @@ export async function generateShifts(
         db.shiftSlot.findMany({
           where: { storeId, isActive: true },
           orderBy: { sortOrder: "asc" },
-          select: { id: true, startTime: true, endTime: true },
+          select: { id: true, startTime: true, endTime: true, daysOfWeek: true },
         }),
         db.shiftAvailability.findMany({
           where: { storeId, businessDate: { gte: from, lte: to } },
@@ -296,6 +298,19 @@ export async function generateShifts(
       return { error: "この店舗に時間帯が設定されていません" };
     }
     const slotById = new Map(slots.map((s) => [s.id, s]));
+
+    // 曜日指定のある時間帯は、その曜日（祝日）以外の必要人数を無視する。
+    // ソルバーは必要人数のある (日, 時間帯) にしか割り当てないので、ここで落とせば足りる。
+    const holidayByDate = new Map(days.map((d) => [d, isJapaneseHoliday(d)]));
+    const slotOpen = (slotId: string, date: string) => {
+      const slot = slotById.get(slotId);
+      return (
+        !!slot && slotAppliesOn(slot.daysOfWeek, date, holidayByDate.get(date) ?? false)
+      );
+    };
+    const openRequirements = requirements.filter((r) =>
+      slotOpen(r.slotId, r.businessDate)
+    );
 
     // ルールを solver 形式に変換（評価可能なタイプのみ）
     const solverRules: SolverRule[] = [];
@@ -333,7 +348,7 @@ export async function generateShifts(
       staffIds,
       slotIds: slots.map((s) => s.id),
       availabilities,
-      requirements,
+      requirements: openRequirements,
       rules: solverRules,
     });
 

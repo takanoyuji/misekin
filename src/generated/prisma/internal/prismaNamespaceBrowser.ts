@@ -474,6 +474,7 @@ export const ShiftSlotScalarFieldEnum = {
   name: 'name',
   startTime: 'startTime',
   endTime: 'endTime',
+  daysOfWeek: 'daysOfWeek',
   sortOrder: 'sortOrder',
   isActive: 'isActive',
   createdAt: 'createdAt',

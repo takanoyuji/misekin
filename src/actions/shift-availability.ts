@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { availabilitySchema, type AvailabilityInput } from "@/lib/validations/shift";
+import { slotAppliesOn } from "@/lib/business/slot-days";
+import { isJapaneseHoliday } from "@/lib/business/jp-holiday";
 
 interface ActionResult {
   success?: boolean;
@@ -41,9 +43,14 @@ export async function submitAvailability(
     // 時間帯が店舗のものか確認
     const slot = await db.shiftSlot.findFirst({
       where: { id: slotId, storeId, isActive: true },
-      select: { id: true },
+      select: { id: true, daysOfWeek: true },
     });
     if (!slot) return { error: "時間帯が見つかりません" };
+    if (
+      !slotAppliesOn(slot.daysOfWeek, businessDate, isJapaneseHoliday(businessDate))
+    ) {
+      return { error: "この日はこの時間帯の営業がありません" };
+    }
 
     await db.shiftAvailability.upsert({
       where: {

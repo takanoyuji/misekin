@@ -13,6 +13,7 @@ import {
   getSubmissionPeriods,
   daysInPeriod,
 } from "@/lib/business/shift-period";
+import { isJapaneseHoliday } from "@/lib/business/jp-holiday";
 import { AvailabilityBoard } from "./availability-board";
 
 export const metadata: Metadata = {
@@ -64,7 +65,13 @@ export default async function MyShiftsPage() {
           shiftSlots: {
             where: { isActive: true },
             orderBy: { sortOrder: "asc" },
-            select: { id: true, name: true, startTime: true, endTime: true },
+            select: {
+              id: true,
+              name: true,
+              startTime: true,
+              endTime: true,
+              daysOfWeek: true,
+            },
           },
         },
       },
@@ -80,7 +87,10 @@ export default async function MyShiftsPage() {
   // 全店舗をまとめて取得するための最小・最大日
   let globalFrom = todayStr;
   let globalTo = todayStr;
-  const storeDays = new Map<string, { date: string; label: string }[]>();
+  const storeDays = new Map<
+    string,
+    { date: string; label: string; isHoliday: boolean }[]
+  >();
   const storePeriods = new Map<
     string,
     { label: string; start: string; end: string }[]
@@ -98,16 +108,20 @@ export default async function MyShiftsPage() {
       periods.map((p) => ({ label: p.label, start: p.start, end: p.end }))
     );
 
-    const days: { date: string; label: string }[] = [];
+    const days: { date: string; label: string; isHoliday: boolean }[] = [];
     for (const p of periods) {
       for (const d of daysInPeriod(p)) {
         // 過去日は提出しない（当期の途中から）
         if (d < todayStr) continue;
+        const isHoliday = isJapaneseHoliday(d);
         days.push({
           date: d,
-          label: format(toZonedTime(new Date(`${d}T00:00:00`), TZ), "M/d(E)", {
-            locale: ja,
-          }),
+          label: format(
+            toZonedTime(new Date(`${d}T00:00:00`), TZ),
+            isHoliday ? "M/d(E・祝)" : "M/d(E)",
+            { locale: ja }
+          ),
+          isHoliday,
         });
         if (d < globalFrom) globalFrom = d;
         if (d > globalTo) globalTo = d;
@@ -177,6 +191,7 @@ export default async function MyShiftsPage() {
               name: sl.name,
               startTime: sl.startTime,
               endTime: sl.endTime,
+              daysOfWeek: sl.daysOfWeek,
             })),
           }))}
           availabilities={availabilities.map((a) => ({
