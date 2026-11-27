@@ -423,6 +423,7 @@ export const ModelName = {
   ShiftRule: 'ShiftRule',
   ClosingPeriod: 'ClosingPeriod',
   Notification: 'Notification',
+  AttendanceAnomalyNotice: 'AttendanceAnomalyNotice',
   AuditLog: 'AuditLog',
   ApiKey: 'ApiKey',
   ApiAccessLog: 'ApiAccessLog',
@@ -443,7 +444,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "store" | "storeClockUrl" | "storeAdmin" | "staff" | "staffStore" | "wageHistory" | "transportationHistory" | "attendanceEvent" | "attendance" | "break" | "attendanceCorrection" | "correctionRequest" | "transportationChangeRequest" | "shiftAvailability" | "shiftRequirement" | "shift" | "shiftSlot" | "shiftRule" | "closingPeriod" | "notification" | "auditLog" | "apiKey" | "apiAccessLog" | "storeSalesTxn" | "storeSalesDaily"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "organization" | "organizationMember" | "store" | "storeClockUrl" | "storeAdmin" | "staff" | "staffStore" | "wageHistory" | "transportationHistory" | "attendanceEvent" | "attendance" | "break" | "attendanceCorrection" | "correctionRequest" | "transportationChangeRequest" | "shiftAvailability" | "shiftRequirement" | "shift" | "shiftSlot" | "shiftRule" | "closingPeriod" | "notification" | "attendanceAnomalyNotice" | "auditLog" | "apiKey" | "apiAccessLog" | "storeSalesTxn" | "storeSalesDaily"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2371,6 +2372,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AttendanceAnomalyNotice: {
+      payload: Prisma.$AttendanceAnomalyNoticePayload<ExtArgs>
+      fields: Prisma.AttendanceAnomalyNoticeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AttendanceAnomalyNoticeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttendanceAnomalyNoticePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AttendanceAnomalyNoticeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttendanceAnomalyNoticePayload>
+        }
+        findFirst: {
+          args: Prisma.AttendanceAnomalyNoticeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttendanceAnomalyNoticePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AttendanceAnomalyNoticeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttendanceAnomalyNoticePayload>
+        }
+        findMany: {
+          args: Prisma.AttendanceAnomalyNoticeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttendanceAnomalyNoticePayload>[]
+        }
+        create: {
+          args: Prisma.AttendanceAnomalyNoticeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttendanceAnomalyNoticePayload>
+        }
+        createMany: {
+          args: Prisma.AttendanceAnomalyNoticeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AttendanceAnomalyNoticeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttendanceAnomalyNoticePayload>[]
+        }
+        delete: {
+          args: Prisma.AttendanceAnomalyNoticeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttendanceAnomalyNoticePayload>
+        }
+        update: {
+          args: Prisma.AttendanceAnomalyNoticeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttendanceAnomalyNoticePayload>
+        }
+        deleteMany: {
+          args: Prisma.AttendanceAnomalyNoticeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AttendanceAnomalyNoticeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AttendanceAnomalyNoticeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttendanceAnomalyNoticePayload>[]
+        }
+        upsert: {
+          args: Prisma.AttendanceAnomalyNoticeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AttendanceAnomalyNoticePayload>
+        }
+        aggregate: {
+          args: Prisma.AttendanceAnomalyNoticeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAttendanceAnomalyNotice>
+        }
+        groupBy: {
+          args: Prisma.AttendanceAnomalyNoticeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AttendanceAnomalyNoticeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AttendanceAnomalyNoticeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AttendanceAnomalyNoticeCountAggregateOutputType> | number
+        }
+      }
+    }
     AuditLog: {
       payload: Prisma.$AuditLogPayload<ExtArgs>
       fields: Prisma.AuditLogFieldRefs
@@ -3215,6 +3290,22 @@ export const NotificationScalarFieldEnum = {
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+export const AttendanceAnomalyNoticeScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  attendanceId: 'attendanceId',
+  staffId: 'staffId',
+  reasons: 'reasons',
+  firstSentAt: 'firstSentAt',
+  lastSentAt: 'lastSentAt',
+  sendCount: 'sendCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AttendanceAnomalyNoticeScalarFieldEnum = (typeof AttendanceAnomalyNoticeScalarFieldEnum)[keyof typeof AttendanceAnomalyNoticeScalarFieldEnum]
+
+
 export const AuditLogScalarFieldEnum = {
   id: 'id',
   organizationId: 'organizationId',
@@ -3848,6 +3939,7 @@ export type GlobalOmitConfig = {
   shiftRule?: Prisma.ShiftRuleOmit
   closingPeriod?: Prisma.ClosingPeriodOmit
   notification?: Prisma.NotificationOmit
+  attendanceAnomalyNotice?: Prisma.AttendanceAnomalyNoticeOmit
   auditLog?: Prisma.AuditLogOmit
   apiKey?: Prisma.ApiKeyOmit
   apiAccessLog?: Prisma.ApiAccessLogOmit

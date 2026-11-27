@@ -277,6 +277,7 @@ export type StaffWhereInput = {
   notifications?: Prisma.NotificationListRelationFilter
   shiftAvailabilities?: Prisma.ShiftAvailabilityListRelationFilter
   shifts?: Prisma.ShiftListRelationFilter
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeListRelationFilter
 }
 
 export type StaffOrderByWithRelationInput = {
@@ -307,6 +308,7 @@ export type StaffOrderByWithRelationInput = {
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityOrderByRelationAggregateInput
   shifts?: Prisma.ShiftOrderByRelationAggregateInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeOrderByRelationAggregateInput
 }
 
 export type StaffWhereUniqueInput = Prisma.AtLeast<{
@@ -341,6 +343,7 @@ export type StaffWhereUniqueInput = Prisma.AtLeast<{
   notifications?: Prisma.NotificationListRelationFilter
   shiftAvailabilities?: Prisma.ShiftAvailabilityListRelationFilter
   shifts?: Prisma.ShiftListRelationFilter
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeListRelationFilter
 }, "id" | "organizationId_email">
 
 export type StaffOrderByWithAggregationInput = {
@@ -413,6 +416,7 @@ export type StaffCreateInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateInput = {
@@ -441,6 +445,7 @@ export type StaffUncheckedCreateInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUpdateInput = {
@@ -469,6 +474,7 @@ export type StaffUpdateInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateInput = {
@@ -497,6 +503,7 @@ export type StaffUncheckedUpdateInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffCreateManyInput = {
@@ -857,6 +864,20 @@ export type StaffUpdateOneWithoutNotificationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StaffUpdateToOneWithWhereWithoutNotificationsInput, Prisma.StaffUpdateWithoutNotificationsInput>, Prisma.StaffUncheckedUpdateWithoutNotificationsInput>
 }
 
+export type StaffCreateNestedOneWithoutAnomalyNoticesInput = {
+  create?: Prisma.XOR<Prisma.StaffCreateWithoutAnomalyNoticesInput, Prisma.StaffUncheckedCreateWithoutAnomalyNoticesInput>
+  connectOrCreate?: Prisma.StaffCreateOrConnectWithoutAnomalyNoticesInput
+  connect?: Prisma.StaffWhereUniqueInput
+}
+
+export type StaffUpdateOneRequiredWithoutAnomalyNoticesNestedInput = {
+  create?: Prisma.XOR<Prisma.StaffCreateWithoutAnomalyNoticesInput, Prisma.StaffUncheckedCreateWithoutAnomalyNoticesInput>
+  connectOrCreate?: Prisma.StaffCreateOrConnectWithoutAnomalyNoticesInput
+  upsert?: Prisma.StaffUpsertWithoutAnomalyNoticesInput
+  connect?: Prisma.StaffWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StaffUpdateToOneWithWhereWithoutAnomalyNoticesInput, Prisma.StaffUpdateWithoutAnomalyNoticesInput>, Prisma.StaffUncheckedUpdateWithoutAnomalyNoticesInput>
+}
+
 export type StaffCreateNestedOneWithoutAuditLogsInput = {
   create?: Prisma.XOR<Prisma.StaffCreateWithoutAuditLogsInput, Prisma.StaffUncheckedCreateWithoutAuditLogsInput>
   connectOrCreate?: Prisma.StaffCreateOrConnectWithoutAuditLogsInput
@@ -898,6 +919,7 @@ export type StaffCreateWithoutUserInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateWithoutUserInput = {
@@ -925,6 +947,7 @@ export type StaffUncheckedCreateWithoutUserInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffCreateOrConnectWithoutUserInput = {
@@ -1000,6 +1023,7 @@ export type StaffCreateWithoutOrganizationInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateWithoutOrganizationInput = {
@@ -1027,6 +1051,7 @@ export type StaffUncheckedCreateWithoutOrganizationInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffCreateOrConnectWithoutOrganizationInput = {
@@ -1080,6 +1105,7 @@ export type StaffCreateWithoutStaffStoresInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateWithoutStaffStoresInput = {
@@ -1107,6 +1133,7 @@ export type StaffUncheckedCreateWithoutStaffStoresInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffCreateOrConnectWithoutStaffStoresInput = {
@@ -1150,6 +1177,7 @@ export type StaffUpdateWithoutStaffStoresInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutStaffStoresInput = {
@@ -1177,6 +1205,7 @@ export type StaffUncheckedUpdateWithoutStaffStoresInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffCreateWithoutAttendanceEventsInput = {
@@ -1204,6 +1233,7 @@ export type StaffCreateWithoutAttendanceEventsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateWithoutAttendanceEventsInput = {
@@ -1231,6 +1261,7 @@ export type StaffUncheckedCreateWithoutAttendanceEventsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffCreateOrConnectWithoutAttendanceEventsInput = {
@@ -1274,6 +1305,7 @@ export type StaffUpdateWithoutAttendanceEventsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutAttendanceEventsInput = {
@@ -1301,6 +1333,7 @@ export type StaffUncheckedUpdateWithoutAttendanceEventsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffCreateWithoutAttendancesInput = {
@@ -1328,6 +1361,7 @@ export type StaffCreateWithoutAttendancesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateWithoutAttendancesInput = {
@@ -1355,6 +1389,7 @@ export type StaffUncheckedCreateWithoutAttendancesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffCreateOrConnectWithoutAttendancesInput = {
@@ -1398,6 +1433,7 @@ export type StaffUpdateWithoutAttendancesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutAttendancesInput = {
@@ -1425,6 +1461,7 @@ export type StaffUncheckedUpdateWithoutAttendancesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffCreateWithoutCorrectionRequestsInput = {
@@ -1452,6 +1489,7 @@ export type StaffCreateWithoutCorrectionRequestsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateWithoutCorrectionRequestsInput = {
@@ -1479,6 +1517,7 @@ export type StaffUncheckedCreateWithoutCorrectionRequestsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffCreateOrConnectWithoutCorrectionRequestsInput = {
@@ -1522,6 +1561,7 @@ export type StaffUpdateWithoutCorrectionRequestsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutCorrectionRequestsInput = {
@@ -1549,6 +1589,7 @@ export type StaffUncheckedUpdateWithoutCorrectionRequestsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffCreateWithoutTransportationChangeRequestsInput = {
@@ -1576,6 +1617,7 @@ export type StaffCreateWithoutTransportationChangeRequestsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateWithoutTransportationChangeRequestsInput = {
@@ -1603,6 +1645,7 @@ export type StaffUncheckedCreateWithoutTransportationChangeRequestsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffCreateOrConnectWithoutTransportationChangeRequestsInput = {
@@ -1646,6 +1689,7 @@ export type StaffUpdateWithoutTransportationChangeRequestsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutTransportationChangeRequestsInput = {
@@ -1673,6 +1717,7 @@ export type StaffUncheckedUpdateWithoutTransportationChangeRequestsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffCreateWithoutShiftAvailabilitiesInput = {
@@ -1700,6 +1745,7 @@ export type StaffCreateWithoutShiftAvailabilitiesInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateWithoutShiftAvailabilitiesInput = {
@@ -1727,6 +1773,7 @@ export type StaffUncheckedCreateWithoutShiftAvailabilitiesInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffCreateOrConnectWithoutShiftAvailabilitiesInput = {
@@ -1770,6 +1817,7 @@ export type StaffUpdateWithoutShiftAvailabilitiesInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutShiftAvailabilitiesInput = {
@@ -1797,6 +1845,7 @@ export type StaffUncheckedUpdateWithoutShiftAvailabilitiesInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffCreateWithoutShiftsInput = {
@@ -1824,6 +1873,7 @@ export type StaffCreateWithoutShiftsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateWithoutShiftsInput = {
@@ -1851,6 +1901,7 @@ export type StaffUncheckedCreateWithoutShiftsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffCreateOrConnectWithoutShiftsInput = {
@@ -1894,6 +1945,7 @@ export type StaffUpdateWithoutShiftsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutShiftsInput = {
@@ -1921,6 +1973,7 @@ export type StaffUncheckedUpdateWithoutShiftsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffCreateWithoutNotificationsInput = {
@@ -1948,6 +2001,7 @@ export type StaffCreateWithoutNotificationsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateWithoutNotificationsInput = {
@@ -1975,6 +2029,7 @@ export type StaffUncheckedCreateWithoutNotificationsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffCreateOrConnectWithoutNotificationsInput = {
@@ -2018,6 +2073,7 @@ export type StaffUpdateWithoutNotificationsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutNotificationsInput = {
@@ -2043,6 +2099,135 @@ export type StaffUncheckedUpdateWithoutNotificationsInput = {
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStaffNestedInput
   transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
+  shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
+}
+
+export type StaffCreateWithoutAnomalyNoticesInput = {
+  id?: string
+  displayName: string
+  fullName?: string | null
+  email?: string | null
+  phone?: string | null
+  employeeCode?: string | null
+  status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
+  hireDate?: Date | string | null
+  resignDate?: Date | string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutStaffInput
+  user?: Prisma.UserCreateNestedOneWithoutStaffProfilesInput
+  staffStores?: Prisma.StaffStoreCreateNestedManyWithoutStaffInput
+  attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutStaffInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutStaffInput
+  correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestCreateNestedManyWithoutStaffInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutStaffInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
+  shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+}
+
+export type StaffUncheckedCreateWithoutAnomalyNoticesInput = {
+  id?: string
+  organizationId: string
+  userId?: string | null
+  displayName: string
+  fullName?: string | null
+  email?: string | null
+  phone?: string | null
+  employeeCode?: string | null
+  status?: $Enums.StaffStatus
+  invitedRole?: $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffCreateinvitedStoreIdsInput | string[]
+  hireDate?: Date | string | null
+  resignDate?: Date | string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  staffStores?: Prisma.StaffStoreUncheckedCreateNestedManyWithoutStaffInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutStaffInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStaffInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutStaffInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedCreateNestedManyWithoutStaffInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutStaffInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
+  shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+}
+
+export type StaffCreateOrConnectWithoutAnomalyNoticesInput = {
+  where: Prisma.StaffWhereUniqueInput
+  create: Prisma.XOR<Prisma.StaffCreateWithoutAnomalyNoticesInput, Prisma.StaffUncheckedCreateWithoutAnomalyNoticesInput>
+}
+
+export type StaffUpsertWithoutAnomalyNoticesInput = {
+  update: Prisma.XOR<Prisma.StaffUpdateWithoutAnomalyNoticesInput, Prisma.StaffUncheckedUpdateWithoutAnomalyNoticesInput>
+  create: Prisma.XOR<Prisma.StaffCreateWithoutAnomalyNoticesInput, Prisma.StaffUncheckedCreateWithoutAnomalyNoticesInput>
+  where?: Prisma.StaffWhereInput
+}
+
+export type StaffUpdateToOneWithWhereWithoutAnomalyNoticesInput = {
+  where?: Prisma.StaffWhereInput
+  data: Prisma.XOR<Prisma.StaffUpdateWithoutAnomalyNoticesInput, Prisma.StaffUncheckedUpdateWithoutAnomalyNoticesInput>
+}
+
+export type StaffUpdateWithoutAnomalyNoticesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
+  hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutStaffNestedInput
+  user?: Prisma.UserUpdateOneWithoutStaffProfilesNestedInput
+  staffStores?: Prisma.StaffStoreUpdateManyWithoutStaffNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutStaffNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutStaffNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUpdateManyWithoutStaffNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutStaffNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
+  shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
+  shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+}
+
+export type StaffUncheckedUpdateWithoutAnomalyNoticesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  employeeCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStaffStatusFieldUpdateOperationsInput | $Enums.StaffStatus
+  invitedRole?: Prisma.NullableEnumOrganizationRoleFieldUpdateOperationsInput | $Enums.OrganizationRole | null
+  invitedStoreIds?: Prisma.StaffUpdateinvitedStoreIdsInput | string[]
+  hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resignDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  staffStores?: Prisma.StaffStoreUncheckedUpdateManyWithoutStaffNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutStaffNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStaffNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutStaffNestedInput
+  transportationChangeRequests?: Prisma.TransportationChangeRequestUncheckedUpdateManyWithoutStaffNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutStaffNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
 }
@@ -2072,6 +2257,7 @@ export type StaffCreateWithoutAuditLogsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeCreateNestedManyWithoutStaffInput
 }
 
 export type StaffUncheckedCreateWithoutAuditLogsInput = {
@@ -2099,6 +2285,7 @@ export type StaffUncheckedCreateWithoutAuditLogsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutStaffInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedCreateNestedManyWithoutStaffInput
   shifts?: Prisma.ShiftUncheckedCreateNestedManyWithoutStaffInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedManyWithoutStaffInput
 }
 
 export type StaffCreateOrConnectWithoutAuditLogsInput = {
@@ -2142,6 +2329,7 @@ export type StaffUpdateWithoutAuditLogsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutAuditLogsInput = {
@@ -2169,6 +2357,7 @@ export type StaffUncheckedUpdateWithoutAuditLogsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffCreateManyUserInput = {
@@ -2214,6 +2403,7 @@ export type StaffUpdateWithoutUserInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutUserInput = {
@@ -2241,6 +2431,7 @@ export type StaffUncheckedUpdateWithoutUserInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateManyWithoutUserInput = {
@@ -2304,6 +2495,7 @@ export type StaffUpdateWithoutOrganizationInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutOrganizationInput = {
@@ -2331,6 +2523,7 @@ export type StaffUncheckedUpdateWithoutOrganizationInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutStaffNestedInput
   shiftAvailabilities?: Prisma.ShiftAvailabilityUncheckedUpdateManyWithoutStaffNestedInput
   shifts?: Prisma.ShiftUncheckedUpdateManyWithoutStaffNestedInput
+  anomalyNotices?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateManyWithoutStaffNestedInput
 }
 
 export type StaffUncheckedUpdateManyWithoutOrganizationInput = {
@@ -2366,6 +2559,7 @@ export type StaffCountOutputType = {
   notifications: number
   shiftAvailabilities: number
   shifts: number
+  anomalyNotices: number
 }
 
 export type StaffCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2378,6 +2572,7 @@ export type StaffCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   notifications?: boolean | StaffCountOutputTypeCountNotificationsArgs
   shiftAvailabilities?: boolean | StaffCountOutputTypeCountShiftAvailabilitiesArgs
   shifts?: boolean | StaffCountOutputTypeCountShiftsArgs
+  anomalyNotices?: boolean | StaffCountOutputTypeCountAnomalyNoticesArgs
 }
 
 /**
@@ -2453,6 +2648,13 @@ export type StaffCountOutputTypeCountShiftsArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.ShiftWhereInput
 }
 
+/**
+ * StaffCountOutputType without action
+ */
+export type StaffCountOutputTypeCountAnomalyNoticesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AttendanceAnomalyNoticeWhereInput
+}
+
 
 export type StaffSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2482,6 +2684,7 @@ export type StaffSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   notifications?: boolean | Prisma.Staff$notificationsArgs<ExtArgs>
   shiftAvailabilities?: boolean | Prisma.Staff$shiftAvailabilitiesArgs<ExtArgs>
   shifts?: boolean | Prisma.Staff$shiftsArgs<ExtArgs>
+  anomalyNotices?: boolean | Prisma.Staff$anomalyNoticesArgs<ExtArgs>
   _count?: boolean | Prisma.StaffCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staff"]>
 
@@ -2559,6 +2762,7 @@ export type StaffInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   notifications?: boolean | Prisma.Staff$notificationsArgs<ExtArgs>
   shiftAvailabilities?: boolean | Prisma.Staff$shiftAvailabilitiesArgs<ExtArgs>
   shifts?: boolean | Prisma.Staff$shiftsArgs<ExtArgs>
+  anomalyNotices?: boolean | Prisma.Staff$anomalyNoticesArgs<ExtArgs>
   _count?: boolean | Prisma.StaffCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StaffIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2584,6 +2788,7 @@ export type $StaffPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     shiftAvailabilities: Prisma.$ShiftAvailabilityPayload<ExtArgs>[]
     shifts: Prisma.$ShiftPayload<ExtArgs>[]
+    anomalyNotices: Prisma.$AttendanceAnomalyNoticePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3015,6 +3220,7 @@ export interface Prisma__StaffClient<T, Null = never, ExtArgs extends runtime.Ty
   notifications<T extends Prisma.Staff$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   shiftAvailabilities<T extends Prisma.Staff$shiftAvailabilitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$shiftAvailabilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftAvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   shifts<T extends Prisma.Staff$shiftsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$shiftsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  anomalyNotices<T extends Prisma.Staff$anomalyNoticesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$anomalyNoticesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendanceAnomalyNoticePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3693,6 +3899,30 @@ export type Staff$shiftsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ShiftScalarFieldEnum | Prisma.ShiftScalarFieldEnum[]
+}
+
+/**
+ * Staff.anomalyNotices
+ */
+export type Staff$anomalyNoticesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AttendanceAnomalyNotice
+   */
+  select?: Prisma.AttendanceAnomalyNoticeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AttendanceAnomalyNotice
+   */
+  omit?: Prisma.AttendanceAnomalyNoticeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttendanceAnomalyNoticeInclude<ExtArgs> | null
+  where?: Prisma.AttendanceAnomalyNoticeWhereInput
+  orderBy?: Prisma.AttendanceAnomalyNoticeOrderByWithRelationInput | Prisma.AttendanceAnomalyNoticeOrderByWithRelationInput[]
+  cursor?: Prisma.AttendanceAnomalyNoticeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AttendanceAnomalyNoticeScalarFieldEnum | Prisma.AttendanceAnomalyNoticeScalarFieldEnum[]
 }
 
 /**

@@ -119,6 +119,7 @@ model Organization {
   shiftSlots          ShiftSlot[]
   salesTxns           StoreSalesTxn[]
   salesDaily          StoreSalesDaily[]
+  anomalyNotices      AttendanceAnomalyNotice[]
 
   @@map("organizations")
 }
@@ -283,6 +284,7 @@ model Staff {
   notifications      Notification[]
   shiftAvailabilities ShiftAvailability[]
   shifts             Shift[]
+  anomalyNotices     AttendanceAnomalyNotice[]
 
   @@unique([organizationId, email])
   @@map("staff")
@@ -439,6 +441,7 @@ model Attendance {
   attendanceEvents AttendanceEvent[]
   corrections   AttendanceCorrection[]
   correctionRequests CorrectionRequest[]
+  anomalyNotice AttendanceAnomalyNotice?
 
   @@unique([staffId, storeId, businessDate])
   @@index([organizationId, businessDate])
@@ -761,6 +764,29 @@ model Notification {
   @@map("notifications")
 }
 
+/// 勤怠の異常（打刻漏れ等）を本人に知らせた記録。1勤怠1行で二重送信を防ぐ。
+/// 仕様は docs/requirements.md 3.10.1（初回＋7日後の再送1回まで）
+model AttendanceAnomalyNotice {
+  id             String   @id @default(cuid())
+  organizationId String
+  attendanceId   String   @unique
+  staffId        String
+  /// 最後に送ったときの異常コード（AnomalyReason の配列）
+  reasons        Json     @default("[]")
+  firstSentAt    DateTime
+  lastSentAt     DateTime
+  sendCount      Int      @default(1)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  attendance   Attendance   @relation(fields: [attendanceId], references: [id], onDelete: Cascade)
+  staff        Staff        @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  @@index([staffId])
+  @@map("attendance_anomaly_notices")
+}
+
 enum NotificationType {
   ADMIN_INVITED
   STAFF_INVITED
@@ -771,6 +797,7 @@ enum NotificationType {
   LONG_SHIFT_DETECTED
   API_KEY_ISSUED
   API_KEY_REVOKED
+  ATTENDANCE_ANOMALY_DETECTED
 }
 
 // ============================================================

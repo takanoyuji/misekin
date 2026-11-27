@@ -23,6 +23,7 @@
 | CorrectionRequest | 修正申請 |
 | ClosingPeriod | 締め期間 |
 | Notification | Web通知 |
+| AttendanceAnomalyNotice | 勤怠の異常を本人に知らせた記録（二重送信防止。requirements 3.10.1） |
 | AuditLog | 監査ログ |
 | ApiKey | APIキー |
 | ApiAccessLog | APIアクセスログ |
@@ -347,3 +348,19 @@ CREATE INDEX idx_audit_log_org_created ON AuditLog(organizationId, createdAt DES
 3. **CorrectionRequest**: originalDataとrequestedDataをJSONスナップショットで保存
 4. **WageHistory**: 上書きなし、期間で管理（effectiveFrom/effectiveTo）
 5. **AuditLog**: アプリレベルでUPDATE/DELETE禁止
+
+### AttendanceAnomalyNotice（`attendance_anomaly_notices`、2026-11-27 追加）
+勤怠の異常を本人にメール＋アプリ内通知で知らせた記録。1勤怠1行。仕様は requirements.md 3.10.1。
+```
+id             String   @id @default(cuid())
+organizationId String
+attendanceId   String   @unique   // 勤怠ごとに1行。あれば送らない（7日後の再送1回を除く）
+staffId        String
+reasons        Json               // 最後に送ったときの異常コード
+firstSentAt    DateTime
+lastSentAt     DateTime
+sendCount      Int      @default(1)  // 最大2（初回＋再送1回）
+createdAt      DateTime @default(now())
+updatedAt      DateTime @updatedAt
+```
+勤怠・スタッフ・組織の削除に合わせて消える（onDelete: Cascade）。NotificationType に `ATTENDANCE_ANOMALY_DETECTED` を追加。
