@@ -904,3 +904,33 @@ CREATE INDEX "store_sales_daily_storeId_businessDate_idx" ON "store_sales_daily"
 -- AddForeignKey
 ALTER TABLE "store_sales_daily" ADD CONSTRAINT "store_sales_daily_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "store_sales_daily" ADD CONSTRAINT "store_sales_daily_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "stores"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddAttendanceAnomalyNotice: 打刻漏れ等を本人に知らせた記録（docs/requirements.md 3.10.1）
+-- 1勤怠1行。初回＋7日後の再送1回までの判定に使う。
+ALTER TYPE "NotificationType" ADD VALUE IF NOT EXISTS 'ATTENDANCE_ANOMALY_DETECTED';
+CREATE TABLE IF NOT EXISTS "attendance_anomaly_notices" (
+    "id" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "attendanceId" TEXT NOT NULL,
+    "staffId" TEXT NOT NULL,
+    "reasons" JSONB NOT NULL DEFAULT '[]',
+    "firstSentAt" TIMESTAMP(3) NOT NULL,
+    "lastSentAt" TIMESTAMP(3) NOT NULL,
+    "sendCount" INTEGER NOT NULL DEFAULT 1,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    CONSTRAINT "attendance_anomaly_notices_pkey" PRIMARY KEY ("id")
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS "attendance_anomaly_notices_attendanceId_key" ON "attendance_anomaly_notices"("attendanceId");
+CREATE INDEX IF NOT EXISTS "attendance_anomaly_notices_staffId_idx" ON "attendance_anomaly_notices"("staffId");
+
+DO $$ BEGIN
+    ALTER TABLE "attendance_anomaly_notices" ADD CONSTRAINT "attendance_anomaly_notices_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "organizations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "attendance_anomaly_notices" ADD CONSTRAINT "attendance_anomaly_notices_attendanceId_fkey" FOREIGN KEY ("attendanceId") REFERENCES "attendances"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    ALTER TABLE "attendance_anomaly_notices" ADD CONSTRAINT "attendance_anomaly_notices_staffId_fkey" FOREIGN KEY ("staffId") REFERENCES "staff"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;

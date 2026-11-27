@@ -344,6 +344,7 @@ export type AttendanceWhereInput = {
   attendanceEvents?: Prisma.AttendanceEventListRelationFilter
   corrections?: Prisma.AttendanceCorrectionListRelationFilter
   correctionRequests?: Prisma.CorrectionRequestListRelationFilter
+  anomalyNotice?: Prisma.XOR<Prisma.AttendanceAnomalyNoticeNullableScalarRelationFilter, Prisma.AttendanceAnomalyNoticeWhereInput> | null
 }
 
 export type AttendanceOrderByWithRelationInput = {
@@ -375,6 +376,7 @@ export type AttendanceOrderByWithRelationInput = {
   attendanceEvents?: Prisma.AttendanceEventOrderByRelationAggregateInput
   corrections?: Prisma.AttendanceCorrectionOrderByRelationAggregateInput
   correctionRequests?: Prisma.CorrectionRequestOrderByRelationAggregateInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeOrderByWithRelationInput
 }
 
 export type AttendanceWhereUniqueInput = Prisma.AtLeast<{
@@ -410,6 +412,7 @@ export type AttendanceWhereUniqueInput = Prisma.AtLeast<{
   attendanceEvents?: Prisma.AttendanceEventListRelationFilter
   corrections?: Prisma.AttendanceCorrectionListRelationFilter
   correctionRequests?: Prisma.CorrectionRequestListRelationFilter
+  anomalyNotice?: Prisma.XOR<Prisma.AttendanceAnomalyNoticeNullableScalarRelationFilter, Prisma.AttendanceAnomalyNoticeWhereInput> | null
 }, "id" | "staffId_storeId_businessDate">
 
 export type AttendanceOrderByWithAggregationInput = {
@@ -491,6 +494,7 @@ export type AttendanceCreateInput = {
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceUncheckedCreateInput = {
@@ -518,6 +522,7 @@ export type AttendanceUncheckedCreateInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionUncheckedCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceUpdateInput = {
@@ -545,6 +550,7 @@ export type AttendanceUpdateInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateInput = {
@@ -572,6 +578,7 @@ export type AttendanceUncheckedUpdateInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUncheckedUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceCreateManyInput = {
@@ -974,6 +981,20 @@ export type AttendanceUncheckedUpdateManyWithoutClosingPeriodNestedInput = {
   deleteMany?: Prisma.AttendanceScalarWhereInput | Prisma.AttendanceScalarWhereInput[]
 }
 
+export type AttendanceCreateNestedOneWithoutAnomalyNoticeInput = {
+  create?: Prisma.XOR<Prisma.AttendanceCreateWithoutAnomalyNoticeInput, Prisma.AttendanceUncheckedCreateWithoutAnomalyNoticeInput>
+  connectOrCreate?: Prisma.AttendanceCreateOrConnectWithoutAnomalyNoticeInput
+  connect?: Prisma.AttendanceWhereUniqueInput
+}
+
+export type AttendanceUpdateOneRequiredWithoutAnomalyNoticeNestedInput = {
+  create?: Prisma.XOR<Prisma.AttendanceCreateWithoutAnomalyNoticeInput, Prisma.AttendanceUncheckedCreateWithoutAnomalyNoticeInput>
+  connectOrCreate?: Prisma.AttendanceCreateOrConnectWithoutAnomalyNoticeInput
+  upsert?: Prisma.AttendanceUpsertWithoutAnomalyNoticeInput
+  connect?: Prisma.AttendanceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AttendanceUpdateToOneWithWhereWithoutAnomalyNoticeInput, Prisma.AttendanceUpdateWithoutAnomalyNoticeInput>, Prisma.AttendanceUncheckedUpdateWithoutAnomalyNoticeInput>
+}
+
 export type AttendanceCreateWithoutLockedByInput = {
   id?: string
   organizationId: string
@@ -998,6 +1019,7 @@ export type AttendanceCreateWithoutLockedByInput = {
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceUncheckedCreateWithoutLockedByInput = {
@@ -1024,6 +1046,7 @@ export type AttendanceUncheckedCreateWithoutLockedByInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionUncheckedCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceCreateOrConnectWithoutLockedByInput = {
@@ -1102,6 +1125,7 @@ export type AttendanceCreateWithoutStoreInput = {
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceUncheckedCreateWithoutStoreInput = {
@@ -1128,6 +1152,7 @@ export type AttendanceUncheckedCreateWithoutStoreInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionUncheckedCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceCreateOrConnectWithoutStoreInput = {
@@ -1180,6 +1205,7 @@ export type AttendanceCreateWithoutStaffInput = {
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceUncheckedCreateWithoutStaffInput = {
@@ -1206,6 +1232,7 @@ export type AttendanceUncheckedCreateWithoutStaffInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionUncheckedCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceCreateOrConnectWithoutStaffInput = {
@@ -1258,6 +1285,7 @@ export type AttendanceCreateWithoutAttendanceEventsInput = {
   breaks?: Prisma.BreakCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceUncheckedCreateWithoutAttendanceEventsInput = {
@@ -1284,6 +1312,7 @@ export type AttendanceUncheckedCreateWithoutAttendanceEventsInput = {
   breaks?: Prisma.BreakUncheckedCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionUncheckedCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceCreateOrConnectWithoutAttendanceEventsInput = {
@@ -1326,6 +1355,7 @@ export type AttendanceUpdateWithoutAttendanceEventsInput = {
   breaks?: Prisma.BreakUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateWithoutAttendanceEventsInput = {
@@ -1352,6 +1382,7 @@ export type AttendanceUncheckedUpdateWithoutAttendanceEventsInput = {
   breaks?: Prisma.BreakUncheckedUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUncheckedUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceCreateWithoutBreaksInput = {
@@ -1378,6 +1409,7 @@ export type AttendanceCreateWithoutBreaksInput = {
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceUncheckedCreateWithoutBreaksInput = {
@@ -1404,6 +1436,7 @@ export type AttendanceUncheckedCreateWithoutBreaksInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionUncheckedCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceCreateOrConnectWithoutBreaksInput = {
@@ -1446,6 +1479,7 @@ export type AttendanceUpdateWithoutBreaksInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateWithoutBreaksInput = {
@@ -1472,6 +1506,7 @@ export type AttendanceUncheckedUpdateWithoutBreaksInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUncheckedUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceCreateWithoutCorrectionsInput = {
@@ -1498,6 +1533,7 @@ export type AttendanceCreateWithoutCorrectionsInput = {
   breaks?: Prisma.BreakCreateNestedManyWithoutAttendanceInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceUncheckedCreateWithoutCorrectionsInput = {
@@ -1524,6 +1560,7 @@ export type AttendanceUncheckedCreateWithoutCorrectionsInput = {
   breaks?: Prisma.BreakUncheckedCreateNestedManyWithoutAttendanceInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceCreateOrConnectWithoutCorrectionsInput = {
@@ -1566,6 +1603,7 @@ export type AttendanceUpdateWithoutCorrectionsInput = {
   breaks?: Prisma.BreakUpdateManyWithoutAttendanceNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateWithoutCorrectionsInput = {
@@ -1592,6 +1630,7 @@ export type AttendanceUncheckedUpdateWithoutCorrectionsInput = {
   breaks?: Prisma.BreakUncheckedUpdateManyWithoutAttendanceNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceCreateWithoutCorrectionRequestsInput = {
@@ -1618,6 +1657,7 @@ export type AttendanceCreateWithoutCorrectionRequestsInput = {
   breaks?: Prisma.BreakCreateNestedManyWithoutAttendanceInput
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceUncheckedCreateWithoutCorrectionRequestsInput = {
@@ -1644,6 +1684,7 @@ export type AttendanceUncheckedCreateWithoutCorrectionRequestsInput = {
   breaks?: Prisma.BreakUncheckedCreateNestedManyWithoutAttendanceInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionUncheckedCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceCreateOrConnectWithoutCorrectionRequestsInput = {
@@ -1686,6 +1727,7 @@ export type AttendanceUpdateWithoutCorrectionRequestsInput = {
   breaks?: Prisma.BreakUpdateManyWithoutAttendanceNestedInput
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateWithoutCorrectionRequestsInput = {
@@ -1712,6 +1754,7 @@ export type AttendanceUncheckedUpdateWithoutCorrectionRequestsInput = {
   breaks?: Prisma.BreakUncheckedUpdateManyWithoutAttendanceNestedInput
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUncheckedUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceCreateWithoutClosingPeriodInput = {
@@ -1738,6 +1781,7 @@ export type AttendanceCreateWithoutClosingPeriodInput = {
   attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceUncheckedCreateWithoutClosingPeriodInput = {
@@ -1764,6 +1808,7 @@ export type AttendanceUncheckedCreateWithoutClosingPeriodInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutAttendanceInput
   corrections?: Prisma.AttendanceCorrectionUncheckedCreateNestedManyWithoutAttendanceInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutAttendanceInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedCreateNestedOneWithoutAttendanceInput
 }
 
 export type AttendanceCreateOrConnectWithoutClosingPeriodInput = {
@@ -1790,6 +1835,130 @@ export type AttendanceUpdateWithWhereUniqueWithoutClosingPeriodInput = {
 export type AttendanceUpdateManyWithWhereWithoutClosingPeriodInput = {
   where: Prisma.AttendanceScalarWhereInput
   data: Prisma.XOR<Prisma.AttendanceUpdateManyMutationInput, Prisma.AttendanceUncheckedUpdateManyWithoutClosingPeriodInput>
+}
+
+export type AttendanceCreateWithoutAnomalyNoticeInput = {
+  id?: string
+  organizationId: string
+  businessDate: string
+  clockInAt?: Date | string | null
+  clockOutAt?: Date | string | null
+  breakMinutes?: number
+  workMinutes?: number | null
+  status?: $Enums.AttendanceStatus
+  hasAnomaly?: boolean
+  anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  adminNotes?: string | null
+  clockOutMemo?: string | null
+  isLocked?: boolean
+  lockedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  store: Prisma.StoreCreateNestedOneWithoutAttendancesInput
+  staff: Prisma.StaffCreateNestedOneWithoutAttendancesInput
+  lockedBy?: Prisma.UserCreateNestedOneWithoutLockedAttendancesInput
+  closingPeriod?: Prisma.ClosingPeriodCreateNestedOneWithoutAttendancesInput
+  breaks?: Prisma.BreakCreateNestedManyWithoutAttendanceInput
+  attendanceEvents?: Prisma.AttendanceEventCreateNestedManyWithoutAttendanceInput
+  corrections?: Prisma.AttendanceCorrectionCreateNestedManyWithoutAttendanceInput
+  correctionRequests?: Prisma.CorrectionRequestCreateNestedManyWithoutAttendanceInput
+}
+
+export type AttendanceUncheckedCreateWithoutAnomalyNoticeInput = {
+  id?: string
+  organizationId: string
+  storeId: string
+  staffId: string
+  businessDate: string
+  clockInAt?: Date | string | null
+  clockOutAt?: Date | string | null
+  breakMinutes?: number
+  workMinutes?: number | null
+  status?: $Enums.AttendanceStatus
+  hasAnomaly?: boolean
+  anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  adminNotes?: string | null
+  clockOutMemo?: string | null
+  isLocked?: boolean
+  lockedAt?: Date | string | null
+  lockedByUserId?: string | null
+  closingPeriodId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  breaks?: Prisma.BreakUncheckedCreateNestedManyWithoutAttendanceInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedCreateNestedManyWithoutAttendanceInput
+  corrections?: Prisma.AttendanceCorrectionUncheckedCreateNestedManyWithoutAttendanceInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedCreateNestedManyWithoutAttendanceInput
+}
+
+export type AttendanceCreateOrConnectWithoutAnomalyNoticeInput = {
+  where: Prisma.AttendanceWhereUniqueInput
+  create: Prisma.XOR<Prisma.AttendanceCreateWithoutAnomalyNoticeInput, Prisma.AttendanceUncheckedCreateWithoutAnomalyNoticeInput>
+}
+
+export type AttendanceUpsertWithoutAnomalyNoticeInput = {
+  update: Prisma.XOR<Prisma.AttendanceUpdateWithoutAnomalyNoticeInput, Prisma.AttendanceUncheckedUpdateWithoutAnomalyNoticeInput>
+  create: Prisma.XOR<Prisma.AttendanceCreateWithoutAnomalyNoticeInput, Prisma.AttendanceUncheckedCreateWithoutAnomalyNoticeInput>
+  where?: Prisma.AttendanceWhereInput
+}
+
+export type AttendanceUpdateToOneWithWhereWithoutAnomalyNoticeInput = {
+  where?: Prisma.AttendanceWhereInput
+  data: Prisma.XOR<Prisma.AttendanceUpdateWithoutAnomalyNoticeInput, Prisma.AttendanceUncheckedUpdateWithoutAnomalyNoticeInput>
+}
+
+export type AttendanceUpdateWithoutAnomalyNoticeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.StringFieldUpdateOperationsInput | string
+  clockInAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockOutAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  breakMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  workMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+  hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  store?: Prisma.StoreUpdateOneRequiredWithoutAttendancesNestedInput
+  staff?: Prisma.StaffUpdateOneRequiredWithoutAttendancesNestedInput
+  lockedBy?: Prisma.UserUpdateOneWithoutLockedAttendancesNestedInput
+  closingPeriod?: Prisma.ClosingPeriodUpdateOneWithoutAttendancesNestedInput
+  breaks?: Prisma.BreakUpdateManyWithoutAttendanceNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutAttendanceNestedInput
+  corrections?: Prisma.AttendanceCorrectionUpdateManyWithoutAttendanceNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutAttendanceNestedInput
+}
+
+export type AttendanceUncheckedUpdateWithoutAnomalyNoticeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.StringFieldUpdateOperationsInput | string
+  clockInAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockOutAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  breakMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  workMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+  hasAnomaly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  anomalyReasons?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockOutMemo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isLocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lockedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closingPeriodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  breaks?: Prisma.BreakUncheckedUpdateManyWithoutAttendanceNestedInput
+  attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutAttendanceNestedInput
+  corrections?: Prisma.AttendanceCorrectionUncheckedUpdateManyWithoutAttendanceNestedInput
+  correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutAttendanceNestedInput
 }
 
 export type AttendanceCreateManyLockedByInput = {
@@ -1838,6 +2007,7 @@ export type AttendanceUpdateWithoutLockedByInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateWithoutLockedByInput = {
@@ -1864,6 +2034,7 @@ export type AttendanceUncheckedUpdateWithoutLockedByInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUncheckedUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateManyWithoutLockedByInput = {
@@ -1934,6 +2105,7 @@ export type AttendanceUpdateWithoutStoreInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateWithoutStoreInput = {
@@ -1960,6 +2132,7 @@ export type AttendanceUncheckedUpdateWithoutStoreInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUncheckedUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateManyWithoutStoreInput = {
@@ -2030,6 +2203,7 @@ export type AttendanceUpdateWithoutStaffInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateWithoutStaffInput = {
@@ -2056,6 +2230,7 @@ export type AttendanceUncheckedUpdateWithoutStaffInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUncheckedUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateManyWithoutStaffInput = {
@@ -2126,6 +2301,7 @@ export type AttendanceUpdateWithoutClosingPeriodInput = {
   attendanceEvents?: Prisma.AttendanceEventUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateWithoutClosingPeriodInput = {
@@ -2152,6 +2328,7 @@ export type AttendanceUncheckedUpdateWithoutClosingPeriodInput = {
   attendanceEvents?: Prisma.AttendanceEventUncheckedUpdateManyWithoutAttendanceNestedInput
   corrections?: Prisma.AttendanceCorrectionUncheckedUpdateManyWithoutAttendanceNestedInput
   correctionRequests?: Prisma.CorrectionRequestUncheckedUpdateManyWithoutAttendanceNestedInput
+  anomalyNotice?: Prisma.AttendanceAnomalyNoticeUncheckedUpdateOneWithoutAttendanceNestedInput
 }
 
 export type AttendanceUncheckedUpdateManyWithoutClosingPeriodInput = {
@@ -2263,6 +2440,7 @@ export type AttendanceSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   attendanceEvents?: boolean | Prisma.Attendance$attendanceEventsArgs<ExtArgs>
   corrections?: boolean | Prisma.Attendance$correctionsArgs<ExtArgs>
   correctionRequests?: boolean | Prisma.Attendance$correctionRequestsArgs<ExtArgs>
+  anomalyNotice?: boolean | Prisma.Attendance$anomalyNoticeArgs<ExtArgs>
   _count?: boolean | Prisma.AttendanceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["attendance"]>
 
@@ -2353,6 +2531,7 @@ export type AttendanceInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   attendanceEvents?: boolean | Prisma.Attendance$attendanceEventsArgs<ExtArgs>
   corrections?: boolean | Prisma.Attendance$correctionsArgs<ExtArgs>
   correctionRequests?: boolean | Prisma.Attendance$correctionRequestsArgs<ExtArgs>
+  anomalyNotice?: boolean | Prisma.Attendance$anomalyNoticeArgs<ExtArgs>
   _count?: boolean | Prisma.AttendanceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AttendanceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2379,6 +2558,7 @@ export type $AttendancePayload<ExtArgs extends runtime.Types.Extensions.Internal
     attendanceEvents: Prisma.$AttendanceEventPayload<ExtArgs>[]
     corrections: Prisma.$AttendanceCorrectionPayload<ExtArgs>[]
     correctionRequests: Prisma.$CorrectionRequestPayload<ExtArgs>[]
+    anomalyNotice: Prisma.$AttendanceAnomalyNoticePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2803,6 +2983,7 @@ export interface Prisma__AttendanceClient<T, Null = never, ExtArgs extends runti
   attendanceEvents<T extends Prisma.Attendance$attendanceEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Attendance$attendanceEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendanceEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   corrections<T extends Prisma.Attendance$correctionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Attendance$correctionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendanceCorrectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   correctionRequests<T extends Prisma.Attendance$correctionRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Attendance$correctionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CorrectionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  anomalyNotice<T extends Prisma.Attendance$anomalyNoticeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Attendance$anomalyNoticeArgs<ExtArgs>>): Prisma.Prisma__AttendanceAnomalyNoticeClient<runtime.Types.Result.GetResult<Prisma.$AttendanceAnomalyNoticePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3384,6 +3565,25 @@ export type Attendance$correctionRequestsArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.CorrectionRequestScalarFieldEnum | Prisma.CorrectionRequestScalarFieldEnum[]
+}
+
+/**
+ * Attendance.anomalyNotice
+ */
+export type Attendance$anomalyNoticeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AttendanceAnomalyNotice
+   */
+  select?: Prisma.AttendanceAnomalyNoticeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AttendanceAnomalyNotice
+   */
+  omit?: Prisma.AttendanceAnomalyNoticeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttendanceAnomalyNoticeInclude<ExtArgs> | null
+  where?: Prisma.AttendanceAnomalyNoticeWhereInput
 }
 
 /**
