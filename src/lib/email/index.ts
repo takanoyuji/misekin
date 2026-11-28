@@ -190,3 +190,39 @@ export async function sendCorrectionRequestNotification(params: {
     console.error("Failed to send correction request notification:", error);
   }
 }
+
+/**
+ * 勤怠の異常（打刻漏れ等）を本人に知らせるメールを送信する。
+ * 文面は src/lib/business/anomaly-alert.ts の buildAnomalyAlertEmail で作る。
+ *
+ * 送れたかどうかを返す（送れなかった分は記録を付けず、翌日もう一度試すため）。
+ * Resend は API エラーを例外でなく `error` で返すので、両方を見る。
+ */
+export async function sendAttendanceAnomalyEmail(params: {
+  to: string;
+  subject: string;
+  html: string;
+  text: string;
+}): Promise<boolean> {
+  if (!process.env.RESEND_API_KEY) {
+    console.error("Failed to send attendance anomaly email: RESEND_API_KEY is not set");
+    return false;
+  }
+  try {
+    const result = await getResend().emails.send({
+      from: FROM,
+      to: params.to,
+      subject: params.subject,
+      html: params.html,
+      text: params.text,
+    });
+    if (result.error) {
+      console.error("Failed to send attendance anomaly email:", result.error);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Failed to send attendance anomaly email:", error);
+    return false;
+  }
+}

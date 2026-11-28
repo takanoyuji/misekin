@@ -251,6 +251,7 @@ Cookieの存在だけで認証チェックを行うカスタムミドルウェ�
 - `/clock/**` — 打刻UI
 - `/api/auth/**` — Auth.jsハンドラ
 - `/api/v1/**` — 外部REST API（Bearer tokenで独自認証）
+- `/api/cron/**` — 定期実行用（`CRON_SECRET` の Bearer で独自認証。requirements.md 3.10.1）
 
 > **注意**: JWTが無効になってもCookieが残っているとリダイレクトループが起きる可能性がある。そのため、ミドルウェアでは「ログイン済みユーザーをloginページからdashboardへリダイレクト」は行わない（ページ側でauth()を呼んで判断する）。
 
@@ -357,6 +358,8 @@ detectAnomalies({ clockInAt, clockOutAt, breaks, now }): {
 | DUPLICATE_CLOCK_IN | CLOCK_INイベントが2件以上 |
 
 退勤時に `detectAnomalies()` を呼び、結果を `Attendance.hasAnomaly` / `anomalyReasons` に保存する。
+
+> 退勤漏れの勤怠は退勤イベントが来ないので `hasAnomaly` が false のまま残る。打刻漏れのお知らせ（`src/lib/business/anomaly-alert.ts`）は保存値に頼らず、実行時に判定し直す。
 
 ---
 
@@ -465,6 +468,7 @@ AUTH_SECRET=<openssl rand -base64 32 で生成>
 NEXTAUTH_URL=https://dataraw.jp/dev/misekin
 RESEND_API_KEY=re_xxxxxx
 EMAIL_FROM=みせ勤 <noreply@dataraw.jp>
+CRON_SECRET=<openssl rand -hex 32 で生成。ホストの crontab と同じ値>
 ```
 
 | 変数 | 用途 |
@@ -475,6 +479,7 @@ EMAIL_FROM=みせ勤 <noreply@dataraw.jp>
 | `NEXT_PUBLIC_BASE_PATH` | Next.jsのbasePath (`/dev/misekin`)。ビルド時に設定 |
 | `RESEND_API_KEY` | メール送信API |
 | `POSTGRES_PASSWORD` | docker-compose用のDBパスワード |
+| `CRON_SECRET` | `/api/cron/*` の認証キー（`openssl rand -hex 32`）。未設定（16文字未満も含む）なら定期実行APIは 503 を返す |
 
 ---
 

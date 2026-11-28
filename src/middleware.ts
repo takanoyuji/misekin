@@ -27,6 +27,8 @@ const PUBLIC_PREFIXES = [
   "/clock",
   "/api/auth",
   "/api/v1",
+  // 定期実行（CRON_SECRET の Bearer で独自認証。docs/requirements.md 3.10.1）
+  "/api/cron",
 ];
 
 /**

@@ -153,6 +153,12 @@ export type ClosingPeriod = Prisma.ClosingPeriodModel
  */
 export type Notification = Prisma.NotificationModel
 /**
+ * Model AttendanceAnomalyNotice
+ * 勤怠の異常（打刻漏れ等）を本人に知らせた記録。1勤怠1行で二重送信を防ぐ。
+ * 仕様は docs/requirements.md 3.10.1（初回＋7日後の再送1回まで）
+ */
+export type AttendanceAnomalyNotice = Prisma.AttendanceAnomalyNoticeModel
+/**
  * Model AuditLog
  * 
  */

@@ -77,6 +77,7 @@ export const ModelName = {
   ShiftRule: 'ShiftRule',
   ClosingPeriod: 'ClosingPeriod',
   Notification: 'Notification',
+  AttendanceAnomalyNotice: 'AttendanceAnomalyNotice',
   AuditLog: 'AuditLog',
   ApiKey: 'ApiKey',
   ApiAccessLog: 'ApiAccessLog',
@@ -541,6 +542,22 @@ export const NotificationScalarFieldEnum = {
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const AttendanceAnomalyNoticeScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  attendanceId: 'attendanceId',
+  staffId: 'staffId',
+  reasons: 'reasons',
+  firstSentAt: 'firstSentAt',
+  lastSentAt: 'lastSentAt',
+  sendCount: 'sendCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AttendanceAnomalyNoticeScalarFieldEnum = (typeof AttendanceAnomalyNoticeScalarFieldEnum)[keyof typeof AttendanceAnomalyNoticeScalarFieldEnum]
 
 
 export const AuditLogScalarFieldEnum = {

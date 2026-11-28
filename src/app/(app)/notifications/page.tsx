@@ -22,6 +22,7 @@ const NOTIFICATION_TYPE_ICON: Record<string, string> = {
   CORRECTION_APPROVED: "✓",
   CORRECTION_REJECTED: "✕",
   SYSTEM: "⚙",
+  ATTENDANCE_ANOMALY_DETECTED: "⚠",
 };
 
 const NOTIFICATION_TYPE_COLOR: Record<string, string> = {
@@ -33,6 +34,7 @@ const NOTIFICATION_TYPE_COLOR: Record<string, string> = {
   CORRECTION_APPROVED: "bg-green-100 text-green-600",
   CORRECTION_REJECTED: "bg-red-100 text-red-600",
   SYSTEM: "bg-gray-100 text-gray-600",
+  ATTENDANCE_ANOMALY_DETECTED: "bg-amber-100 text-amber-600",
 };
 
 export default async function NotificationsPage() {
